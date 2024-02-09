@@ -31,6 +31,7 @@
     { "path": "./packages/page-extrinsics/tsconfig.build.json" },
     { "path": "./packages/page-fellowship/tsconfig.build.json" },
     { "path": "./packages/page-files/tsconfig.build.json" },
+    { "path": "./packages/page-geode/tsconfig.build.json" },
     { "path": "./packages/page-gilt/tsconfig.build.json" },
     { "path": "./packages/page-js/tsconfig.build.json" },
     { "path": "./packages/page-membership/tsconfig.build.json" },

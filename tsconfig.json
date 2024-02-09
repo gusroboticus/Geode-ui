@@ -10,7 +10,9 @@
      *
      * (also disabled in tsconfig.build.json)
      */
-    "verbatimModuleSyntax": false
+    "verbatimModuleSyntax": false,
+    "esModuleInterop": true,
+    "resolveJsonModule": true
   },
   "include": [
     "packages/**/src/**/*",

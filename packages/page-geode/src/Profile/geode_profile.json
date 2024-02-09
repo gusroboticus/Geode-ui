@@ -1,0 +1,862 @@
+{
+  "source": {
+    "hash": "0x1ecca91b32dbda47c8be3cf40299631d660fd8f28b1fc25885406e0861fa79c8",
+    "language": "ink! 4.0.1",
+    "compiler": "rustc 1.70.0-nightly",
+    "build_info": {
+      "build_mode": "Release",
+      "cargo_contract_version": "2.0.1",
+      "rust_toolchain": "nightly-aarch64-apple-darwin",
+      "wasm_opt_settings": {
+        "keep_debug_symbols": false,
+        "optimization_passes": "Z"
+      }
+    }
+  },
+  "contract": {
+    "name": "geode_profile",
+    "version": "0.1.0",
+    "authors": [
+      "Dr. Amy Messegee <support@blockandpurpose.com>"
+    ],
+    "description": "A contract for setting, updating and searching a universal profile for all Geode apps."
+  },
+  "spec": {
+    "constructors": [
+      {
+        "args": [],
+        "docs": [],
+        "label": "new",
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink_primitives",
+            "ConstructorResult"
+          ],
+          "type": 6
+        },
+        "selector": "0x9bae9d5e"
+      }
+    ],
+    "docs": [],
+    "events": [],
+    "lang_error": {
+      "displayName": [
+        "ink",
+        "LangError"
+      ],
+      "type": 8
+    },
+    "messages": [
+      {
+        "args": [
+          {
+            "label": "preferred_display_name",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 3
+            }
+          },
+          {
+            "label": "location",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 3
+            }
+          },
+          {
+            "label": "expertise_and_offerings_tags",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 3
+            }
+          },
+          {
+            "label": "bio",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 3
+            }
+          },
+          {
+            "label": "photo_url",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 3
+            }
+          },
+          {
+            "label": "website1",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 3
+            }
+          },
+          {
+            "label": "website2",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 3
+            }
+          },
+          {
+            "label": "website3",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 3
+            }
+          },
+          {
+            "label": "life_and_work_account",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 0
+            }
+          },
+          {
+            "label": "social_account",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 0
+            }
+          },
+          {
+            "label": "private_messaging_account",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 0
+            }
+          },
+          {
+            "label": "marketplace_seller_account",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 0
+            }
+          },
+          {
+            "label": "any_extra_info",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 3
+            }
+          },
+          {
+            "label": "hide_your_profile_from_search",
+            "type": {
+              "displayName": [
+                "bool"
+              ],
+              "type": 4
+            }
+          }
+        ],
+        "docs": [],
+        "label": "update_your_profile",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 9
+        },
+        "selector": "0x4bda61c4"
+      },
+      {
+        "args": [
+          {
+            "label": "account",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 0
+            }
+          }
+        ],
+        "docs": [],
+        "label": "get_account_profile",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 12
+        },
+        "selector": "0x49480163"
+      },
+      {
+        "args": [
+          {
+            "label": "keywords",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 3
+            }
+          }
+        ],
+        "docs": [],
+        "label": "get_matching_profiles_by_keyword",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 14
+        },
+        "selector": "0xd7488fa3"
+      },
+      {
+        "args": [
+          {
+            "label": "search_account_id",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 0
+            }
+          }
+        ],
+        "docs": [],
+        "label": "get_matching_profiles_by_account",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 14
+        },
+        "selector": "0xe4cd218e"
+      }
+    ]
+  },
+  "storage": {
+    "root": {
+      "layout": {
+        "struct": {
+          "fields": [
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x0b4c4872",
+                              "ty": 0
+                            }
+                          },
+                          "name": "account"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x0b4c4872",
+                              "ty": 3
+                            }
+                          },
+                          "name": "display_name"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x0b4c4872",
+                              "ty": 3
+                            }
+                          },
+                          "name": "location"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x0b4c4872",
+                              "ty": 3
+                            }
+                          },
+                          "name": "tags"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x0b4c4872",
+                              "ty": 3
+                            }
+                          },
+                          "name": "bio"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x0b4c4872",
+                              "ty": 3
+                            }
+                          },
+                          "name": "photo_url"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x0b4c4872",
+                              "ty": 3
+                            }
+                          },
+                          "name": "website_url1"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x0b4c4872",
+                              "ty": 3
+                            }
+                          },
+                          "name": "website_url2"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x0b4c4872",
+                              "ty": 3
+                            }
+                          },
+                          "name": "website_url3"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x0b4c4872",
+                              "ty": 0
+                            }
+                          },
+                          "name": "life_and_work"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x0b4c4872",
+                              "ty": 0
+                            }
+                          },
+                          "name": "social"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x0b4c4872",
+                              "ty": 0
+                            }
+                          },
+                          "name": "private_messaging"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x0b4c4872",
+                              "ty": 0
+                            }
+                          },
+                          "name": "marketplace"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x0b4c4872",
+                              "ty": 3
+                            }
+                          },
+                          "name": "more_info"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x0b4c4872",
+                              "ty": 4
+                            }
+                          },
+                          "name": "make_private"
+                        }
+                      ],
+                      "name": "Profile"
+                    }
+                  },
+                  "root_key": "0x0b4c4872"
+                }
+              },
+              "name": "profile_map"
+            },
+            {
+              "layout": {
+                "leaf": {
+                  "key": "0x00000000",
+                  "ty": 5
+                }
+              },
+              "name": "profile_accounts"
+            }
+          ],
+          "name": "ContractStorage"
+        }
+      },
+      "root_key": "0x00000000"
+    }
+  },
+  "types": [
+    {
+      "id": 0,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "type": 1,
+                "typeName": "[u8; 32]"
+              }
+            ]
+          }
+        },
+        "path": [
+          "ink_primitives",
+          "types",
+          "AccountId"
+        ]
+      }
+    },
+    {
+      "id": 1,
+      "type": {
+        "def": {
+          "array": {
+            "len": 32,
+            "type": 2
+          }
+        }
+      }
+    },
+    {
+      "id": 2,
+      "type": {
+        "def": {
+          "primitive": "u8"
+        }
+      }
+    },
+    {
+      "id": 3,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 2
+          }
+        }
+      }
+    },
+    {
+      "id": 4,
+      "type": {
+        "def": {
+          "primitive": "bool"
+        }
+      }
+    },
+    {
+      "id": 5,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 0
+          }
+        }
+      }
+    },
+    {
+      "id": 6,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 7
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 8
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 7
+          },
+          {
+            "name": "E",
+            "type": 8
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 7,
+      "type": {
+        "def": {
+          "tuple": []
+        }
+      }
+    },
+    {
+      "id": 8,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 1,
+                "name": "CouldNotReadInput"
+              }
+            ]
+          }
+        },
+        "path": [
+          "ink_primitives",
+          "LangError"
+        ]
+      }
+    },
+    {
+      "id": 9,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 10
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 8
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 10
+          },
+          {
+            "name": "E",
+            "type": 8
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 10,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 7
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 11
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 7
+          },
+          {
+            "name": "E",
+            "type": 11
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 11,
+      "type": {
+        "def": {
+          "variant": {}
+        },
+        "path": [
+          "geode_profile",
+          "geode_profile",
+          "Error"
+        ]
+      }
+    },
+    {
+      "id": 12,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 13
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 8
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 13
+          },
+          {
+            "name": "E",
+            "type": 8
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 13,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "account",
+                "type": 0,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "display_name",
+                "type": 3,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "location",
+                "type": 3,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "tags",
+                "type": 3,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "bio",
+                "type": 3,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "photo_url",
+                "type": 3,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "website_url1",
+                "type": 3,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "website_url2",
+                "type": 3,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "website_url3",
+                "type": 3,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "life_and_work",
+                "type": 0,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "social",
+                "type": 0,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "private_messaging",
+                "type": 0,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "marketplace",
+                "type": 0,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "more_info",
+                "type": 3,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "make_private",
+                "type": 4,
+                "typeName": "bool"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_profile",
+          "geode_profile",
+          "Profile"
+        ]
+      }
+    },
+    {
+      "id": 14,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 15
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 8
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 15
+          },
+          {
+            "name": "E",
+            "type": 8
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 15,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 13
+          }
+        }
+      }
+    }
+  ],
+  "version": "4"
+}

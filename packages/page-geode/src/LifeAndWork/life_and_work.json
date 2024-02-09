@@ -1,0 +1,1339 @@
+{
+  "source": {
+    "hash": "0x30b78c86d1442bd4d825dc00334aaf38d819de63d4e17b10665becea3517920b",
+    "language": "ink! 4.0.1",
+    "compiler": "rustc 1.70.0-nightly",
+    "build_info": {
+      "build_mode": "Release",
+      "cargo_contract_version": "2.0.1",
+      "rust_toolchain": "nightly-aarch64-apple-darwin",
+      "wasm_opt_settings": {
+        "keep_debug_symbols": false,
+        "optimization_passes": "Z"
+      }
+    }
+  },
+  "contract": {
+    "name": "life_and_work",
+    "version": "0.1.0",
+    "authors": [
+      "Dr. Amy Messegee <support@blockandpurpose.com>"
+    ],
+    "description": "A contract for making and endorsing claims."
+  },
+  "spec": {
+    "constructors": [
+      {
+        "args": [],
+        "docs": [],
+        "label": "new",
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink_primitives",
+            "ConstructorResult"
+          ],
+          "type": 9
+        },
+        "selector": "0x9bae9d5e"
+      }
+    ],
+    "docs": [],
+    "events": [
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "claimant",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 4
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "claim",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 5
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "claim_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 1
+            }
+          }
+        ],
+        "docs": [],
+        "label": "ClaimMadeExpertise"
+      },
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "claimant",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 4
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "claim",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 5
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "claim_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 1
+            }
+          }
+        ],
+        "docs": [],
+        "label": "ClaimMadeWorkHistory"
+      },
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "claimant",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 4
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "claim",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 5
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "claim_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 1
+            }
+          }
+        ],
+        "docs": [],
+        "label": "ClaimMadeEducation"
+      },
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "claimant",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 4
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "claim",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 5
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "claim_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 1
+            }
+          }
+        ],
+        "docs": [],
+        "label": "ClaimMadeGoodDeed"
+      },
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "claimant",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 4
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "claim",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 5
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "claim_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 1
+            }
+          }
+        ],
+        "docs": [],
+        "label": "ClaimMadeIntellectualProperty"
+      },
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "claimant",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 4
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "claim_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 1
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "endorser",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 4
+            }
+          }
+        ],
+        "docs": [],
+        "label": "ClaimEndorsed"
+      }
+    ],
+    "lang_error": {
+      "displayName": [
+        "ink",
+        "LangError"
+      ],
+      "type": 11
+    },
+    "messages": [
+      {
+        "args": [
+          {
+            "label": "keywords_or_description",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 5
+            }
+          },
+          {
+            "label": "url_link_to_see_more",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 5
+            }
+          }
+        ],
+        "docs": [],
+        "label": "make_claim_expertise",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 12
+        },
+        "selector": "0xbbb08b68"
+      },
+      {
+        "args": [
+          {
+            "label": "keywords_or_description",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 5
+            }
+          },
+          {
+            "label": "url_link_to_see_more",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 5
+            }
+          }
+        ],
+        "docs": [],
+        "label": "make_claim_workhistory",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 12
+        },
+        "selector": "0x6dbd10c5"
+      },
+      {
+        "args": [
+          {
+            "label": "keywords_or_description",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 5
+            }
+          },
+          {
+            "label": "url_link_to_see_more",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 5
+            }
+          }
+        ],
+        "docs": [],
+        "label": "make_claim_education",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 12
+        },
+        "selector": "0x9ef6048b"
+      },
+      {
+        "args": [
+          {
+            "label": "keywords_or_description",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 5
+            }
+          },
+          {
+            "label": "url_link_to_see_more",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 5
+            }
+          }
+        ],
+        "docs": [],
+        "label": "make_claim_gooddeed",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 12
+        },
+        "selector": "0x50e96237"
+      },
+      {
+        "args": [
+          {
+            "label": "keywords_or_description",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 5
+            }
+          },
+          {
+            "label": "url_link_to_see_more",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 5
+            }
+          },
+          {
+            "label": "hash_your_intellectual_property_file_here",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 1
+            }
+          }
+        ],
+        "docs": [],
+        "label": "make_claim_intellectualproperty",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 12
+        },
+        "selector": "0x3afdea09"
+      },
+      {
+        "args": [
+          {
+            "label": "claim_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 1
+            }
+          }
+        ],
+        "docs": [],
+        "label": "endorse_claim",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 12
+        },
+        "selector": "0xe953cbce"
+      },
+      {
+        "args": [
+          {
+            "label": "claim_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 1
+            }
+          },
+          {
+            "label": "set_to_show",
+            "type": {
+              "displayName": [
+                "bool"
+              ],
+              "type": 7
+            }
+          }
+        ],
+        "docs": [],
+        "label": "show_or_hide_claim",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 12
+        },
+        "selector": "0xb9945cd7"
+      },
+      {
+        "args": [
+          {
+            "label": "owner",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 4
+            }
+          }
+        ],
+        "docs": [],
+        "label": "get_resume",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 15
+        },
+        "selector": "0x65e080d4"
+      },
+      {
+        "args": [
+          {
+            "label": "claim_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 1
+            }
+          }
+        ],
+        "docs": [],
+        "label": "get_full_details",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 18
+        },
+        "selector": "0xf3937204"
+      },
+      {
+        "args": [
+          {
+            "label": "claim_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 1
+            }
+          }
+        ],
+        "docs": [],
+        "label": "get_endorsers",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 19
+        },
+        "selector": "0xa8b21e23"
+      },
+      {
+        "args": [
+          {
+            "label": "keywords",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 5
+            }
+          }
+        ],
+        "docs": [],
+        "label": "get_matching_claims",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 15
+        },
+        "selector": "0x3be9fed3"
+      }
+    ]
+  },
+  "storage": {
+    "root": {
+      "layout": {
+        "struct": {
+          "fields": [
+            {
+              "layout": {
+                "leaf": {
+                  "key": "0x00000000",
+                  "ty": 0
+                }
+              },
+              "name": "claim_hashes"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x2e9fa06f",
+                              "ty": 3
+                            }
+                          },
+                          "name": "claimtype"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x2e9fa06f",
+                              "ty": 4
+                            }
+                          },
+                          "name": "claimant"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x2e9fa06f",
+                              "ty": 5
+                            }
+                          },
+                          "name": "claim"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x2e9fa06f",
+                              "ty": 1
+                            }
+                          },
+                          "name": "claim_id"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x2e9fa06f",
+                              "ty": 6
+                            }
+                          },
+                          "name": "endorser_count"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x2e9fa06f",
+                              "ty": 5
+                            }
+                          },
+                          "name": "link"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x2e9fa06f",
+                              "ty": 7
+                            }
+                          },
+                          "name": "show"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x2e9fa06f",
+                              "ty": 8
+                            }
+                          },
+                          "name": "endorsers"
+                        }
+                      ],
+                      "name": "Details"
+                    }
+                  },
+                  "root_key": "0x2e9fa06f"
+                }
+              },
+              "name": "claim_details"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xd00ba971",
+                              "ty": 0
+                            }
+                          },
+                          "name": "claims"
+                        }
+                      ],
+                      "name": "Claims"
+                    }
+                  },
+                  "root_key": "0xd00ba971"
+                }
+              },
+              "name": "account_claims_expertise"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x251c79c3",
+                              "ty": 0
+                            }
+                          },
+                          "name": "claims"
+                        }
+                      ],
+                      "name": "Claims"
+                    }
+                  },
+                  "root_key": "0x251c79c3"
+                }
+              },
+              "name": "account_claims_education"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xd2328620",
+                              "ty": 0
+                            }
+                          },
+                          "name": "claims"
+                        }
+                      ],
+                      "name": "Claims"
+                    }
+                  },
+                  "root_key": "0xd2328620"
+                }
+              },
+              "name": "account_claims_workhistory"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x98b78122",
+                              "ty": 0
+                            }
+                          },
+                          "name": "claims"
+                        }
+                      ],
+                      "name": "Claims"
+                    }
+                  },
+                  "root_key": "0x98b78122"
+                }
+              },
+              "name": "account_claims_gooddeeds"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x4b4b8707",
+                              "ty": 0
+                            }
+                          },
+                          "name": "claims"
+                        }
+                      ],
+                      "name": "Claims"
+                    }
+                  },
+                  "root_key": "0x4b4b8707"
+                }
+              },
+              "name": "account_claims_intellectualproperty"
+            }
+          ],
+          "name": "ContractStorage"
+        }
+      },
+      "root_key": "0x00000000"
+    }
+  },
+  "types": [
+    {
+      "id": 0,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 1
+          }
+        }
+      }
+    },
+    {
+      "id": 1,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "type": 2,
+                "typeName": "[u8; 32]"
+              }
+            ]
+          }
+        },
+        "path": [
+          "ink_primitives",
+          "types",
+          "Hash"
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "type": {
+        "def": {
+          "array": {
+            "len": 32,
+            "type": 3
+          }
+        }
+      }
+    },
+    {
+      "id": 3,
+      "type": {
+        "def": {
+          "primitive": "u8"
+        }
+      }
+    },
+    {
+      "id": 4,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "type": 2,
+                "typeName": "[u8; 32]"
+              }
+            ]
+          }
+        },
+        "path": [
+          "ink_primitives",
+          "types",
+          "AccountId"
+        ]
+      }
+    },
+    {
+      "id": 5,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 3
+          }
+        }
+      }
+    },
+    {
+      "id": 6,
+      "type": {
+        "def": {
+          "primitive": "u128"
+        }
+      }
+    },
+    {
+      "id": 7,
+      "type": {
+        "def": {
+          "primitive": "bool"
+        }
+      }
+    },
+    {
+      "id": 8,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 4
+          }
+        }
+      }
+    },
+    {
+      "id": 9,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 10
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 11
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 10
+          },
+          {
+            "name": "E",
+            "type": 11
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 10,
+      "type": {
+        "def": {
+          "tuple": []
+        }
+      }
+    },
+    {
+      "id": 11,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 1,
+                "name": "CouldNotReadInput"
+              }
+            ]
+          }
+        },
+        "path": [
+          "ink_primitives",
+          "LangError"
+        ]
+      }
+    },
+    {
+      "id": 12,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 13
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 11
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 13
+          },
+          {
+            "name": "E",
+            "type": 11
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 13,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 10
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 14
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 10
+          },
+          {
+            "name": "E",
+            "type": 14
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 14,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "DuplicateClaim"
+              },
+              {
+                "index": 1,
+                "name": "NonexistentClaim"
+              },
+              {
+                "index": 2,
+                "name": "DuplicateEndorsement"
+              },
+              {
+                "index": 3,
+                "name": "CallerNotOwner"
+              }
+            ]
+          }
+        },
+        "path": [
+          "life_and_work",
+          "life_and_work",
+          "Error"
+        ]
+      }
+    },
+    {
+      "id": 15,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 16
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 11
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 16
+          },
+          {
+            "name": "E",
+            "type": 11
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 16,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 17
+          }
+        }
+      }
+    },
+    {
+      "id": 17,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "claimtype",
+                "type": 3,
+                "typeName": "u8"
+              },
+              {
+                "name": "claimant",
+                "type": 4,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "claim",
+                "type": 5,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "claim_id",
+                "type": 1,
+                "typeName": "Hash"
+              },
+              {
+                "name": "endorser_count",
+                "type": 6,
+                "typeName": "u128"
+              },
+              {
+                "name": "link",
+                "type": 5,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "show",
+                "type": 7,
+                "typeName": "bool"
+              },
+              {
+                "name": "endorsers",
+                "type": 8,
+                "typeName": "Vec<AccountId>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "life_and_work",
+          "life_and_work",
+          "Details"
+        ]
+      }
+    },
+    {
+      "id": 18,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 17
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 11
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 17
+          },
+          {
+            "name": "E",
+            "type": 11
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 19,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 8
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 11
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 8
+          },
+          {
+            "name": "E",
+            "type": 11
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    }
+  ],
+  "version": "4"
+}

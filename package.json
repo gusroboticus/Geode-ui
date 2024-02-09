@@ -16,9 +16,9 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.133.2-81-x",
+  "version": "0.133.2-44-x",
   "versions": {
-    "git": "0.133.2-81-x",
+    "git": "0.133.2-44-x",
     "npm": "0.133.1"
   },
   "workspaces": [
@@ -120,5 +120,9 @@
     "@polkadot/x-textencoder": "^12.6.2",
     "@polkadot/x-ws": "^12.6.2",
     "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "semantic-ui-css": "^2.5.0",
+    "semantic-ui-react": "^2.1.5"
   }
 }

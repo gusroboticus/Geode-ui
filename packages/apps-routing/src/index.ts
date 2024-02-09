@@ -1,5 +1,6 @@
 // Copyright 2017-2024 @polkadot/apps-routing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+// updated Geode - Fri Jan 12 2.03 PM
 
 import type { Routes, TFunction } from './types.js';
 
@@ -20,6 +21,15 @@ import fellowship from './fellowship.js';
 import files from './files.js';
 import gilt from './gilt.js';
 import js from './js.js';
+import geode from './geode.js';
+import market from './market.js';
+import lifeandwork from './lifeandwork.js'
+import messaging from './messaging.js'
+import privateexchange from './privateexchange.js'
+import profile from './profile.js';
+import referrals from './referrals.js';
+import reporting from './reporting.js';
+import social from './social.js'
 import membership from './membership.js';
 import nfts from './nfts.js';
 import nis from './nis.js';
@@ -78,6 +88,7 @@ export default function create (t: TFunction): Routes {
     nfts(t),
     society(t),
     nis(t),
+    geode(t),
     gilt(t),
     scheduler(t),
     calendar(t),
@@ -91,6 +102,14 @@ export default function create (t: TFunction): Routes {
     files(t),
     js(t),
     utilities(t),
-    settings(t)
+    settings(t),
+    market(t),
+    messaging(t),
+    social(t),
+    lifeandwork(t),
+    profile(t),
+    referrals(t),
+    privateexchange(t),
+    reporting(t)
   ];
 }

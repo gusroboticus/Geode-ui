@@ -1,0 +1,5819 @@
+{
+  "source": {
+    "hash": "0x5581adef9ba159e6cdf98a79b0e4542010145399f1edf6708422aacce8f2ca91",
+    "language": "ink! 4.2.0",
+    "compiler": "rustc 1.68.0-nightly",
+    "build_info": {
+      "build_mode": "Release",
+      "cargo_contract_version": "2.0.1",
+      "rust_toolchain": "nightly-aarch64-apple-darwin",
+      "wasm_opt_settings": {
+        "keep_debug_symbols": false,
+        "optimization_passes": "Z"
+      }
+    }
+  },
+  "contract": {
+    "name": "geode_marketplace",
+    "version": "0.1.0",
+    "authors": [
+      "Dr. Amy Messegee <support@blockandpurpose.com>"
+    ],
+    "description": "This contract lets users buy and sell products (digital and physical) and services (online and in person) in the Geode ecosystem. "
+  },
+  "spec": {
+    "constructors": [
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "new",
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink_primitives",
+            "ConstructorResult"
+          ],
+          "type": 19
+        },
+        "selector": "0x9bae9d5e"
+      }
+    ],
+    "docs": [],
+    "environment": {
+      "accountId": {
+        "displayName": [
+          "AccountId"
+        ],
+        "type": 3
+      },
+      "balance": {
+        "displayName": [
+          "Balance"
+        ],
+        "type": 11
+      },
+      "blockNumber": {
+        "displayName": [
+          "BlockNumber"
+        ],
+        "type": 67
+      },
+      "chainExtension": {
+        "displayName": [
+          "ChainExtension"
+        ],
+        "type": 68
+      },
+      "hash": {
+        "displayName": [
+          "Hash"
+        ],
+        "type": 6
+      },
+      "maxEventTopics": 4,
+      "timestamp": {
+        "displayName": [
+          "Timestamp"
+        ],
+        "type": 8
+      }
+    },
+    "events": [
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "order_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 6
+            }
+          },
+          {
+            "docs": [],
+            "indexed": false,
+            "label": "order_timestamp",
+            "type": {
+              "displayName": [
+                "u64"
+              ],
+              "type": 8
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "buyer",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 3
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "seller",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 3
+            }
+          },
+          {
+            "docs": [],
+            "indexed": false,
+            "label": "total_order_price",
+            "type": {
+              "displayName": [
+                "Balance"
+              ],
+              "type": 11
+            }
+          }
+        ],
+        "docs": [],
+        "label": "OrderPlaced"
+      }
+    ],
+    "lang_error": {
+      "displayName": [
+        "ink",
+        "LangError"
+      ],
+      "type": 20
+    },
+    "messages": [
+      {
+        "args": [
+          {
+            "label": "add_item_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 6
+            }
+          },
+          {
+            "label": "quantity",
+            "type": {
+              "displayName": [
+                "u128"
+              ],
+              "type": 11
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "add_item_to_cart",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 21
+        },
+        "selector": "0xaa067a4f"
+      },
+      {
+        "args": [
+          {
+            "label": "product_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 6
+            }
+          },
+          {
+            "label": "list_name",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "add_item_to_product_list",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 21
+        },
+        "selector": "0x687d5450"
+      },
+      {
+        "args": [
+          {
+            "label": "service_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 6
+            }
+          },
+          {
+            "label": "list_name",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "add_item_to_service_list",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 21
+        },
+        "selector": "0x0f3aebd7"
+      },
+      {
+        "args": [
+          {
+            "label": "seller",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 3
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "bookmark_a_store",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 21
+        },
+        "selector": "0x7527d5f8"
+      },
+      {
+        "args": [
+          {
+            "label": "item_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 6
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "remove_item_from_cart",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 21
+        },
+        "selector": "0xd05f0049"
+      },
+      {
+        "args": [
+          {
+            "label": "item_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 6
+            }
+          },
+          {
+            "label": "new_quantity",
+            "type": {
+              "displayName": [
+                "u128"
+              ],
+              "type": 11
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "update_cart_item_quantity",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 21
+        },
+        "selector": "0x783224dd"
+      },
+      {
+        "args": [
+          {
+            "label": "deliver_to_address",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "checkout_cart",
+        "mutates": true,
+        "payable": true,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 21
+        },
+        "selector": "0xa9ca525a"
+      },
+      {
+        "args": [
+          {
+            "label": "item_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 6
+            }
+          },
+          {
+            "label": "rating",
+            "type": {
+              "displayName": [
+                "u64"
+              ],
+              "type": 8
+            }
+          },
+          {
+            "label": "review",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "rate_a_product_or_service",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 21
+        },
+        "selector": "0x81362977"
+      },
+      {
+        "args": [
+          {
+            "label": "_seller",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 3
+            }
+          },
+          {
+            "label": "_item_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 6
+            }
+          },
+          {
+            "label": "rating",
+            "type": {
+              "displayName": [
+                "u64"
+              ],
+              "type": 8
+            }
+          },
+          {
+            "label": "_review",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "rate_a_seller",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 21
+        },
+        "selector": "0x752ab7d7"
+      },
+      {
+        "args": [
+          {
+            "label": "order_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 6
+            }
+          },
+          {
+            "label": "problem_photo_or_youtube_url",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "message",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "report_problem_damaged",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 21
+        },
+        "selector": "0x96c79637"
+      },
+      {
+        "args": [
+          {
+            "label": "order_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 6
+            }
+          },
+          {
+            "label": "problem_photo_or_youtube_url",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "message",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "report_problem_wrong_item",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 21
+        },
+        "selector": "0xb054f7aa"
+      },
+      {
+        "args": [
+          {
+            "label": "order_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 6
+            }
+          },
+          {
+            "label": "problem_photo_or_youtube_url",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "message",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "report_problem_not_received",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 21
+        },
+        "selector": "0xc482a9bc"
+      },
+      {
+        "args": [
+          {
+            "label": "order_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 6
+            }
+          },
+          {
+            "label": "photo_or_youtube_url",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "message",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "message_the_seller",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 21
+        },
+        "selector": "0xd45cd501"
+      },
+      {
+        "args": [
+          {
+            "label": "name",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "location",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "update_buyer_account_settings",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 21
+        },
+        "selector": "0x43b0f905"
+      },
+      {
+        "args": [
+          {
+            "label": "item_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 6
+            }
+          },
+          {
+            "label": "list_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 6
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "remove_product_from_list",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 21
+        },
+        "selector": "0x4487c0a1"
+      },
+      {
+        "args": [
+          {
+            "label": "item_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 6
+            }
+          },
+          {
+            "label": "list_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 6
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "remove_service_from_list",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 21
+        },
+        "selector": "0xd93a925c"
+      },
+      {
+        "args": [
+          {
+            "label": "list_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 6
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "delete_product_list",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 21
+        },
+        "selector": "0x0319388c"
+      },
+      {
+        "args": [
+          {
+            "label": "list_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 6
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "delete_service_list",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 21
+        },
+        "selector": "0x5ad7b0bc"
+      },
+      {
+        "args": [
+          {
+            "label": "name",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "location",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "description",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "banner_url",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "youtube_url",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "external_link",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "update_seller_account_settings",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 21
+        },
+        "selector": "0x7024d06a"
+      },
+      {
+        "args": [
+          {
+            "label": "order_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 6
+            }
+          },
+          {
+            "label": "tracking_update",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "shipped",
+            "type": {
+              "displayName": [
+                "bool"
+              ],
+              "type": 16
+            }
+          },
+          {
+            "label": "delivered",
+            "type": {
+              "displayName": [
+                "bool"
+              ],
+              "type": 16
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "update_order_tracking_information",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 21
+        },
+        "selector": "0xb69e26e3"
+      },
+      {
+        "args": [
+          {
+            "label": "order_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 6
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "refuse_an_order",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 21
+        },
+        "selector": "0x460d524a"
+      },
+      {
+        "args": [
+          {
+            "label": "order_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 6
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "issue_refund",
+        "mutates": true,
+        "payable": true,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 21
+        },
+        "selector": "0xb380cc8c"
+      },
+      {
+        "args": [
+          {
+            "label": "order_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 6
+            }
+          },
+          {
+            "label": "tracking",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "issue_replacement",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 21
+        },
+        "selector": "0x2ce245f0"
+      },
+      {
+        "args": [
+          {
+            "label": "order_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 6
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "deny_resolution_request",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 21
+        },
+        "selector": "0xa05afa1a"
+      },
+      {
+        "args": [
+          {
+            "label": "order_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 6
+            }
+          },
+          {
+            "label": "photo_or_youtube_url",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "message",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "message_the_buyer",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 21
+        },
+        "selector": "0xcd777ddb"
+      },
+      {
+        "args": [
+          {
+            "label": "buyer",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 3
+            }
+          },
+          {
+            "label": "rating",
+            "type": {
+              "displayName": [
+                "u64"
+              ],
+              "type": 8
+            }
+          },
+          {
+            "label": "review",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "rate_a_buyer",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 21
+        },
+        "selector": "0xd5f1f40a"
+      },
+      {
+        "args": [
+          {
+            "label": "digital",
+            "type": {
+              "displayName": [
+                "bool"
+              ],
+              "type": 16
+            }
+          },
+          {
+            "label": "title",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "price",
+            "type": {
+              "displayName": [
+                "Balance"
+              ],
+              "type": 11
+            }
+          },
+          {
+            "label": "brand",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "category",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "description",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "inventory",
+            "type": {
+              "displayName": [
+                "u128"
+              ],
+              "type": 11
+            }
+          },
+          {
+            "label": "photo_or_youtube_link1",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "photo_or_youtube_link2",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "photo_or_youtube_link3",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "more_info_link",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "delivery_info",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "product_location",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "digital_file_url",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "zeno_percent",
+            "type": {
+              "displayName": [
+                "u128"
+              ],
+              "type": 11
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "add_a_product",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 21
+        },
+        "selector": "0x7b8d149a"
+      },
+      {
+        "args": [
+          {
+            "label": "product_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 6
+            }
+          },
+          {
+            "label": "title",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "price",
+            "type": {
+              "displayName": [
+                "Balance"
+              ],
+              "type": 11
+            }
+          },
+          {
+            "label": "brand",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "category",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "description",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "inventory",
+            "type": {
+              "displayName": [
+                "u128"
+              ],
+              "type": 11
+            }
+          },
+          {
+            "label": "photo_or_youtube_link1",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "photo_or_youtube_link2",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "photo_or_youtube_link3",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "more_info_link",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "delivery_info",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "product_location",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "digital_file_url",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "update_product_details",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 21
+        },
+        "selector": "0x2832df42"
+      },
+      {
+        "args": [
+          {
+            "label": "online",
+            "type": {
+              "displayName": [
+                "bool"
+              ],
+              "type": 16
+            }
+          },
+          {
+            "label": "title",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "price",
+            "type": {
+              "displayName": [
+                "Balance"
+              ],
+              "type": 11
+            }
+          },
+          {
+            "label": "category",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "description",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "inventory",
+            "type": {
+              "displayName": [
+                "u128"
+              ],
+              "type": 11
+            }
+          },
+          {
+            "label": "photo_or_youtube_link1",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "photo_or_youtube_link2",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "photo_or_youtube_link3",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "booking_link",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "service_location",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "zeno_percent",
+            "type": {
+              "displayName": [
+                "u128"
+              ],
+              "type": 11
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "add_a_service",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 21
+        },
+        "selector": "0x81326a88"
+      },
+      {
+        "args": [
+          {
+            "label": "service_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 6
+            }
+          },
+          {
+            "label": "title",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "price",
+            "type": {
+              "displayName": [
+                "Balance"
+              ],
+              "type": 11
+            }
+          },
+          {
+            "label": "category",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "description",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "inventory",
+            "type": {
+              "displayName": [
+                "u128"
+              ],
+              "type": 11
+            }
+          },
+          {
+            "label": "photo_or_youtube_link1",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "photo_or_youtube_link2",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "photo_or_youtube_link3",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "booking_link",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "service_location",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "update_service_details",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 21
+        },
+        "selector": "0x5f39dcd3"
+      },
+      {
+        "args": [
+          {
+            "label": "keywords",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "search_products_by_keyword",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 25
+        },
+        "selector": "0xb8afd4ec"
+      },
+      {
+        "args": [
+          {
+            "label": "keywords",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "search_services_by_keyword",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 29
+        },
+        "selector": "0x6c423caa"
+      },
+      {
+        "args": [
+          {
+            "label": "keywords",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 7
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "search_stores_by_keyword",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 33
+        },
+        "selector": "0x562362fa"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "view_my_orders",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 38
+        },
+        "selector": "0x25991c51"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "view_my_buyer_account",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 42
+        },
+        "selector": "0x03c7f398"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "view_my_cart",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 54
+        },
+        "selector": "0x53fd4c6f"
+      },
+      {
+        "args": [
+          {
+            "label": "seller",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 3
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "go_to_store",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 60
+        },
+        "selector": "0x7f95e652"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "view_my_seller_account",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 61
+        },
+        "selector": "0x01f64559"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "get_market_statistics",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 63
+        },
+        "selector": "0xfba9911d"
+      },
+      {
+        "args": [
+          {
+            "label": "seller",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 3
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "remove_store_bookmark",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 21
+        },
+        "selector": "0x109e9597"
+      }
+    ]
+  },
+  "storage": {
+    "root": {
+      "layout": {
+        "struct": {
+          "fields": [
+            {
+              "layout": {
+                "struct": {
+                  "fields": [
+                    {
+                      "layout": {
+                        "leaf": {
+                          "key": "0x00000000",
+                          "ty": 0
+                        }
+                      },
+                      "name": "status"
+                    },
+                    {
+                      "layout": {
+                        "enum": {
+                          "dispatchKey": "0x00000000",
+                          "name": "Option",
+                          "variants": {
+                            "0": {
+                              "fields": [],
+                              "name": "None"
+                            },
+                            "1": {
+                              "fields": [
+                                {
+                                  "layout": {
+                                    "leaf": {
+                                      "key": "0x00000000",
+                                      "ty": 1
+                                    }
+                                  },
+                                  "name": "0"
+                                }
+                              ],
+                              "name": "Some"
+                            }
+                          }
+                        }
+                      },
+                      "name": "_reserved"
+                    }
+                  ],
+                  "name": "Data"
+                }
+              },
+              "name": "guard"
+            },
+            {
+              "layout": {
+                "leaf": {
+                  "key": "0x00000000",
+                  "ty": 2
+                }
+              },
+              "name": "all_sellers"
+            },
+            {
+              "layout": {
+                "leaf": {
+                  "key": "0x00000000",
+                  "ty": 2
+                }
+              },
+              "name": "all_buyers"
+            },
+            {
+              "layout": {
+                "leaf": {
+                  "key": "0x00000000",
+                  "ty": 5
+                }
+              },
+              "name": "all_products"
+            },
+            {
+              "layout": {
+                "leaf": {
+                  "key": "0x00000000",
+                  "ty": 5
+                }
+              },
+              "name": "all_services"
+            },
+            {
+              "layout": {
+                "leaf": {
+                  "key": "0x00000000",
+                  "ty": 5
+                }
+              },
+              "name": "all_orders"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x00ed8e23",
+                              "ty": 3
+                            }
+                          },
+                          "name": "seller_account"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x00ed8e23",
+                              "ty": 7
+                            }
+                          },
+                          "name": "seller_name"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x00ed8e23",
+                              "ty": 7
+                            }
+                          },
+                          "name": "store_description"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x00ed8e23",
+                              "ty": 7
+                            }
+                          },
+                          "name": "seller_location"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x00ed8e23",
+                              "ty": 8
+                            }
+                          },
+                          "name": "member_since"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x00ed8e23",
+                              "ty": 7
+                            }
+                          },
+                          "name": "banner_url"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x00ed8e23",
+                              "ty": 7
+                            }
+                          },
+                          "name": "youtube_url"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x00ed8e23",
+                              "ty": 7
+                            }
+                          },
+                          "name": "external_link"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x00ed8e23",
+                              "ty": 8
+                            }
+                          },
+                          "name": "review_average"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x00ed8e23",
+                              "ty": 8
+                            }
+                          },
+                          "name": "review_count"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x00ed8e23",
+                              "ty": 9
+                            }
+                          },
+                          "name": "reviews"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x00ed8e23",
+                              "ty": 11
+                            }
+                          },
+                          "name": "total_orders"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x00ed8e23",
+                              "ty": 11
+                            }
+                          },
+                          "name": "total_delivered"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x00ed8e23",
+                              "ty": 11
+                            }
+                          },
+                          "name": "total_damaged"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x00ed8e23",
+                              "ty": 11
+                            }
+                          },
+                          "name": "total_wrong"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x00ed8e23",
+                              "ty": 11
+                            }
+                          },
+                          "name": "total_not_received"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x00ed8e23",
+                              "ty": 11
+                            }
+                          },
+                          "name": "total_resolved"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x00ed8e23",
+                              "ty": 11
+                            }
+                          },
+                          "name": "total_refused"
+                        }
+                      ],
+                      "name": "SellerProfile"
+                    }
+                  },
+                  "root_key": "0x00ed8e23"
+                }
+              },
+              "name": "account_profile_seller"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x2afd356d",
+                              "ty": 3
+                            }
+                          },
+                          "name": "buyer_account"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x2afd356d",
+                              "ty": 7
+                            }
+                          },
+                          "name": "buyer_name"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x2afd356d",
+                              "ty": 7
+                            }
+                          },
+                          "name": "buyer_location"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x2afd356d",
+                              "ty": 8
+                            }
+                          },
+                          "name": "member_since"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x2afd356d",
+                              "ty": 8
+                            }
+                          },
+                          "name": "review_average"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x2afd356d",
+                              "ty": 8
+                            }
+                          },
+                          "name": "review_count"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x2afd356d",
+                              "ty": 12
+                            }
+                          },
+                          "name": "reviews"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x2afd356d",
+                              "ty": 11
+                            }
+                          },
+                          "name": "total_carts"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x2afd356d",
+                              "ty": 11
+                            }
+                          },
+                          "name": "total_orders"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x2afd356d",
+                              "ty": 11
+                            }
+                          },
+                          "name": "total_delivered"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x2afd356d",
+                              "ty": 11
+                            }
+                          },
+                          "name": "total_damaged"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x2afd356d",
+                              "ty": 11
+                            }
+                          },
+                          "name": "total_wrong"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x2afd356d",
+                              "ty": 11
+                            }
+                          },
+                          "name": "total_not_received"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x2afd356d",
+                              "ty": 11
+                            }
+                          },
+                          "name": "total_resolved"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x2afd356d",
+                              "ty": 11
+                            }
+                          },
+                          "name": "total_refused"
+                        }
+                      ],
+                      "name": "BuyerProfile"
+                    }
+                  },
+                  "root_key": "0x2afd356d"
+                }
+              },
+              "name": "account_profile_buyer"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x88a625ae",
+                              "ty": 5
+                            }
+                          },
+                          "name": "hashvector"
+                        }
+                      ],
+                      "name": "HashVector"
+                    }
+                  },
+                  "root_key": "0x88a625ae"
+                }
+              },
+              "name": "account_product_lists"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x845f43dc",
+                              "ty": 5
+                            }
+                          },
+                          "name": "hashvector"
+                        }
+                      ],
+                      "name": "HashVector"
+                    }
+                  },
+                  "root_key": "0x845f43dc"
+                }
+              },
+              "name": "account_service_lists"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xe16e4e66",
+                              "ty": 2
+                            }
+                          },
+                          "name": "accountvector"
+                        }
+                      ],
+                      "name": "AccountVector"
+                    }
+                  },
+                  "root_key": "0xe16e4e66"
+                }
+              },
+              "name": "account_store_bookmarks"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xa82d4d48",
+                              "ty": 2
+                            }
+                          },
+                          "name": "accountvector"
+                        }
+                      ],
+                      "name": "AccountVector"
+                    }
+                  },
+                  "root_key": "0xa82d4d48"
+                }
+              },
+              "name": "buyer_store_history"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xf7bedbc3",
+                              "ty": 2
+                            }
+                          },
+                          "name": "accountvector"
+                        }
+                      ],
+                      "name": "AccountVector"
+                    }
+                  },
+                  "root_key": "0xf7bedbc3"
+                }
+              },
+              "name": "seller_customer_history"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x2491a7a9",
+                              "ty": 5
+                            }
+                          },
+                          "name": "hashvector"
+                        }
+                      ],
+                      "name": "HashVector"
+                    }
+                  },
+                  "root_key": "0x2491a7a9"
+                }
+              },
+              "name": "account_buyer_orders"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xf55c7f31",
+                              "ty": 5
+                            }
+                          },
+                          "name": "hashvector"
+                        }
+                      ],
+                      "name": "HashVector"
+                    }
+                  },
+                  "root_key": "0xf55c7f31"
+                }
+              },
+              "name": "account_buyer_items_bought"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x9bfda323",
+                              "ty": 5
+                            }
+                          },
+                          "name": "hashvector"
+                        }
+                      ],
+                      "name": "HashVector"
+                    }
+                  },
+                  "root_key": "0x9bfda323"
+                }
+              },
+              "name": "account_buyer_items_reviewed"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x17c8d72a",
+                              "ty": 2
+                            }
+                          },
+                          "name": "accountvector"
+                        }
+                      ],
+                      "name": "AccountVector"
+                    }
+                  },
+                  "root_key": "0x17c8d72a"
+                }
+              },
+              "name": "account_seller_buyers_reviewed"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x55b5b7a8",
+                              "ty": 5
+                            }
+                          },
+                          "name": "hashvector"
+                        }
+                      ],
+                      "name": "HashVector"
+                    }
+                  },
+                  "root_key": "0x55b5b7a8"
+                }
+              },
+              "name": "account_owned_digital_items"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x975018f2",
+                              "ty": 5
+                            }
+                          },
+                          "name": "hashvector"
+                        }
+                      ],
+                      "name": "HashVector"
+                    }
+                  },
+                  "root_key": "0x975018f2"
+                }
+              },
+              "name": "account_seller_orders"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb595a22b",
+                              "ty": 3
+                            }
+                          },
+                          "name": "buyer"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb595a22b",
+                              "ty": 11
+                            }
+                          },
+                          "name": "cart_total"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb595a22b",
+                              "ty": 11
+                            }
+                          },
+                          "name": "total_items"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb595a22b",
+                              "ty": 14
+                            }
+                          },
+                          "name": "cart_items"
+                        }
+                      ],
+                      "name": "UnpaidCart"
+                    }
+                  },
+                  "root_key": "0xb595a22b"
+                }
+              },
+              "name": "account_current_cart"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xfcca7bf2",
+                              "ty": 5
+                            }
+                          },
+                          "name": "hashvector"
+                        }
+                      ],
+                      "name": "HashVector"
+                    }
+                  },
+                  "root_key": "0xfcca7bf2"
+                }
+              },
+              "name": "account_seller_products"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x2213ba67",
+                              "ty": 5
+                            }
+                          },
+                          "name": "hashvector"
+                        }
+                      ],
+                      "name": "HashVector"
+                    }
+                  },
+                  "root_key": "0x2213ba67"
+                }
+              },
+              "name": "account_seller_services"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb6b8d200",
+                              "ty": 6
+                            }
+                          },
+                          "name": "product_id"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb6b8d200",
+                              "ty": 16
+                            }
+                          },
+                          "name": "digital"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb6b8d200",
+                              "ty": 7
+                            }
+                          },
+                          "name": "title"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb6b8d200",
+                              "ty": 11
+                            }
+                          },
+                          "name": "price"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb6b8d200",
+                              "ty": 7
+                            }
+                          },
+                          "name": "brand"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb6b8d200",
+                              "ty": 7
+                            }
+                          },
+                          "name": "category"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb6b8d200",
+                              "ty": 3
+                            }
+                          },
+                          "name": "seller_account"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb6b8d200",
+                              "ty": 7
+                            }
+                          },
+                          "name": "seller_name"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb6b8d200",
+                              "ty": 7
+                            }
+                          },
+                          "name": "description"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb6b8d200",
+                              "ty": 8
+                            }
+                          },
+                          "name": "review_average"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb6b8d200",
+                              "ty": 8
+                            }
+                          },
+                          "name": "review_count"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb6b8d200",
+                              "ty": 9
+                            }
+                          },
+                          "name": "reviews"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb6b8d200",
+                              "ty": 11
+                            }
+                          },
+                          "name": "inventory"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb6b8d200",
+                              "ty": 7
+                            }
+                          },
+                          "name": "photo_or_youtube_link1"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb6b8d200",
+                              "ty": 7
+                            }
+                          },
+                          "name": "photo_or_youtube_link2"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb6b8d200",
+                              "ty": 7
+                            }
+                          },
+                          "name": "photo_or_youtube_link3"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb6b8d200",
+                              "ty": 7
+                            }
+                          },
+                          "name": "more_info_link"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb6b8d200",
+                              "ty": 7
+                            }
+                          },
+                          "name": "delivery_info"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb6b8d200",
+                              "ty": 7
+                            }
+                          },
+                          "name": "product_location"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb6b8d200",
+                              "ty": 7
+                            }
+                          },
+                          "name": "digital_file_url"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb6b8d200",
+                              "ty": 11
+                            }
+                          },
+                          "name": "zeno_percent"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb6b8d200",
+                              "ty": 2
+                            }
+                          },
+                          "name": "zeno_buyers"
+                        }
+                      ],
+                      "name": "Product"
+                    }
+                  },
+                  "root_key": "0xb6b8d200"
+                }
+              },
+              "name": "product_details"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x9ce2df56",
+                              "ty": 6
+                            }
+                          },
+                          "name": "service_id"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x9ce2df56",
+                              "ty": 16
+                            }
+                          },
+                          "name": "online"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x9ce2df56",
+                              "ty": 7
+                            }
+                          },
+                          "name": "title"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x9ce2df56",
+                              "ty": 11
+                            }
+                          },
+                          "name": "price"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x9ce2df56",
+                              "ty": 7
+                            }
+                          },
+                          "name": "category"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x9ce2df56",
+                              "ty": 3
+                            }
+                          },
+                          "name": "seller_account"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x9ce2df56",
+                              "ty": 7
+                            }
+                          },
+                          "name": "seller_name"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x9ce2df56",
+                              "ty": 7
+                            }
+                          },
+                          "name": "description"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x9ce2df56",
+                              "ty": 8
+                            }
+                          },
+                          "name": "review_average"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x9ce2df56",
+                              "ty": 8
+                            }
+                          },
+                          "name": "review_count"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x9ce2df56",
+                              "ty": 9
+                            }
+                          },
+                          "name": "reviews"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x9ce2df56",
+                              "ty": 11
+                            }
+                          },
+                          "name": "inventory"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x9ce2df56",
+                              "ty": 7
+                            }
+                          },
+                          "name": "photo_or_youtube_link1"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x9ce2df56",
+                              "ty": 7
+                            }
+                          },
+                          "name": "photo_or_youtube_link2"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x9ce2df56",
+                              "ty": 7
+                            }
+                          },
+                          "name": "photo_or_youtube_link3"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x9ce2df56",
+                              "ty": 7
+                            }
+                          },
+                          "name": "booking_link"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x9ce2df56",
+                              "ty": 7
+                            }
+                          },
+                          "name": "service_location"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x9ce2df56",
+                              "ty": 11
+                            }
+                          },
+                          "name": "zeno_percent"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x9ce2df56",
+                              "ty": 2
+                            }
+                          },
+                          "name": "zeno_buyers"
+                        }
+                      ],
+                      "name": "Service"
+                    }
+                  },
+                  "root_key": "0x9ce2df56"
+                }
+              },
+              "name": "service_details"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xdc1c9c09",
+                              "ty": 6
+                            }
+                          },
+                          "name": "order_id"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xdc1c9c09",
+                              "ty": 6
+                            }
+                          },
+                          "name": "cart_id"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xdc1c9c09",
+                              "ty": 8
+                            }
+                          },
+                          "name": "order_timestamp"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xdc1c9c09",
+                              "ty": 3
+                            }
+                          },
+                          "name": "buyer"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xdc1c9c09",
+                              "ty": 8
+                            }
+                          },
+                          "name": "buyer_rating"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xdc1c9c09",
+                              "ty": 8
+                            }
+                          },
+                          "name": "buyer_rating_count"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xdc1c9c09",
+                              "ty": 3
+                            }
+                          },
+                          "name": "seller"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xdc1c9c09",
+                              "ty": 7
+                            }
+                          },
+                          "name": "seller_name"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xdc1c9c09",
+                              "ty": 7
+                            }
+                          },
+                          "name": "image"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xdc1c9c09",
+                              "ty": 6
+                            }
+                          },
+                          "name": "item_id"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xdc1c9c09",
+                              "ty": 7
+                            }
+                          },
+                          "name": "item_name"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xdc1c9c09",
+                              "ty": 11
+                            }
+                          },
+                          "name": "quantity"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xdc1c9c09",
+                              "ty": 11
+                            }
+                          },
+                          "name": "price_each"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xdc1c9c09",
+                              "ty": 11
+                            }
+                          },
+                          "name": "total_order_price"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xdc1c9c09",
+                              "ty": 7
+                            }
+                          },
+                          "name": "deliver_to_address"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xdc1c9c09",
+                              "ty": 3
+                            }
+                          },
+                          "name": "deliver_to_account"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xdc1c9c09",
+                              "ty": 7
+                            }
+                          },
+                          "name": "tracking_info"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xdc1c9c09",
+                              "ty": 0
+                            }
+                          },
+                          "name": "order_status"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xdc1c9c09",
+                              "ty": 8
+                            }
+                          },
+                          "name": "time_delivered"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xdc1c9c09",
+                              "ty": 17
+                            }
+                          },
+                          "name": "discussion"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xdc1c9c09",
+                              "ty": 0
+                            }
+                          },
+                          "name": "problem"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xdc1c9c09",
+                              "ty": 0
+                            }
+                          },
+                          "name": "resolution"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xdc1c9c09",
+                              "ty": 11
+                            }
+                          },
+                          "name": "zeno_total"
+                        }
+                      ],
+                      "name": "Order"
+                    }
+                  },
+                  "root_key": "0xdc1c9c09"
+                }
+              },
+              "name": "order_details"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x5bf006b0",
+                              "ty": 3
+                            }
+                          },
+                          "name": "owner"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x5bf006b0",
+                              "ty": 6
+                            }
+                          },
+                          "name": "list_id"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x5bf006b0",
+                              "ty": 7
+                            }
+                          },
+                          "name": "list_name"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x5bf006b0",
+                              "ty": 5
+                            }
+                          },
+                          "name": "items"
+                        }
+                      ],
+                      "name": "ProductList"
+                    }
+                  },
+                  "root_key": "0x5bf006b0"
+                }
+              },
+              "name": "product_list_details"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x0ea8ce1b",
+                              "ty": 3
+                            }
+                          },
+                          "name": "owner"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x0ea8ce1b",
+                              "ty": 6
+                            }
+                          },
+                          "name": "list_id"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x0ea8ce1b",
+                              "ty": 7
+                            }
+                          },
+                          "name": "list_name"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x0ea8ce1b",
+                              "ty": 5
+                            }
+                          },
+                          "name": "items"
+                        }
+                      ],
+                      "name": "ServiceList"
+                    }
+                  },
+                  "root_key": "0x0ea8ce1b"
+                }
+              },
+              "name": "service_list_details"
+            }
+          ],
+          "name": "ContractStorage"
+        }
+      },
+      "root_key": "0x00000000"
+    }
+  },
+  "types": [
+    {
+      "id": 0,
+      "type": {
+        "def": {
+          "primitive": "u8"
+        }
+      }
+    },
+    {
+      "id": 1,
+      "type": {
+        "def": {
+          "tuple": []
+        }
+      }
+    },
+    {
+      "id": 2,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 3
+          }
+        }
+      }
+    },
+    {
+      "id": 3,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "type": 4,
+                "typeName": "[u8; 32]"
+              }
+            ]
+          }
+        },
+        "path": [
+          "ink_primitives",
+          "types",
+          "AccountId"
+        ]
+      }
+    },
+    {
+      "id": 4,
+      "type": {
+        "def": {
+          "array": {
+            "len": 32,
+            "type": 0
+          }
+        }
+      }
+    },
+    {
+      "id": 5,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 6
+          }
+        }
+      }
+    },
+    {
+      "id": 6,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "type": 4,
+                "typeName": "[u8; 32]"
+              }
+            ]
+          }
+        },
+        "path": [
+          "ink_primitives",
+          "types",
+          "Hash"
+        ]
+      }
+    },
+    {
+      "id": 7,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 0
+          }
+        }
+      }
+    },
+    {
+      "id": 8,
+      "type": {
+        "def": {
+          "primitive": "u64"
+        }
+      }
+    },
+    {
+      "id": 9,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 10
+          }
+        }
+      }
+    },
+    {
+      "id": 10,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "review_id",
+                "type": 6,
+                "typeName": "Hash"
+              },
+              {
+                "name": "item_id",
+                "type": 6,
+                "typeName": "Hash"
+              },
+              {
+                "name": "reviewer",
+                "type": 3,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "rating",
+                "type": 8,
+                "typeName": "u64"
+              },
+              {
+                "name": "review",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "timestamp",
+                "type": 8,
+                "typeName": "u64"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_marketplace",
+          "geode_marketplace",
+          "ProductServiceReview"
+        ]
+      }
+    },
+    {
+      "id": 11,
+      "type": {
+        "def": {
+          "primitive": "u128"
+        }
+      }
+    },
+    {
+      "id": 12,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 13
+          }
+        }
+      }
+    },
+    {
+      "id": 13,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "review_id",
+                "type": 6,
+                "typeName": "Hash"
+              },
+              {
+                "name": "account_id",
+                "type": 3,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "reviewer",
+                "type": 3,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "rating",
+                "type": 8,
+                "typeName": "u64"
+              },
+              {
+                "name": "review",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "timestamp",
+                "type": 8,
+                "typeName": "u64"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_marketplace",
+          "geode_marketplace",
+          "BuyerSellerReview"
+        ]
+      }
+    },
+    {
+      "id": 14,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 15
+          }
+        }
+      }
+    },
+    {
+      "id": 15,
+      "type": {
+        "def": {
+          "tuple": [
+            6,
+            11
+          ]
+        }
+      }
+    },
+    {
+      "id": 16,
+      "type": {
+        "def": {
+          "primitive": "bool"
+        }
+      }
+    },
+    {
+      "id": 17,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 18
+          }
+        }
+      }
+    },
+    {
+      "id": 18,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "message_id",
+                "type": 6,
+                "typeName": "Hash"
+              },
+              {
+                "name": "from_acct",
+                "type": 3,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "to_acct",
+                "type": 3,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "order_id",
+                "type": 6,
+                "typeName": "Hash"
+              },
+              {
+                "name": "message",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "media_url",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "timestamp",
+                "type": 8,
+                "typeName": "u64"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_marketplace",
+          "geode_marketplace",
+          "MessageDetails"
+        ]
+      }
+    },
+    {
+      "id": 19,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 1
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 20
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 1
+          },
+          {
+            "name": "E",
+            "type": 20
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 20,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 1,
+                "name": "CouldNotReadInput"
+              }
+            ]
+          }
+        },
+        "path": [
+          "ink_primitives",
+          "LangError"
+        ]
+      }
+    },
+    {
+      "id": 21,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 22
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 20
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 22
+          },
+          {
+            "name": "E",
+            "type": 20
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 22,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 1
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 23
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 1
+          },
+          {
+            "name": "E",
+            "type": 23
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 23,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "PayoutFailed"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 24,
+                    "typeName": "ReentrancyGuardError"
+                  }
+                ],
+                "index": 1,
+                "name": "ReentrancyError"
+              },
+              {
+                "index": 2,
+                "name": "NonexistentAccount"
+              },
+              {
+                "index": 3,
+                "name": "ItemDoesNotExist"
+              },
+              {
+                "index": 4,
+                "name": "Duplicate"
+              },
+              {
+                "index": 5,
+                "name": "InsufficientPayment"
+              },
+              {
+                "index": 6,
+                "name": "NotEligibleToReview"
+              },
+              {
+                "index": 7,
+                "name": "RatingOutOfBounds"
+              },
+              {
+                "index": 8,
+                "name": "NotYourOrder"
+              },
+              {
+                "index": 9,
+                "name": "NotEligibleToReport"
+              },
+              {
+                "index": 10,
+                "name": "NotYourList"
+              },
+              {
+                "index": 11,
+                "name": "CannotRefuse"
+              },
+              {
+                "index": 12,
+                "name": "NotAPhysicalProduct"
+              },
+              {
+                "index": 13,
+                "name": "CannotResolve"
+              },
+              {
+                "index": 14,
+                "name": "NotYourProduct"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_marketplace",
+          "geode_marketplace",
+          "Error"
+        ]
+      }
+    },
+    {
+      "id": 24,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "ReentrantCall"
+              }
+            ]
+          }
+        },
+        "path": [
+          "openbrush_contracts",
+          "traits",
+          "errors",
+          "reentrancy_guard",
+          "ReentrancyGuardError"
+        ]
+      }
+    },
+    {
+      "id": 25,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 26
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 20
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 26
+          },
+          {
+            "name": "E",
+            "type": 20
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 26,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "search",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "products",
+                "type": 27,
+                "typeName": "Vec<PublicProduct>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_marketplace",
+          "geode_marketplace",
+          "ProductSearchResults"
+        ]
+      }
+    },
+    {
+      "id": 27,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 28
+          }
+        }
+      }
+    },
+    {
+      "id": 28,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "product_id",
+                "type": 6,
+                "typeName": "Hash"
+              },
+              {
+                "name": "digital",
+                "type": 16,
+                "typeName": "bool"
+              },
+              {
+                "name": "title",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "price",
+                "type": 11,
+                "typeName": "Balance"
+              },
+              {
+                "name": "brand",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "category",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "seller_account",
+                "type": 3,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "seller_name",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "description",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "review_average",
+                "type": 8,
+                "typeName": "u64"
+              },
+              {
+                "name": "review_count",
+                "type": 8,
+                "typeName": "u64"
+              },
+              {
+                "name": "reviews",
+                "type": 9,
+                "typeName": "Vec<ProductServiceReview>"
+              },
+              {
+                "name": "inventory",
+                "type": 11,
+                "typeName": "u128"
+              },
+              {
+                "name": "photo_or_youtube_link1",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "photo_or_youtube_link2",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "photo_or_youtube_link3",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "more_info_link",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "delivery_info",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "product_location",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "zeno_percent",
+                "type": 11,
+                "typeName": "u128"
+              },
+              {
+                "name": "zeno_buyers",
+                "type": 2,
+                "typeName": "Vec<AccountId>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_marketplace",
+          "geode_marketplace",
+          "PublicProduct"
+        ]
+      }
+    },
+    {
+      "id": 29,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 30
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 20
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 30
+          },
+          {
+            "name": "E",
+            "type": 20
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 30,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "search",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "services",
+                "type": 31,
+                "typeName": "Vec<Service>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_marketplace",
+          "geode_marketplace",
+          "ServiceSearchResults"
+        ]
+      }
+    },
+    {
+      "id": 31,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 32
+          }
+        }
+      }
+    },
+    {
+      "id": 32,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "service_id",
+                "type": 6,
+                "typeName": "Hash"
+              },
+              {
+                "name": "online",
+                "type": 16,
+                "typeName": "bool"
+              },
+              {
+                "name": "title",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "price",
+                "type": 11,
+                "typeName": "Balance"
+              },
+              {
+                "name": "category",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "seller_account",
+                "type": 3,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "seller_name",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "description",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "review_average",
+                "type": 8,
+                "typeName": "u64"
+              },
+              {
+                "name": "review_count",
+                "type": 8,
+                "typeName": "u64"
+              },
+              {
+                "name": "reviews",
+                "type": 9,
+                "typeName": "Vec<ProductServiceReview>"
+              },
+              {
+                "name": "inventory",
+                "type": 11,
+                "typeName": "u128"
+              },
+              {
+                "name": "photo_or_youtube_link1",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "photo_or_youtube_link2",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "photo_or_youtube_link3",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "booking_link",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "service_location",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "zeno_percent",
+                "type": 11,
+                "typeName": "u128"
+              },
+              {
+                "name": "zeno_buyers",
+                "type": 2,
+                "typeName": "Vec<AccountId>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_marketplace",
+          "geode_marketplace",
+          "Service"
+        ]
+      }
+    },
+    {
+      "id": 33,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 34
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 20
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 34
+          },
+          {
+            "name": "E",
+            "type": 20
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 34,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "search",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "stores",
+                "type": 35,
+                "typeName": "Vec<ViewStore>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_marketplace",
+          "geode_marketplace",
+          "StoreSearchResults"
+        ]
+      }
+    },
+    {
+      "id": 35,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 36
+          }
+        }
+      }
+    },
+    {
+      "id": 36,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "owner",
+                "type": 37,
+                "typeName": "SellerProfile"
+              },
+              {
+                "name": "products",
+                "type": 27,
+                "typeName": "Vec<PublicProduct>"
+              },
+              {
+                "name": "services",
+                "type": 31,
+                "typeName": "Vec<Service>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_marketplace",
+          "geode_marketplace",
+          "ViewStore"
+        ]
+      }
+    },
+    {
+      "id": 37,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "seller_account",
+                "type": 3,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "seller_name",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "store_description",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "seller_location",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "member_since",
+                "type": 8,
+                "typeName": "u64"
+              },
+              {
+                "name": "banner_url",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "youtube_url",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "external_link",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "review_average",
+                "type": 8,
+                "typeName": "u64"
+              },
+              {
+                "name": "review_count",
+                "type": 8,
+                "typeName": "u64"
+              },
+              {
+                "name": "reviews",
+                "type": 9,
+                "typeName": "Vec<ProductServiceReview>"
+              },
+              {
+                "name": "total_orders",
+                "type": 11,
+                "typeName": "u128"
+              },
+              {
+                "name": "total_delivered",
+                "type": 11,
+                "typeName": "u128"
+              },
+              {
+                "name": "total_damaged",
+                "type": 11,
+                "typeName": "u128"
+              },
+              {
+                "name": "total_wrong",
+                "type": 11,
+                "typeName": "u128"
+              },
+              {
+                "name": "total_not_received",
+                "type": 11,
+                "typeName": "u128"
+              },
+              {
+                "name": "total_resolved",
+                "type": 11,
+                "typeName": "u128"
+              },
+              {
+                "name": "total_refused",
+                "type": 11,
+                "typeName": "u128"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_marketplace",
+          "geode_marketplace",
+          "SellerProfile"
+        ]
+      }
+    },
+    {
+      "id": 38,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 39
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 20
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 39
+          },
+          {
+            "name": "E",
+            "type": 20
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 39,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "buyer",
+                "type": 3,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "carts",
+                "type": 40,
+                "typeName": "Vec<Order>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_marketplace",
+          "geode_marketplace",
+          "ViewBuyerOrders"
+        ]
+      }
+    },
+    {
+      "id": 40,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 41
+          }
+        }
+      }
+    },
+    {
+      "id": 41,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "order_id",
+                "type": 6,
+                "typeName": "Hash"
+              },
+              {
+                "name": "cart_id",
+                "type": 6,
+                "typeName": "Hash"
+              },
+              {
+                "name": "order_timestamp",
+                "type": 8,
+                "typeName": "u64"
+              },
+              {
+                "name": "buyer",
+                "type": 3,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "buyer_rating",
+                "type": 8,
+                "typeName": "u64"
+              },
+              {
+                "name": "buyer_rating_count",
+                "type": 8,
+                "typeName": "u64"
+              },
+              {
+                "name": "seller",
+                "type": 3,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "seller_name",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "image",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "item_id",
+                "type": 6,
+                "typeName": "Hash"
+              },
+              {
+                "name": "item_name",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "quantity",
+                "type": 11,
+                "typeName": "u128"
+              },
+              {
+                "name": "price_each",
+                "type": 11,
+                "typeName": "Balance"
+              },
+              {
+                "name": "total_order_price",
+                "type": 11,
+                "typeName": "Balance"
+              },
+              {
+                "name": "deliver_to_address",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "deliver_to_account",
+                "type": 3,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "tracking_info",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "order_status",
+                "type": 0,
+                "typeName": "u8"
+              },
+              {
+                "name": "time_delivered",
+                "type": 8,
+                "typeName": "u64"
+              },
+              {
+                "name": "discussion",
+                "type": 17,
+                "typeName": "Vec<MessageDetails>"
+              },
+              {
+                "name": "problem",
+                "type": 0,
+                "typeName": "u8"
+              },
+              {
+                "name": "resolution",
+                "type": 0,
+                "typeName": "u8"
+              },
+              {
+                "name": "zeno_total",
+                "type": 11,
+                "typeName": "Balance"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_marketplace",
+          "geode_marketplace",
+          "Order"
+        ]
+      }
+    },
+    {
+      "id": 42,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 43
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 20
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 43
+          },
+          {
+            "name": "E",
+            "type": 20
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 43,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "buyer",
+                "type": 44,
+                "typeName": "BuyerProfile"
+              },
+              {
+                "name": "product_lists",
+                "type": 45,
+                "typeName": "Vec<ViewProductList>"
+              },
+              {
+                "name": "service_lists",
+                "type": 49,
+                "typeName": "Vec<ViewServiceList>"
+              },
+              {
+                "name": "bookmarked_stores",
+                "type": 51,
+                "typeName": "Vec<SellerProfile>"
+              },
+              {
+                "name": "digital_downloads",
+                "type": 52,
+                "typeName": "Vec<Download>"
+              },
+              {
+                "name": "orders",
+                "type": 40,
+                "typeName": "Vec<Order>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_marketplace",
+          "geode_marketplace",
+          "ViewBuyerAccount"
+        ]
+      }
+    },
+    {
+      "id": 44,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "buyer_account",
+                "type": 3,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "buyer_name",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "buyer_location",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "member_since",
+                "type": 8,
+                "typeName": "u64"
+              },
+              {
+                "name": "review_average",
+                "type": 8,
+                "typeName": "u64"
+              },
+              {
+                "name": "review_count",
+                "type": 8,
+                "typeName": "u64"
+              },
+              {
+                "name": "reviews",
+                "type": 12,
+                "typeName": "Vec<BuyerSellerReview>"
+              },
+              {
+                "name": "total_carts",
+                "type": 11,
+                "typeName": "u128"
+              },
+              {
+                "name": "total_orders",
+                "type": 11,
+                "typeName": "u128"
+              },
+              {
+                "name": "total_delivered",
+                "type": 11,
+                "typeName": "u128"
+              },
+              {
+                "name": "total_damaged",
+                "type": 11,
+                "typeName": "u128"
+              },
+              {
+                "name": "total_wrong",
+                "type": 11,
+                "typeName": "u128"
+              },
+              {
+                "name": "total_not_received",
+                "type": 11,
+                "typeName": "u128"
+              },
+              {
+                "name": "total_resolved",
+                "type": 11,
+                "typeName": "u128"
+              },
+              {
+                "name": "total_refused",
+                "type": 11,
+                "typeName": "u128"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_marketplace",
+          "geode_marketplace",
+          "BuyerProfile"
+        ]
+      }
+    },
+    {
+      "id": 45,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 46
+          }
+        }
+      }
+    },
+    {
+      "id": 46,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "owner",
+                "type": 3,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "list_id",
+                "type": 6,
+                "typeName": "Hash"
+              },
+              {
+                "name": "list_name",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "items",
+                "type": 47,
+                "typeName": "Vec<Product>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_marketplace",
+          "geode_marketplace",
+          "ViewProductList"
+        ]
+      }
+    },
+    {
+      "id": 47,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 48
+          }
+        }
+      }
+    },
+    {
+      "id": 48,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "product_id",
+                "type": 6,
+                "typeName": "Hash"
+              },
+              {
+                "name": "digital",
+                "type": 16,
+                "typeName": "bool"
+              },
+              {
+                "name": "title",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "price",
+                "type": 11,
+                "typeName": "Balance"
+              },
+              {
+                "name": "brand",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "category",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "seller_account",
+                "type": 3,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "seller_name",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "description",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "review_average",
+                "type": 8,
+                "typeName": "u64"
+              },
+              {
+                "name": "review_count",
+                "type": 8,
+                "typeName": "u64"
+              },
+              {
+                "name": "reviews",
+                "type": 9,
+                "typeName": "Vec<ProductServiceReview>"
+              },
+              {
+                "name": "inventory",
+                "type": 11,
+                "typeName": "u128"
+              },
+              {
+                "name": "photo_or_youtube_link1",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "photo_or_youtube_link2",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "photo_or_youtube_link3",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "more_info_link",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "delivery_info",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "product_location",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "digital_file_url",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "zeno_percent",
+                "type": 11,
+                "typeName": "u128"
+              },
+              {
+                "name": "zeno_buyers",
+                "type": 2,
+                "typeName": "Vec<AccountId>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_marketplace",
+          "geode_marketplace",
+          "Product"
+        ]
+      }
+    },
+    {
+      "id": 49,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 50
+          }
+        }
+      }
+    },
+    {
+      "id": 50,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "owner",
+                "type": 3,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "list_id",
+                "type": 6,
+                "typeName": "Hash"
+              },
+              {
+                "name": "list_name",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "items",
+                "type": 31,
+                "typeName": "Vec<Service>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_marketplace",
+          "geode_marketplace",
+          "ViewServiceList"
+        ]
+      }
+    },
+    {
+      "id": 51,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 37
+          }
+        }
+      }
+    },
+    {
+      "id": 52,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 53
+          }
+        }
+      }
+    },
+    {
+      "id": 53,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "product_id",
+                "type": 6,
+                "typeName": "Hash"
+              },
+              {
+                "name": "title",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "brand",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "seller_account",
+                "type": 3,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "seller_name",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "description",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "photo",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "more_info",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "file_url",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_marketplace",
+          "geode_marketplace",
+          "Download"
+        ]
+      }
+    },
+    {
+      "id": 54,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 55
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 20
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 55
+          },
+          {
+            "name": "E",
+            "type": 20
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 55,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "buyer",
+                "type": 3,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "cart_total",
+                "type": 11,
+                "typeName": "Balance"
+              },
+              {
+                "name": "total_items",
+                "type": 11,
+                "typeName": "u128"
+              },
+              {
+                "name": "cart_products",
+                "type": 56,
+                "typeName": "Vec<UnpaidCartProduct>"
+              },
+              {
+                "name": "cart_services",
+                "type": 58,
+                "typeName": "Vec<UnpaidCartService>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_marketplace",
+          "geode_marketplace",
+          "ViewUnpaidCart"
+        ]
+      }
+    },
+    {
+      "id": 56,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 57
+          }
+        }
+      }
+    },
+    {
+      "id": 57,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "product_id",
+                "type": 6,
+                "typeName": "Hash"
+              },
+              {
+                "name": "quantity",
+                "type": 11,
+                "typeName": "u128"
+              },
+              {
+                "name": "digital",
+                "type": 16,
+                "typeName": "bool"
+              },
+              {
+                "name": "title",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "price",
+                "type": 11,
+                "typeName": "Balance"
+              },
+              {
+                "name": "brand",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "seller_account",
+                "type": 3,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "seller_name",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "photo_or_youtube_link1",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "inventory",
+                "type": 11,
+                "typeName": "u128"
+              },
+              {
+                "name": "delivery_info",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "product_location",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "zeno_percent",
+                "type": 11,
+                "typeName": "u128"
+              },
+              {
+                "name": "zeno_buyers",
+                "type": 11,
+                "typeName": "u128"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_marketplace",
+          "geode_marketplace",
+          "UnpaidCartProduct"
+        ]
+      }
+    },
+    {
+      "id": 58,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 59
+          }
+        }
+      }
+    },
+    {
+      "id": 59,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "service_id",
+                "type": 6,
+                "typeName": "Hash"
+              },
+              {
+                "name": "quantity",
+                "type": 11,
+                "typeName": "u128"
+              },
+              {
+                "name": "online",
+                "type": 16,
+                "typeName": "bool"
+              },
+              {
+                "name": "title",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "price",
+                "type": 11,
+                "typeName": "Balance"
+              },
+              {
+                "name": "seller_account",
+                "type": 3,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "seller_name",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "photo_or_youtube_link1",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "inventory",
+                "type": 11,
+                "typeName": "u128"
+              },
+              {
+                "name": "booking_link",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "service_location",
+                "type": 7,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "zeno_percent",
+                "type": 11,
+                "typeName": "u128"
+              },
+              {
+                "name": "zeno_buyers",
+                "type": 11,
+                "typeName": "u128"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_marketplace",
+          "geode_marketplace",
+          "UnpaidCartService"
+        ]
+      }
+    },
+    {
+      "id": 60,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 36
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 20
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 36
+          },
+          {
+            "name": "E",
+            "type": 20
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 61,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 62
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 20
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 62
+          },
+          {
+            "name": "E",
+            "type": 20
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 62,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "seller",
+                "type": 37,
+                "typeName": "SellerProfile"
+              },
+              {
+                "name": "current_orders",
+                "type": 40,
+                "typeName": "Vec<Order>"
+              },
+              {
+                "name": "products",
+                "type": 47,
+                "typeName": "Vec<Product>"
+              },
+              {
+                "name": "services",
+                "type": 31,
+                "typeName": "Vec<Service>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_marketplace",
+          "geode_marketplace",
+          "ViewSellerAccount"
+        ]
+      }
+    },
+    {
+      "id": 63,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 64
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 20
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 64
+          },
+          {
+            "name": "E",
+            "type": 20
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 64,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "called_by",
+                "type": 3,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "timestamp",
+                "type": 8,
+                "typeName": "u64"
+              },
+              {
+                "name": "number_of_sellers",
+                "type": 11,
+                "typeName": "u128"
+              },
+              {
+                "name": "number_of_buyers",
+                "type": 11,
+                "typeName": "u128"
+              },
+              {
+                "name": "number_of_products",
+                "type": 11,
+                "typeName": "u128"
+              },
+              {
+                "name": "number_of_services",
+                "type": 11,
+                "typeName": "u128"
+              },
+              {
+                "name": "number_of_orders",
+                "type": 11,
+                "typeName": "u128"
+              },
+              {
+                "name": "orders",
+                "type": 65,
+                "typeName": "Vec<OrderData>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_marketplace",
+          "geode_marketplace",
+          "MarketStatistics"
+        ]
+      }
+    },
+    {
+      "id": 65,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 66
+          }
+        }
+      }
+    },
+    {
+      "id": 66,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "timestamp",
+                "type": 8,
+                "typeName": "u64"
+              },
+              {
+                "name": "total",
+                "type": 11,
+                "typeName": "Balance"
+              },
+              {
+                "name": "status",
+                "type": 0,
+                "typeName": "u8"
+              },
+              {
+                "name": "problem",
+                "type": 0,
+                "typeName": "u8"
+              },
+              {
+                "name": "resolution",
+                "type": 0,
+                "typeName": "u8"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_marketplace",
+          "geode_marketplace",
+          "OrderData"
+        ]
+      }
+    },
+    {
+      "id": 67,
+      "type": {
+        "def": {
+          "primitive": "u32"
+        }
+      }
+    },
+    {
+      "id": 68,
+      "type": {
+        "def": {
+          "variant": {}
+        },
+        "path": [
+          "ink_env",
+          "types",
+          "NoChainExtension"
+        ]
+      }
+    }
+  ],
+  "version": "4"
+}

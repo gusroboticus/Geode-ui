@@ -1,0 +1,4137 @@
+{
+  "source": {
+    "hash": "0x5e8e1bf473b4cbbc91bb2981512fcb9ef9b87f93b8738085033a63f68dc8d42e",
+    "language": "ink! 4.2.0",
+    "compiler": "rustc 1.70.0-nightly",
+    "build_info": {
+      "build_mode": "Release",
+      "cargo_contract_version": "2.0.1",
+      "rust_toolchain": "nightly-aarch64-apple-darwin",
+      "wasm_opt_settings": {
+        "keep_debug_symbols": false,
+        "optimization_passes": "Z"
+      }
+    }
+  },
+  "contract": {
+    "name": "geode_messaging",
+    "version": "0.1.0",
+    "authors": [
+      "Dr. Amy Messegee <support@blockandpurpose.com>"
+    ],
+    "description": "A public broadcast messaging app."
+  },
+  "spec": {
+    "constructors": [
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "new",
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink_primitives",
+            "ConstructorResult"
+          ],
+          "type": 11
+        },
+        "selector": "0x9bae9d5e"
+      }
+    ],
+    "docs": [],
+    "environment": {
+      "accountId": {
+        "displayName": [
+          "AccountId"
+        ],
+        "type": 2
+      },
+      "balance": {
+        "displayName": [
+          "Balance"
+        ],
+        "type": 5
+      },
+      "blockNumber": {
+        "displayName": [
+          "BlockNumber"
+        ],
+        "type": 64
+      },
+      "chainExtension": {
+        "displayName": [
+          "ChainExtension"
+        ],
+        "type": 65
+      },
+      "hash": {
+        "displayName": [
+          "Hash"
+        ],
+        "type": 10
+      },
+      "maxEventTopics": 4,
+      "timestamp": {
+        "displayName": [
+          "Timestamp"
+        ],
+        "type": 7
+      }
+    },
+    "events": [],
+    "lang_error": {
+      "displayName": [
+        "ink",
+        "LangError"
+      ],
+      "type": 12
+    },
+    "messages": [
+      {
+        "args": [
+          {
+            "label": "my_username",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 4
+            }
+          },
+          {
+            "label": "my_interests",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 4
+            }
+          },
+          {
+            "label": "my_inbox_fee",
+            "type": {
+              "displayName": [
+                "Balance"
+              ],
+              "type": 5
+            }
+          },
+          {
+            "label": "hide_from_search",
+            "type": {
+              "displayName": [
+                "bool"
+              ],
+              "type": 6
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "update_settings",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 13
+        },
+        "selector": "0x3b402e8e"
+      },
+      {
+        "args": [
+          {
+            "label": "to_acct",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 2
+            }
+          },
+          {
+            "label": "new_message",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 4
+            }
+          },
+          {
+            "label": "file_url",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 4
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "send_private_message",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 13
+        },
+        "selector": "0x956ab1e1"
+      },
+      {
+        "args": [
+          {
+            "label": "to_group_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 10
+            }
+          },
+          {
+            "label": "new_message",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 4
+            }
+          },
+          {
+            "label": "file_url",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 4
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "send_message_to_group",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 13
+        },
+        "selector": "0x2e5257ac"
+      },
+      {
+        "args": [
+          {
+            "label": "allow",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 2
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "allow_account",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 13
+        },
+        "selector": "0x815c22c2"
+      },
+      {
+        "args": [
+          {
+            "label": "disallow",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 2
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "disallow_account",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 13
+        },
+        "selector": "0xbb8bad9e"
+      },
+      {
+        "args": [
+          {
+            "label": "block",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 2
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "block_account",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 13
+        },
+        "selector": "0x2a741837"
+      },
+      {
+        "args": [
+          {
+            "label": "unblock",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 2
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "unblock_account",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 13
+        },
+        "selector": "0x0e3ab36b"
+      },
+      {
+        "args": [
+          {
+            "label": "message_id_to_delete",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 10
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "delete_single_message_to_account",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 13
+        },
+        "selector": "0x341c9981"
+      },
+      {
+        "args": [
+          {
+            "label": "delete_all_messages_to",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 2
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "delete_all_messages_to_account",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 13
+        },
+        "selector": "0xf3dbe8b7"
+      },
+      {
+        "args": [
+          {
+            "label": "new_group_name",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 4
+            }
+          },
+          {
+            "label": "hide_from_search",
+            "type": {
+              "displayName": [
+                "bool"
+              ],
+              "type": 6
+            }
+          },
+          {
+            "label": "description",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 4
+            }
+          },
+          {
+            "label": "first_message",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 4
+            }
+          },
+          {
+            "label": "file_url",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 4
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "make_a_new_group",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 13
+        },
+        "selector": "0xd3bd0c1b"
+      },
+      {
+        "args": [
+          {
+            "label": "group_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 10
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "join_a_group",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 13
+        },
+        "selector": "0xcd8f5bdc"
+      },
+      {
+        "args": [
+          {
+            "label": "message_id_to_delete",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 10
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "delete_single_message_to_group",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 13
+        },
+        "selector": "0x190719ec"
+      },
+      {
+        "args": [
+          {
+            "label": "delete_my_messages_to_group_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 10
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "delete_all_messages_to_group",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 13
+        },
+        "selector": "0x2fcbf992"
+      },
+      {
+        "args": [
+          {
+            "label": "group_id_to_leave",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 10
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "leave_a_group",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 13
+        },
+        "selector": "0xf404a4bc"
+      },
+      {
+        "args": [
+          {
+            "label": "group_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 10
+            }
+          },
+          {
+            "label": "group_name",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 4
+            }
+          },
+          {
+            "label": "hide_from_search",
+            "type": {
+              "displayName": [
+                "bool"
+              ],
+              "type": 6
+            }
+          },
+          {
+            "label": "description",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 4
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "update_group_settings",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 13
+        },
+        "selector": "0x3d8e082c"
+      },
+      {
+        "args": [
+          {
+            "label": "to_list_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 10
+            }
+          },
+          {
+            "label": "new_message",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 4
+            }
+          },
+          {
+            "label": "file_url",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 4
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "send_message_to_list",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 13
+        },
+        "selector": "0x24481420"
+      },
+      {
+        "args": [
+          {
+            "label": "new_list_name",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 4
+            }
+          },
+          {
+            "label": "hide_from_search",
+            "type": {
+              "displayName": [
+                "bool"
+              ],
+              "type": 6
+            }
+          },
+          {
+            "label": "description",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 4
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "make_a_new_list",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 13
+        },
+        "selector": "0xbf846cd7"
+      },
+      {
+        "args": [
+          {
+            "label": "message_id_to_delete",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 10
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "delete_single_message_to_list",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 13
+        },
+        "selector": "0x13e05bf6"
+      },
+      {
+        "args": [
+          {
+            "label": "delete_list_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 10
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "delete_an_open_list",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 13
+        },
+        "selector": "0xd9c67492"
+      },
+      {
+        "args": [
+          {
+            "label": "list_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 10
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "join_an_open_list",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 13
+        },
+        "selector": "0x2b95d4c7"
+      },
+      {
+        "args": [
+          {
+            "label": "list_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 10
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "unsubscribe_from_open_list",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 13
+        },
+        "selector": "0xe7398aa8"
+      },
+      {
+        "args": [
+          {
+            "label": "to_list_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 10
+            }
+          },
+          {
+            "label": "new_message",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 4
+            }
+          },
+          {
+            "label": "file_url",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 4
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "send_message_to_paid_list",
+        "mutates": true,
+        "payable": true,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 13
+        },
+        "selector": "0x6e2f49eb"
+      },
+      {
+        "args": [
+          {
+            "label": "new_list_name",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 4
+            }
+          },
+          {
+            "label": "description",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 4
+            }
+          },
+          {
+            "label": "initial_accounts",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 8
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "make_a_new_paid_list",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 13
+        },
+        "selector": "0x08497bc1"
+      },
+      {
+        "args": [
+          {
+            "label": "delete_this_list",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 10
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "delete_paid_list",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 13
+        },
+        "selector": "0x94dcf32f"
+      },
+      {
+        "args": [
+          {
+            "label": "list_id_to_block",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 10
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "block_paid_list",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 13
+        },
+        "selector": "0x06a1ef8f"
+      },
+      {
+        "args": [
+          {
+            "label": "list_id_to_unblock",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 10
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "unblock_paid_list",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 13
+        },
+        "selector": "0xfec6a075"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "get_my_inbox",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 17
+        },
+        "selector": "0x11ebd854"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "get_my_paid_inbox",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 27
+        },
+        "selector": "0xaf28aaa7"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "get_my_allowed_and_blocked_accounts",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 29
+        },
+        "selector": "0x44adb30d"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "get_my_groups",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 31
+        },
+        "selector": "0x7cbd285a"
+      },
+      {
+        "args": [
+          {
+            "label": "keywords",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 4
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "search_inbox_by_keyword",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 34
+        },
+        "selector": "0x609a495c"
+      },
+      {
+        "args": [
+          {
+            "label": "find_account",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 2
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "search_inbox_by_account",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 36
+        },
+        "selector": "0xbcac634c"
+      },
+      {
+        "args": [
+          {
+            "label": "keywords",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 4
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "find_groups_by_keyword",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 38
+        },
+        "selector": "0x48781f1e"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "get_my_open_lists",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 42
+        },
+        "selector": "0x26e82c0b"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "get_my_paid_lists",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 45
+        },
+        "selector": "0x57efc041"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "get_my_subscribed_lists",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 48
+        },
+        "selector": "0xb8ce21b4"
+      },
+      {
+        "args": [
+          {
+            "label": "keywords",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 4
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "find_lists_by_keyword",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 51
+        },
+        "selector": "0xe203ec98"
+      },
+      {
+        "args": [
+          {
+            "label": "keywords",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 4
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "find_accounts_by_keyword",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 53
+        },
+        "selector": "0x9d8aca63"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "get_settings_data",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 57
+        },
+        "selector": "0x34718cb8"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "get_settings_data_caller",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 62
+        },
+        "selector": "0x1346e40d"
+      }
+    ]
+  },
+  "storage": {
+    "root": {
+      "layout": {
+        "struct": {
+          "fields": [
+            {
+              "layout": {
+                "struct": {
+                  "fields": [
+                    {
+                      "layout": {
+                        "leaf": {
+                          "key": "0x00000000",
+                          "ty": 0
+                        }
+                      },
+                      "name": "status"
+                    },
+                    {
+                      "layout": {
+                        "enum": {
+                          "dispatchKey": "0x00000000",
+                          "name": "Option",
+                          "variants": {
+                            "0": {
+                              "fields": [],
+                              "name": "None"
+                            },
+                            "1": {
+                              "fields": [
+                                {
+                                  "layout": {
+                                    "leaf": {
+                                      "key": "0x00000000",
+                                      "ty": 1
+                                    }
+                                  },
+                                  "name": "0"
+                                }
+                              ],
+                              "name": "Some"
+                            }
+                          }
+                        }
+                      },
+                      "name": "_reserved"
+                    }
+                  ],
+                  "name": "Data"
+                }
+              },
+              "name": "guard"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x9db0d447",
+                              "ty": 2
+                            }
+                          },
+                          "name": "user_account"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x9db0d447",
+                              "ty": 4
+                            }
+                          },
+                          "name": "username"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x9db0d447",
+                              "ty": 4
+                            }
+                          },
+                          "name": "interests"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x9db0d447",
+                              "ty": 5
+                            }
+                          },
+                          "name": "inbox_fee"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x9db0d447",
+                              "ty": 6
+                            }
+                          },
+                          "name": "hide_from_search"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x9db0d447",
+                              "ty": 7
+                            }
+                          },
+                          "name": "last_update"
+                        }
+                      ],
+                      "name": "Settings"
+                    }
+                  },
+                  "root_key": "0x9db0d447"
+                }
+              },
+              "name": "account_settings"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xd36539a6",
+                              "ty": 8
+                            }
+                          },
+                          "name": "accountvector"
+                        }
+                      ],
+                      "name": "AccountVector"
+                    }
+                  },
+                  "root_key": "0xd36539a6"
+                }
+              },
+              "name": "account_allowed"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xfafed94f",
+                              "ty": 8
+                            }
+                          },
+                          "name": "accountvector"
+                        }
+                      ],
+                      "name": "AccountVector"
+                    }
+                  },
+                  "root_key": "0xfafed94f"
+                }
+              },
+              "name": "account_blocked_accounts"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xcfae7571",
+                              "ty": 9
+                            }
+                          },
+                          "name": "hashvector"
+                        }
+                      ],
+                      "name": "HashVector"
+                    }
+                  },
+                  "root_key": "0xcfae7571"
+                }
+              },
+              "name": "account_blocked_lists"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x16811590",
+                              "ty": 9
+                            }
+                          },
+                          "name": "hashvector"
+                        }
+                      ],
+                      "name": "HashVector"
+                    }
+                  },
+                  "root_key": "0x16811590"
+                }
+              },
+              "name": "account_subscribed_groups"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x28e91863",
+                              "ty": 9
+                            }
+                          },
+                          "name": "hashvector"
+                        }
+                      ],
+                      "name": "HashVector"
+                    }
+                  },
+                  "root_key": "0x28e91863"
+                }
+              },
+              "name": "account_owned_open_lists"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x0f32d689",
+                              "ty": 9
+                            }
+                          },
+                          "name": "hashvector"
+                        }
+                      ],
+                      "name": "HashVector"
+                    }
+                  },
+                  "root_key": "0x0f32d689"
+                }
+              },
+              "name": "account_owned_paid_lists"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x3796f5da",
+                              "ty": 9
+                            }
+                          },
+                          "name": "hashvector"
+                        }
+                      ],
+                      "name": "HashVector"
+                    }
+                  },
+                  "root_key": "0x3796f5da"
+                }
+              },
+              "name": "paid_lists_with_account"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x94348289",
+                              "ty": 9
+                            }
+                          },
+                          "name": "hashvector"
+                        }
+                      ],
+                      "name": "HashVector"
+                    }
+                  },
+                  "root_key": "0x94348289"
+                }
+              },
+              "name": "account_subscribed_lists"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x6c01b1aa",
+                              "ty": 9
+                            }
+                          },
+                          "name": "hashvector"
+                        }
+                      ],
+                      "name": "HashVector"
+                    }
+                  },
+                  "root_key": "0x6c01b1aa"
+                }
+              },
+              "name": "sent_messages_to_account"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x2732d97a",
+                              "ty": 9
+                            }
+                          },
+                          "name": "hashvector"
+                        }
+                      ],
+                      "name": "HashVector"
+                    }
+                  },
+                  "root_key": "0x2732d97a"
+                }
+              },
+              "name": "sent_messages_to_list"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x4910749c",
+                              "ty": 9
+                            }
+                          },
+                          "name": "hashvector"
+                        }
+                      ],
+                      "name": "HashVector"
+                    }
+                  },
+                  "root_key": "0x4910749c"
+                }
+              },
+              "name": "sent_messages_to_paid_list"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x4960d8aa",
+                              "ty": 9
+                            }
+                          },
+                          "name": "hashvector"
+                        }
+                      ],
+                      "name": "HashVector"
+                    }
+                  },
+                  "root_key": "0x4960d8aa"
+                }
+              },
+              "name": "sent_messages_to_group"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb1ea3c59",
+                              "ty": 9
+                            }
+                          },
+                          "name": "hashvector"
+                        }
+                      ],
+                      "name": "HashVector"
+                    }
+                  },
+                  "root_key": "0xb1ea3c59"
+                }
+              },
+              "name": "all_messages_to_group"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb2660d46",
+                              "ty": 10
+                            }
+                          },
+                          "name": "message_id"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb2660d46",
+                              "ty": 2
+                            }
+                          },
+                          "name": "from_acct"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb2660d46",
+                              "ty": 4
+                            }
+                          },
+                          "name": "from_username"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb2660d46",
+                              "ty": 2
+                            }
+                          },
+                          "name": "to_acct"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb2660d46",
+                              "ty": 4
+                            }
+                          },
+                          "name": "message"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb2660d46",
+                              "ty": 4
+                            }
+                          },
+                          "name": "file_url"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb2660d46",
+                              "ty": 7
+                            }
+                          },
+                          "name": "timestamp"
+                        }
+                      ],
+                      "name": "MessageDetails"
+                    }
+                  },
+                  "root_key": "0xb2660d46"
+                }
+              },
+              "name": "message_details"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x8b406896",
+                              "ty": 10
+                            }
+                          },
+                          "name": "message_id"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x8b406896",
+                              "ty": 2
+                            }
+                          },
+                          "name": "from_acct"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x8b406896",
+                              "ty": 4
+                            }
+                          },
+                          "name": "username"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x8b406896",
+                              "ty": 10
+                            }
+                          },
+                          "name": "to_list_id"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x8b406896",
+                              "ty": 4
+                            }
+                          },
+                          "name": "to_list_name"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x8b406896",
+                              "ty": 4
+                            }
+                          },
+                          "name": "message"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x8b406896",
+                              "ty": 4
+                            }
+                          },
+                          "name": "file_url"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x8b406896",
+                              "ty": 7
+                            }
+                          },
+                          "name": "timestamp"
+                        }
+                      ],
+                      "name": "ListMessageDetails"
+                    }
+                  },
+                  "root_key": "0x8b406896"
+                }
+              },
+              "name": "list_message_details"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x271ff112",
+                              "ty": 10
+                            }
+                          },
+                          "name": "message_id"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x271ff112",
+                              "ty": 2
+                            }
+                          },
+                          "name": "from_acct"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x271ff112",
+                              "ty": 4
+                            }
+                          },
+                          "name": "username"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x271ff112",
+                              "ty": 10
+                            }
+                          },
+                          "name": "to_list_id"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x271ff112",
+                              "ty": 4
+                            }
+                          },
+                          "name": "to_list_name"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x271ff112",
+                              "ty": 4
+                            }
+                          },
+                          "name": "message"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x271ff112",
+                              "ty": 4
+                            }
+                          },
+                          "name": "file_url"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x271ff112",
+                              "ty": 7
+                            }
+                          },
+                          "name": "timestamp"
+                        }
+                      ],
+                      "name": "ListMessageDetails"
+                    }
+                  },
+                  "root_key": "0x271ff112"
+                }
+              },
+              "name": "paid_list_message_details"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xd56d3356",
+                              "ty": 10
+                            }
+                          },
+                          "name": "message_id"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xd56d3356",
+                              "ty": 2
+                            }
+                          },
+                          "name": "from_acct"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xd56d3356",
+                              "ty": 4
+                            }
+                          },
+                          "name": "username"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xd56d3356",
+                              "ty": 10
+                            }
+                          },
+                          "name": "to_list_id"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xd56d3356",
+                              "ty": 4
+                            }
+                          },
+                          "name": "to_list_name"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xd56d3356",
+                              "ty": 4
+                            }
+                          },
+                          "name": "message"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xd56d3356",
+                              "ty": 4
+                            }
+                          },
+                          "name": "file_url"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xd56d3356",
+                              "ty": 7
+                            }
+                          },
+                          "name": "timestamp"
+                        }
+                      ],
+                      "name": "ListMessageDetails"
+                    }
+                  },
+                  "root_key": "0xd56d3356"
+                }
+              },
+              "name": "group_message_details"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x70fe141b",
+                              "ty": 10
+                            }
+                          },
+                          "name": "list_id"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x70fe141b",
+                              "ty": 2
+                            }
+                          },
+                          "name": "owner"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x70fe141b",
+                              "ty": 4
+                            }
+                          },
+                          "name": "list_name"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x70fe141b",
+                              "ty": 6
+                            }
+                          },
+                          "name": "hide_from_search"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x70fe141b",
+                              "ty": 4
+                            }
+                          },
+                          "name": "description"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x70fe141b",
+                              "ty": 8
+                            }
+                          },
+                          "name": "list_accounts"
+                        }
+                      ],
+                      "name": "OpenListDetails"
+                    }
+                  },
+                  "root_key": "0x70fe141b"
+                }
+              },
+              "name": "open_list_details"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x9e3009ad",
+                              "ty": 10
+                            }
+                          },
+                          "name": "list_id"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x9e3009ad",
+                              "ty": 2
+                            }
+                          },
+                          "name": "owner"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x9e3009ad",
+                              "ty": 4
+                            }
+                          },
+                          "name": "list_name"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x9e3009ad",
+                              "ty": 5
+                            }
+                          },
+                          "name": "total_fee"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x9e3009ad",
+                              "ty": 4
+                            }
+                          },
+                          "name": "description"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x9e3009ad",
+                              "ty": 8
+                            }
+                          },
+                          "name": "list_accounts"
+                        }
+                      ],
+                      "name": "PaidListDetails"
+                    }
+                  },
+                  "root_key": "0x9e3009ad"
+                }
+              },
+              "name": "paid_list_details"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xdfda51d3",
+                              "ty": 10
+                            }
+                          },
+                          "name": "group_id"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xdfda51d3",
+                              "ty": 4
+                            }
+                          },
+                          "name": "group_name"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xdfda51d3",
+                              "ty": 6
+                            }
+                          },
+                          "name": "hide_from_search"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xdfda51d3",
+                              "ty": 4
+                            }
+                          },
+                          "name": "description"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xdfda51d3",
+                              "ty": 8
+                            }
+                          },
+                          "name": "group_accounts"
+                        }
+                      ],
+                      "name": "GroupDetails"
+                    }
+                  },
+                  "root_key": "0xdfda51d3"
+                }
+              },
+              "name": "group_details"
+            },
+            {
+              "layout": {
+                "leaf": {
+                  "key": "0x00000000",
+                  "ty": 9
+                }
+              },
+              "name": "open_lists"
+            },
+            {
+              "layout": {
+                "leaf": {
+                  "key": "0x00000000",
+                  "ty": 9
+                }
+              },
+              "name": "groups"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "leaf": {
+                      "key": "0x4dec26fc",
+                      "ty": 2
+                    }
+                  },
+                  "root_key": "0x4dec26fc"
+                }
+              },
+              "name": "username_map"
+            },
+            {
+              "layout": {
+                "leaf": {
+                  "key": "0x00000000",
+                  "ty": 8
+                }
+              },
+              "name": "all_accounts_with_settings"
+            }
+          ],
+          "name": "ContractStorage"
+        }
+      },
+      "root_key": "0x00000000"
+    }
+  },
+  "types": [
+    {
+      "id": 0,
+      "type": {
+        "def": {
+          "primitive": "u8"
+        }
+      }
+    },
+    {
+      "id": 1,
+      "type": {
+        "def": {
+          "tuple": []
+        }
+      }
+    },
+    {
+      "id": 2,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "type": 3,
+                "typeName": "[u8; 32]"
+              }
+            ]
+          }
+        },
+        "path": [
+          "ink_primitives",
+          "types",
+          "AccountId"
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "type": {
+        "def": {
+          "array": {
+            "len": 32,
+            "type": 0
+          }
+        }
+      }
+    },
+    {
+      "id": 4,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 0
+          }
+        }
+      }
+    },
+    {
+      "id": 5,
+      "type": {
+        "def": {
+          "primitive": "u128"
+        }
+      }
+    },
+    {
+      "id": 6,
+      "type": {
+        "def": {
+          "primitive": "bool"
+        }
+      }
+    },
+    {
+      "id": 7,
+      "type": {
+        "def": {
+          "primitive": "u64"
+        }
+      }
+    },
+    {
+      "id": 8,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 2
+          }
+        }
+      }
+    },
+    {
+      "id": 9,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 10
+          }
+        }
+      }
+    },
+    {
+      "id": 10,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "type": 3,
+                "typeName": "[u8; 32]"
+              }
+            ]
+          }
+        },
+        "path": [
+          "ink_primitives",
+          "types",
+          "Hash"
+        ]
+      }
+    },
+    {
+      "id": 11,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 1
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 12
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 1
+          },
+          {
+            "name": "E",
+            "type": 12
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 12,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 1,
+                "name": "CouldNotReadInput"
+              }
+            ]
+          }
+        },
+        "path": [
+          "ink_primitives",
+          "LangError"
+        ]
+      }
+    },
+    {
+      "id": 13,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 14
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 12
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 14
+          },
+          {
+            "name": "E",
+            "type": 12
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 14,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 1
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 15
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 1
+          },
+          {
+            "name": "E",
+            "type": 15
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 15,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "DuplicateAllow"
+              },
+              {
+                "index": 1,
+                "name": "AlreadyNotAllowed"
+              },
+              {
+                "index": 2,
+                "name": "DuplicateBlock"
+              },
+              {
+                "index": 3,
+                "name": "NotBlocked"
+              },
+              {
+                "index": 4,
+                "name": "CannotUpdateInterestsWithin24Hours"
+              },
+              {
+                "index": 5,
+                "name": "InterestsTooLong"
+              },
+              {
+                "index": 6,
+                "name": "NoSuchList"
+              },
+              {
+                "index": 7,
+                "name": "MessageNotFound"
+              },
+              {
+                "index": 8,
+                "name": "NotAllowedToMessage"
+              },
+              {
+                "index": 9,
+                "name": "GroupNameTaken"
+              },
+              {
+                "index": 10,
+                "name": "NonexistentGroup"
+              },
+              {
+                "index": 11,
+                "name": "NonexistentList"
+              },
+              {
+                "index": 12,
+                "name": "ListNameTaken"
+              },
+              {
+                "index": 13,
+                "name": "AlreadySubscribed"
+              },
+              {
+                "index": 14,
+                "name": "InsufficientStake"
+              },
+              {
+                "index": 15,
+                "name": "ZeroBalance"
+              },
+              {
+                "index": 16,
+                "name": "PayoutFailed"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 16,
+                    "typeName": "ReentrancyGuardError"
+                  }
+                ],
+                "index": 17,
+                "name": "ReentrancyError"
+              },
+              {
+                "index": 18,
+                "name": "UsernameTaken"
+              },
+              {
+                "index": 19,
+                "name": "NonexistentAccount"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_messaging",
+          "geode_messaging",
+          "Error"
+        ]
+      }
+    },
+    {
+      "id": 16,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "ReentrantCall"
+              }
+            ]
+          }
+        },
+        "path": [
+          "openbrush_contracts",
+          "traits",
+          "errors",
+          "reentrancy_guard",
+          "ReentrancyGuardError"
+        ]
+      }
+    },
+    {
+      "id": 17,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 18
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 12
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 18
+          },
+          {
+            "name": "E",
+            "type": 12
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 18,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "blocked_accts",
+                "type": 8,
+                "typeName": "Vec<AccountId>"
+              },
+              {
+                "name": "people",
+                "type": 19,
+                "typeName": "Vec<ConversationWithAccount>"
+              },
+              {
+                "name": "groups",
+                "type": 23,
+                "typeName": "Vec<MessagesFromList>"
+              },
+              {
+                "name": "lists",
+                "type": 23,
+                "typeName": "Vec<MessagesFromList>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_messaging",
+          "geode_messaging",
+          "MyInbox"
+        ]
+      }
+    },
+    {
+      "id": 19,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 20
+          }
+        }
+      }
+    },
+    {
+      "id": 20,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "allowed_account",
+                "type": 2,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "username",
+                "type": 4,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "conversation",
+                "type": 21,
+                "typeName": "Vec<MessageDetails>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_messaging",
+          "geode_messaging",
+          "ConversationWithAccount"
+        ]
+      }
+    },
+    {
+      "id": 21,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 22
+          }
+        }
+      }
+    },
+    {
+      "id": 22,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "message_id",
+                "type": 10,
+                "typeName": "Hash"
+              },
+              {
+                "name": "from_acct",
+                "type": 2,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "from_username",
+                "type": 4,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "to_acct",
+                "type": 2,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "message",
+                "type": 4,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "file_url",
+                "type": 4,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "timestamp",
+                "type": 7,
+                "typeName": "u64"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_messaging",
+          "geode_messaging",
+          "MessageDetails"
+        ]
+      }
+    },
+    {
+      "id": 23,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 24
+          }
+        }
+      }
+    },
+    {
+      "id": 24,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "allowed_list",
+                "type": 10,
+                "typeName": "Hash"
+              },
+              {
+                "name": "list_name",
+                "type": 4,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "list_messages",
+                "type": 25,
+                "typeName": "Vec<ListMessageDetails>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_messaging",
+          "geode_messaging",
+          "MessagesFromList"
+        ]
+      }
+    },
+    {
+      "id": 25,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 26
+          }
+        }
+      }
+    },
+    {
+      "id": 26,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "message_id",
+                "type": 10,
+                "typeName": "Hash"
+              },
+              {
+                "name": "from_acct",
+                "type": 2,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "username",
+                "type": 4,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "to_list_id",
+                "type": 10,
+                "typeName": "Hash"
+              },
+              {
+                "name": "to_list_name",
+                "type": 4,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "message",
+                "type": 4,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "file_url",
+                "type": 4,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "timestamp",
+                "type": 7,
+                "typeName": "u64"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_messaging",
+          "geode_messaging",
+          "ListMessageDetails"
+        ]
+      }
+    },
+    {
+      "id": 27,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 28
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 12
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 28
+          },
+          {
+            "name": "E",
+            "type": 12
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 28,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "blocked_lists",
+                "type": 9,
+                "typeName": "Vec<Hash>"
+              },
+              {
+                "name": "messages",
+                "type": 25,
+                "typeName": "Vec<ListMessageDetails>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_messaging",
+          "geode_messaging",
+          "MyPaidInbox"
+        ]
+      }
+    },
+    {
+      "id": 29,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 30
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 12
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 30
+          },
+          {
+            "name": "E",
+            "type": 12
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 30,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "allowed_accounts",
+                "type": 8,
+                "typeName": "Vec<AccountId>"
+              },
+              {
+                "name": "blocked_accounts",
+                "type": 8,
+                "typeName": "Vec<AccountId>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_messaging",
+          "geode_messaging",
+          "AccountsAllowedAndBlocked"
+        ]
+      }
+    },
+    {
+      "id": 31,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 32
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 12
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 32
+          },
+          {
+            "name": "E",
+            "type": 12
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 32,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 33
+          }
+        }
+      }
+    },
+    {
+      "id": 33,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "group_id",
+                "type": 10,
+                "typeName": "Hash"
+              },
+              {
+                "name": "group_name",
+                "type": 4,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "hide_from_search",
+                "type": 6,
+                "typeName": "bool"
+              },
+              {
+                "name": "description",
+                "type": 4,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "group_accounts",
+                "type": 8,
+                "typeName": "Vec<AccountId>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_messaging",
+          "geode_messaging",
+          "GroupDetails"
+        ]
+      }
+    },
+    {
+      "id": 34,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 35
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 12
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 35
+          },
+          {
+            "name": "E",
+            "type": 12
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 35,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "search",
+                "type": 4,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "private_messages",
+                "type": 21,
+                "typeName": "Vec<MessageDetails>"
+              },
+              {
+                "name": "group_messages",
+                "type": 25,
+                "typeName": "Vec<ListMessageDetails>"
+              },
+              {
+                "name": "list_messages",
+                "type": 25,
+                "typeName": "Vec<ListMessageDetails>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_messaging",
+          "geode_messaging",
+          "InboxSearchResults"
+        ]
+      }
+    },
+    {
+      "id": 36,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 37
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 12
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 37
+          },
+          {
+            "name": "E",
+            "type": 12
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 37,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "search",
+                "type": 2,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "username",
+                "type": 4,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "private_messages",
+                "type": 21,
+                "typeName": "Vec<MessageDetails>"
+              },
+              {
+                "name": "group_messages",
+                "type": 25,
+                "typeName": "Vec<ListMessageDetails>"
+              },
+              {
+                "name": "list_messages",
+                "type": 25,
+                "typeName": "Vec<ListMessageDetails>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_messaging",
+          "geode_messaging",
+          "InboxAcctSearchResults"
+        ]
+      }
+    },
+    {
+      "id": 38,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 39
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 12
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 39
+          },
+          {
+            "name": "E",
+            "type": 12
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 39,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "search",
+                "type": 4,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "groups",
+                "type": 40,
+                "typeName": "Vec<GroupPublicDetails>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_messaging",
+          "geode_messaging",
+          "GroupSearchResults"
+        ]
+      }
+    },
+    {
+      "id": 40,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 41
+          }
+        }
+      }
+    },
+    {
+      "id": 41,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "group_id",
+                "type": 10,
+                "typeName": "Hash"
+              },
+              {
+                "name": "group_name",
+                "type": 4,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "description",
+                "type": 4,
+                "typeName": "Vec<u8>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_messaging",
+          "geode_messaging",
+          "GroupPublicDetails"
+        ]
+      }
+    },
+    {
+      "id": 42,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 43
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 12
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 43
+          },
+          {
+            "name": "E",
+            "type": 12
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 43,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 44
+          }
+        }
+      }
+    },
+    {
+      "id": 44,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "list_id",
+                "type": 10,
+                "typeName": "Hash"
+              },
+              {
+                "name": "owner",
+                "type": 2,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "list_name",
+                "type": 4,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "hide_from_search",
+                "type": 6,
+                "typeName": "bool"
+              },
+              {
+                "name": "description",
+                "type": 4,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "list_accounts",
+                "type": 8,
+                "typeName": "Vec<AccountId>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_messaging",
+          "geode_messaging",
+          "OpenListDetails"
+        ]
+      }
+    },
+    {
+      "id": 45,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 46
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 12
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 46
+          },
+          {
+            "name": "E",
+            "type": 12
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 46,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 47
+          }
+        }
+      }
+    },
+    {
+      "id": 47,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "list_id",
+                "type": 10,
+                "typeName": "Hash"
+              },
+              {
+                "name": "owner",
+                "type": 2,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "list_name",
+                "type": 4,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "total_fee",
+                "type": 5,
+                "typeName": "Balance"
+              },
+              {
+                "name": "description",
+                "type": 4,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "list_accounts",
+                "type": 8,
+                "typeName": "Vec<AccountId>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_messaging",
+          "geode_messaging",
+          "PaidListDetails"
+        ]
+      }
+    },
+    {
+      "id": 48,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 49
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 12
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 49
+          },
+          {
+            "name": "E",
+            "type": 12
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 49,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 50
+          }
+        }
+      }
+    },
+    {
+      "id": 50,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "list_id",
+                "type": 10,
+                "typeName": "Hash"
+              },
+              {
+                "name": "owner",
+                "type": 2,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "list_name",
+                "type": 4,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "description",
+                "type": 4,
+                "typeName": "Vec<u8>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_messaging",
+          "geode_messaging",
+          "OpenListPublicDetails"
+        ]
+      }
+    },
+    {
+      "id": 51,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 52
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 12
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 52
+          },
+          {
+            "name": "E",
+            "type": 12
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 52,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "search",
+                "type": 4,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "lists",
+                "type": 49,
+                "typeName": "Vec<OpenListPublicDetails>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_messaging",
+          "geode_messaging",
+          "ListSearchResults"
+        ]
+      }
+    },
+    {
+      "id": 53,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 54
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 12
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 54
+          },
+          {
+            "name": "E",
+            "type": 12
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 54,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "search",
+                "type": 4,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "accounts",
+                "type": 55,
+                "typeName": "Vec<Settings>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_messaging",
+          "geode_messaging",
+          "AccountSearchResults"
+        ]
+      }
+    },
+    {
+      "id": 55,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 56
+          }
+        }
+      }
+    },
+    {
+      "id": 56,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "user_account",
+                "type": 2,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "username",
+                "type": 4,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "interests",
+                "type": 4,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "inbox_fee",
+                "type": 5,
+                "typeName": "Balance"
+              },
+              {
+                "name": "hide_from_search",
+                "type": 6,
+                "typeName": "bool"
+              },
+              {
+                "name": "last_update",
+                "type": 7,
+                "typeName": "u64"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_messaging",
+          "geode_messaging",
+          "Settings"
+        ]
+      }
+    },
+    {
+      "id": 57,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 58
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 12
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 58
+          },
+          {
+            "name": "E",
+            "type": 12
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 58,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "interests",
+                "type": 59,
+                "typeName": "Vec<Vec<u8>>"
+              },
+              {
+                "name": "inbox_fee",
+                "type": 60,
+                "typeName": "Vec<Balance>"
+              },
+              {
+                "name": "last_update",
+                "type": 61,
+                "typeName": "Vec<u64>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_messaging",
+          "geode_messaging",
+          "SettingsData"
+        ]
+      }
+    },
+    {
+      "id": 59,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 4
+          }
+        }
+      }
+    },
+    {
+      "id": 60,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 5
+          }
+        }
+      }
+    },
+    {
+      "id": 61,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 7
+          }
+        }
+      }
+    },
+    {
+      "id": 62,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 63
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 12
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 63
+          },
+          {
+            "name": "E",
+            "type": 12
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 63,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "caller_interests",
+                "type": 4,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "caller_inbox_fee",
+                "type": 5,
+                "typeName": "Balance"
+              },
+              {
+                "name": "caller_last_update",
+                "type": 7,
+                "typeName": "u64"
+              },
+              {
+                "name": "caller_hide",
+                "type": 6,
+                "typeName": "bool"
+              },
+              {
+                "name": "caller_username",
+                "type": 4,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "interests",
+                "type": 59,
+                "typeName": "Vec<Vec<u8>>"
+              },
+              {
+                "name": "inbox_fee",
+                "type": 60,
+                "typeName": "Vec<Balance>"
+              },
+              {
+                "name": "last_update",
+                "type": 61,
+                "typeName": "Vec<u64>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_messaging",
+          "geode_messaging",
+          "CallerSettingsData"
+        ]
+      }
+    },
+    {
+      "id": 64,
+      "type": {
+        "def": {
+          "primitive": "u32"
+        }
+      }
+    },
+    {
+      "id": 65,
+      "type": {
+        "def": {
+          "variant": {}
+        },
+        "path": [
+          "ink_env",
+          "types",
+          "NoChainExtension"
+        ]
+      }
+    }
+  ],
+  "version": "4"
+}

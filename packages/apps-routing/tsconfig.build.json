@@ -21,6 +21,7 @@
     { "path": "../page-extrinsics/tsconfig.build.json" },
     { "path": "../page-fellowship/tsconfig.build.json" },
     { "path": "../page-files/tsconfig.build.json" },
+    { "path": "../page-geode/tsconfig.build.json" },
     { "path": "../page-gilt/tsconfig.build.json" },
     { "path": "../page-js/tsconfig.build.json" },
     { "path": "../page-membership/tsconfig.build.json" },

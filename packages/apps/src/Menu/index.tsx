@@ -27,16 +27,22 @@ interface Props {
 function createExternals (t: (key: string, optionsOrText?: string | { replace: Record<string, unknown> }, options?: { ns: string }) => string): ItemRoute[] {
   return [
     {
-      href: 'https://github.com/polkadot-js/apps',
+      href: 'https://github.com/SparticleConcepts/geode-apps',
       icon: 'code-branch',
       name: 'github',
       text: t('nav.github', 'GitHub', { ns: 'apps-routing' })
     },
     {
-      href: 'https://wiki.polkadot.network',
+      href: 'http://geodechain.com',
       icon: 'book',
       name: 'wiki',
-      text: t('nav.wiki', 'Wiki', { ns: 'apps-routing' })
+      text: t('nav.wiki', 'Help', { ns: 'apps-routing' })
+    },
+    {
+      href: 'http://geodechain.com/tos/',
+      icon: 'book',
+      name: 'tos',
+      text: t('nav.wiki', 'TOS', { ns: 'apps-routing' })
     }
   ];
 }
@@ -98,6 +104,7 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   const routeRef = useRef(createRoutes(t));
 
   const groupRef = useRef({
+    geode: t('Geode'),
     accounts: t('Accounts'),
     developer: t('Developer'),
     files: t('Files'),

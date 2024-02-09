@@ -3,8 +3,8 @@
 
 import type { EndpointOption } from './types.js';
 
-import { chains3dpassSVG, chainsAlephSVG, chainsBittensorPNG, chainsChainflipPNG, chainsCreditcoinPNG, chainsDebioSVG, chainsFragnovaPNG, chainsJurPNG, chainsLogionPNG, chainsMyriadPNG, chainsSpannerPNG, chainsVaraPNG, chainsVtbPNG } from '../ui/logos/chains/index.js';
-import { nodesAresOdysseySVG, nodesAutomataPNG, nodesCentrifugePNG, nodesCereSVG, nodesChainxSVG, nodesCompetitorsClubPNG, nodesCrownSterlingPNG, nodesCrustSVG, nodesDatahighwayPNG, nodesDockPNG, nodesEdgewareWhitePNG, nodesEfinitySVG, nodesHanyonycashPNG, nodesHumanodePNG, nodesInnovatorPNG, nodesJoystreamSVG, nodesKulupuSVG, nodesKusariSVG, nodesMathSVG, nodesMinixPNG, nodesNftmartPNG, nodesNodleSVG, nodesPolkadexSVG, nodesPolymeshSVG, nodesRiochainSVG, nodesRobonomicsSVG, nodesSherpaxPNG, nodesSoraSubstrateSVG, nodesStafiPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesSwapdexSVG, nodesTernoaSVG, nodesThebifrostPNG, nodesUniartsPNG, nodesUnitnetworkPNG } from '../ui/logos/nodes/index.js';
+import { chains3dpassSVG, chainsAlephSVG, chainsBittensorPNG, chainsChainflipPNG, chainsCreditcoinPNG, chainsDebioSVG, chainsEquilibriumSVG, chainsFragnovaPNG, chainsGenshiroSVG, chainsJurPNG, chainsLogionPNG, chainsMyriadPNG, chainsSpannerPNG, chainsVaraPNG, chainsVtbPNG } from '../ui/logos/chains/index.js';
+import { nodesGeodeLogoSVG, nodesAresOdysseySVG, nodesAutomataPNG, nodesCentrifugePNG, nodesCereSVG, nodesChainxSVG, nodesCompetitorsClubPNG, nodesCrownSterlingPNG, nodesCrustSVG, nodesDatahighwayPNG, nodesDockPNG, nodesEdgewareWhitePNG, nodesEfinitySVG, nodesHanyonycashPNG, nodesHumanodePNG, nodesInnovatorPNG, nodesJoystreamSVG, nodesKulupuSVG, nodesKusariSVG, nodesMathSVG, nodesMinixPNG, nodesNftmartPNG, nodesNodleSVG, nodesPolkadexSVG, nodesPolymeshSVG, nodesRiochainSVG, nodesRobonomicsSVG, nodesSherpaxPNG, nodesSoraSubstrateSVG, nodesStafiPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesSwapdexSVG, nodesTernoaSVG, nodesThebifrostPNG, nodesUniartsPNG, nodesUnitnetworkPNG } from '../ui/logos/nodes/index.js';
 
 export * from './productionRelayKusama.js';
 export * from './productionRelayPolkadot.js';
@@ -225,14 +225,48 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    info: 'fragnova',
+    info: 'equilibrium',
     providers: {
-      // 'Fragnova Network': 'wss://ws.fragnova.network' // https://github.com/polkadot-js/apps/issues/10172
+      Equilibrium: 'wss://node.equilibrium.io'
+    },
+    text: 'Equilibrium',
+    ui: {
+      color: '#1792ff',
+      logo: chainsEquilibriumSVG
+    }
+  },
+  {
+    info: 'fragnova',
+    providers: { // The actual hosted secure websocket endpoint
+      'Fragnova Network': 'wss://ws.fragnova.network'
     },
     text: 'Fragnova', // The text to display on the dropdown
     ui: {
       color: '#6b35a8',
       logo: chainsFragnovaPNG
+    }
+  },
+  {
+    info: 'genshiro',
+    providers: {
+      Equilibrium: 'wss://node.genshiro.io' // https://github.com/polkadot-js/apps/issues/9266
+    },
+    text: 'Genshiro',
+    ui: {
+      color: '#e8662d',
+      logo: chainsGenshiroSVG
+    }
+  },
+  {
+    info: 'geode',
+    providers: {
+      // todo fix for providers
+      Equilibrium: 'wss://geodeapps.com' // 
+    },
+    text: 'Geode Net',
+    ui: {
+      color: '#e8662d',
+      logo: nodesGeodeLogoSVG
     }
   },
   {
@@ -270,7 +304,6 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'joystream',
     providers: {
-      Joyutils: 'wss://rpc.joyutils.org',
       Jsgenesis: 'wss://rpc.joystream.org'
     },
     text: 'Joystream',
@@ -282,8 +315,8 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'jur',
     providers: {
-      'Iceberg Nodes': 'wss://jur-mainnet-archive-rpc-1.icebergnodes.io'
-      // 'Simply Staking': 'wss://jur-archive-mainnet-1.simplystaking.xyz/VX68C07AR4K2/ws' // https://github.com/polkadot-js/apps/issues/10172
+      'Iceberg Nodes': 'wss://jur-mainnet-archive-rpc-1.icebergnodes.io',
+      'Simply Staking': 'wss://jur-archive-mainnet-1.simplystaking.xyz/VX68C07AR4K2/ws'
     },
     text: 'Jur',
     ui: {
@@ -316,11 +349,9 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'logion',
     providers: {
-      'Logion 1': 'wss://rpc01.logion.network',
-      'Logion 2': 'wss://rpc02.logion.network',
-      'Logion 3': 'wss://rpc03.logion.network'
+      Logion: 'wss://rpc01.logion.network'
     },
-    text: 'Logion Standalone',
+    text: 'logion Standalone',
     ui: {
       color: 'rgb(21, 38, 101)',
       logo: chainsLogionPNG
@@ -352,7 +383,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'myriad',
     providers: {
-      // Myriad: 'wss://ws-rpc.myriad.social', // https://github.com/polkadot-js/apps/issues/10172
+      Myriad: 'wss://ws-rpc.myriad.social',
       Octopus: 'wss://gateway.mainnet.octopus.network/myriad/a4cb0a6e30ff5233a3567eb4e8cb71e0'
     },
     text: 'Myriad',
@@ -394,7 +425,6 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'polkadex',
     providers: {
-      Dwellir: 'wss://polkadex-mainnet-rpc.dwellir.com',
       OnFinality: 'wss://polkadex.api.onfinality.io/public-ws',
       RadiumBlock: 'wss://polkadex.public.curie.radiumblock.co/ws'
     },
@@ -520,7 +550,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'ternoa',
     providers: {
-      CapsuleCorp: 'wss://mainnet.ternoa.network' // https://github.com/polkadot-js/apps/issues/10172
+      CapsuleCorp: 'wss://mainnet.ternoa.network'
     },
     text: 'Ternoa',
     ui: {
