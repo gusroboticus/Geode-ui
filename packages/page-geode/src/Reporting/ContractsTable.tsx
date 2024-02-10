@@ -21,10 +21,10 @@ import Contract from './Contract.js';
 import { getContractForAddress } from './util.js';
 
 // uncomment for test configuration - - - - >
-import JSONContractAddress from '../shared/geode_contracts_test.json';
+// import JSONContractAddress from '../shared/geode_contracts_test.json';
 // test ---> 5FyUv5g4fPkX1UPbgSD9uBcyJ3f87jdCr3sngfapzX7dkPfY
 // uncomment for production chain - - - - >
-// import JSONContractAddress from '../shared/geode_contracts.json';
+import JSONContractAddress from '../shared/geode_contracts.json';
 
 export interface Props {
   contracts: string[];

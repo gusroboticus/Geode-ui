@@ -18,7 +18,6 @@ interface Props {
     onClear?: () => void;
     isAccount?: boolean;
     outcome: CallResult;
-    //onClose: () => void;
   }
   
   type Review = {

@@ -502,7 +502,7 @@ function ShowProfile(): JSX.Element {
                 <Grid.Column>
                 <h2><strong>
                     <i>{withHelp(' ', 'Store Details, Products and Services')}</i></strong>
-                    {profileDetail.ok.owner.sellerName.length>0? <>
+                    {profileDetail.ok.owner.sellerName.length>2? <>
                       <strong>{ isHex(profileDetail.ok.owner.sellerName) ? 
                                 autoCorrect(searchWords, hexToString(profileDetail.ok.owner.sellerName)) 
                                 : ' '}</strong><br />
