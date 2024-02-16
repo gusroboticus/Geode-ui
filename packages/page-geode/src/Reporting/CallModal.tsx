@@ -211,7 +211,6 @@ function CallModal ({ className = '', removeAccountID,
 
         {message.isPayable && (
           <InputBalance
-            //help={t('The allotted value for this contract, i.e. the amount transferred to the contract as part of this call.')}
             isError={!isValueValid}
             isZeroable
             label={t('value')}
@@ -230,7 +229,6 @@ function CallModal ({ className = '', removeAccountID,
               refTIme: MAX_CALL_WEIGHT
             })
           }
-          help={t('The maximum amount of gas to use for this contract call. If the call requires more, it will fail.')}
           isCall={!message.isMutating}
           weight={weight}
         />          

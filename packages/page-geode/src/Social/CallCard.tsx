@@ -15,8 +15,7 @@ import { useAccountId, useApi, useDebounce, useFormField, useToggle } from '@pol
 import { Available } from '@polkadot/react-query';
 import { BN, BN_ONE, BN_ZERO } from '@polkadot/util';
 
-import InputMegaGas from '../shared/InputMegaGas.js';
-import Params from '../shared/Params.js';
+import { InputMegaGas, Params } from '../shared/index.js';
 import { useTranslation } from '../shared/translate.js';
 import useWeight from '../useWeight.js';
 
@@ -25,6 +24,9 @@ import PaidFeedDetails from './PaidFeedDetails.js';
 import StatDetails from './StatDetails.js';
 import SearchDetails from './SearchDetails.js';
 import KeywordDetails from './KeywordDetails.js';
+import AccountFollowDetails from './AccountFollowDetails.js'
+import AccountFollowerDetails from './AccountFollowerDetails.js'
+import AccountBlockedDetails from './AccountBlockedDetails.js'
 
 import { getCallMessageOptions } from '../shared/util.js';
 import JSONhelp from '../shared/geode_social_help.json';
@@ -153,7 +155,10 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
 
   const isValid = !!(accountId && weight.isValid && isValueValid);
   const isViaRpc = (isViaCall || (!message.isMutating && !message.isPayable));   
-  const isClosed = (isCalled && (messageIndex === 9 || messageIndex === 14 || messageIndex===10 || messageIndex===11 || messageIndex===13));
+  const isClosed = (isCalled && ( messageIndex === 9 || messageIndex === 14 || 
+                                  messageIndex===10 || messageIndex===11 || 
+                                  messageIndex===13 || messageIndex===16 ||
+                                  messageIndex===29 || messageIndex===31 ));
   const _help: string[] = JSONhelp;
   const _note: string[] = JSONnote;
   const _title: string[] = JSONTitle;
@@ -182,7 +187,6 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
         </Expander>
         {isTest && (
           <InputAddress
-          //help={t('A deployed contract that has either been deployed or attached. The address and ABI are used to construct the parameters.')}
           isDisabled
           label={t('contract to use')}
           type='contract'
@@ -195,7 +199,6 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
         <>
         <InputAddress
           defaultValue={accountId}
-          //help={t('Specify the user account to use for this contract call. And fees will be deducted from this account.')}
           label={t('account to use')}
           labelExtra={
             <Available
@@ -216,7 +219,6 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
             <>
             <Dropdown
               defaultValue={messageIndex}
-              //help={t('The message to send to this contract. Parameters are adjusted based on the ABI provided.')}
               isError={message === null}
               label={t('Profile Item')}
               onChange={onChangeMessage}
@@ -229,7 +231,9 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
             
             {!isClosed && messageIndex!=1 && 
                           messageIndex!=8 && 
-                          messageIndex!=13 && (<>
+                          messageIndex!=13 && 
+                          messageIndex!=29 && 
+                          messageIndex!=31 && (<>
               <Params
               onChange={setParams}
               params={
@@ -242,6 +246,12 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
             </>)}
           </>
         )}
+
+      {!isClosed && (messageIndex===29 || messageIndex===31) && (<>
+        <strong>{t('Account Public Key: ')}</strong><br />
+        {params[0] = accountId}<br />
+      </>)}
+
 
       {messageIndex===8 && (<>
         {t('Username: ')}<br />
@@ -337,7 +347,6 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
 
         {message.isPayable && (
           <InputBalance
-            //help={t('The allotted value for this contract, i.e. the amount transferred to the contract as part of this call.')}
             isError={!isValueValid}
             isZeroable
             label={t('value')}
@@ -349,7 +358,7 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
         <>
         <Badge color='green' icon='hand'/>
           {t('Gas Required - Information Only')}
-        <InputMegaGas
+          <InputMegaGas
           estimatedWeight={message.isMutating ? estimatedWeight : MAX_CALL_WEIGHT}
           estimatedWeightV2={message.isMutating
             ? estimatedWeightV2
@@ -358,7 +367,6 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
               refTIme: MAX_CALL_WEIGHT
             })
           }
-          help={t('The maximum amount of gas to use for this contract call. If the call requires more, it will fail.')}
           isCall={!message.isMutating}
           weight={weight}
         />
@@ -467,7 +475,41 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
             ))}
             </div>
         )}
-        
+        {outcomes.length > 0 && messageIndex===16 && (
+            <div>{outcomes.map((outcome, index): React.ReactNode => (
+              <><AccountBlockedDetails
+                key={`outcome-${index}`}
+                onClear={_onClearOutcome(index)}
+                outcome={outcome}
+              /></>
+            ))}</div>
+        )}
+        {outcomes.length > 0 && messageIndex===29 && (
+            <div>
+            {outcomes.map((outcome, index): React.ReactNode => (
+              <>
+              <AccountFollowDetails
+                key={`outcome-${index}`}
+                onClear={_onClearOutcome(index)}
+                outcome={outcome}
+              />
+              </>
+            ))}
+            </div>
+        )}     
+        {outcomes.length > 0 && messageIndex===31 && (
+            <div>
+            {outcomes.map((outcome, index): React.ReactNode => (
+              <>
+              <AccountFollowerDetails
+                key={`outcome-${index}`}
+                onClear={_onClearOutcome(index)}
+                outcome={outcome}
+              />
+              </>
+            ))}
+            </div>
+        )}      
         </Card>
   );
 }

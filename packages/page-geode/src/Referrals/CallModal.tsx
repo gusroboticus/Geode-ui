@@ -366,7 +366,6 @@ function CallModal ({ className = '', programID,
           {showAddress(childAccountId ? childAccountId: '')}
           <Input label={childAccountId? params[2]=childAccountId: params[2]=''}
             type="text"
-            //defaultValue={hextoHuman(paramToString(title))}
             value={childAccountId}
             onChange={(e) => {
               setChildAccountId(e.target.value);
@@ -564,7 +563,6 @@ function CallModal ({ className = '', programID,
               refTIme: MAX_CALL_WEIGHT
             })
           }
-          help={t('The maximum amount of gas to use for this contract call. If the call requires more, it will fail.')}
           isCall={!message.isMutating}
           weight={weight}
         />          

@@ -30,6 +30,10 @@ const [isFollow, toggleFollow] = useToggle();
 const [isUnFollow, toggleUnFollow] = useToggle();
 const [isBlock, toggleBlock] = useToggle();
 const [isUnBlock, toggleUnBlock] = useToggle();
+const [isDetails, toggleDetails] = useToggle();
+const [isAccountFollow, toggleAccountFollow] = useToggle();
+const [isAccountFollower, toggleAccountFollower] = useToggle();
+const [isAccountBlock, toggleAccountBlock] = useToggle();
 
 const refTitle: string[] = 
 [' Display a feed of all public messages and endorsed public messages from all accounts that you follow, sorted by most recent. (Click again to close) ', 
@@ -46,7 +50,11 @@ const refTitle: string[] =
  ' Include Accounts in your feed to follow.',
  ' Unfollow selected Accounts.',
  ' Block an Account from showing in your feed',
- ' Unblock an Account'];
+ ' Unblock an Account',
+ ' Get details for your feed, Following Accounts and Blocked Accounts',
+ ' Show Accounts You are following.',
+ ' Show your blocked Accounts.',
+ ' Show Accounts Following You.'];
 
 // todo
 console.log(allCodes);
@@ -58,9 +66,11 @@ console.log(allCodes);
           {!isAccountSearch && !isKeywordSearch 
                             && !isFollow && !isUnFollow 
                             && !isBlock && !isUnBlock
-                            && !isUpdate && (<>
+                            && !isUpdate && !isAccountBlock
+                            && !isAccountFollow 
+                            && !isAccountFollower &&(<>
             <Card>
-            {!isPaidFeed && !isSettings && !isSearch && (
+            {!isPaidFeed && !isSettings && !isSearch && !isDetails &&(
             <><Button
                 icon={(isYourFeed) ? 'minus' : 'plus'}
                 label={t('Your Feed')}
@@ -68,7 +78,7 @@ console.log(allCodes);
               </Button>
               {isYourFeed && (<>{refTitle[0]}</>)}</>
           )}
-            {!isYourFeed && !isSettings && !isSearch && (
+            {!isYourFeed && !isSettings && !isSearch && !isDetails &&(
             <><Button
               icon={(isPaidFeed) ? 'minus' : 'plus'}
               label={t('Paid Feed')}
@@ -77,7 +87,7 @@ console.log(allCodes);
             {isPaidFeed && (<>{refTitle[5]}</>)}</>
           )}
 
-            {!isPaidFeed && !isYourFeed && !isAccountSearch && !isKeywordSearch && !isSettings && (
+            {!isPaidFeed && !isYourFeed && !isAccountSearch && !isKeywordSearch && !isSettings && !isDetails &&(
             <><Button
                 icon={(isSearch) ? 'minus' : 'plus'}
                 label={t('Search')}
@@ -85,7 +95,7 @@ console.log(allCodes);
             </Button>
             {isSearch && (<>{refTitle[2]}</>)}</>
             )}
-            {!isPaidFeed && !isYourFeed && !isUpdate && !isFollow && !isUnFollow && !isBlock && !isUnBlock && !isSearch && (
+            {!isPaidFeed && !isYourFeed && !isUpdate && !isFollow && !isUnFollow && !isBlock && !isUnBlock && !isSearch && !isDetails &&(
             <><Button
                 icon={(isSettings) ? 'minus' : 'plus'}
                 label={t('Settings')}
@@ -93,9 +103,44 @@ console.log(allCodes);
             </Button>
             {isSettings && (<>{refTitle[3]}</>)}</>
             )}  
+            {!isAccountFollower && !isAccountFollow && !isAccountBlock && !isYourFeed && !isSettings && !isSearch && !isPaidFeed && (
+            <><Button
+                icon={(isDetails) ? 'minus' : 'plus'}
+                label={t('Details')}
+                onClick={toggleDetails}>
+            </Button>
+            {isDetails && (<>{refTitle[15]}</>)}</>
+            )}  
             </Card>  
           </>)}
-
+        {isDetails && (
+        <><Card>
+          {!isAccountFollower && !isAccountBlock && (
+            <><Button
+                icon={(isAccountFollow) ? 'minus' : 'plus'}
+                label={t('Following')}
+                onClick={toggleAccountFollow}>
+              </Button></>
+          )}
+          {!isAccountFollow && !isAccountBlock && (
+            <><Button
+              icon={(isAccountFollower) ? 'minus' : 'plus'}
+              label={t('Followers')}
+              onClick={toggleAccountFollower}>
+            </Button></>
+          )}
+          {!isAccountFollow && !isAccountFollower && (
+            <><Button
+              icon={(isAccountBlock) ? 'minus' : 'plus'}
+              label={t('Blocked Accounts')}
+              onClick={toggleAccountBlock}>
+            </Button></>
+          )}
+          {isAccountFollow && (<>{refTitle[16]}</>)}
+          {isAccountBlock && (<>{refTitle[17]}</>)}
+          {isAccountFollower && (<>{refTitle[18]}</>)}
+          </Card></>
+        )}
         {isSearch && (
         <><Card>
           {!isKeywordSearch && (
@@ -162,6 +207,22 @@ console.log(allCodes);
         )}
         </Table>
 
+        {isAccountFollow && (
+          <ContractsTable
+            contracts={allContracts}
+            updated={codeTrigger}
+            messageId={''}
+            postMessage={''}
+            initMessageIndex={29}
+        />)}
+        {isAccountFollower && (
+          <ContractsTable
+            contracts={allContracts}
+            updated={codeTrigger}
+            messageId={''}
+            postMessage={''}
+            initMessageIndex={31}
+        />)}
         {isFollow && (
           <ContractsTable
             contracts={allContracts}
@@ -233,6 +294,14 @@ console.log(allCodes);
             messageId={''}
             postMessage={''}
             initMessageIndex={13}
+        />)}
+        {isAccountBlock && (
+          <ContractsTable
+            contracts={allContracts}
+            updated={codeTrigger}
+            messageId={''}
+            postMessage={''}
+            initMessageIndex={16}
         />)}
     </div>
     </StyledDiv>

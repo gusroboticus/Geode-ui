@@ -16,16 +16,16 @@ interface Props {
   postMessage?: string;
 }
 
-function CallFollow ({ className = '', onClear, messageId, fromAcct, username, postMessage }: Props): React.ReactElement<Props> | null {
+function CallFollow ({ className = '' }: Props): React.ReactElement<Props> | null {
     const { allContracts } = useContracts();
     const { allCodes, codeTrigger } = useCodes();
 //todo: code for unused params:
     console.log(JSON.stringify(allCodes));
-    console.log(JSON.stringify(onClear));
-    console.log(JSON.stringify(messageId));
-    console.log(JSON.stringify(fromAcct));
-    console.log(JSON.stringify(username));
-    console.log(JSON.stringify(postMessage));
+    // console.log(JSON.stringify(onClear));
+    // console.log(JSON.stringify(messageId));
+    // console.log(JSON.stringify(fromAcct));
+    // console.log(JSON.stringify(username));
+    // console.log(JSON.stringify(postMessage));
 
     function MakeAccountFollow(): JSX.Element {
     return(

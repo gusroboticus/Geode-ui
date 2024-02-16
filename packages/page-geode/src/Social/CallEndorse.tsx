@@ -18,12 +18,12 @@ interface Props {
   postMessage: string;
 }
 
-function CallEndorse ({ className = '', onClear, isPost, messageId, fromAcct, username, postMessage }: Props): React.ReactElement<Props> | null {
+function CallEndorse ({ className = '', isPost, messageId, fromAcct, username, postMessage }: Props): React.ReactElement<Props> | null {
     const { allContracts } = useContracts();
     const { allCodes, codeTrigger } = useCodes();
 //todo: code for allCodes:
     console.log(JSON.stringify(allCodes));
-    console.log(JSON.stringify(onClear));
+//    console.log(JSON.stringify(onClear));
 
     function MakePost(): JSX.Element {
     return(

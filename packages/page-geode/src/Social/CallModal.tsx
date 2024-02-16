@@ -282,9 +282,9 @@ function CallModal ({ className = '', messageId, fromAcct, username, postMessage
         </>)}
 
         {(messageIndex===2 || messageIndex===3) && (<>
-          <br />{'Message ID : '}{JSON.stringify(params=[messageId])}
+          <br />{t(' Message ID : ')}{JSON.stringify(params=[messageId])}
           <h3>
-        <strong>{' Owner of Post: '}</strong>
+        <strong>{t(' Owner of Post: ')}</strong>
         {fromAcct && (
               <>
               <IdentityIcon size={32} value={fromAcct} />
@@ -296,7 +296,8 @@ function CallModal ({ className = '', messageId, fromAcct, username, postMessage
               </>)}  
               <br /><br />
         {postMessage && (<>
-          <strong>{' Post: '}{hextoHuman(postMessage)}</strong> <br />     
+          <strong>{t(' Post: ')}</strong>
+          <h5>{hextoHuman(postMessage)}</h5> <br />     
         </>)} 
         </h3>
         <br />        
@@ -323,7 +324,6 @@ function CallModal ({ className = '', messageId, fromAcct, username, postMessage
               refTIme: MAX_CALL_WEIGHT
             })
           }
-          help={t('The maximum amount of gas to use for this contract call. If the call requires more, it will fail.')}
           isCall={!message.isMutating}
           weight={weight}
         />          

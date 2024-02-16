@@ -11,9 +11,8 @@ import CopyInline from '../shared/CopyInline.js';
 
 
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 
-import { Expander, LabelHelp, AccountName, IdentityIcon, Button, Dropdown, InputAddress, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
+import { styled, Expander, LabelHelp, AccountName, IdentityIcon, Button, Dropdown, InputAddress, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { useAccountId, useApi, useDebounce, useFormField, useToggle } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { isHex, hexToString, BN, BN_ONE, BN_ZERO } from '@polkadot/util';
@@ -457,7 +456,6 @@ function CallModal ({ className = '', myAccount, displayName,
             label={_moreInfo.length>0? params[12]=_moreInfo: params[12]=hextoString(paramToNum(moreInfo))}
             type="text"
             defaultValue={hextoString(paramToNum(moreInfo))}
-            //value={_displayName}
             onChange={(e) => {
               setMoreInfo(e.target.value);
               setParams([...params]);
@@ -506,7 +504,6 @@ function CallModal ({ className = '', myAccount, displayName,
               refTIme: MAX_CALL_WEIGHT
             })
           }
-          help={t('The maximum amount of gas to use for this contract call. If the call requires more, it will fail.')}
           isCall={!message.isMutating}
           weight={weight}
         />          

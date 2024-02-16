@@ -361,7 +361,6 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
               refTIme: MAX_CALL_WEIGHT
             })
           }
-          help={t('The maximum amount of gas to use for this contract call. If the call requires more, it will fail.')}
           isCall={!message.isMutating}
           weight={weight}
         />
