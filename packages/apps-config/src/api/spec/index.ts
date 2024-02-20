@@ -54,6 +54,7 @@ import galitalParachain from './galital-parachain.js';
 import galois from './galois.js';
 import gamepower from './gamepower.js';
 import genshiro from './genshiro.js';
+import geode from './geode.js';
 import hanonycash from './hanonycash.js';
 import hydrate from './hydrate.js';
 import idavoll from './idavoll.js';
@@ -206,6 +207,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'galital-collator': galitalParachain,
   gamepower,
   'hack-hydra-dx': hydrate,
+  geode,
   halongbay: polkafoundry,
   hanonycash,
   heiko: parallel,

@@ -5,7 +5,7 @@ import type { TFunction, TOptions } from '../types.js';
 import type { LinkOption } from './types.js';
 
 import { createCustom, createDev, createOwn } from './development.js';
-import { prodChains, prodRelayKusama, prodRelayPolkadot } from './production.js';
+import { prodChains, prodRelayKusama, prodRelayPolkadot, prodRelayGeode } from './production.js';
 import { testChains, testRelayRococo, testRelayWestend } from './testing.js';
 import { expandEndpoints } from './util.js';
 
@@ -33,6 +33,7 @@ export function createWsEndpoints (t: TFunction = defaultT, firstOnly = false, w
       ui: {},
       value: ''
     },
+    ...expandEndpoints(t, [prodRelayGeode], firstOnly, withSort),
     {
       isDisabled: false,
       isHeader: true,

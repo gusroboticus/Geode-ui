@@ -14,6 +14,8 @@ function getGenesis (name: string): HexString {
   return network[1][0];
 }
 
+export const GEODE_GENESIS = '0xfa294dfb0e74160a9800d56231927655ba43d52add29c1982ab59574cc51cc90';
+
 export const KULUPU_GENESIS = getGenesis('kulupu');
 
 export const KUSAMA_GENESIS = getGenesis('kusama');

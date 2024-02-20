@@ -8,6 +8,7 @@ import { nodesGeodeLogoSVG, nodesAresOdysseySVG, nodesAutomataPNG, nodesCentrifu
 
 export * from './productionRelayKusama.js';
 export * from './productionRelayPolkadot.js';
+export * from './productionRelayGeode.js';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
 // Polkadot) we try to keep this to live chains only, with RPCs hosted by the community/chain vendor
