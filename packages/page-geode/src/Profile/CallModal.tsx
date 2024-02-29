@@ -2,21 +2,16 @@
 // Copyright 2017-2023 @blockandpurpose.com
 // SPDX-License-Identifier: Apache-2.0
 import { Input, Label } from 'semantic-ui-react'
-
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { ContractPromise } from '@polkadot/api-contract';
 import type { ContractCallOutcome } from '@polkadot/api-contract/types';
 import type { WeightV2 } from '@polkadot/types/interfaces';
 import CopyInline from '../shared/CopyInline.js';
-
-
 import React, { useEffect, useState } from 'react';
-
 import { styled, Expander, LabelHelp, AccountName, IdentityIcon, Button, Dropdown, InputAddress, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { useAccountId, useApi, useDebounce, useFormField, useToggle } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { isHex, hexToString, BN, BN_ONE, BN_ZERO } from '@polkadot/util';
-
 import InputMegaGas from '../shared/InputMegaGas.js';
 import Params from '../shared/Params.js';
 import { useTranslation } from '../shared/translate.js';
@@ -173,7 +168,7 @@ function CallModal ({ className = '', myAccount, displayName,
          isOpen={false}
          summary={'Instructions: '}>
 
-        {messageIndex !== null && messageIndex === 0 && (<>
+        {messageIndex !== null && messageIndex === 1 && (<>
             <strong>{t('Instructions for Updating Your Profile Information: ')}</strong><br />
             {'(1) '}{t('Select the Account to use for this transaction (call from account). ')}<br /> 
             {'(2) '}{t('Enter your Location (leave blank if you wish). ')}<br />
@@ -245,7 +240,7 @@ function CallModal ({ className = '', myAccount, displayName,
         </>
         )}
    
-        {messageIndex===0 && (<>
+        {messageIndex===1 && (<>
           <br />
           <LabelHelp help={t('This is your Profile Account.')}/>{' '}          
           <strong>{t('Profile Account: ')}</strong>

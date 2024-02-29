@@ -6,12 +6,13 @@ import React, { useState, useCallback } from 'react';
 import { useTranslation } from '../shared/translate.js';
 import type { CallResult } from './types.js';
 import { stringify, hexToString, isHex } from '@polkadot/util';
-import { Expander, Button, AccountName, LabelHelp, IdentityIcon, Card } from '@polkadot/react-components';
+import { styled, Expander, Button, Card } from '@polkadot/react-components';
+//import { AccountName, LabelHelp, IdentityIcon } from '@polkadot/react-components';
 import { Grid, Divider, Message, Item, Table, Label, Image } from 'semantic-ui-react'
-import CopyInline from '../shared/CopyInline.js';
+//import CopyInline from '../shared/CopyInline.js';
 import AccountHeader from '../shared/AccountHeader.js';
 import CallSendMessage from './CallSendMessage.js';
-
+import { photoLink, t_strong, numBadge, withCopy, withHelp, accountInfo, dateCheck, checkHttp, boolToHuman, hexToHuman, microToGeode, hextoPhoto, acctToShort, numCheck, rateCheck, numToPercent } from './marketutil.js';
 import JSONprohibited from '../shared/geode_prohibited.json';
 
 interface Props {
@@ -109,13 +110,13 @@ interface Props {
   
 function GotoStoreDetails ({ className = '', onClear, outcome: { from, output, when } }: Props): React.ReactElement<Props> | null {
 // todo: code for allCodes:
-  console.log(JSON.stringify(className));
+// console.log(JSON.stringify(className));
 // other props:
 // isAccount,
 // message,
 // params
 // result
-    const defaultImage: string ='https://react.semantic-ui.com/images/wireframe/image.png';
+    //const defaultImage: string ='https://react.semantic-ui.com/images/wireframe/image.png';
     const { t } = useTranslation();
     const searchWords: string[] = JSONprohibited;
 
@@ -123,16 +124,16 @@ function GotoStoreDetails ({ className = '', onClear, outcome: { from, output, w
     const _Obj = JSON.parse(objOutput);
     const profileDetail: ProfileDetail = Object.create(_Obj);
 
-    const withHttp = (url: string) => url.replace(/^(?:(.*:)?\/\/)?(.*)/i, (match, schemma, nonSchemmaUrl) => schemma ? match : `http://${nonSchemmaUrl}`);
-    const boolToHuman = (_bool: boolean) => (_bool? 'Yes': 'No');
-    const hextoHuman = (_hexIn: string) => (isHex(_hexIn)? t(hexToString(_hexIn).trim()): '');
-    const hextoPhoto = (_url: string) => (isHex(_url) ? withHttp(hexToString(_url).trim()) : defaultImage);
-    const acctToShort = (_acct: string) => (_acct.length>7 ? _acct.slice(0,7)+'...' : _acct);
-    const microToGeode = (_num: number) => (_num>-1 ? _num/1000000000000: 0);
-    const numCheck = (_num: number) => (_num>-1 ? _num: 0);
-    const rateCheck = (_num: number) => ((_num>0 && _num<6)? _num: 1);
-    const dateCheck = (_num: number) => (_num>0? timeStampToDate(_num): t('No Date'));
-    const numToPercent = (_num: number) => ((_num>-1 && _num<=100)? _num.toString(): '0')+ ' %';
+    //const withHttp = (url: string) => url.replace(/^(?:(.*:)?\/\/)?(.*)/i, (match, schemma, nonSchemmaUrl) => schemma ? match : `http://${nonSchemmaUrl}`);
+    //const boolToHuman = (_bool: boolean) => (_bool? 'Yes': 'No');
+    //const hextoHuman = (_hexIn: string) => (isHex(_hexIn)? t(hexToString(_hexIn).trim()): '');
+    //const hextoPhoto = (_url: string) => (isHex(_url) ? checkHttp(hexToString(_url).trim()) : defaultImage);
+    // const acctToShort = (_acct: string) => (_acct.length>7 ? _acct.slice(0,7)+'...' : _acct);
+    //const microToGeode = (_num: number) => (_num>-1 ? _num/1000000000000: 0);
+    //const numCheck = (_num: number) => (_num>-1 ? _num: 0);
+    //const rateCheck = (_num: number) => ((_num>0 && _num<6)? _num: 1);
+    // const dateCheck = (_num: number) => (_num>0? timeStampToDate(_num): t('No Date'));
+    //const numToPercent = (_num: number) => ((_num>-1 && _num<=100)? _num.toString(): '0')+ ' %';
     const rating: string[] = ['','⭐️','⭐️⭐️','⭐️⭐️⭐️','⭐️⭐️⭐️⭐️','⭐️⭐️⭐️⭐️⭐️'];
 
     const [_username, setUsername] = useState('');
@@ -186,25 +187,25 @@ function GotoStoreDetails ({ className = '', onClear, outcome: { from, output, w
         <>{t(str)}</>)
     }
 
-    function accountInfo(_acct: string): JSX.Element {
-        return(<>
-            <IdentityIcon value={_acct}/>
-            <AccountName value={_acct} withSidebar={true}/>{' | '}
-            {acctToShort(_acct)}{' '}
-            <CopyInline value={_acct} label={''}/>
-        </>)
-    }
+    // function accountInfo(_acct: string): JSX.Element {
+    //     return(<>
+    //         <IdentityIcon value={_acct}/>
+    //         <AccountName value={_acct} withSidebar={true}/>{' | '}
+    //         {acctToShort(_acct)}{' '}
+    //         <CopyInline value={_acct} label={''}/>
+    //     </>)
+    // }
     
-    function photoLink(_url: string, _title: string): JSX.Element {
-        return(<>
-        {_url.length>2 &&
-                  <Label as='a' color='orange' circular
-                  href={isHex(_url) ? withHttp(hexToString(_url).trim()) : ''} 
-                  target="_blank" 
-                  rel="noopener noreferrer">{_title}</Label> 
-                  }
-        </>)
-    }
+    // function photoLink(_url: string, _title: string): JSX.Element {
+    //     return(<>
+    //     {_url.length>2 &&
+    //               <Label as='a' color='orange' circular
+    //               href={isHex(_url) ? checkHttp(hexToString(_url).trim()) : ''} 
+    //               target="_blank" 
+    //               rel="noopener noreferrer">{_title}</Label> 
+    //               }
+    //     </>)
+    // }
 
     function showPhoto(_url: string): JSX.Element {
        return(<>
@@ -216,7 +217,7 @@ function GotoStoreDetails ({ className = '', onClear, outcome: { from, output, w
                    height={150}
                    src={hextoPhoto(_url)} 
                    rounded 
-                   href={isHex(_url) ? withHttp(hexToString(_url).trim()) : ''} 
+                   href={isHex(_url) ? checkHttp(hexToString(_url).trim()) : ''} 
                    target="_blank" 
                    rel="noopener noreferrer"
        />      
@@ -225,7 +226,7 @@ function GotoStoreDetails ({ className = '', onClear, outcome: { from, output, w
      } 
 
     function renderLink(_link: string): JSX.Element {
-      const ilink: string = isHex(_link)? withHttp(hexToString(_link).trim()): '0x';
+      const ilink: string = isHex(_link)? checkHttp(hexToString(_link).trim()): '0x';
       const videoLink: string = (ilink.includes('embed')) ? ilink 
           : ilink.includes('youtu.be') ? ('https://www.youtube.com/embed/' + ilink.slice(17))
               : ('https://www.youtube.com/embed/' + ilink.slice(32));
@@ -266,46 +267,46 @@ function GotoStoreDetails ({ className = '', onClear, outcome: { from, output, w
       </>)
     }
 
-    function numBadge(_num: number): JSX.Element {
-      return(<>
-        <Label circular size='small' color='blue'>
-          {numCheck(_num)}
-        </Label>
-      </>)
-    }
+    // function numBadge(_num: number): JSX.Element {
+    //   return(<>
+    //     <Label circular size='small' color='blue'>
+    //       {numCheck(_num)}
+    //     </Label>
+    //   </>)
+    // }
 
-    function t_strong(_str: string): JSX.Element{
-      return(<><strong>{t(_str)}</strong></>)
-    }
+    // function t_strong(_str: string): JSX.Element{
+    //   return(<><strong>{t(_str)}</strong></>)
+    // }
 
-    function timeStampToDate(tstamp: number): JSX.Element {
-        try {
-         const event = new Date(tstamp);
-         return (
-              <><i>{event.toDateString()}{' '}
-                   {event.toLocaleTimeString()}{' '}</i></>
-          )
-        } catch(error) {
-         console.error(error)
-         return(
-             <><i>{t('No Date')}</i></>
-         )
-        }
-     }
+    // function timeStampToDate(tstamp: number): JSX.Element {
+    //     try {
+    //      const event = new Date(tstamp);
+    //      return (
+    //           <><i>{event.toDateString()}{' '}
+    //                {event.toLocaleTimeString()}{' '}</i></>
+    //       )
+    //     } catch(error) {
+    //      console.error(error)
+    //      return(
+    //          <><i>{t('No Date')}</i></>
+    //      )
+    //     }
+    //  }
 
-     function withCopy(_str: string): JSX.Element {
-        return(<>
-        {_str}{' '}
-        <CopyInline value={_str} label={''}/>
-        </>)
-    }
+    //  function withCopy(_str: string): JSX.Element {
+    //     return(<>
+    //     {_str}{' '}
+    //     <CopyInline value={_str} label={''}/>
+    //     </>)
+    // }
   
-    function withHelp(_str: string, _help: string): JSX.Element {
-        return(<>
-        <LabelHelp help={t(_help)} />
-        {' '}{t(_str)}
-        </>)
-    }
+    // function withHelp(_str: string, _help: string): JSX.Element {
+    //     return(<>
+    //     <LabelHelp help={t(_help)} />
+    //     {' '}{t(_str)}
+    //     </>)
+    // }
   
     function ListAccount(): JSX.Element {
       return(
@@ -332,12 +333,12 @@ function ShowProduct(_product: any): JSX.Element {
                     <Item.Image as='a' size='tiny' 
                                 src={hextoPhoto(_product.photoOrYoutubeLink1)} 
                                 rounded 
-                                href={isHex(_product.photoOrYoutubeLink1) ? withHttp(hexToString(_product.photoOrYoutubeLink1).trim()) : ''} 
+                                href={isHex(_product.photoOrYoutubeLink1) ? checkHttp(hexToString(_product.photoOrYoutubeLink1).trim()) : ''} 
                                 target="_blank" 
                                 rel="noopener noreferrer"
                     /> 
                     <Item.Content>
-                                <Item.Header as='a'>{hextoHuman(_product.title)+' '}
+                                <Item.Header as='a'>{hexToHuman(_product.title)+' '}
                                 <Label as='a' 
                                        color='orange' 
                                        circular 
@@ -359,7 +360,7 @@ function ShowProduct(_product: any): JSX.Element {
                                 {photoLink(_product.moreInfoLink, 'More Info')}
                                 </Item.Header>
                                 <Item.Meta>
-                                    <h3>{t_strong('Description: ')}<strong>{hextoHuman(_product.description)}</strong></h3>
+                                    <h3>{t_strong('Description: ')}<strong>{hexToHuman(_product.description)}</strong></h3>
                                 </Item.Meta>
                                 <Item.Description>
                                   {t_strong('Price: ')}{microToGeode(_product.price)}{' Geode'}<br />
@@ -373,7 +374,7 @@ function ShowProduct(_product: any): JSX.Element {
                                     <strong>{t('Reviews: ')}</strong><br />
                                       {_product.reviews.length>0 && 
                                       _product.reviews.map((_review: any, index: number)=> <>
-                                          {index+1}{'. '}{dateCheck(_review.timestamp)}{accountInfo(_review.reviewer)}{' | '}{hextoHuman(_review.review)}{' '}{rating[rateCheck(_review.rating)]}<br />
+                                          {index+1}{'. '}{dateCheck(_review.timestamp)}{accountInfo(_review.reviewer)}{' | '}{hexToHuman(_review.review)}{' '}{rating[rateCheck(_review.rating)]}<br />
                                       </>)}
                                     </Expander>                                  
                                   </>}
@@ -386,11 +387,11 @@ function ShowProduct(_product: any): JSX.Element {
                                     <Grid columns={2} divided>
                                         <Grid.Column>
                                         {t_strong('Seller Account: ')}{accountInfo(_product.sellerAccount)}<br />
-                                        {t_strong('Seller Name: ')}{hextoHuman(_product.sellerName)}<br />
-                                        {t_strong('Location: ')}{hextoHuman(_product.productLocation)}<br />
-                                        {t_strong('Brand: ')}{hextoHuman(_product.brand)}<br />
-                                        {t_strong('Category: ')}{hextoHuman(_product.category)}<br />
-                                        {t_strong('Delivery Info: ')}{hextoHuman(_product.deliveryInfo)}<br />
+                                        {t_strong('Seller Name: ')}{hexToHuman(_product.sellerName)}<br />
+                                        {t_strong('Location: ')}{hexToHuman(_product.productLocation)}<br />
+                                        {t_strong('Brand: ')}{hexToHuman(_product.brand)}<br />
+                                        {t_strong('Category: ')}{hexToHuman(_product.category)}<br />
+                                        {t_strong('Delivery Info: ')}{hexToHuman(_product.deliveryInfo)}<br />
                                         {t_strong('Digital Product: ')}{boolToHuman(_product.digital)}<br />
                                         {t_strong('Zeno Percent: ')}{numToPercent(_product.zenoPercent)}<br />
                                         {t_strong('Number of Zeno Accounts: ')}{numCheck(_product.zenoBuyers.length)}<br />
@@ -418,12 +419,12 @@ function ShowService(_service: any): JSX.Element {
                     <Item.Image as='a' size='tiny' 
                                 src={hextoPhoto(_service.photoOrYoutubeLink1)} 
                                 rounded 
-                                href={isHex(_service.photoOrYoutubeLink1) ? withHttp(hexToString(_service.photoOrYoutubeLink1).trim()) : ''} 
+                                href={isHex(_service.photoOrYoutubeLink1) ? checkHttp(hexToString(_service.photoOrYoutubeLink1).trim()) : ''} 
                                 target="_blank" 
                                 rel="noopener noreferrer"
                     /> 
                     <Item.Content>
-                                <Item.Header as='a'>{hextoHuman(_service.title)+' '}
+                                <Item.Header as='a'>{hexToHuman(_service.title)+' '}
                                 <Label as='a' 
                                        color='orange' 
                                        circular 
@@ -444,11 +445,11 @@ function ShowService(_service: any): JSX.Element {
                                 >{'Add to List'}</Label>
                                 {_service.bookingLink.length>2 && photoLink(_service.bookingLink, 'Book')}
                                 </Item.Header>
-                                <Item.Meta><h3><strong>{t('Description: ')}{hextoHuman(_service.description)}</strong></h3></Item.Meta>
+                                <Item.Meta><h3><strong>{t('Description: ')}{hexToHuman(_service.description)}</strong></h3></Item.Meta>
                                 <Item.Description>
                                     {t_strong('Price: ')}{microToGeode(_service.price)}{' Geode'}<br />
                                     {t_strong('Inventory: ')}{_service.inventory}<br />
-                                    {t_strong('Location: ')}{hextoHuman(_service.serviceLocation)}<br />
+                                    {t_strong('Location: ')}{hexToHuman(_service.serviceLocation)}<br />
                                     {t_strong('Service Rating: ')}{rating[rateCheck(_service.reviewAverage)]}<br />
                                     {t_strong('Number of Reviews: ')}{numBadge(_service.reviewCount)}<br />
                                     <strong>{withCopy('Service ID: ')}</strong>{acctToShort(_service.serviceId)}<br />
@@ -457,7 +458,7 @@ function ShowService(_service: any): JSX.Element {
                                                 summary={<Label size={'small'} color='orange' circular> {t('Reviews: ')}</Label>}>
                                             <strong>{t('Reviews: ')}</strong><br />
                                             {_service.reviews.length>0 && _service.reviews.map((_review: any, index: number)=> <>
-                                                {index+1}{'. '}{dateCheck(_review.timestamp)}{accountInfo(_review.reviewer)}{' | '}{hextoHuman(_review.review)}{' '}{rating[rateCheck(_review.rating)]}<br />
+                                                {index+1}{'. '}{dateCheck(_review.timestamp)}{accountInfo(_review.reviewer)}{' | '}{hexToHuman(_review.review)}{' '}{rating[rateCheck(_review.rating)]}<br />
                                       </>)}
                                     </Expander>                                    
                                     </>}
@@ -468,8 +469,8 @@ function ShowService(_service: any): JSX.Element {
                                     <Grid columns={2} divided>
                                         <Grid.Column>
                                         {t_strong('Seller Account: ')}{accountInfo(_service.sellerAccount)}<br />
-                                        {t_strong('Seller Name: ')}{hextoHuman(_service.sellerName)}<br />
-                                        {t_strong('Category: ')}{hextoHuman(_service.category)}<br />
+                                        {t_strong('Seller Name: ')}{hexToHuman(_service.sellerName)}<br />
+                                        {t_strong('Category: ')}{hexToHuman(_service.category)}<br />
                                         {t_strong('Online: ')}{boolToHuman(_service.online)}<br />
                                         {t_strong('Zeno Percentage: ')}{numToPercent(_service.zenoPercent)}<br />
                                         {t_strong('Number of Zeno Accounts: ')}{numCheck(_service.zenoBuyers.length)}<br />
@@ -516,8 +517,8 @@ function ShowProfile(): JSX.Element {
                     {t_strong('Seller Rating: ')}{rating[rateCheck(profileDetail.ok.owner.reviewAverage)]}<br />
                     {t_strong('Number of Reviews: ')}{numBadge(profileDetail.ok.owner.reviewCount)}<br />
                     {t_strong('Member since: ')}{dateCheck(profileDetail.ok.owner.memberSince)}<br />
-                    {t_strong('Location: ')}{hextoHuman(profileDetail.ok.owner.sellerLocation)}<br />
-                    {t_strong('Store Description: ')}{hextoHuman(profileDetail.ok.owner.storeDescription)}
+                    {t_strong('Location: ')}{hexToHuman(profileDetail.ok.owner.sellerLocation)}<br />
+                    {t_strong('Store Description: ')}{hexToHuman(profileDetail.ok.owner.storeDescription)}
                     <br />
                     {profileDetail.ok.owner.reviews.length>0 && <>
                       <Expander 
@@ -527,7 +528,7 @@ function ShowProfile(): JSX.Element {
                       <strong>{t('Seller Reviews: ')}</strong><br />
                       {profileDetail.ok.owner.reviews.length>0 && 
                           profileDetail.ok.owner.reviews.map((_review, index: number) => <>
-                                {index+1}{'. '}{dateCheck(_review.timestamp)}{accountInfo(_review.reviewer)}{' | '}{hextoHuman(_review.review)}{' '}{rating[rateCheck(_review.rating)]}<br />                          
+                                {index+1}{'. '}{dateCheck(_review.timestamp)}{accountInfo(_review.reviewer)}{' | '}{hexToHuman(_review.review)}{' '}{rating[rateCheck(_review.rating)]}<br />                          
                           </>)
                       }
                     </Expander>
@@ -637,7 +638,7 @@ function ShowProfile(): JSX.Element {
     
 
   return (
-    <>
+    <StyledDiv className={className}>
     <Card>
     <AccountHeader 
             fromAcct={from} 
@@ -671,16 +672,16 @@ function ShowProfile(): JSX.Element {
         </>)}
 
     </Card>
-    </>
+    </StyledDiv>
   );
 }
-// const StyledDiv = styled.css`
-//   align-items: center;
-//   display: flex;
+const StyledDiv = styled.div`
+  align-items: center;
+  display: flex;
 
-//   .output {
-//     flex: 1 1;
-//     margin: 0.25rem 0.5rem;
-//   }
-// `;
+  .output {
+    flex: 1 1;
+    margin: 0.25rem 0.5rem;
+  }
+`;
 export default React.memo(GotoStoreDetails);

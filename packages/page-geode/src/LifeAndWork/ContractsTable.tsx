@@ -23,9 +23,9 @@ import Contract from './Contract.js';
 import { getContractForAddress } from './util.js';
 
 // uncomment for test configuration - - - - >
-//import JSONContractAddress from '../shared/geode_contracts_test.json';
+import JSONContractAddress from '../shared/geode_contracts_test.json';
 // uncomment for production chain - - - - >
-import JSONContractAddress from '../shared/geode_contracts.json';
+//import JSONContractAddress from '../shared/geode_contracts.json';
 
 export interface Props {
   contracts: string[];
@@ -59,13 +59,14 @@ function ContractsTable ({ contracts: keyringContracts, initMessageIndex, claimI
   const [isCallOpen, setIsCallOpen] = useState(true);
   const [contractLinks, setContractLinks] = useState<Record<string, ContractLink[]>>({});
   
-  const [isTableOpen, toggleTable] = useToggle();
+  //const [isTableOpen, toggleTable] = useToggle();
+  const isTableOpen = false; 
   const [isLoadContract, toggleIsLoad] = useToggle();
   // set to true to test contracts functionality
   //const isTest: boolean = false;
   console.log(contractIndex);
   // set default after contract load to chain
-  const contractAddress: string = (JSONContractAddress[0])? JSONContractAddress[0] :'5HJjHKgw4hupcKizpwyLm5VAK23nm6qEGEaaRrHK9FGsMxj9';
+  const contractAddress: string = (JSONContractAddress[0])? JSONContractAddress[0] :'5GYB4T62Cuv3PMbXyqqWhcSWStAHhwBUwrzptqWJ3kM67upP';
 
   //const [isCallModal, toggleCallModal] = useToggle(false);
   const isCallModal: boolean = (messageIndex===5 || messageIndex===6? true: false);

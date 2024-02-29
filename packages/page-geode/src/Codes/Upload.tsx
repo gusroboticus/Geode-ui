@@ -216,7 +216,7 @@ function Upload ({ onClose }: Props): React.ReactElement {
             )
             }
             <InputMegaGas
-              help={t('The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail')}
+              //help={t('The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail')}
               weight={weight}
             />
             {error && (

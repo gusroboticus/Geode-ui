@@ -24,12 +24,11 @@ export const prodRelayGeode: EndpointOption = {
   info: 'geode',
   linked: [],
   providers: {
-    // 'Geometry Labs': 'wss://polkadot.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
-    //'Alexandrite': 'wss://geodeapps.com',
+    //'Alexandrite': 'wss://geodeapps.com/alexandrite',
     'Citrine': 'wss://geodeapps.com/citrine2',
-    //'Beryl': 'wss://geodeapps.com',
-    //'Jade': 'wss://geodeapps.com',
-    'light client': 'light://substrate-connect/polkadot'
+    //'Beryl': 'wss://geodeapps.com/beryl',
+    //'Jade': 'wss://geodeapps.com/jade',
+    'light client': 'light://substrate-connect/geode'
   },
   //teleport: getTeleports(prodParasGeodeCommon),
   text: 'Geode Main Net',

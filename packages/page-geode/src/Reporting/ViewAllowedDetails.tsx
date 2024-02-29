@@ -11,6 +11,7 @@ import { styled, Button, AccountName, Card } from '@polkadot/react-components';
 import { Table, Label } from 'semantic-ui-react'
 import CallSendMessage from './CallSendMessage.js';
 import { useToggle } from '@polkadot/react-hooks';
+import { t_strong } from './ReportingUtil.js';
 
 interface Props {
   className?: string;
@@ -37,15 +38,7 @@ type EntityDetail = {
 
 
 
-function ViewAllowedDetails ({ className = '', onClear, outcome: { from, message, output, params, result, when } }: Props): React.ReactElement<Props> | null {
-  //todo: code for allCodes:
-  console.log(JSON.stringify(from));
-  console.log(JSON.stringify(onClear));
-  console.log(JSON.stringify(message));
-  console.log(JSON.stringify(params));
-  console.log(JSON.stringify(result));
-  console.log(JSON.stringify(when));
-
+function ViewAllowedDetails ({ className = '', onClear, outcome: { output } }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const objOutput: string = stringify(output);
   const _Obj = JSON.parse(objOutput);
@@ -114,19 +107,19 @@ function ViewAllowedDetails ({ className = '', onClear, outcome: { from, message
         <Table stretch>
           <Table.Row>
             <Table.Cell verticalAlign='top'>
-              <h3><strong>{t(' Geode Legal Team Delegates: ')}</strong></h3>
+              <h3>{t_strong(' Geode Legal Team Delegates: ')}</h3>
               <br />
               {entityDetail.ok.delegates.map((_delegates) =>  
                 <div>
-                  <strong>{t(' Name: ')}</strong>
+                  {t_strong(' Name: ')}
                   {isHex(_delegates.name) ? hexToString(_delegates.name) : ' '}
-                  <br /><strong>{t(' Account: ')}</strong>
+                  <br />{t_strong(' Account: ')}
                   <><AccountName value={_delegates.userAcct} withSidebar={true}/></>
-                  <br /><strong>{t(' Organization: ')}</strong>
+                  <br />{t_strong(' Organization: ')}
                   <>{isHex(_delegates.organization) ? hexToString(_delegates.organization) : ' '}</>
-                  <br /><strong>{t(' Phone: ')}</strong>
+                  <br />{t_strong(' Phone: ')}
                   <>{isHex(_delegates.phone) ? hexToString(_delegates.phone) : ' '}</>
-                  <br /><strong>{t(' Email: ')}</strong>
+                  <br />{t_strong(' Email: ')}
                   <>{isHex(_delegates.email) ? hexToString(_delegates.email) : ' '}</>
                   <br />
                   <Label as='a' 
@@ -152,15 +145,15 @@ function ViewAllowedDetails ({ className = '', onClear, outcome: { from, message
               <br />
               {entityDetail.ok.entities.map((_entities) =>  
               <div>
-                <strong>{t(' Name: ')}</strong>
+                {t_strong(' Name: ')}
                 <>{isHex(_entities.name) ? hexToString(_entities.name) : ' '}</>
-                <br /><strong>{t(' Account: ')}</strong>
+                <br />{t_strong(' Account: ')}
                 <><AccountName value={_entities.userAcct} withSidebar={true}/></>
-                <br /><strong>{t(' Organization: ')}</strong>
+                <br />{t_strong(' Organization: ')}
                 <>{isHex(_entities.organization) ? hexToString(_entities.organization) : ' '}</>
-                <br /><strong>{t(' Phone: ')}</strong>
+                <br />{t_strong(' Phone: ')}
                 <>{isHex(_entities.phone) ? hexToString(_entities.phone) : ' '}</>
-                <br /><strong>{t(' Email: ')}</strong>
+                <br />{t_strong(' Email: ')}
                 <>{isHex(_entities.email) ? hexToString(_entities.email) : ' '}</>
                 <br />
                   <Label as='a' 

@@ -14,6 +14,7 @@ import { styled, Badge, Card, Button, Dropdown, InputAddress, InputBalance, Togg
 import { useAccountId, useApi, useDebounce, useFormField, useToggle } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { BN, BN_ONE, BN_ZERO } from '@polkadot/util';
+import { t_strong, GeodeToZeo } from './ExchangeUtil.js';
 
 import InputMegaGas from '../shared/InputMegaGas.js';
 import Params from '../shared/Params.js';
@@ -145,22 +146,16 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
 
   const isValid = !!(accountId && weight.isValid && isValueValid);
   const isViaRpc = (isViaCall || (!message.isMutating && !message.isPayable));  
-  
-  function GeodeToZeo(_string: string): string {
-    const _num = +_string * 1000000000000;
-    return(_num.toString())
-  }
 
   return (
     <Card>
-        <h2><strong>{t(' Geode Private Exchange ')}{' '}</strong>
+        <h2>{t_strong(' Geode Private Exchange ')}{' '}
         {messageIndex===0 && (
           <>{'- Make A New Listing'}</>
         )}
         </h2>
         {isTest && (
           <InputAddress
-          //help={t('A deployed contract that has either been deployed or attached. The address and ABI are used to construct the parameters.')}
           isDisabled
           label={t('contract to use')}
           type='contract'
@@ -176,7 +171,6 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
         <>
         <InputAddress
           defaultValue={accountId}
-          //help={t('Specify the user account to use for this contract call. And fees will be deducted from this account.')}
           label={t('account to use')}
           labelExtra={
             <Available
@@ -196,7 +190,6 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
             <>
             <Dropdown
               defaultValue={messageIndex}
-              //help={t('The message to send to this contract. Parameters are adjusted based on the ABI provided.')}
               isError={message === null}
               label={t('Test Item')}
               onChange={onChangeMessage}
@@ -227,25 +220,25 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
                     {t('Please fill out the details for your listing:')}
                     <br /><br />
 
-                    <strong>{t('What coin are you offering?')}</strong>
+                    {t_strong('What coin are you offering?')}
                     <Input label='' type="text" 
                             value={params[0]}
                             onChange={(e)=>{
                               params[0]=e.target.value;
                               setParams([...params]);
                             }}
-                    ></Input>
+                    ><input /></Input>
 
-                    <strong>{t('What coin or currency are you asking for?')}</strong>
+                    {t_strong('What coin or currency are you asking for?')}
                     <Input label='' type="text" 
                             value={params[1]}
                             onChange={(e)=>{
                               params[1]=e.target.value;
                               setParams([...params]);
                             }}
-                    ></Input>
+                    ><input /></Input>
 
-                    <strong>{t('Price per asking coin')}</strong>
+                    {t_strong('Price per asking coin')}
                     <Input label={formPrice? params[2] = GeodeToZeo(formPrice) : '0'} type="text"
                         value={formPrice}
                         onChange={(e) => {
@@ -254,16 +247,16 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
                       ><input />
                     </Input>
 
-                    <strong>{t('Method: Instructions for how buyers can find you, communicate with you and buy coin')}</strong>
+                    {t_strong('Method: Instructions for how buyers can find you, communicate with you and buy coin')}
                     <Input label='' type="text" 
                             value={params[3]}
                             onChange={(e)=>{
                               params[3]=e.target.value;
                               setParams([...params]);
                             }}
-                    ></Input>
+                    ><input /></Input>
 
-                    <strong>{t('Inventory: How much coin you have avaialble for sale')}</strong>
+                    {t_strong('Inventory: How much coin you have avaialble for sale')}
                     <Input label={formInventory? params[4] = GeodeToZeo(formInventory) : '0'} type="text"
                         value={formInventory}
                         onChange={(e) => {
@@ -272,39 +265,38 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
                       ><input />
                     </Input>
 
-                    <strong>{t('What country do you live in? (for local in person sales)')}</strong>
+                    {t_strong('What country do you live in? (for local in person sales)')}
                     <Input label='' type="text" 
                             value={params[5]}
                             onChange={(e)=>{
                               params[5]=e.target.value;
                               setParams([...params]);
                             }}
-                    ></Input>
+                    ><input /></Input>
 
-                    <strong>{t('What city do you live in? (for local in person sales)')}</strong>
+                    {t_strong('What city do you live in? (for local in person sales)')}
                     <Input label='' type="text" 
                             value={params[6]}
                             onChange={(e)=>{
                               params[6]=e.target.value;
                               setParams([...params]);
                             }}
-                    ></Input>
+                    ><input /></Input>
 
-                    <strong>{t('Notes: What else should buyers know?')}</strong>
+                    {t_strong('Notes: What else should buyers know?')}
                     <Input label='' type="text" 
                             value={params[7]}
                             onChange={(e)=>{
                               params[7]=e.target.value;
                               setParams([...params]);
                             }}
-                    ></Input>
+                    ><input /></Input>
               </Container>
           </>)}
 
 
         {message.isPayable && (
           <InputBalance
-            //help={t('The allotted value for this contract, i.e. the amount transferred to the contract as part of this call.')}
             isError={!isValueValid}
             isZeroable
             label={t('value')}

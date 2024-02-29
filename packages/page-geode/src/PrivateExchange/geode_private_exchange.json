@@ -1,12 +1,12 @@
 {
   "source": {
-    "hash": "0xe687e670291a7a0cbb2006ba3f9eb1d1962d6b32a68a4b16d1b80e945f05700b",
-    "language": "ink! 4.2.0",
-    "compiler": "rustc 1.70.0-nightly",
+    "hash": "0xf85088a5a6ec83a73695ee9b510d8ccde687456fef8c0791d28ba678607d7c98",
+    "language": "ink! 5.0.0-rc.1",
+    "compiler": "rustc 1.76.0",
     "build_info": {
       "build_mode": "Release",
-      "cargo_contract_version": "2.0.1",
-      "rust_toolchain": "nightly-aarch64-apple-darwin",
+      "cargo_contract_version": "4.0.0-rc.2",
+      "rust_toolchain": "stable-aarch64-apple-darwin",
       "wasm_opt_settings": {
         "keep_debug_symbols": false,
         "optimization_passes": "Z"
@@ -15,12 +15,13 @@
   },
   "contract": {
     "name": "geode_private_exchange",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "authors": [
       "Dr. Amy Messegee <support@blockandpurpose.com>"
     ],
     "description": "A contract for listing crytocurrencies for private sale on the Geode network."
   },
+  "image": null,
   "spec": {
     "constructors": [
       {
@@ -34,7 +35,7 @@
             "ink_primitives",
             "ConstructorResult"
           ],
-          "type": 11
+          "type": 31
         },
         "selector": "0x9bae9d5e"
       }
@@ -45,25 +46,25 @@
         "displayName": [
           "AccountId"
         ],
-        "type": 4
+        "type": 5
       },
       "balance": {
         "displayName": [
           "Balance"
         ],
-        "type": 6
+        "type": 12
       },
       "blockNumber": {
         "displayName": [
           "BlockNumber"
         ],
-        "type": 26
+        "type": 23
       },
       "chainExtension": {
         "displayName": [
           "ChainExtension"
         ],
-        "type": 27
+        "type": 44
       },
       "hash": {
         "displayName": [
@@ -72,11 +73,12 @@
         "type": 1
       },
       "maxEventTopics": 4,
+      "staticBufferSize": 16384,
       "timestamp": {
         "displayName": [
           "Timestamp"
         ],
-        "type": 25
+        "type": 43
       }
     },
     "events": [
@@ -101,7 +103,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "type": 4
+              "type": 5
             }
           },
           {
@@ -110,7 +112,7 @@
             "label": "pair",
             "type": {
               "displayName": [],
-              "type": 10
+              "type": 16
             }
           },
           {
@@ -121,7 +123,7 @@
               "displayName": [
                 "Balance"
               ],
-              "type": 6
+              "type": 12
             }
           },
           {
@@ -132,7 +134,7 @@
               "displayName": [
                 "Balance"
               ],
-              "type": 6
+              "type": 12
             }
           },
           {
@@ -143,7 +145,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 5
+              "type": 11
             }
           },
           {
@@ -154,12 +156,97 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 5
+              "type": 11
             }
           }
         ],
         "docs": [],
-        "label": "NewListing"
+        "label": "NewListing",
+        "module_path": "geode_private_exchange::geode_private_exchange",
+        "signature_topic": "0x3c8aca956b49bc296febebf0ad9750ff2683bee5f70722645db0cc5493218c17"
+      },
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": false,
+            "label": "listing_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 1
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "seller",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 5
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "pair",
+            "type": {
+              "displayName": [],
+              "type": 16
+            }
+          },
+          {
+            "docs": [],
+            "indexed": false,
+            "label": "price",
+            "type": {
+              "displayName": [
+                "Balance"
+              ],
+              "type": 12
+            }
+          },
+          {
+            "docs": [],
+            "indexed": false,
+            "label": "inventory",
+            "type": {
+              "displayName": [
+                "Balance"
+              ],
+              "type": 12
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "country",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 11
+            }
+          },
+          {
+            "docs": [],
+            "indexed": false,
+            "label": "city",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 11
+            }
+          }
+        ],
+        "docs": [],
+        "label": "UpdatedListing",
+        "module_path": "geode_private_exchange::geode_private_exchange",
+        "signature_topic": "0x0fae34dbed0c63218648387118bda1344df5cb08c547c158f637cfa6775e0652"
       }
     ],
     "lang_error": {
@@ -167,7 +254,7 @@
         "ink",
         "LangError"
       ],
-      "type": 13
+      "type": 32
     },
     "messages": [
       {
@@ -178,7 +265,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 5
+              "type": 11
             }
           },
           {
@@ -187,7 +274,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 5
+              "type": 11
             }
           },
           {
@@ -196,7 +283,7 @@
               "displayName": [
                 "Balance"
               ],
-              "type": 6
+              "type": 12
             }
           },
           {
@@ -205,7 +292,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 5
+              "type": 11
             }
           },
           {
@@ -214,7 +301,7 @@
               "displayName": [
                 "Balance"
               ],
-              "type": 6
+              "type": 12
             }
           },
           {
@@ -223,7 +310,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 5
+              "type": 11
             }
           },
           {
@@ -232,7 +319,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 5
+              "type": 11
             }
           },
           {
@@ -241,7 +328,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 5
+              "type": 11
             }
           }
         ],
@@ -255,7 +342,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 14
+          "type": 33
         },
         "selector": "0xee2823d1"
       },
@@ -276,7 +363,7 @@
               "displayName": [
                 "Balance"
               ],
-              "type": 6
+              "type": 12
             }
           },
           {
@@ -285,7 +372,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 5
+              "type": 11
             }
           },
           {
@@ -294,7 +381,7 @@
               "displayName": [
                 "Balance"
               ],
-              "type": 6
+              "type": 12
             }
           },
           {
@@ -303,7 +390,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 5
+              "type": 11
             }
           },
           {
@@ -312,7 +399,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 5
+              "type": 11
             }
           },
           {
@@ -321,7 +408,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 5
+              "type": 11
             }
           },
           {
@@ -330,7 +417,7 @@
               "displayName": [
                 "bool"
               ],
-              "type": 7
+              "type": 13
             }
           }
         ],
@@ -344,7 +431,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 14
+          "type": 33
         },
         "selector": "0x187b4806"
       },
@@ -360,7 +447,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 17
+          "type": 36
         },
         "selector": "0xed2a8980"
       },
@@ -376,9 +463,51 @@
             "ink",
             "MessageResult"
           ],
-          "type": 23
+          "type": 38
         },
         "selector": "0x55d6713b"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "get_all_accounts",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 40
+        },
+        "selector": "0x83f336e4"
+      },
+      {
+        "args": [
+          {
+            "label": "verify_account_id",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 5
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "verify_account",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 42
+        },
+        "selector": "0x9e777ece"
       }
     ]
   },
@@ -396,7 +525,7 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xa92e1651",
+                              "key": "0x51162ea9",
                               "ty": 0
                             }
                           },
@@ -406,7 +535,8 @@
                       "name": "HashVector"
                     }
                   },
-                  "root_key": "0xa92e1651"
+                  "root_key": "0x51162ea9",
+                  "ty": 4
                 }
               },
               "name": "account_listings"
@@ -420,7 +550,7 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xeb7ffaaf",
+                              "key": "0xaffa7feb",
                               "ty": 1
                             }
                           },
@@ -429,8 +559,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xeb7ffaaf",
-                              "ty": 4
+                              "key": "0xaffa7feb",
+                              "ty": 5
                             }
                           },
                           "name": "seller"
@@ -438,8 +568,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xeb7ffaaf",
-                              "ty": 5
+                              "key": "0xaffa7feb",
+                              "ty": 11
                             }
                           },
                           "name": "offer_coin"
@@ -447,8 +577,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xeb7ffaaf",
-                              "ty": 5
+                              "key": "0xaffa7feb",
+                              "ty": 11
                             }
                           },
                           "name": "asking_coin"
@@ -460,8 +590,8 @@
                                 {
                                   "layout": {
                                     "leaf": {
-                                      "key": "0xeb7ffaaf",
-                                      "ty": 5
+                                      "key": "0xaffa7feb",
+                                      "ty": 11
                                     }
                                   },
                                   "name": "0"
@@ -469,8 +599,8 @@
                                 {
                                   "layout": {
                                     "leaf": {
-                                      "key": "0xeb7ffaaf",
-                                      "ty": 5
+                                      "key": "0xaffa7feb",
+                                      "ty": 11
                                     }
                                   },
                                   "name": "1"
@@ -484,8 +614,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xeb7ffaaf",
-                              "ty": 6
+                              "key": "0xaffa7feb",
+                              "ty": 12
                             }
                           },
                           "name": "price"
@@ -493,8 +623,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xeb7ffaaf",
-                              "ty": 5
+                              "key": "0xaffa7feb",
+                              "ty": 11
                             }
                           },
                           "name": "method"
@@ -502,8 +632,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xeb7ffaaf",
-                              "ty": 6
+                              "key": "0xaffa7feb",
+                              "ty": 12
                             }
                           },
                           "name": "inventory"
@@ -511,8 +641,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xeb7ffaaf",
-                              "ty": 5
+                              "key": "0xaffa7feb",
+                              "ty": 11
                             }
                           },
                           "name": "country"
@@ -520,8 +650,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xeb7ffaaf",
-                              "ty": 5
+                              "key": "0xaffa7feb",
+                              "ty": 11
                             }
                           },
                           "name": "city"
@@ -529,8 +659,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xeb7ffaaf",
-                              "ty": 5
+                              "key": "0xaffa7feb",
+                              "ty": 11
                             }
                           },
                           "name": "notes"
@@ -538,8 +668,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xeb7ffaaf",
-                              "ty": 7
+                              "key": "0xaffa7feb",
+                              "ty": 13
                             }
                           },
                           "name": "hide"
@@ -548,67 +678,48 @@
                       "name": "Listing"
                     }
                   },
-                  "root_key": "0xeb7ffaaf"
+                  "root_key": "0xaffa7feb",
+                  "ty": 14
                 }
               },
               "name": "listing_details"
             },
             {
               "layout": {
-                "leaf": {
-                  "key": "0x00000000",
-                  "ty": 0
+                "root": {
+                  "layout": {
+                    "leaf": {
+                      "key": "0x7c29dee8",
+                      "ty": 1
+                    }
+                  },
+                  "root_key": "0x7c29dee8",
+                  "ty": 19
                 }
               },
               "name": "all_listings"
             },
             {
               "layout": {
-                "leaf": {
-                  "key": "0x00000000",
-                  "ty": 8
-                }
-              },
-              "name": "all_offer_coin"
-            },
-            {
-              "layout": {
-                "leaf": {
-                  "key": "0x00000000",
-                  "ty": 9
-                }
-              },
-              "name": "listing_pairs"
-            },
-            {
-              "layout": {
                 "root": {
                   "layout": {
-                    "struct": {
-                      "fields": [
-                        {
-                          "layout": {
-                            "leaf": {
-                              "key": "0x0403adda",
-                              "ty": 0
-                            }
-                          },
-                          "name": "hashvector"
-                        }
-                      ],
-                      "name": "HashVector"
+                    "leaf": {
+                      "key": "0x7da86059",
+                      "ty": 5
                     }
                   },
-                  "root_key": "0x0403adda"
+                  "root_key": "0x7da86059",
+                  "ty": 25
                 }
               },
-              "name": "listings_by_pair"
+              "name": "all_accounts"
             }
           ],
           "name": "ContractStorage"
         }
       },
-      "root_key": "0x00000000"
+      "root_key": "0x00000000",
+      "ty": 30
     }
   },
   "types": [
@@ -665,6 +776,34 @@
       "id": 4,
       "type": {
         "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 5
+          },
+          {
+            "name": "V",
+            "type": 6
+          },
+          {
+            "name": "KeyType",
+            "type": 7
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 5,
+      "type": {
+        "def": {
           "composite": {
             "fields": [
               {
@@ -682,7 +821,91 @@
       }
     },
     {
-      "id": 5,
+      "id": 6,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "hashvector",
+                "type": 0,
+                "typeName": "Vec<Hash>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_private_exchange",
+          "geode_private_exchange",
+          "HashVector"
+        ]
+      }
+    },
+    {
+      "id": 7,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 8
+          },
+          {
+            "name": "R",
+            "type": 9
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 8,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "AutoKey"
+        ]
+      }
+    },
+    {
+      "id": 9,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 10
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 10,
+      "type": {
+        "def": {
+          "tuple": []
+        }
+      }
+    },
+    {
+      "id": 11,
       "type": {
         "def": {
           "sequence": {
@@ -692,7 +915,7 @@
       }
     },
     {
-      "id": 6,
+      "id": 12,
       "type": {
         "def": {
           "primitive": "u128"
@@ -700,7 +923,7 @@
       }
     },
     {
-      "id": 7,
+      "id": 13,
       "type": {
         "def": {
           "primitive": "bool"
@@ -708,38 +931,468 @@
       }
     },
     {
-      "id": 8,
+      "id": 14,
       "type": {
         "def": {
-          "sequence": {
-            "type": 5
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 1
+          },
+          {
+            "name": "V",
+            "type": 15
+          },
+          {
+            "name": "KeyType",
+            "type": 17
           }
-        }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
       }
     },
     {
-      "id": 9,
+      "id": 15,
       "type": {
         "def": {
-          "sequence": {
-            "type": 10
+          "composite": {
+            "fields": [
+              {
+                "name": "listing_id",
+                "type": 1,
+                "typeName": "Hash"
+              },
+              {
+                "name": "seller",
+                "type": 5,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "offer_coin",
+                "type": 11,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "asking_coin",
+                "type": 11,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "pair",
+                "type": 16,
+                "typeName": "(Vec<u8>, Vec<u8>)"
+              },
+              {
+                "name": "price",
+                "type": 12,
+                "typeName": "Balance"
+              },
+              {
+                "name": "method",
+                "type": 11,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "inventory",
+                "type": 12,
+                "typeName": "Balance"
+              },
+              {
+                "name": "country",
+                "type": 11,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "city",
+                "type": 11,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "notes",
+                "type": 11,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "hide",
+                "type": 13,
+                "typeName": "bool"
+              }
+            ]
           }
-        }
+        },
+        "path": [
+          "geode_private_exchange",
+          "geode_private_exchange",
+          "Listing"
+        ]
       }
     },
     {
-      "id": 10,
+      "id": 16,
       "type": {
         "def": {
           "tuple": [
-            5,
-            5
+            11,
+            11
           ]
         }
       }
     },
     {
-      "id": 11,
+      "id": 17,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 8
+          },
+          {
+            "name": "R",
+            "type": 18
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 18,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 10
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 19,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "len",
+                "type": 22,
+                "typeName": "Lazy<u32, KeyType>"
+              },
+              {
+                "name": "elements",
+                "type": 24,
+                "typeName": "Mapping<u32, V, KeyType>"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "V",
+            "type": 1
+          },
+          {
+            "name": "KeyType",
+            "type": 20
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "vec",
+          "StorageVec"
+        ]
+      }
+    },
+    {
+      "id": 20,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 8
+          },
+          {
+            "name": "R",
+            "type": 21
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 21,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 10
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 22,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "V",
+            "type": 23
+          },
+          {
+            "name": "KeyType",
+            "type": 20
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "Lazy"
+        ]
+      }
+    },
+    {
+      "id": 23,
+      "type": {
+        "def": {
+          "primitive": "u32"
+        }
+      }
+    },
+    {
+      "id": 24,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 23
+          },
+          {
+            "name": "V",
+            "type": 1
+          },
+          {
+            "name": "KeyType",
+            "type": 20
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 25,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "len",
+                "type": 28,
+                "typeName": "Lazy<u32, KeyType>"
+              },
+              {
+                "name": "elements",
+                "type": 29,
+                "typeName": "Mapping<u32, V, KeyType>"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "V",
+            "type": 5
+          },
+          {
+            "name": "KeyType",
+            "type": 26
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "vec",
+          "StorageVec"
+        ]
+      }
+    },
+    {
+      "id": 26,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 8
+          },
+          {
+            "name": "R",
+            "type": 27
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 27,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 10
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 28,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "V",
+            "type": 23
+          },
+          {
+            "name": "KeyType",
+            "type": 26
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "Lazy"
+        ]
+      }
+    },
+    {
+      "id": 29,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 23
+          },
+          {
+            "name": "V",
+            "type": 5
+          },
+          {
+            "name": "KeyType",
+            "type": 26
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 30,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "account_listings",
+                "type": 4,
+                "typeName": "<Mapping<AccountId, HashVector> as::ink::storage::traits::\nAutoStorableHint<::ink::storage::traits::ManualKey<2838369873u32,\n()>,>>::Type"
+              },
+              {
+                "name": "listing_details",
+                "type": 14,
+                "typeName": "<Mapping<Hash, Listing> as::ink::storage::traits::AutoStorableHint\n<::ink::storage::traits::ManualKey<3951033007u32, ()>,>>::Type"
+              },
+              {
+                "name": "all_listings",
+                "type": 19,
+                "typeName": "<StorageVec<Hash> as::ink::storage::traits::AutoStorableHint<::\nink::storage::traits::ManualKey<3906873724u32, ()>,>>::Type"
+              },
+              {
+                "name": "all_accounts",
+                "type": 25,
+                "typeName": "<StorageVec<AccountId> as::ink::storage::traits::AutoStorableHint\n<::ink::storage::traits::ManualKey<1499506813u32, ()>,>>::Type"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_private_exchange",
+          "geode_private_exchange",
+          "ContractStorage"
+        ]
+      }
+    },
+    {
+      "id": 31,
       "type": {
         "def": {
           "variant": {
@@ -747,7 +1400,7 @@
               {
                 "fields": [
                   {
-                    "type": 12
+                    "type": 10
                   }
                 ],
                 "index": 0,
@@ -756,7 +1409,7 @@
               {
                 "fields": [
                   {
-                    "type": 13
+                    "type": 32
                   }
                 ],
                 "index": 1,
@@ -768,11 +1421,11 @@
         "params": [
           {
             "name": "T",
-            "type": 12
+            "type": 10
           },
           {
             "name": "E",
-            "type": 13
+            "type": 32
           }
         ],
         "path": [
@@ -781,15 +1434,7 @@
       }
     },
     {
-      "id": 12,
-      "type": {
-        "def": {
-          "tuple": []
-        }
-      }
-    },
-    {
-      "id": 13,
+      "id": 32,
       "type": {
         "def": {
           "variant": {
@@ -808,7 +1453,7 @@
       }
     },
     {
-      "id": 14,
+      "id": 33,
       "type": {
         "def": {
           "variant": {
@@ -816,7 +1461,7 @@
               {
                 "fields": [
                   {
-                    "type": 15
+                    "type": 34
                   }
                 ],
                 "index": 0,
@@ -825,7 +1470,7 @@
               {
                 "fields": [
                   {
-                    "type": 13
+                    "type": 32
                   }
                 ],
                 "index": 1,
@@ -837,11 +1482,11 @@
         "params": [
           {
             "name": "T",
-            "type": 15
+            "type": 34
           },
           {
             "name": "E",
-            "type": 13
+            "type": 32
           }
         ],
         "path": [
@@ -850,7 +1495,7 @@
       }
     },
     {
-      "id": 15,
+      "id": 34,
       "type": {
         "def": {
           "variant": {
@@ -858,7 +1503,7 @@
               {
                 "fields": [
                   {
-                    "type": 12
+                    "type": 10
                   }
                 ],
                 "index": 0,
@@ -867,7 +1512,7 @@
               {
                 "fields": [
                   {
-                    "type": 16
+                    "type": 35
                   }
                 ],
                 "index": 1,
@@ -879,11 +1524,11 @@
         "params": [
           {
             "name": "T",
-            "type": 12
+            "type": 10
           },
           {
             "name": "E",
-            "type": 16
+            "type": 35
           }
         ],
         "path": [
@@ -892,7 +1537,7 @@
       }
     },
     {
-      "id": 16,
+      "id": 35,
       "type": {
         "def": {
           "variant": {
@@ -900,6 +1545,14 @@
               {
                 "index": 0,
                 "name": "GenericError"
+              },
+              {
+                "index": 1,
+                "name": "DataTooLarge"
+              },
+              {
+                "index": 2,
+                "name": "TooManyListings"
               }
             ]
           }
@@ -912,7 +1565,7 @@
       }
     },
     {
-      "id": 17,
+      "id": 36,
       "type": {
         "def": {
           "variant": {
@@ -920,7 +1573,7 @@
               {
                 "fields": [
                   {
-                    "type": 18
+                    "type": 37
                   }
                 ],
                 "index": 0,
@@ -929,7 +1582,7 @@
               {
                 "fields": [
                   {
-                    "type": 13
+                    "type": 32
                   }
                 ],
                 "index": 1,
@@ -941,11 +1594,11 @@
         "params": [
           {
             "name": "T",
-            "type": 18
+            "type": 37
           },
           {
             "name": "E",
-            "type": 13
+            "type": 32
           }
         ],
         "path": [
@@ -954,165 +1607,17 @@
       }
     },
     {
-      "id": 18,
-      "type": {
-        "def": {
-          "composite": {
-            "fields": [
-              {
-                "name": "pair_listings",
-                "type": 19,
-                "typeName": "Vec<PairListings>"
-              }
-            ]
-          }
-        },
-        "path": [
-          "geode_private_exchange",
-          "geode_private_exchange",
-          "BrowseAllListings"
-        ]
-      }
-    },
-    {
-      "id": 19,
+      "id": 37,
       "type": {
         "def": {
           "sequence": {
-            "type": 20
+            "type": 15
           }
         }
       }
     },
     {
-      "id": 20,
-      "type": {
-        "def": {
-          "composite": {
-            "fields": [
-              {
-                "name": "pair",
-                "type": 10,
-                "typeName": "(Vec<u8>, Vec<u8>)"
-              },
-              {
-                "name": "average_price",
-                "type": 6,
-                "typeName": "Balance"
-              },
-              {
-                "name": "listing_count",
-                "type": 6,
-                "typeName": "u128"
-              },
-              {
-                "name": "total_inventory",
-                "type": 6,
-                "typeName": "Balance"
-              },
-              {
-                "name": "listings",
-                "type": 21,
-                "typeName": "Vec<Listing>"
-              }
-            ]
-          }
-        },
-        "path": [
-          "geode_private_exchange",
-          "geode_private_exchange",
-          "PairListings"
-        ]
-      }
-    },
-    {
-      "id": 21,
-      "type": {
-        "def": {
-          "sequence": {
-            "type": 22
-          }
-        }
-      }
-    },
-    {
-      "id": 22,
-      "type": {
-        "def": {
-          "composite": {
-            "fields": [
-              {
-                "name": "listing_id",
-                "type": 1,
-                "typeName": "Hash"
-              },
-              {
-                "name": "seller",
-                "type": 4,
-                "typeName": "AccountId"
-              },
-              {
-                "name": "offer_coin",
-                "type": 5,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "asking_coin",
-                "type": 5,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "pair",
-                "type": 10,
-                "typeName": "(Vec<u8>, Vec<u8>)"
-              },
-              {
-                "name": "price",
-                "type": 6,
-                "typeName": "Balance"
-              },
-              {
-                "name": "method",
-                "type": 5,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "inventory",
-                "type": 6,
-                "typeName": "Balance"
-              },
-              {
-                "name": "country",
-                "type": 5,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "city",
-                "type": 5,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "notes",
-                "type": 5,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "hide",
-                "type": 7,
-                "typeName": "bool"
-              }
-            ]
-          }
-        },
-        "path": [
-          "geode_private_exchange",
-          "geode_private_exchange",
-          "Listing"
-        ]
-      }
-    },
-    {
-      "id": 23,
+      "id": 38,
       "type": {
         "def": {
           "variant": {
@@ -1120,7 +1625,7 @@
               {
                 "fields": [
                   {
-                    "type": 24
+                    "type": 39
                   }
                 ],
                 "index": 0,
@@ -1129,7 +1634,7 @@
               {
                 "fields": [
                   {
-                    "type": 13
+                    "type": 32
                   }
                 ],
                 "index": 1,
@@ -1141,11 +1646,11 @@
         "params": [
           {
             "name": "T",
-            "type": 24
+            "type": 39
           },
           {
             "name": "E",
-            "type": 13
+            "type": 32
           }
         ],
         "path": [
@@ -1154,14 +1659,14 @@
       }
     },
     {
-      "id": 24,
+      "id": 39,
       "type": {
         "def": {
           "composite": {
             "fields": [
               {
                 "name": "listings",
-                "type": 21,
+                "type": 37,
                 "typeName": "Vec<Listing>"
               }
             ]
@@ -1175,7 +1680,101 @@
       }
     },
     {
-      "id": 25,
+      "id": 40,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 41
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 32
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 41
+          },
+          {
+            "name": "E",
+            "type": 32
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 41,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 5
+          }
+        }
+      }
+    },
+    {
+      "id": 42,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 3
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 32
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 3
+          },
+          {
+            "name": "E",
+            "type": 32
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 43,
       "type": {
         "def": {
           "primitive": "u64"
@@ -1183,15 +1782,7 @@
       }
     },
     {
-      "id": 26,
-      "type": {
-        "def": {
-          "primitive": "u32"
-        }
-      }
-    },
-    {
-      "id": 27,
+      "id": 44,
       "type": {
         "def": {
           "variant": {}

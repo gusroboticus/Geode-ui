@@ -222,7 +222,6 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
 
             {messageIndex=== 0 && (
               <>
-             
                 <Badge color='blue' icon='2'/>
                 {t('Please fill out the folowing fields:')}
                 <br /><br />

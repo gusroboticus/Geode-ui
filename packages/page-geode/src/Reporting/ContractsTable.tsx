@@ -21,10 +21,10 @@ import Contract from './Contract.js';
 import { getContractForAddress } from './util.js';
 
 // uncomment for test configuration - - - - >
-// import JSONContractAddress from '../shared/geode_contracts_test.json';
+import JSONContractAddress from '../shared/geode_contracts_test.json';
 // test ---> 5FyUv5g4fPkX1UPbgSD9uBcyJ3f87jdCr3sngfapzX7dkPfY
 // uncomment for production chain - - - - >
-import JSONContractAddress from '../shared/geode_contracts.json';
+//import JSONContractAddress from '../shared/geode_contracts.json';
 
 export interface Props {
   contracts: string[];
@@ -58,7 +58,7 @@ function ContractsTable ({  contracts: keyringContracts, initMessageIndex, remov
   const isTableOpen: boolean = false;
   const [isLoadContract, toggleIsLoad] = useToggle();
   // set to true to test contracts functionality
-  const isTest: boolean = true;
+  const isTest: boolean = false;
   // set default after contract load to chain
   const contractAddress: string = (JSONContractAddress[7])? JSONContractAddress[7] :'5FyUv5g4fPkX1UPbgSD9uBcyJ3f87jdCr3sngfapzX7dkPfY';
   console.log(contractIndex);
@@ -187,8 +187,6 @@ function ContractsTable ({  contracts: keyringContracts, initMessageIndex, remov
          />
       )
       }
-       
-
     </>
   );
 }

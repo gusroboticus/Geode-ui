@@ -17,13 +17,14 @@ interface Props {
   
 export default function Profile ({ className = '' }: Props): React.ReactElement {
     const { t } = useTranslation();
-    const [isUpdate, toggleUpdate] = useToggle();
+    const [isNew, toggleNew] = useToggle();
     const [isLookUp, toggleLookUp] = useToggle();
     const [isSearch, toggleSearch] = useToggle();
     const [isByAccount, toggleByAccount] = useToggle();
     const [isByKeyword, toggleByKeyword] = useToggle();
     const refTitle: string[] = 
     [' Create your Profile. (Click again to close) ', 
+     ' Update your account (Click again to close.)',
      ' Lookup an account and display its profile. (Click again to close) ', 
      ' Search for Profiles by Keyword or by Account. ',
      ' Search by Account, Enter Account Public Key below. (Click again to close) ',
@@ -41,13 +42,13 @@ export default function Profile ({ className = '' }: Props): React.ReactElement 
             <Card>
         {!isByKeyword && !isByAccount && !isLookUp && !isSearch && (
         <><Button
-                icon={(isUpdate) ? 'minus' : 'plus'}
+                icon={(isNew) ? 'minus' : 'plus'}
                 label={t('Create Your Profile')}
-                onClick={toggleUpdate}>
+                onClick={toggleNew}>
           </Button>
           </>
         )}
-        {!isByKeyword && !isByAccount && !isUpdate && !isSearch && (
+        {!isByKeyword && !isByAccount && !isNew && !isSearch && (
           <>
               <Button
                 icon={(isLookUp) ? 'minus' : 'plus'}
@@ -56,7 +57,7 @@ export default function Profile ({ className = '' }: Props): React.ReactElement 
               </Button>    
           </>
         )}
-        {!isByKeyword && !isByAccount && !isUpdate && !isLookUp && (
+        {!isByKeyword && !isByAccount && !isNew && !isLookUp && (
           <>
           <Button
             icon={(isSearch) ? 'minus' : 'plus'}
@@ -65,9 +66,9 @@ export default function Profile ({ className = '' }: Props): React.ReactElement 
           </Button>    
           </>
         )}
-        {isUpdate && (<>{refTitle[0]}</>)}
-        {isLookUp && (<>{refTitle[1]}</>)}
-        {isSearch && (<>{refTitle[2]}</>)}
+        {isNew && (<>{refTitle[0]}</>)}
+        {isLookUp && (<>{refTitle[2]}</>)}
+        {isSearch && (<>{refTitle[3]}</>)}
         </Card>                     
         {isSearch && (
         <>
@@ -90,13 +91,13 @@ export default function Profile ({ className = '' }: Props): React.ReactElement 
             </Button>    
             </>
           )}
-          {isByAccount && (<>{refTitle[0]}</>)}
-          {isByKeyword && (<>{refTitle[1]}</>)}
+          {isByAccount && (<>{refTitle[4]}</>)}
+          {isByKeyword && (<>{refTitle[5]}</>)}
           </Card>
         </>
         )}
         </Table>
-        {isUpdate && (
+        {isNew && (
           <ContractsTable
             contracts={allContracts}
             updated={codeTrigger}
@@ -106,19 +107,19 @@ export default function Profile ({ className = '' }: Props): React.ReactElement 
           <ContractsTable
             contracts={allContracts}
             updated={codeTrigger}
-            initMessageIndex={1}
+            initMessageIndex={2}
         />)}
         {isByAccount && (
           <ContractsTable
             contracts={allContracts}
             updated={codeTrigger}
-            initMessageIndex={3}
+            initMessageIndex={4}
         />)}
         {isByKeyword && (
           <ContractsTable
             contracts={allContracts}
             updated={codeTrigger}
-            initMessageIndex={2}
+            initMessageIndex={3}
         />)}
 
     </div>

@@ -6,11 +6,14 @@ import React, { useState, useCallback } from 'react';
 import { useTranslation } from '../shared/translate.js';
 import type { CallResult } from './types.js';
 import { stringify, hexToString, isHex } from '@polkadot/util';
-import { Expander, Button, AccountName, LabelHelp, IdentityIcon, Card } from '@polkadot/react-components';
+import { styled, Expander, Button, Card } from '@polkadot/react-components';
 import { Grid, Divider, Item, Message, Table, Label, Image } from 'semantic-ui-react'
-import CopyInline from '../shared/CopyInline.js';
+//import CopyInline from '../shared/CopyInline.js';
 import AccountHeader from '../shared/AccountHeader.js';
 import CallSendMessage from './CallSendMessage.js';
+import { photoLink, t_strong, numBadge, withCopy, withHelp, accountInfo, dateCheck } from './marketutil.js';
+import { acctToShort, checkHttp, boolToHuman, hexToHuman, microToGeode } from './marketutil.js';
+import { hextoPhoto, numCheck, rateCheck, numToPercent } from './marketutil.js';
 
 interface Props {
     className?: string;
@@ -64,13 +67,13 @@ interface Props {
 function SearchByProductDetails ({  className = '', onClear,  
                                     outcome: { from, output, when } }: Props): React.ReactElement<Props> | null {
     //todo: code for unused params or remove!:
-    console.log(JSON.stringify(className));
+    // console.log(JSON.stringify(className));
     // console.log(JSON.stringify(isAccount));
     // console.log(JSON.stringify(message));
     // console.log(JSON.stringify(params));
     // console.log(JSON.stringify(result));
 
-    const defaultImage: string ='https://react.semantic-ui.com/images/wireframe/image.png';
+//    const defaultImage: string ='https://react.semantic-ui.com/images/wireframe/image.png';
     const { t } = useTranslation();
     const objOutput: string = stringify(output);
     const _Obj = JSON.parse(objOutput);
@@ -84,16 +87,16 @@ function SearchByProductDetails ({  className = '', onClear,
     const [_filter, setFilter] = useState('none'); // all // digital // physical // in_stock // 
     const [_sort, setSort] = useState('none');
 
-    const withHttp = (url: string) => url.replace(/^(?:(.*:)?\/\/)?(.*)/i, (match, schemma, nonSchemmaUrl) => schemma ? match : `http://${nonSchemmaUrl}`);
-    const hextoPhoto = (_url: string) => (isHex(_url) ? withHttp(hexToString(_url).trim()) : defaultImage);
-    const acctToShort = (_acct: string) => (_acct.length>7 ? _acct.slice(0,7)+'...' : _acct);
-    const microToGeode = (_num: number) => (_num>-1 ? _num/1000000000000: 0);
-    const boolToHuman = (_bool: boolean) => (_bool? 'Yes': 'No');
-    const numCheck = (_num: number) => (_num>-1 ? _num: 0);
-    const rateCheck = (_num: number) => ((_num>0 && _num<6)? _num: 1);
-    const dateCheck = (_num: number) => (_num>0? timeStampToDate(_num): t('No Date'));
+//    const withHttp = (url: string) => url.replace(/^(?:(.*:)?\/\/)?(.*)/i, (match, schemma, nonSchemmaUrl) => schemma ? match : `http://${nonSchemmaUrl}`);
+    // const hextoPhoto = (_url: string) => (isHex(_url) ? withHttp(hexToString(_url).trim()) : defaultImage);
+    // const acctToShort = (_acct: string) => (_acct.length>7 ? _acct.slice(0,7)+'...' : _acct);
+    // const microToGeode = (_num: number) => (_num>-1 ? _num/1000000000000: 0);
+    // const boolToHuman = (_bool: boolean) => (_bool? 'Yes': 'No');
+    // const numCheck = (_num: number) => (_num>-1 ? _num: 0);
+    // const rateCheck = (_num: number) => ((_num>0 && _num<6)? _num: 1);
+    // const dateCheck = (_num: number) => (_num>0? timeStampToDate(_num): t('No Date'));
     const rating: string[] = ['','⭐️','⭐️⭐️','⭐️⭐️⭐️','⭐️⭐️⭐️⭐️','⭐️⭐️⭐️⭐️⭐️'];
-    const numToPercent = (_num: number) => ((_num>-1 && _num<=100)? _num.toString(): '0')+ ' %';
+//    const numToPercent = (_num: number) => ((_num>-1 && _num<=100)? _num.toString(): '0')+ ' %';
 
     const _reset = useCallback(
       () => {setAddToCart(false);
@@ -116,43 +119,43 @@ function SearchByProductDetails ({  className = '', onClear,
       []
     )
 
-    function hextoHuman(_hexIn: string): string {
-        return((isHex(_hexIn))? t(hexToString(_hexIn).trim()): '')
-      }
+    // function hexToHuman(_hexIn: string): string {
+    //     return((isHex(_hexIn))? t(hexToString(_hexIn).trim()): '')
+    //   }
 
-    function numBadge(_num: number): JSX.Element {
-        return(<>
-          <Label circular size='small' color='blue'>
-            {numCheck(_num)}
-          </Label>
-        </>)
-      }
+    // function numBadge(_num: number): JSX.Element {
+    //     return(<>
+    //       <Label circular size='small' color='blue'>
+    //         {numCheck(_num)}
+    //       </Label>
+    //     </>)
+    //   }
   
-    function timeStampToDate(tstamp: number): JSX.Element {
-        try {
-         const event = new Date(tstamp);
-         return (
-              <><i>{event.toDateString()}{' '}
-                   {event.toLocaleTimeString()}{' '}</i></>
-          )
-        } catch(error) {
-         console.error(error)
-         return(
-             <><i>{t('No Date')}</i></>
-         )
-        }
-     }
+    // function timeStampToDate(tstamp: number): JSX.Element {
+    //     try {
+    //      const event = new Date(tstamp);
+    //      return (
+    //           <><i>{event.toDateString()}{' '}
+    //                {event.toLocaleTimeString()}{' '}</i></>
+    //       )
+    //     } catch(error) {
+    //      console.error(error)
+    //      return(
+    //          <><i>{t('No Date')}</i></>
+    //      )
+    //     }
+    //  }
 
-    function photoLink(_url: string, _title: string): JSX.Element {
-        return(<>
-        {_url.length>2 &&
-                  <Label as='a' color='orange' circular
-                  href={isHex(_url) ? withHttp(hexToString(_url).trim()) : ''} 
-                  target="_blank" 
-                  rel="noopener noreferrer">{_title}</Label> 
-                  }
-        </>)
-    }
+    // function photoLink(_url: string, _title: string): JSX.Element {
+    //     return(<>
+    //     {_url.length>2 &&
+    //               <Label as='a' color='orange' circular
+    //               href={isHex(_url) ? withHttp(hexToString(_url).trim()) : ''} 
+    //               target="_blank" 
+    //               rel="noopener noreferrer">{_title}</Label> 
+    //               }
+    //     </>)
+    // }
 
     function showPhoto(_url: string): JSX.Element {
       return(<>
@@ -164,14 +167,14 @@ function SearchByProductDetails ({  className = '', onClear,
                   height={150}
                   src={hextoPhoto(_url)} 
                   rounded 
-                  href={isHex(_url) ? withHttp(hexToString(_url).trim()) : ''} 
+                  href={isHex(_url) ? checkHttp(hexToString(_url).trim()) : ''} 
                   target="_blank" 
                   rel="noopener noreferrer"
       /></>}</>)
     }
 
     function renderLink(_link: string): JSX.Element {
-      const ilink: string = isHex(_link)? withHttp(hexToString(_link).trim()): '0x';
+      const ilink: string = isHex(_link)? checkHttp(hexToString(_link).trim()): '0x';
       const videoLink: string = (ilink.includes('embed')) ? ilink 
           : ilink.includes('youtu.be') ? ('https://www.youtube.com/embed/' + ilink.slice(17))
               : ('https://www.youtube.com/embed/' + ilink.slice(32));
@@ -188,15 +191,15 @@ function SearchByProductDetails ({  className = '', onClear,
       )
     }
     
-  function t_strong(_str: string): JSX.Element{return(<><strong>{t(_str)}</strong></>)}
-  function withCopy(_str: string): JSX.Element {return(<>{_str}{' '}<CopyInline value={_str} label={''}/></>)}
+  // function t_strong(_str: string): JSX.Element{return(<><strong>{t(_str)}</strong></>)}
+  // function withCopy(_str: string): JSX.Element {return(<>{_str}{' '}<CopyInline value={_str} label={''}/></>)}
 
-  function withHelp(_str: string, _help: string): JSX.Element {
-      return(<>
-      <LabelHelp help={t(_help)} />
-      {' '}{t(_str)}
-      </>)
-  }
+  // function withHelp(_str: string, _help: string): JSX.Element {
+  //     return(<>
+  //     <LabelHelp help={t(_help)} />
+  //     {' '}{t(_str)}
+  //     </>)
+  // }
 
   function SortMenu(_productBool: boolean): JSX.Element {
     const _menu: string[] = _productBool? 
@@ -222,14 +225,14 @@ function SearchByProductDetails ({  className = '', onClear,
     </>)
   }
 
-  function accountInfo(_acct: string): JSX.Element {
-      return(<>
-          <IdentityIcon value={_acct}/>
-          <AccountName value={_acct} withSidebar={true}/>
-          {acctToShort(_acct)}{' '}
-          <CopyInline value={_acct} label={''}/>
-      </>)
-  }
+  // function accountInfo(_acct: string): JSX.Element {
+  //     return(<>
+  //         <IdentityIcon value={_acct}/>
+  //         <AccountName value={_acct} withSidebar={true}/>
+  //         {acctToShort(_acct)}{' '}
+  //         <CopyInline value={_acct} label={''}/>
+  //     </>)
+  // }
   
   function ListAccount(): JSX.Element {
       return(
@@ -256,12 +259,12 @@ function SearchByProductDetails ({  className = '', onClear,
                           <Item.Image as='a' size='tiny' 
                                       src={hextoPhoto(_product.photoOrYoutubeLink1)} 
                                       rounded 
-                                      href={isHex(_product.photoOrYoutubeLink1) ? withHttp(hexToString(_product.photoOrYoutubeLink1).trim()) : ''} 
+                                      href={isHex(_product.photoOrYoutubeLink1) ? checkHttp(hexToString(_product.photoOrYoutubeLink1).trim()) : ''} 
                                       target="_blank" 
                                       rel="noopener noreferrer"
                           /> 
                           <Item.Content>
-                                      <Item.Header as='a'>{hextoHuman(_product.title)+' '}
+                                      <Item.Header as='a'>{hexToHuman(_product.title)+' '}
                                       <Label as='a' color='orange' circular 
                                              onClick={()=>{<>
                                                      {setMessageId(_product.productId)}
@@ -281,7 +284,7 @@ function SearchByProductDetails ({  className = '', onClear,
                                       {photoLink(_product.moreInfoLink, 'More Info')}
                                       </Item.Header>
                                       <Item.Meta>
-                                          <h3>{t_strong('Description: ')}<strong>{hextoHuman(_product.description)}</strong></h3>
+                                          <h3>{t_strong('Description: ')}<strong>{hexToHuman(_product.description)}</strong></h3>
                                       </Item.Meta>
                                       <Item.Description>
                                         {t_strong('Price: ')}{microToGeode(_product.price)}{' Geode'}<br />
@@ -295,7 +298,7 @@ function SearchByProductDetails ({  className = '', onClear,
                                           <strong>{t('Reviews: ')}</strong><br />
                                             {_product.reviews.length>0 && 
                                             _product.reviews.map((_review: any, index: number)=> <>
-                                                {index+1}{'. '}{dateCheck(_review.timestamp)}{accountInfo(_review.reviewer)}{' | '}{hextoHuman(_review.review)}{' '}{rating[rateCheck(_review.rating)]}<br />
+                                                {index+1}{'. '}{dateCheck(_review.timestamp)}{accountInfo(_review.reviewer)}{' | '}{hexToHuman(_review.review)}{' '}{rating[rateCheck(_review.rating)]}<br />
                                             </>)}
                                           </Expander>                                  
                                         </>}
@@ -308,11 +311,11 @@ function SearchByProductDetails ({  className = '', onClear,
                                           <Grid columns={2} divided>
                                               <Grid.Column>
                                               {t_strong('Seller Account: ')}{accountInfo(_product.sellerAccount)}<br />
-                                              {t_strong('Seller Name: ')}{hextoHuman(_product.sellerName)}<br />
-                                              {t_strong('Location: ')}{hextoHuman(_product.productLocation)}<br />
-                                              {t_strong('Brand: ')}{hextoHuman(_product.brand)}<br />
-                                              {t_strong('Category: ')}{hextoHuman(_product.category)}<br />
-                                              {t_strong('Delivery Info: ')}{hextoHuman(_product.deliveryInfo)}<br />
+                                              {t_strong('Seller Name: ')}{hexToHuman(_product.sellerName)}<br />
+                                              {t_strong('Location: ')}{hexToHuman(_product.productLocation)}<br />
+                                              {t_strong('Brand: ')}{hexToHuman(_product.brand)}<br />
+                                              {t_strong('Category: ')}{hexToHuman(_product.category)}<br />
+                                              {t_strong('Delivery Info: ')}{hexToHuman(_product.deliveryInfo)}<br />
                                               {t_strong('Digital Product: ')}{boolToHuman(_product.digital)}<br />
                                               {t_strong('Zeno Percent: ')}{numToPercent(_product.zenoPercent)}<br />
                                               {t_strong('Number of Zeno Accounts: ')}{numCheck(_product.zenoBuyers.length)}<br />
@@ -343,7 +346,7 @@ function SearchByProductDetails ({  className = '', onClear,
               </Table.Header>
                 <Table.Cell verticalAlign='top'>
                 <h2>{t_strong('Results for Keyword Search: ')}
-                        {profileDetail.ok.search.length>2? '"' + hextoHuman(profileDetail.ok.search) + '"': t('All Products')}</h2>
+                        {profileDetail.ok.search.length>2? '"' + hexToHuman(profileDetail.ok.search) + '"': t('All Products')}</h2>
                         {profileDetail.ok.products.length>0 && <>
                 <h2><strong><i>{withHelp('Products: ', ' Products currently being offered by this store. ')}</i></strong>                
                 {SortMenu(true)}</h2>
@@ -394,7 +397,7 @@ function SearchByProductDetails ({  className = '', onClear,
   }
       
   return (
-    <>
+    <StyledDiv className={className}>
     <Card>
     <AccountHeader 
             fromAcct={from} 
@@ -420,16 +423,16 @@ function SearchByProductDetails ({  className = '', onClear,
         </>)}
 
     </Card>
-    </>
+    </StyledDiv>
   );
 }
-// const StyledDiv = styled.div`
-//   align-items: center;
-//   display: flex;
+const StyledDiv = styled.div`
+  align-items: center;
+  display: flex;
 
-//   .output {
-//     flex: 1 1;
-//     margin: 0.25rem 0.5rem;
-//   }
-// `;
+  .output {
+    flex: 1 1;
+    margin: 0.25rem 0.5rem;
+  }
+`;
 export default React.memo(SearchByProductDetails);

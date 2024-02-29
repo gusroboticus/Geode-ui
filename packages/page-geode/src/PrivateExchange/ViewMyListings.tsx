@@ -6,10 +6,11 @@ import React, { useState, useCallback } from 'react';
 import { useTranslation } from '../shared/translate.js';
 import type { CallResult } from './types.js';
 import { stringify, hexToString, isHex } from '@polkadot/util';
-import { styled, Button, AccountName, Card } from '@polkadot/react-components';
+import { styled, Button, Card } from '@polkadot/react-components';
 import { Table, Label } from 'semantic-ui-react'
 import CallSendMessage from './CallSendMessage.js';
 import { useToggle } from '@polkadot/react-hooks';
+import { accountName, idToShort, BNtoGeode, booleanToHuman, t_strong } from './ExchangeUtil.js';
 
 interface Props {
   className?: string;
@@ -41,13 +42,6 @@ type ListingsDetail = {
 }
 
 function ViewMyListings ({ className = '', outcome: { output } }: Props): React.ReactElement<Props> | null {
-  //todo: code for allCodes:
-  // console.log(JSON.stringify(from));
-  // console.log(JSON.stringify(message));
-  // console.log(JSON.stringify(onClear));
-  // console.log(JSON.stringify(params));
-  // console.log(JSON.stringify(result));
-  // console.log(JSON.stringify(when));
   const { t } = useTranslation();
   const objOutput: string = stringify(output);
   const _Obj = JSON.parse(objOutput);
@@ -64,7 +58,6 @@ function ViewMyListings ({ className = '', outcome: { output } }: Props): React.
   const [passCountry, setPassCountry] = useState('');
   const [passCity, setPassCity] = useState('');
   const [passNotes, setPassNotes] = useState('');
-  
   
   // useToggles for secondary buttons on this display
   const [isNewListing, toggleNewListing] = useToggle(false);
@@ -101,23 +94,6 @@ function ViewMyListings ({ className = '', outcome: { output } }: Props): React.
         </div>
   )}
 
-  function BNtoGeode(_num: number): JSX.Element {
-    return(<>
-        {_num>0? <>{(_num/1000000000000).toString()}</>: <>{'0'}</>}
-    </>)
-  }
-
-  function booleanToHuman(_bool: boolean): JSX.Element {
-    return(<>
-    <Label 
-      circular
-      color='grey'
-      >{_bool? 'Hidden': 'Show'}
-    </Label>
-    </>
-    )
-  }
-
   function ShowListings(): JSX.Element {
     try {
       return(
@@ -130,22 +106,22 @@ function ViewMyListings ({ className = '', outcome: { output } }: Props): React.
               {listingsDetail.ok.listings.map((_listings) =>  
                 <div>
                   <strong>{t(' Listing ID: ')}</strong>
-                  {_listings.listingId}
-                  <br /><strong>{t(' Hide: ')}</strong>
+                  {idToShort(_listings.listingId)}
+                  <br />{t_strong(' Hide: ')}
                   <>{booleanToHuman(_listings.hide)}</>
-                  <br /><strong>{t(' Seller: ')}</strong>
-                  <><AccountName value={_listings.seller} withSidebar={true}/></>
-                  <br /><strong>{t(' Offer / Asking: ')}</strong>
+                  <br />{t_strong(' Seller: ')}
+                  <>{accountName(_listings.seller)}</>
+                  <br />{t_strong(' Offer / Asking: ')}
                   <>{isHex(_listings.offerCoin) ? hexToString(_listings.offerCoin) : ' '}{t(' / ')}{isHex(_listings.askingCoin) ? hexToString(_listings.askingCoin) : ' '}</>
-                  <br /><strong>{t(' Price: ')}</strong>
+                  <br />{t_strong(' Price: ')}
                   <>{BNtoGeode(_listings.price)}</>
-                  <br /><strong>{t(' Inventory: ')}</strong>
+                  <br />{t_strong(' Inventory: ')}
                   <>{BNtoGeode(_listings.inventory)}</>
-                  <br /><strong>{t(' Location: ')}</strong>
+                  <br />{t_strong(' Location: ')}
                   <>{isHex(_listings.city) ? hexToString(_listings.city) : ' '}{t(', ')}{isHex(_listings.country) ? hexToString(_listings.country) : ' '}</>
-                  <br /><strong>{t(' Method: ')}</strong>
+                  <br />{t_strong(' Method: ')}
                   <>{isHex(_listings.method) ? hexToString(_listings.method) : ' '}</>
-                  <br /><strong>{t(' Notes: ')}</strong>
+                  <br />{t_strong(' Notes: ')}
                   <>{isHex(_listings.notes) ? hexToString(_listings.notes) : ' '}</>
 
                   <br />

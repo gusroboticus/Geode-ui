@@ -9,6 +9,7 @@ import type { CallResult } from './types.js';
 import { stringify, hexToString, isHex } from '@polkadot/util';
 import { styled, AccountName, Card } from '@polkadot/react-components';
 import { Input, Table } from 'semantic-ui-react'
+import { t_strong, timeStampToDate } from './ReportingUtil.js';
 
 interface Props {
   className?: string;
@@ -34,35 +35,13 @@ type ReportDetail = {
 ok: ReportObj[]
 }
 
-function ViewReportsDetails ({ className = '', onClear, outcome: { from, message, output, params, result, when } }: Props): React.ReactElement<Props> | null {
-  //todo: code for allCodes:
-  console.log(JSON.stringify(from));
-  console.log(JSON.stringify(onClear));
-  console.log(JSON.stringify(message));
-  console.log(JSON.stringify(params));
-  console.log(JSON.stringify(result));
-  console.log(JSON.stringify(when));
+function ViewReportsDetails ({ className = '', onClear, outcome: { output } }: Props): React.ReactElement<Props> | null {
 
   const { t } = useTranslation();
   const objOutput: string = stringify(output);
   const _Obj = JSON.parse(objOutput);
   const reportDetail: ReportDetail = Object.create(_Obj);
   const [searchString, setSearchString] = useState('');
-
-  function timeStampToDate(tstamp: number): JSX.Element {
-    try {
-     const event = new Date(tstamp);
-     return (
-          <><i>{event.toDateString()}{' '}
-               {event.toLocaleTimeString()}{' '}</i></>
-      )
-    } catch(error) {
-     console.error(error)
-     return(
-         <><i>{t('No Date')}</i></>
-     )
-    }
- }
     
   function ShowReports(): JSX.Element {
     try {
@@ -91,47 +70,47 @@ function ViewReportsDetails ({ className = '', onClear, outcome: { from, message
               // map to output
               .map((_out) =>  
               <div>
-              <strong>{t(' Location: ')}</strong>
+              {t_strong(' Location: ')}
               <>
               {isHex(_out.accusedLocation) ? hexToString(_out.accusedLocation) : ' '}
               </>
-              <br /><strong>{t(' Timestamp: ')}</strong>
+              <br />{t_strong(' Timestamp: ')}
               <>
               {timeStampToDate(_out.timestamp)}
               </>
-              <br /><strong>{t(' Accused Account: ')}</strong>
+              <br />{t_strong(' Accused Account: ')}
               <>
               <AccountName value={_out.accusedAccount} withSidebar={true}/>
               </>
-              <br /><strong>{t(' Report ID: ')}</strong>
+              <br />{t_strong(' Report ID: ')}
               <>
               {_out.reportId}
               </>
-              <br /><strong>{t(' Crime Category: ')}</strong>
+              <br />{t_strong(' Crime Category: ')}
               <>
               {isHex(_out.crimeCategory) ? hexToString(_out.crimeCategory) : ' '}
               </>
-              <br /><strong>{t(' Crime Description: ')}</strong>
+              <br />{t_strong(' Crime Description: ')}
               <>
               {isHex(_out.crimeDescription) ? hexToString(_out.crimeDescription) : ' '}
               </>
-              <br /><strong>{t(' Geode App: ')}</strong>
+              <br />{t_strong(' Geode App: ')}
               <>
               {isHex(_out.geodeApps) ? hexToString(_out.geodeApps) : ' '}
               </>
-              <br /><strong>{t(' App Activity ID: ')}</strong>
+              <br />{t(' App Activity ID: ')}
               <>
               {isHex(_out.activityIdList) ? hexToString(_out.activityIdList) : ' '}
               </>
-              <br /><strong>{t(' Reporter Account: ')}</strong>
+              <br />{t_strong(' Reporter Account: ')}
               <>
               <AccountName value={_out.reporterAccount} withSidebar={true}/>
               </>
-              <br /><strong>{t(' Reporter Legal Name: ')}</strong>
+              <br />{t_strong(' Reporter Legal Name: ')}
               <>
               {isHex(_out.reporterLegalName) ? hexToString(_out.reporterLegalName) : ' '}
               </>
-              <br /><strong>{t(' Reporter Phone: ')}</strong>
+              <br />{t_strong(' Reporter Phone: ')}
               <>
               {isHex(_out.reporterPhone) ? hexToString(_out.reporterPhone) : ' '}
               </>

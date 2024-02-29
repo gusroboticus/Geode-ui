@@ -10,12 +10,12 @@ import type { CallResult } from './types.js';
 import { useToggle } from '@polkadot/react-hooks';
 import { stringify, hexToString, isHex } from '@polkadot/util';
 import { styled, Toggle, AccountName, Badge,  LabelHelp, IdentityIcon, Card } from '@polkadot/react-components';
-import CopyInline from '../shared/CopyInline.js';
 import JSONprohibited from '../shared/geode_prohibited.json';
 
 import Endorsements from './Endorsements.js';
 import ShowHideClaims from './ShowHideClaims.js';
 import AccountHeader from '../shared/AccountHeader.js';
+import { withHttp, linkToShort, idToShort, autoCorrect, accountName, acctToShort } from './LifeWorkUtil.js';
 
 interface Props {
   className?: string;
@@ -47,9 +47,6 @@ type ClaimList = {
 function Details ({ className = '', onClear, isAccount, outcome: { from, output, when } }: Props): React.ReactElement<Props> | null {
   //todo: code for unused params:
   console.log(JSON.stringify(onClear));
-  // console.log(JSON.stringify(message));
-  // console.log(JSON.stringify(params));
-  // console.log(JSON.stringify(result));
   const { t } = useTranslation();
   const claimIdRef: string[] = [' ', 'work history', 'education', 'expertise', 'good deeds', 'intellectual property', '', '', '', '', '', '', '', '', '', '', '', '', ''];
   const searchWords: string[] = JSONprohibited;
@@ -66,17 +63,8 @@ function Details ({ className = '', onClear, isAccount, outcome: { from, output,
   const objOutput2: string = stringify(output);
   const _Obj2 = JSON.parse(objOutput2);
   const claimDetail: ClaimDetail = Object.create(_Obj2);
-  
-  function autoCorrect(arr: string[], str: string): JSX.Element {
-    arr.forEach(w => str = str.replaceAll(w, '****'));
-    arr.forEach(w => str = str.replaceAll(w.charAt(0).toUpperCase() + w.slice(1), '****'));
-    arr.forEach(w => str = str.replaceAll(w.charAt(0) + w.slice(1).toUpperCase, '****'));        
-    arr.forEach(w => str = str.replaceAll(w.toUpperCase(), '****'));
-    return (
-    <>{t(str)}</>)
-}
 
-const withHttp = (url: string) => url.replace(/^(?:(.*:)?\/\/)?(.*)/i, (match, schemma, nonSchemmaUrl) => schemma ? match : `http://${nonSchemmaUrl}`);
+//const withHttp = (url: string) => url.replace(/^(?:(.*:)?\/\/)?(.*)/i, (match, schemma, nonSchemmaUrl) => schemma ? match : `http://${nonSchemmaUrl}`);
 
 const _resetEndorse = useCallback(
   () => {setClaimToEndorse([])
@@ -121,16 +109,13 @@ function ListClaims(props:ClaimList): JSX.Element {
 
           {_out.show && isAccount && (
               <>
-              <IdentityIcon value={_out.claimant} />
-              <AccountName value={_out.claimant} withSidebar={true}/>
-              <br /><br />
+              {accountName(_out.claimant)}
+              <br />
               </>)}
 
           {_out.show && (<>
-                <Label  
-                color='grey'
-                >{isHex(_out.claim) ? autoCorrect(searchWords, hexToString(_out.claim)) : ' '}</Label> {' '}                  
-              <Label circular color='blue'> {_out.endorserCount} </Label> 
+              {' 🔘 '}{isHex(_out.claim) ? autoCorrect(searchWords, hexToString(_out.claim)) : ' '}{' '}
+              <Label size='tiny' circular color='blue'> {_out.endorserCount} </Label> 
               </>)}
               
           {_out.show && hexToString(_out.link)!='' && (
@@ -139,6 +124,7 @@ function ListClaims(props:ClaimList): JSX.Element {
                 <Label  as='a'
                 color='orange'
                 circular
+                size='tiny'
                 href={isHex(_out.link) ? withHttp(hexToString(_out.link).trim()) : ' '}
                 target="_blank" 
                 rel="noopener noreferrer"
@@ -178,8 +164,8 @@ function ListClaims(props:ClaimList): JSX.Element {
               
           {_out.show && isShowClaimId && (<>
                 <br /><br />
-                <CopyInline value={_out.claimId} label={''} />
-                <strong>{' ClaimId: '}</strong>{_out.claimId}{' '}
+                {' - '}
+                <strong>{' ClaimId: '}</strong>{idToShort(_out.claimId)}{' '}
               </>)}
 
           {_out.show && isShowLinkAddr && (<>
@@ -187,7 +173,7 @@ function ListClaims(props:ClaimList): JSX.Element {
                   <>
                     <br />
                     <Badge color='orange' icon='link'/>{' '}
-                    {isHex(_out.link) ? withHttp(hexToString(_out.link).trim()) : ' '}
+                    {isHex(_out.link) ? linkToShort(withHttp(hexToString(_out.link).trim())) : ' '}
                     <Label  as='a'
                       color='orange'
                       circular
@@ -204,10 +190,10 @@ function ListClaims(props:ClaimList): JSX.Element {
                 <List divided inverted bulleted>
                   {_out.endorsers.map((name, i: number) => <List.Item key={name}> 
                   {(i === 0) ? 
-                  <><strong>{t('Claim Endorsements:')}</strong>{t('(self)')} {name}</> : 
+                  <><strong>{t('Claim Endorsements:')}</strong>{t('(self)')} {acctToShort(name)}</> : 
                   <><Badge color='blue' icon='check'/>{t('(endorser No.')}{i}{') '}
-                  {' ('}<AccountName value={name} withSidebar={true}/>{') '}
-                  {name} </>}
+                  {accountName(name)}
+                   </>}
               </List.Item>)}
               </List>     
               </>)}
@@ -239,7 +225,7 @@ function EndorsementCard(): JSX.Element {
         </>)}
       
       {claimToEndorse[2]===from && (<>
-        <Label color='orange'>{'WARNING:'}</Label> {' The Endorsing account and the Claim Account Owner are the same.'}
+        <Label color='orange'>{t('WARNING:')}</Label> {t(' The Endorsing account and the Claim Account Owner are the same.')}
         <br />
         </>)}
           {isShowForm && claimToEndorse[0] && 
@@ -283,7 +269,7 @@ function HideClaimCard(): JSX.Element {
   }catch(e){
     console.log(e)
     return(
-      <>{' There are no claims to Hide/Show.'}</>
+      <>{t(' There are no claims to Hide/Show.')}</>
     )
   }
 }
@@ -376,7 +362,7 @@ function ToggleCard(): JSX.Element {
       console.log(e)
       return(
         <>
-        {'- Make Claims for this Account.'}
+        {t('- Make Claims for this Account.')}
         </>
       )        
     }

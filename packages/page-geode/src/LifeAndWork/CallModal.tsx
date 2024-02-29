@@ -216,9 +216,9 @@ function CallModal ({ className = '', claimID, claimant, claim, showBool, contra
         )}
 
         {messageIndex===5 ? (<>
-          {'Claim ID : '}{JSON.stringify(params = [claimID])}
+          {'Claim ID : '}{params = [claimID]}
           </>) : (<>
-          {'Claim ID : '}{JSON.stringify(params = [claimID, showBool])}
+          {'Claim ID : '}{params = [claimID, showBool]}
         </>)}
     
         

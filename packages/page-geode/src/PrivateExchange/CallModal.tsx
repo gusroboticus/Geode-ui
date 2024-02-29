@@ -15,6 +15,7 @@ import { styled, Expander, Button, Dropdown, InputAddress, InputBalance, Modal, 
 import { useAccountId, useApi, useDebounce, useFormField, useToggle } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { hexToString, BN, BN_ONE, BN_ZERO } from '@polkadot/util';
+import { t_strong, GeodeToZeo } from './ExchangeUtil.js';
 
 import InputMegaGas from '../shared/InputMegaGas.js';
 import Params from '../shared/Params.js';
@@ -160,11 +161,6 @@ function CallModal ({ className = '', passListingID, passOfferCoin, passAskingCo
   const isValid = !!(accountId && weight.isValid && isValueValid);
   const isViaRpc = (isViaCall || (!message.isMutating && !message.isPayable));
 
-  function GeodeToZeo(_string: string): string {
-    const _num = +_string * 1000000000000;
-    return(_num.toString())
-  }
-
   return (
     <>
     <Modal
@@ -176,7 +172,6 @@ function CallModal ({ className = '', passListingID, passOfferCoin, passAskingCo
         
         {isShow && (<>
           <InputAddress
-          //help={t('A deployed contract that has either been deployed or attached. The address and ABI are used to construct the parameters.')}
           isDisabled
           label={t('contract to use')}
           type='contract'
@@ -186,7 +181,6 @@ function CallModal ({ className = '', passListingID, passOfferCoin, passAskingCo
         <br /><strong>{t('Account to Use: ')}</strong><br />
         <InputAddress
           defaultValue={accountId}
-          //help={t('Specify the user account to use for this contract call. And fees will be deducted from this account.')}
           label={t('call from account')}
           labelExtra={
             <Available
@@ -203,7 +197,6 @@ function CallModal ({ className = '', passListingID, passOfferCoin, passAskingCo
             {isShow && (<>
               <Dropdown
               defaultValue={messageIndex}
-              //help={t('The message to send to this contract. Parameters are adjusted based on the ABI provided.')}
               isError={message === null}
               label={t('message to send')}
               onChange={onChangeMessage}
@@ -232,31 +225,32 @@ function CallModal ({ className = '', passListingID, passOfferCoin, passAskingCo
         {/* custom modal for this contract message... */}
         {messageIndex===1 && (<>
           <br />       
-          <strong>{t('Editing This Listing ID: ')}</strong><br />
+          {t_strong('Editing This Listing ID: ')}<br />
           {params[0] = passListingID}
           <br /><h2><strong>{hexToString(passOfferCoin)}{t('/')}{hexToString(passAskingCoin)}</strong></h2>
           <br />
 
-          <strong>{t('Price per coin in ')}{hexToString(passAskingCoin)}</strong>
+          {t_strong('Price per coin in ')}{hexToString(passAskingCoin)}
           <Input label={formPrice? params[1] = GeodeToZeo(formPrice): params[1] = passPrice} type="text"
                 defaultValue={BNtoGeode(passPrice)}
                 value={formPrice}
                 onChange={(e) => {
                     setFormPrice(e.target.value);
                 }}
-                ><input /> 
+                ><input />
           </Input>
 
-          <strong>{t('Method: explain how you want buyers to communicate with you, etc. ')}</strong>
+          {t_strong('Method: explain how you want buyers to communicate with you, etc. ')}
           <Input label={formMethod? params[2] = formMethod: params[2] = hexToString(passMethod)} type="text" 
-              value={formMethod}
-              defaultValue={hexToString(passMethod)}
-              onChange={(e)=>{
-                setFormMethod(e.target.value);
-              }}
-          ><input /></Input>
+                value={formMethod}
+                defaultValue={hexToString(passMethod)}
+                onChange={(e)=>{
+                    setFormMethod(e.target.value);
+                }}
+                ><input />
+          </Input>
 
-          <strong>{t('Inventory: how much of the offer coin do you have for sale?')}</strong>
+          {t_strong('Inventory: how much of the offer coin do you have for sale?')}
           <Input label={formInventory? params[3] = GeodeToZeo(formInventory) : params[3] = passInventory} type="text"
                   value={formInventory}
                   defaultValue={BNtoGeode(passInventory)}
@@ -266,34 +260,37 @@ function CallModal ({ className = '', passListingID, passOfferCoin, passAskingCo
                 ><input />
           </Input>
 
-          <strong>{t('Country: what country do you live in (for local sales)')}</strong>
+          {t_strong('Country: what country do you live in (for local sales)')}
           <Input label={formCountry? params[4] = formCountry: params[4] = hexToString(passCountry)} type="text" 
               value={formCountry}
               defaultValue={hexToString(passCountry)}
               onChange={(e)=>{
               setFormCountry(e.target.value);
               }}
-          ><input /></Input>
+              ><input />
+          </Input>
 
-          <strong>{t('City: what city do you live in (for local sales)')}</strong>
+          {t_strong('City: what city do you live in (for local sales)')}
           <Input label={formCity? params[5] = formCity: params[5] = hexToString(passCity)} type="text" 
               value={formCity}
               defaultValue={hexToString(passCity)}
               onChange={(e)=>{
               setFormCity(e.target.value);
               }}
-          ><input /></Input>
+              ><input />
+          </Input>
 
-          <strong>{t('Notes: what else should buyers know?')}</strong>
+          {t_strong('Notes: what else should buyers know?')}
           <Input label={formNotes? params[6] = formNotes: params[6] = hexToString(passNotes)} type="text" 
               value={formNotes}
               defaultValue={hexToString(passNotes)}
               onChange={(e)=>{
               setFormNotes(e.target.value);
               }}
-          ><input /></Input>
+              ><input />
+          </Input>
 
-          <strong>{t('Hide This Listing?')}</strong>
+          {t_strong('Hide This Listing?')}
           <br />
           <Toggle
             className='booleantoggle'
@@ -305,13 +302,10 @@ function CallModal ({ className = '', passListingID, passOfferCoin, passAskingCo
             }}
             value={isHideListing}
           />
-
         </>)}
-
 
         {message.isPayable && (
           <InputBalance
-            //help={t('The allotted value for this contract, i.e. the amount transferred to the contract as part of this call.')}
             isError={!isValueValid}
             isZeroable
             label={t('value')}

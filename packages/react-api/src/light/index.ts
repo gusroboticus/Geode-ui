@@ -5,10 +5,11 @@ import { WellKnownChain } from '@substrate/connect';
 
 import { specs as kusama } from './kusama/index.js';
 import { specs as polkadot } from './polkadot/index.js';
+import { specs as geode } from './geode/index.js'
 
 export const lightSpecs: Record<string, Record<string, string>> =
   Object
-    .entries({ kusama, polkadot })
+    .entries({ kusama, polkadot, geode })
     .reduce((all: Record<string, Record<string, string>>, [r, v]) => {
       all[r] = v.reduce((specs: Record<string, string>, k) => {
         specs[k] = `./light/${r}/${k}.json`;
@@ -23,5 +24,6 @@ export const relaySpecs: Record<string, string> = {
   kusama: WellKnownChain.ksmcc3,
   polkadot: WellKnownChain.polkadot,
   rococo: WellKnownChain.rococo_v2_2,
-  westend: WellKnownChain.westend2
+  westend: WellKnownChain.westend2,
+  geode: WellKnownChain.geode_mainnet,
 };

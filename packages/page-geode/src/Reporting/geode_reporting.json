@@ -1,12 +1,12 @@
 {
   "source": {
-    "hash": "0x98bbf33b05e68779fa2d1ee308e6e5575d53ba18eefbc0d688614ae7c2d0db12",
-    "language": "ink! 4.2.0",
-    "compiler": "rustc 1.70.0-nightly",
+    "hash": "0x19659587e57f663693d64fef2539b2d021547e1479e2de2ddb29974513c2854a",
+    "language": "ink! 5.0.0-rc.1",
+    "compiler": "rustc 1.76.0",
     "build_info": {
       "build_mode": "Release",
-      "cargo_contract_version": "2.0.1",
-      "rust_toolchain": "nightly-aarch64-apple-darwin",
+      "cargo_contract_version": "4.0.0-rc.2",
+      "rust_toolchain": "stable-aarch64-apple-darwin",
       "wasm_opt_settings": {
         "keep_debug_symbols": false,
         "optimization_passes": "Z"
@@ -15,12 +15,13 @@
   },
   "contract": {
     "name": "geode_reporting",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "authors": [
       "Dr. Amy Messegee <support@blockandpurpose.com>"
     ],
     "description": "A contract for reporting suspicious activity on the Geode network."
   },
+  "image": null,
   "spec": {
     "constructors": [
       {
@@ -34,7 +35,7 @@
             "ink_primitives",
             "ConstructorResult"
           ],
-          "type": 9
+          "type": 38
         },
         "selector": "0x9bae9d5e"
       }
@@ -45,47 +46,145 @@
         "displayName": [
           "AccountId"
         ],
-        "type": 6
+        "type": 2
       },
       "balance": {
         "displayName": [
           "Balance"
         ],
-        "type": 22
+        "type": 48
       },
       "blockNumber": {
         "displayName": [
           "BlockNumber"
         ],
-        "type": 23
+        "type": 30
       },
       "chainExtension": {
         "displayName": [
           "ChainExtension"
         ],
-        "type": 24
+        "type": 49
       },
       "hash": {
         "displayName": [
           "Hash"
         ],
-        "type": 4
+        "type": 10
       },
       "maxEventTopics": 4,
+      "staticBufferSize": 16384,
       "timestamp": {
         "displayName": [
           "Timestamp"
         ],
-        "type": 2
+        "type": 0
       }
     },
-    "events": [],
+    "events": [
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": false,
+            "label": "report_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 10
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "reporter_account",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 2
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "accused_account",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 2
+            }
+          },
+          {
+            "docs": [],
+            "indexed": false,
+            "label": "geode_apps",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 11
+            }
+          },
+          {
+            "docs": [],
+            "indexed": false,
+            "label": "activity_id_list",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 11
+            }
+          },
+          {
+            "docs": [],
+            "indexed": false,
+            "label": "crime_category",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 11
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "accused_location",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 11
+            }
+          },
+          {
+            "docs": [],
+            "indexed": false,
+            "label": "timestamp",
+            "type": {
+              "displayName": [
+                "u64"
+              ],
+              "type": 0
+            }
+          }
+        ],
+        "docs": [],
+        "label": "NewSAReport",
+        "module_path": "geode_reporting::geode_reporting",
+        "signature_topic": "0x818597295be92af9705c455c048109d8b175372c309a3d370cdba26594d29c69"
+      }
+    ],
     "lang_error": {
       "displayName": [
         "ink",
         "LangError"
       ],
-      "type": 10
+      "type": 39
     },
     "messages": [
       {
@@ -96,7 +195,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 7
+              "type": 11
             }
           },
           {
@@ -105,7 +204,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 7
+              "type": 11
             }
           },
           {
@@ -114,7 +213,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "type": 6
+              "type": 2
             }
           },
           {
@@ -123,7 +222,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 7
+              "type": 11
             }
           },
           {
@@ -132,7 +231,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 7
+              "type": 11
             }
           },
           {
@@ -141,7 +240,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 7
+              "type": 11
             }
           },
           {
@@ -150,7 +249,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 7
+              "type": 11
             }
           },
           {
@@ -159,7 +258,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 7
+              "type": 11
             }
           }
         ],
@@ -173,7 +272,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 11
+          "type": 40
         },
         "selector": "0xf91a11e9"
       },
@@ -185,7 +284,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "type": 6
+              "type": 2
             }
           },
           {
@@ -194,7 +293,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 7
+              "type": 11
             }
           },
           {
@@ -203,7 +302,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 7
+              "type": 11
             }
           },
           {
@@ -212,7 +311,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 7
+              "type": 11
             }
           },
           {
@@ -221,7 +320,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 7
+              "type": 11
             }
           }
         ],
@@ -235,7 +334,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 11
+          "type": 40
         },
         "selector": "0x5a0d43ce"
       },
@@ -247,7 +346,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "type": 6
+              "type": 2
             }
           },
           {
@@ -256,7 +355,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 7
+              "type": 11
             }
           },
           {
@@ -265,7 +364,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 7
+              "type": 11
             }
           },
           {
@@ -274,7 +373,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 7
+              "type": 11
             }
           },
           {
@@ -283,7 +382,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 7
+              "type": 11
             }
           }
         ],
@@ -297,7 +396,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 11
+          "type": 40
         },
         "selector": "0x99327220"
       },
@@ -309,7 +408,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "type": 6
+              "type": 2
             }
           }
         ],
@@ -323,7 +422,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 11
+          "type": 40
         },
         "selector": "0x39a64381"
       },
@@ -335,7 +434,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "type": 6
+              "type": 2
             }
           },
           {
@@ -344,7 +443,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 7
+              "type": 11
             }
           },
           {
@@ -353,7 +452,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 7
+              "type": 11
             }
           },
           {
@@ -362,7 +461,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 7
+              "type": 11
             }
           },
           {
@@ -371,7 +470,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 7
+              "type": 11
             }
           }
         ],
@@ -385,7 +484,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 11
+          "type": 40
         },
         "selector": "0x8db9e772"
       },
@@ -397,7 +496,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "type": 6
+              "type": 2
             }
           }
         ],
@@ -411,7 +510,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 11
+          "type": 40
         },
         "selector": "0xfbd024d6"
       },
@@ -427,7 +526,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 15
+          "type": 43
         },
         "selector": "0x57569588"
       },
@@ -443,7 +542,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 18
+          "type": 45
         },
         "selector": "0x48ac9c13"
       }
@@ -456,67 +555,15 @@
           "fields": [
             {
               "layout": {
-                "struct": {
-                  "fields": [
-                    {
-                      "layout": {
-                        "root": {
-                          "layout": {
-                            "leaf": {
-                              "key": "0xbed867c0",
-                              "ty": 0
-                            }
-                          },
-                          "root_key": "0xbed867c0"
-                        }
-                      },
-                      "name": "status"
-                    },
-                    {
-                      "layout": {
-                        "enum": {
-                          "dispatchKey": "0x00000000",
-                          "name": "Option",
-                          "variants": {
-                            "0": {
-                              "fields": [],
-                              "name": "None"
-                            },
-                            "1": {
-                              "fields": [
-                                {
-                                  "layout": {
-                                    "leaf": {
-                                      "key": "0x00000000",
-                                      "ty": 1
-                                    }
-                                  },
-                                  "name": "0"
-                                }
-                              ],
-                              "name": "Some"
-                            }
-                          }
-                        }
-                      },
-                      "name": "_reserved"
-                    }
-                  ],
-                  "name": "Data"
-                }
-              },
-              "name": "guard"
-            },
-            {
-              "layout": {
                 "root": {
                   "layout": {
                     "leaf": {
-                      "key": "0x0494e98c",
-                      "ty": 2
+                      "key": "0x8ce99404",
+                      "ty": 0
                     }
                   },
-                  "root_key": "0x0494e98c"
+                  "root_key": "0x8ce99404",
+                  "ty": 1
                 }
               },
               "name": "account_timer"
@@ -525,7 +572,7 @@
               "layout": {
                 "leaf": {
                   "key": "0x00000000",
-                  "ty": 3
+                  "ty": 9
                 }
               },
               "name": "all_reports"
@@ -539,8 +586,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x91eb39d4",
-                              "ty": 4
+                              "key": "0xd439eb91",
+                              "ty": 10
                             }
                           },
                           "name": "report_id"
@@ -548,8 +595,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x91eb39d4",
-                              "ty": 6
+                              "key": "0xd439eb91",
+                              "ty": 2
                             }
                           },
                           "name": "reporter_account"
@@ -557,8 +604,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x91eb39d4",
-                              "ty": 7
+                              "key": "0xd439eb91",
+                              "ty": 11
                             }
                           },
                           "name": "reporter_legal_name"
@@ -566,8 +613,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x91eb39d4",
-                              "ty": 7
+                              "key": "0xd439eb91",
+                              "ty": 11
                             }
                           },
                           "name": "reporter_phone"
@@ -575,8 +622,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x91eb39d4",
-                              "ty": 6
+                              "key": "0xd439eb91",
+                              "ty": 2
                             }
                           },
                           "name": "accused_account"
@@ -584,8 +631,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x91eb39d4",
-                              "ty": 7
+                              "key": "0xd439eb91",
+                              "ty": 11
                             }
                           },
                           "name": "geode_apps"
@@ -593,8 +640,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x91eb39d4",
-                              "ty": 7
+                              "key": "0xd439eb91",
+                              "ty": 11
                             }
                           },
                           "name": "activity_id_list"
@@ -602,8 +649,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x91eb39d4",
-                              "ty": 7
+                              "key": "0xd439eb91",
+                              "ty": 11
                             }
                           },
                           "name": "crime_category"
@@ -611,8 +658,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x91eb39d4",
-                              "ty": 7
+                              "key": "0xd439eb91",
+                              "ty": 11
                             }
                           },
                           "name": "crime_description"
@@ -620,8 +667,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x91eb39d4",
-                              "ty": 7
+                              "key": "0xd439eb91",
+                              "ty": 11
                             }
                           },
                           "name": "accused_location"
@@ -629,8 +676,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x91eb39d4",
-                              "ty": 2
+                              "key": "0xd439eb91",
+                              "ty": 0
                             }
                           },
                           "name": "timestamp"
@@ -639,25 +686,38 @@
                       "name": "Report"
                     }
                   },
-                  "root_key": "0x91eb39d4"
+                  "root_key": "0xd439eb91",
+                  "ty": 12
                 }
               },
               "name": "report_details"
             },
             {
               "layout": {
-                "leaf": {
-                  "key": "0x00000000",
-                  "ty": 8
+                "root": {
+                  "layout": {
+                    "leaf": {
+                      "key": "0x2cc9754c",
+                      "ty": 2
+                    }
+                  },
+                  "root_key": "0x2cc9754c",
+                  "ty": 16
                 }
               },
               "name": "allowed_entities"
             },
             {
               "layout": {
-                "leaf": {
-                  "key": "0x00000000",
-                  "ty": 8
+                "root": {
+                  "layout": {
+                    "leaf": {
+                      "key": "0xfb124572",
+                      "ty": 2
+                    }
+                  },
+                  "root_key": "0xfb124572",
+                  "ty": 19
                 }
               },
               "name": "geode_legal_delegates"
@@ -666,7 +726,7 @@
               "layout": {
                 "leaf": {
                   "key": "0x00000000",
-                  "ty": 6
+                  "ty": 2
                 }
               },
               "name": "geode_legal"
@@ -675,7 +735,7 @@
               "layout": {
                 "leaf": {
                   "key": "0x00000000",
-                  "ty": 0
+                  "ty": 4
                 }
               },
               "name": "geodelegalset"
@@ -689,8 +749,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x64918ac0",
-                              "ty": 6
+                              "key": "0xc08a9164",
+                              "ty": 2
                             }
                           },
                           "name": "user_acct"
@@ -698,8 +758,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x64918ac0",
-                              "ty": 7
+                              "key": "0xc08a9164",
+                              "ty": 11
                             }
                           },
                           "name": "name"
@@ -707,8 +767,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x64918ac0",
-                              "ty": 7
+                              "key": "0xc08a9164",
+                              "ty": 11
                             }
                           },
                           "name": "organization"
@@ -716,8 +776,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x64918ac0",
-                              "ty": 7
+                              "key": "0xc08a9164",
+                              "ty": 11
                             }
                           },
                           "name": "phone"
@@ -725,8 +785,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x64918ac0",
-                              "ty": 7
+                              "key": "0xc08a9164",
+                              "ty": 11
                             }
                           },
                           "name": "email"
@@ -735,16 +795,48 @@
                       "name": "UserDetails"
                     }
                   },
-                  "root_key": "0x64918ac0"
+                  "root_key": "0xc08a9164",
+                  "ty": 22
                 }
               },
               "name": "allowed_user_map"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "leaf": {
+                      "key": "0xc5fbf89e",
+                      "ty": 2
+                    }
+                  },
+                  "root_key": "0xc5fbf89e",
+                  "ty": 26
+                }
+              },
+              "name": "entities_vec"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "leaf": {
+                      "key": "0x11309902",
+                      "ty": 2
+                    }
+                  },
+                  "root_key": "0x11309902",
+                  "ty": 32
+                }
+              },
+              "name": "delegates_vec"
             }
           ],
           "name": "ContractStorage"
         }
       },
-      "root_key": "0x00000000"
+      "root_key": "0x00000000",
+      "ty": 37
     }
   },
   "types": [
@@ -752,7 +844,7 @@
       "id": 0,
       "type": {
         "def": {
-          "primitive": "u8"
+          "primitive": "u64"
         }
       }
     },
@@ -760,67 +852,38 @@
       "id": 1,
       "type": {
         "def": {
-          "tuple": []
-        }
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 2
+          },
+          {
+            "name": "V",
+            "type": 0
+          },
+          {
+            "name": "KeyType",
+            "type": 5
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
       }
     },
     {
       "id": 2,
       "type": {
         "def": {
-          "primitive": "u64"
-        }
-      }
-    },
-    {
-      "id": 3,
-      "type": {
-        "def": {
-          "sequence": {
-            "type": 4
-          }
-        }
-      }
-    },
-    {
-      "id": 4,
-      "type": {
-        "def": {
           "composite": {
             "fields": [
               {
-                "type": 5,
-                "typeName": "[u8; 32]"
-              }
-            ]
-          }
-        },
-        "path": [
-          "ink_primitives",
-          "types",
-          "Hash"
-        ]
-      }
-    },
-    {
-      "id": 5,
-      "type": {
-        "def": {
-          "array": {
-            "len": 32,
-            "type": 0
-          }
-        }
-      }
-    },
-    {
-      "id": 6,
-      "type": {
-        "def": {
-          "composite": {
-            "fields": [
-              {
-                "type": 5,
+                "type": 3,
                 "typeName": "[u8; 32]"
               }
             ]
@@ -834,22 +897,84 @@
       }
     },
     {
+      "id": 3,
+      "type": {
+        "def": {
+          "array": {
+            "len": 32,
+            "type": 4
+          }
+        }
+      }
+    },
+    {
+      "id": 4,
+      "type": {
+        "def": {
+          "primitive": "u8"
+        }
+      }
+    },
+    {
+      "id": 5,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 6
+          },
+          {
+            "name": "R",
+            "type": 7
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 6,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "AutoKey"
+        ]
+      }
+    },
+    {
       "id": 7,
       "type": {
         "def": {
-          "sequence": {
-            "type": 0
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 8
           }
-        }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
       }
     },
     {
       "id": 8,
       "type": {
         "def": {
-          "sequence": {
-            "type": 6
-          }
+          "tuple": []
         }
       }
     },
@@ -857,12 +982,778 @@
       "id": 9,
       "type": {
         "def": {
+          "sequence": {
+            "type": 10
+          }
+        }
+      }
+    },
+    {
+      "id": 10,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "type": 3,
+                "typeName": "[u8; 32]"
+              }
+            ]
+          }
+        },
+        "path": [
+          "ink_primitives",
+          "types",
+          "Hash"
+        ]
+      }
+    },
+    {
+      "id": 11,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 4
+          }
+        }
+      }
+    },
+    {
+      "id": 12,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 10
+          },
+          {
+            "name": "V",
+            "type": 13
+          },
+          {
+            "name": "KeyType",
+            "type": 14
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 13,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "report_id",
+                "type": 10,
+                "typeName": "Hash"
+              },
+              {
+                "name": "reporter_account",
+                "type": 2,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "reporter_legal_name",
+                "type": 11,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "reporter_phone",
+                "type": 11,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "accused_account",
+                "type": 2,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "geode_apps",
+                "type": 11,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "activity_id_list",
+                "type": 11,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "crime_category",
+                "type": 11,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "crime_description",
+                "type": 11,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "accused_location",
+                "type": 11,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "timestamp",
+                "type": 0,
+                "typeName": "u64"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_reporting",
+          "geode_reporting",
+          "Report"
+        ]
+      }
+    },
+    {
+      "id": 14,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 6
+          },
+          {
+            "name": "R",
+            "type": 15
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 15,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 8
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 16,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 2
+          },
+          {
+            "name": "V",
+            "type": 2
+          },
+          {
+            "name": "KeyType",
+            "type": 17
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 17,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 6
+          },
+          {
+            "name": "R",
+            "type": 18
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 18,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 8
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 19,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 2
+          },
+          {
+            "name": "V",
+            "type": 2
+          },
+          {
+            "name": "KeyType",
+            "type": 20
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 20,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 6
+          },
+          {
+            "name": "R",
+            "type": 21
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 21,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 8
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 22,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 2
+          },
+          {
+            "name": "V",
+            "type": 23
+          },
+          {
+            "name": "KeyType",
+            "type": 24
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 23,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "user_acct",
+                "type": 2,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "name",
+                "type": 11,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "organization",
+                "type": 11,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "phone",
+                "type": 11,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "email",
+                "type": 11,
+                "typeName": "Vec<u8>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_reporting",
+          "geode_reporting",
+          "UserDetails"
+        ]
+      }
+    },
+    {
+      "id": 24,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 6
+          },
+          {
+            "name": "R",
+            "type": 25
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 25,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 8
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 26,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "len",
+                "type": 29,
+                "typeName": "Lazy<u32, KeyType>"
+              },
+              {
+                "name": "elements",
+                "type": 31,
+                "typeName": "Mapping<u32, V, KeyType>"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "V",
+            "type": 2
+          },
+          {
+            "name": "KeyType",
+            "type": 27
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "vec",
+          "StorageVec"
+        ]
+      }
+    },
+    {
+      "id": 27,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 6
+          },
+          {
+            "name": "R",
+            "type": 28
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 28,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 8
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 29,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "V",
+            "type": 30
+          },
+          {
+            "name": "KeyType",
+            "type": 27
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "Lazy"
+        ]
+      }
+    },
+    {
+      "id": 30,
+      "type": {
+        "def": {
+          "primitive": "u32"
+        }
+      }
+    },
+    {
+      "id": 31,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 30
+          },
+          {
+            "name": "V",
+            "type": 2
+          },
+          {
+            "name": "KeyType",
+            "type": 27
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 32,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "len",
+                "type": 35,
+                "typeName": "Lazy<u32, KeyType>"
+              },
+              {
+                "name": "elements",
+                "type": 36,
+                "typeName": "Mapping<u32, V, KeyType>"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "V",
+            "type": 2
+          },
+          {
+            "name": "KeyType",
+            "type": 33
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "vec",
+          "StorageVec"
+        ]
+      }
+    },
+    {
+      "id": 33,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 6
+          },
+          {
+            "name": "R",
+            "type": 34
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 34,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 8
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 35,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "V",
+            "type": 30
+          },
+          {
+            "name": "KeyType",
+            "type": 33
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "Lazy"
+        ]
+      }
+    },
+    {
+      "id": 36,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 30
+          },
+          {
+            "name": "V",
+            "type": 2
+          },
+          {
+            "name": "KeyType",
+            "type": 33
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 37,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "account_timer",
+                "type": 1,
+                "typeName": "<Mapping<AccountId, u64> as::ink::storage::traits::\nAutoStorableHint<::ink::storage::traits::ManualKey<76867980u32, ()\n>,>>::Type"
+              },
+              {
+                "name": "all_reports",
+                "type": 9,
+                "typeName": "<Vec<Hash> as::ink::storage::traits::AutoStorableHint<::ink::\nstorage::traits::ManualKey<454109035u32, ()>,>>::Type"
+              },
+              {
+                "name": "report_details",
+                "type": 12,
+                "typeName": "<Mapping<Hash, Report> as::ink::storage::traits::AutoStorableHint\n<::ink::storage::traits::ManualKey<2448112084u32, ()>,>>::Type"
+              },
+              {
+                "name": "allowed_entities",
+                "type": 16,
+                "typeName": "<Mapping<AccountId, AccountId> as::ink::storage::traits::\nAutoStorableHint<::ink::storage::traits::ManualKey<1282787628u32,\n()>,>>::Type"
+              },
+              {
+                "name": "geode_legal_delegates",
+                "type": 19,
+                "typeName": "<Mapping<AccountId, AccountId> as::ink::storage::traits::\nAutoStorableHint<::ink::storage::traits::ManualKey<1917129467u32,\n()>,>>::Type"
+              },
+              {
+                "name": "geode_legal",
+                "type": 2,
+                "typeName": "<AccountId as::ink::storage::traits::AutoStorableHint<::ink::\nstorage::traits::ManualKey<1096577289u32, ()>,>>::Type"
+              },
+              {
+                "name": "geodelegalset",
+                "type": 4,
+                "typeName": "<u8 as::ink::storage::traits::AutoStorableHint<::ink::storage::\ntraits::ManualKey<342272647u32, ()>,>>::Type"
+              },
+              {
+                "name": "allowed_user_map",
+                "type": 22,
+                "typeName": "<Mapping<AccountId, UserDetails> as::ink::storage::traits::\nAutoStorableHint<::ink::storage::traits::ManualKey<1687259840u32,\n()>,>>::Type"
+              },
+              {
+                "name": "entities_vec",
+                "type": 26,
+                "typeName": "<StorageVec<AccountId> as::ink::storage::traits::AutoStorableHint\n<::ink::storage::traits::ManualKey<2667117509u32, ()>,>>::Type"
+              },
+              {
+                "name": "delegates_vec",
+                "type": 32,
+                "typeName": "<StorageVec<AccountId> as::ink::storage::traits::AutoStorableHint\n<::ink::storage::traits::ManualKey<43593745u32, ()>,>>::Type"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_reporting",
+          "geode_reporting",
+          "ContractStorage"
+        ]
+      }
+    },
+    {
+      "id": 38,
+      "type": {
+        "def": {
           "variant": {
             "variants": [
               {
                 "fields": [
                   {
-                    "type": 1
+                    "type": 8
                   }
                 ],
                 "index": 0,
@@ -871,7 +1762,7 @@
               {
                 "fields": [
                   {
-                    "type": 10
+                    "type": 39
                   }
                 ],
                 "index": 1,
@@ -883,11 +1774,11 @@
         "params": [
           {
             "name": "T",
-            "type": 1
+            "type": 8
           },
           {
             "name": "E",
-            "type": 10
+            "type": 39
           }
         ],
         "path": [
@@ -896,7 +1787,7 @@
       }
     },
     {
-      "id": 10,
+      "id": 39,
       "type": {
         "def": {
           "variant": {
@@ -915,7 +1806,7 @@
       }
     },
     {
-      "id": 11,
+      "id": 40,
       "type": {
         "def": {
           "variant": {
@@ -923,7 +1814,7 @@
               {
                 "fields": [
                   {
-                    "type": 12
+                    "type": 41
                   }
                 ],
                 "index": 0,
@@ -932,7 +1823,7 @@
               {
                 "fields": [
                   {
-                    "type": 10
+                    "type": 39
                   }
                 ],
                 "index": 1,
@@ -944,11 +1835,11 @@
         "params": [
           {
             "name": "T",
-            "type": 12
+            "type": 41
           },
           {
             "name": "E",
-            "type": 10
+            "type": 39
           }
         ],
         "path": [
@@ -957,7 +1848,7 @@
       }
     },
     {
-      "id": 12,
+      "id": 41,
       "type": {
         "def": {
           "variant": {
@@ -965,7 +1856,7 @@
               {
                 "fields": [
                   {
-                    "type": 1
+                    "type": 8
                   }
                 ],
                 "index": 0,
@@ -974,7 +1865,7 @@
               {
                 "fields": [
                   {
-                    "type": 13
+                    "type": 42
                   }
                 ],
                 "index": 1,
@@ -986,11 +1877,11 @@
         "params": [
           {
             "name": "T",
-            "type": 1
+            "type": 8
           },
           {
             "name": "E",
-            "type": 13
+            "type": 42
           }
         ],
         "path": [
@@ -999,7 +1890,7 @@
       }
     },
     {
-      "id": 13,
+      "id": 42,
       "type": {
         "def": {
           "variant": {
@@ -1013,14 +1904,8 @@
                 "name": "GenericError"
               },
               {
-                "fields": [
-                  {
-                    "type": 14,
-                    "typeName": "ReentrancyGuardError"
-                  }
-                ],
                 "index": 2,
-                "name": "ReentrancyError"
+                "name": "DataTooLarge"
               }
             ]
           }
@@ -1033,29 +1918,7 @@
       }
     },
     {
-      "id": 14,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "index": 0,
-                "name": "ReentrantCall"
-              }
-            ]
-          }
-        },
-        "path": [
-          "openbrush_contracts",
-          "traits",
-          "errors",
-          "reentrancy_guard",
-          "ReentrancyGuardError"
-        ]
-      }
-    },
-    {
-      "id": 15,
+      "id": 43,
       "type": {
         "def": {
           "variant": {
@@ -1063,7 +1926,7 @@
               {
                 "fields": [
                   {
-                    "type": 16
+                    "type": 44
                   }
                 ],
                 "index": 0,
@@ -1072,7 +1935,7 @@
               {
                 "fields": [
                   {
-                    "type": 10
+                    "type": 39
                   }
                 ],
                 "index": 1,
@@ -1084,11 +1947,11 @@
         "params": [
           {
             "name": "T",
-            "type": 16
+            "type": 44
           },
           {
             "name": "E",
-            "type": 10
+            "type": 39
           }
         ],
         "path": [
@@ -1097,88 +1960,17 @@
       }
     },
     {
-      "id": 16,
+      "id": 44,
       "type": {
         "def": {
           "sequence": {
-            "type": 17
+            "type": 13
           }
         }
       }
     },
     {
-      "id": 17,
-      "type": {
-        "def": {
-          "composite": {
-            "fields": [
-              {
-                "name": "report_id",
-                "type": 4,
-                "typeName": "Hash"
-              },
-              {
-                "name": "reporter_account",
-                "type": 6,
-                "typeName": "AccountId"
-              },
-              {
-                "name": "reporter_legal_name",
-                "type": 7,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "reporter_phone",
-                "type": 7,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "accused_account",
-                "type": 6,
-                "typeName": "AccountId"
-              },
-              {
-                "name": "geode_apps",
-                "type": 7,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "activity_id_list",
-                "type": 7,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "crime_category",
-                "type": 7,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "crime_description",
-                "type": 7,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "accused_location",
-                "type": 7,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "timestamp",
-                "type": 2,
-                "typeName": "u64"
-              }
-            ]
-          }
-        },
-        "path": [
-          "geode_reporting",
-          "geode_reporting",
-          "Report"
-        ]
-      }
-    },
-    {
-      "id": 18,
+      "id": 45,
       "type": {
         "def": {
           "variant": {
@@ -1186,7 +1978,7 @@
               {
                 "fields": [
                   {
-                    "type": 19
+                    "type": 46
                   }
                 ],
                 "index": 0,
@@ -1195,7 +1987,7 @@
               {
                 "fields": [
                   {
-                    "type": 10
+                    "type": 39
                   }
                 ],
                 "index": 1,
@@ -1207,11 +1999,11 @@
         "params": [
           {
             "name": "T",
-            "type": 19
+            "type": 46
           },
           {
             "name": "E",
-            "type": 10
+            "type": 39
           }
         ],
         "path": [
@@ -1220,19 +2012,19 @@
       }
     },
     {
-      "id": 19,
+      "id": 46,
       "type": {
         "def": {
           "composite": {
             "fields": [
               {
                 "name": "delegates",
-                "type": 20,
+                "type": 47,
                 "typeName": "Vec<UserDetails>"
               },
               {
                 "name": "entities",
-                "type": 20,
+                "type": 47,
                 "typeName": "Vec<UserDetails>"
               }
             ]
@@ -1246,58 +2038,17 @@
       }
     },
     {
-      "id": 20,
+      "id": 47,
       "type": {
         "def": {
           "sequence": {
-            "type": 21
+            "type": 23
           }
         }
       }
     },
     {
-      "id": 21,
-      "type": {
-        "def": {
-          "composite": {
-            "fields": [
-              {
-                "name": "user_acct",
-                "type": 6,
-                "typeName": "AccountId"
-              },
-              {
-                "name": "name",
-                "type": 7,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "organization",
-                "type": 7,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "phone",
-                "type": 7,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "email",
-                "type": 7,
-                "typeName": "Vec<u8>"
-              }
-            ]
-          }
-        },
-        "path": [
-          "geode_reporting",
-          "geode_reporting",
-          "UserDetails"
-        ]
-      }
-    },
-    {
-      "id": 22,
+      "id": 48,
       "type": {
         "def": {
           "primitive": "u128"
@@ -1305,15 +2056,7 @@
       }
     },
     {
-      "id": 23,
-      "type": {
-        "def": {
-          "primitive": "u32"
-        }
-      }
-    },
-    {
-      "id": 24,
+      "id": 49,
       "type": {
         "def": {
           "variant": {}

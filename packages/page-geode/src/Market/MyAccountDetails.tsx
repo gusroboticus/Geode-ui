@@ -6,12 +6,18 @@ import React, { useState, useCallback } from 'react';
 import { useTranslation } from '../shared/translate.js';
 import type { CallResult } from './types.js';
 import { stringify, hexToString, isHex } from '@polkadot/util';
-import { Toggle, Expander, Button, AccountName, LabelHelp, IdentityIcon, Card } from '@polkadot/react-components';
+import { styled, Toggle, Expander, Button, Card } from '@polkadot/react-components';
+//import { AccountName, LabelHelp, IdentityIcon } from '@polkadot/react-components';
 import { Grid, Divider, Item, Message, Table, Label, Image } from 'semantic-ui-react'
-import CopyInline from '../shared/CopyInline.js';
+//import CopyInline from '../shared/CopyInline.js';
 import AccountHeader from '../shared/AccountHeader.js';
 import CallSendMessage from './CallSendMessage.js';
 import { useToggle } from '@polkadot/react-hooks';
+//import { idNumberShort, photoLink, t_strong, numBadge, withCopy, withHelp, accountInfo, dateCheck, checkHttp, boolToHuman, hexToHuman, microToGeode, hextoPhoto, numCheck, rateCheck, numToPercent } from './marketutil.js';
+import { idNumberShort, photoLink, t_strong, numBadge, withCopy, withHelp, accountInfo, dateCheck } from './marketutil.js';
+import { checkHttp, boolToHuman, hexToHuman, microToGeode } from './marketutil.js';
+import { hextoPhoto, numCheck, rateCheck, numToPercent } from './marketutil.js';
+
 
 interface Props {
     className?: string;
@@ -194,14 +200,14 @@ interface Props {
   
 function MyAccountDetails ({ className = '', onClear, outcome: { from, output, when } }: Props): React.ReactElement<Props> | null {
 // todo: code for allCodes:
-  console.log(JSON.stringify(className));
+//  console.log(JSON.stringify(className));
 // other props:
 // isAccount,
 // message,
 // params
 // result
 
-    const defaultImage: string ='https://react.semantic-ui.com/images/wireframe/image.png';
+//    const defaultImage: string ='https://react.semantic-ui.com/images/wireframe/image.png';
     const { t } = useTranslation();
 
     const objOutput: string = stringify(output);
@@ -231,18 +237,18 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
     const [isNotReceived, setNotReceived] = useState(false);
     const [isRemoveBookmark, setRemoveBookmark] = useState(false);
 
-    const hextoHuman = (_hexIn: string) => (isHex(_hexIn)? t(hexToString(_hexIn).trim()): '');
+//    const hexToHuman = (_hexIn: string) => (isHex(_hexIn)? t(hexToString(_hexIn).trim()): '');
 
-    const withHttp = (url: string) => url.replace(/^(?:(.*:)?\/\/)?(.*)/i, (match, schemma, nonSchemmaUrl) => schemma ? match : `http://${nonSchemmaUrl}`);
-    const hextoPhoto = (_url: string) => (isHex(_url) ? withHttp(hexToString(_url).trim()) : defaultImage);
-    const acctToShort = (_acct: string) => (_acct.length>7 ? _acct.slice(0,7)+'...' : _acct);
-    const microToGeode = (_num: number) => (_num>-1 ? _num/1000000000000: 0);
-    const boolToHuman = (_bool: boolean) => (_bool? 'Yes': 'No');
-    const rateCheck = (_num: number) => ((_num>0 && _num<6)? _num: 1);
-    const dateCheck = (_num: number) => (_num>0? timeStampToDate(_num): t('No Date'));
-    const numToPercent = (_num: number) => ((_num>-1 && _num<=100)? _num.toString(): '0')+ ' %';
+    //const withHttp = (url: string) => url.replace(/^(?:(.*:)?\/\/)?(.*)/i, (match, schemma, nonSchemmaUrl) => schemma ? match : `http://${nonSchemmaUrl}`);
+    // const hextoPhoto = (_url: string) => (isHex(_url) ? checkHttp(hexToString(_url).trim()) : defaultImage);
+    //const acctToShort = (_acct: string) => (_acct.length>7 ? _acct.slice(0,7)+'...' : _acct);
+    // const microToGeode = (_num: number) => (_num>-1 ? _num/1000000000000: 0);
+    // const boolToHuman = (_bool: boolean) => (_bool? 'Yes': 'No');
+    // const rateCheck = (_num: number) => ((_num>0 && _num<6)? _num: 1);
+    // const dateCheck = (_num: number) => (_num>0? timeStampToDate(_num): t('No Date'));
+    // const numToPercent = (_num: number) => ((_num>-1 && _num<=100)? _num.toString(): '0')+ ' %';
     const rating: string[] = ['','⭐️','⭐️⭐️','⭐️⭐️⭐️','⭐️⭐️⭐️⭐️','⭐️⭐️⭐️⭐️⭐️'];
-    const numCheck = (_num: number) => (_num>-1 ? _num: 0);
+    // const numCheck = (_num: number) => (_num>-1 ? _num: 0);
 
     const numToStatus: string[] = 
     ['Awaiting seller confirmation','Shipped','Delivered','Complete', 'Problem',
@@ -479,18 +485,18 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
         []
       )
 
-    function t_strong(_str: string): JSX.Element{return(<><strong>{t(_str)}</strong></>)}
+    // function t_strong(_str: string): JSX.Element{return(<><strong>{t(_str)}</strong></>)}
 
-    function photoLink(_url: string, _title: string): JSX.Element {
-        return(<>
-        {_url.length>2 &&
-                  <Label as='a' color='orange' circular
-                  href={isHex(_url) ? withHttp(hexToString(_url).trim()) : ''} 
-                  target="_blank" 
-                  rel="noopener noreferrer">{_title}</Label> 
-                  }
-        </>)
-    }
+    // function photoLink(_url: string, _title: string): JSX.Element {
+    //     return(<>
+    //     {_url.length>2 &&
+    //               <Label as='a' color='orange' circular
+    //               href={isHex(_url) ? checkHttp(hexToString(_url).trim()) : ''} 
+    //               target="_blank" 
+    //               rel="noopener noreferrer">{_title}</Label> 
+    //               }
+    //     </>)
+    // }
 
     function showPhoto(_url: string): JSX.Element {
       return(<>
@@ -502,7 +508,7 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
                   height={150}
                   src={hextoPhoto(_url)} 
                   rounded 
-                  href={isHex(_url) ? withHttp(hexToString(_url).trim()) : ''} 
+                  href={isHex(_url) ? checkHttp(hexToString(_url).trim()) : ''} 
                   target="_blank" 
                   rel="noopener noreferrer"
       />      
@@ -511,7 +517,7 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
     }
 
     function renderLink(_link: string): JSX.Element {
-      const ilink: string = isHex(_link)? withHttp(hexToString(_link).trim()): '0x';
+      const ilink: string = isHex(_link)? checkHttp(hexToString(_link).trim()): '0x';
       const videoLink: string = (ilink.includes('embed')) ? ilink 
           : ilink.includes('youtu.be') ? ('https://www.youtube.com/embed/' + ilink.slice(17))
               : ('https://www.youtube.com/embed/' + ilink.slice(32));
@@ -528,26 +534,26 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
       )
     }
 
-  function accountInfo(_acct: string): JSX.Element {
-      return(<>
-          <IdentityIcon value={_acct}/>{' | '}
-          <AccountName value={_acct} withSidebar={true}/>{' | '}
-          {acctToShort(_acct)}{' '}
-          <CopyInline value={_acct} label={''}/>
-      </>)
-  }
+  // function accountInfo(_acct: string): JSX.Element {
+  //     return(<>
+  //         <IdentityIcon value={_acct}/>{' | '}
+  //         <AccountName value={_acct} withSidebar={true}/>{' | '}
+  //         {acctToShort(_acct)}{' '}
+  //         <CopyInline value={_acct} label={''}/>
+  //     </>)
+  // }
 
-  function idNumberShort(_id: string): JSX.Element {return(<>{acctToShort(_id)}{' '}<CopyInline value={_id} label={''}/></>)}
-  function withCopy(_str: string): JSX.Element {return(<>{_str}{' '}<CopyInline value={_str} label={''}/></>)}
-  function withHelp(_str: string, _help: string): JSX.Element {return(<><LabelHelp help={t(_help)} />{' '}{t(_str)}</>)}
-  function numBadge(_num: number): JSX.Element {return(<><Label circular size='small' color='blue'>{numCheck(_num)}</Label></>)}
+  //function idNumberShort(_id: string): JSX.Element {return(<>{acctToShort(_id)}{' '}<CopyInline value={_id} label={''}/></>)}
+  //function withCopy(_str: string): JSX.Element {return(<>{_str}{' '}<CopyInline value={_str} label={''}/></>)}
+  //function withHelp(_str: string, _help: string): JSX.Element {return(<><LabelHelp help={t(_help)} />{' '}{t(_str)}</>)}
+  //function numBadge(_num: number): JSX.Element {return(<><Label circular size='small' color='blue'>{numCheck(_num)}</Label></>)}
 
   function messageText(_msg: string, _bfrom: boolean, _url: string): JSX.Element {
     return(<>
     {_bfrom? <>
-             <Label circular size='small' color='blue' pointing='left'>{hextoHuman(_msg)}</Label>{photoLink(_url, 'Link')}</>:
+             <Label circular size='small' color='blue' pointing='left'>{hexToHuman(_msg)}</Label>{photoLink(_url, 'Link')}</>:
              <>
-             {photoLink(_url, 'Link')}<Label circular size='small' color='grey' pointing='right'>{hextoHuman(_msg)}</Label>
+             {photoLink(_url, 'Link')}<Label circular size='small' color='grey' pointing='right'>{hexToHuman(_msg)}</Label>
              </>
     }
     </>)
@@ -599,22 +605,22 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
                       <Item.Image as='a' size='tiny' 
                                   src={hextoPhoto(_digital.photo)} 
                                   rounded 
-                                  href={isHex(_digital.photo) ? withHttp(hexToString(_digital.photo).trim()) : ''} 
+                                  href={isHex(_digital.photo) ? checkHttp(hexToString(_digital.photo).trim()) : ''} 
                                   target="_blank" 
                                   rel="noopener noreferrer"
                                 /> 
                       <Item.Content>
-                                  <Item.Header as='a' >{t_strong(hextoHuman(_digital.title))}{' '}
+                                  <Item.Header as='a' >{t_strong(hexToHuman(_digital.title))}{' '}
                                   {photoLink(_digital.fileUrl, 'Get Download')}
                                   {photoLink(_digital.moreInfo, 'More Info')}
                                   </Item.Header>
                                   <Item.Meta>
                                   <h3>{t_strong('Account ID: ')}{accountInfo(_digital.sellerAccount)}</h3>
-                                  {t_strong('Seller Name: ')}{hextoHuman(_digital.sellerName)}<br />
+                                  {t_strong('Seller Name: ')}{hexToHuman(_digital.sellerName)}<br />
                                   </Item.Meta>
                                   <Item.Description>
-                                  {t_strong('Brand: ')}{hextoHuman(_digital.brand)}<br />
-                                  {t_strong('Description: ')}{hextoHuman(_digital.description)}<br />
+                                  {t_strong('Brand: ')}{hexToHuman(_digital.brand)}<br />
+                                  {t_strong('Description: ')}{hexToHuman(_digital.description)}<br />
                                   </Item.Description>
                                   <Item.Extra>
                                   </Item.Extra>
@@ -644,12 +650,12 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
                                 <Item.Image as='a' size='tiny' 
                                   src={hextoPhoto(_cart.image)} 
                                   rounded 
-                                  href={isHex(_cart.image) ? withHttp(hexToString(_cart.image).trim()) : ''} 
+                                  href={isHex(_cart.image) ? checkHttp(hexToString(_cart.image).trim()) : ''} 
                                   target="_blank" 
                                   rel="noopener noreferrer"
                                 /> 
                                 <Item.Content>
-                                  <Item.Header as='a'>{hextoHuman(_cart.itemName)}{' '}
+                                  <Item.Header as='a'>{hexToHuman(_cart.itemName)}{' '}
                                   <Label as='a' color='orange' circular 
                                          onClick={()=>{<>
                                                {setMessageId(_cart.itemId)}
@@ -697,7 +703,7 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
                                       {t_strong('Price: ')}{microToGeode(_cart.priceEach)}{t(' Geode')}<br />
                                       {t_strong('Total Order Price: ')}{microToGeode(_cart.totalOrderPrice)}{t(' Geode')}<br />
                                       {t_strong('Seller Account: ')}{accountInfo(_cart.seller)}<br />
-                                      {t_strong('Seller Name: ')}{hextoHuman(_cart.sellerName)}<br />
+                                      {t_strong('Seller Name: ')}{hexToHuman(_cart.sellerName)}<br />
                                       {t_strong('Ordered on: ')}{timeStampToDate(_cart.orderTimestamp)}<br />
                                       {_cart.discussion.length>0 && <>
                                       {t_strong('Messages: ')}{numBadge(_cart.discussion.length)}
@@ -725,10 +731,10 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
                                       {t_strong('Order Id: ')}{idNumberShort(_cart.orderId)}<br />
                                       {t_strong('Product Id: ')}{idNumberShort(_cart.itemId)}<br />
                                       {t_strong('Delivery To Account: ')}{accountInfo(_cart.deliverToAccount)}<br />
-                                      {t_strong('Deliver To Address: ')}{hextoHuman(_cart.deliverToAddress)}<br />
+                                      {t_strong('Deliver To Address: ')}{hexToHuman(_cart.deliverToAddress)}<br />
                                       {t_strong('Problems Identified: ')}{t(numToProblem[numCheck(_cart.problem)])}<br />
                                       {t_strong('Resolution: ')}{t(numToResolution[numCheck(_cart.resolution)])}<br />
-                                      {t_strong('Tracking Info: ')}{hextoHuman(_cart.trackingInfo)}<br />
+                                      {t_strong('Tracking Info: ')}{hexToHuman(_cart.trackingInfo)}<br />
                                       {t_strong('Delivery Date: ')}{_cart.timeDelivered>0? timeStampToDate(_cart.timeDelivered): t('Not Delivered Yet')}<br />
                                       {t_strong('Zeno Total: ')}{microToGeode(_cart.zenoTotal)}{t(' Geode')}<br />
                                       </Grid.Column>
@@ -764,12 +770,12 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
                       <Item.Image as='a' size='tiny' 
                                   src={hextoPhoto(_store.bannerUrl)} 
                                   rounded 
-                                  href={isHex(_store.bannerUrl) ? withHttp(hexToString(_store.bannerUrl).trim()) : ''} 
+                                  href={isHex(_store.bannerUrl) ? checkHttp(hexToString(_store.bannerUrl).trim()) : ''} 
                                   target="_blank" 
                                   rel="noopener noreferrer"
                                 /> 
                       <Item.Content>
-                                  <Item.Header as='a' >{t_strong(hextoHuman(_store.sellerName))}{' '}
+                                  <Item.Header as='a' >{t_strong(hexToHuman(_store.sellerName))}{' '}
                                   {photoLink(_store.externalLink, 'More Info')}
                                   <Label  as='a' color='orange' size='medium' circular
                                           onClick={()=>{<>
@@ -786,8 +792,8 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
                                   {t_strong('Member since: ')}{dateCheck(_store.memberSince)}<br />
                                   </Item.Meta>
                                   <Item.Description>
-                                  {t_strong('Store Description: ')}{hextoHuman(_store.storeDescription)}<br />
-                                  {t_strong('Location: ')}{hextoHuman(_store.sellerLocation)}<br />
+                                  {t_strong('Store Description: ')}{hexToHuman(_store.storeDescription)}<br />
+                                  {t_strong('Location: ')}{hexToHuman(_store.sellerLocation)}<br />
                                   </Item.Description>
                                   <Item.Extra>
                                   {_store.reviews.length>0 && <>
@@ -797,7 +803,7 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
                                     summary={<Label size={'small'} color='orange' circular> {t('Reviews: ')}</Label>}>
                                       {_store.reviews.length>0 && 
                                       _store.reviews.map((_review, index: number)=> <>
-                                          {index+1}{'. '}{dateCheck(_review.timestamp)}{accountInfo(_review.reviewer)}{' | '}{hextoHuman(_review.review)}{' '}{rating[rateCheck(_review.rating)]}<br />
+                                          {index+1}{'. '}{dateCheck(_review.timestamp)}{accountInfo(_review.reviewer)}{' | '}{hexToHuman(_review.review)}{' '}{rating[rateCheck(_review.rating)]}<br />
                                       </>)}
                                     </Expander>                                  
                                   </>}
@@ -825,7 +831,7 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
                     />
                   {isShowProductLists && <>
                   {profileDetail.ok.productLists.length>0 && profileDetail.ok.productLists.map((_list)=> <>
-                      <h2><strong>{withCopy(hextoHuman(_list.listName))}</strong>{numBadge(_list.items.length)}
+                      <h2><strong>{withCopy(hexToHuman(_list.listName))}</strong>{numBadge(_list.items.length)}
                       <Label as='a' color='orange' circular 
                                     onClick={()=>{<>
                                       {setMessageId(_list.listId)}
@@ -841,12 +847,12 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
                       <Item.Image as='a' size='tiny' 
                                   src={hextoPhoto(_product.photoOrYoutubeLink1)} 
                                   rounded 
-                                  href={isHex(_product.photoOrYoutubeLink1) ? withHttp(hexToString(_product.photoOrYoutubeLink1).trim()) : ''} 
+                                  href={isHex(_product.photoOrYoutubeLink1) ? checkHttp(hexToString(_product.photoOrYoutubeLink1).trim()) : ''} 
                                   target="_blank" 
                                   rel="noopener noreferrer"
                                 /> 
                       <Item.Content>
-                                  <Item.Header as='a'>{hextoHuman(_product.title)}{' '}
+                                  <Item.Header as='a'>{hexToHuman(_product.title)}{' '}
                                   <Label as='a' color='orange' circular size='small'
                                          onClick={()=>{<>
                                             {setMessageId(_product.productId)}
@@ -864,7 +870,7 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
                                   {photoLink(_product.moreInfoLink, 'More Info')}
                                   </Item.Header>
                                   <Item.Meta>
-                                    <h3>{t_strong('Description: ')}{hextoHuman(_product.description)}</h3>
+                                    <h3>{t_strong('Description: ')}{hexToHuman(_product.description)}</h3>
                                   </Item.Meta>
                                   <Item.Description>
                                   {t_strong('Price: ')}{microToGeode(_product.price)}{' Geode'}<br />
@@ -878,7 +884,7 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
                                     summary={<Label size={'small'} color='orange' circular> {t('Reviews: ')}</Label>}>
                                       {_product.reviews.length>0 && 
                                       _product.reviews.map((_review, index: number)=> <>
-                                          {index+1}{'. '}{dateCheck(_review.timestamp)}{accountInfo(_review.reviewer)}{' | '}{hextoHuman(_review.review)}{' '}{rating[rateCheck(_review.rating)]}<br />
+                                          {index+1}{'. '}{dateCheck(_review.timestamp)}{accountInfo(_review.reviewer)}{' | '}{hexToHuman(_review.review)}{' '}{rating[rateCheck(_review.rating)]}<br />
                                       </>)}
                                     </Expander>                                  
                                   </>}
@@ -891,12 +897,12 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
                                     <Grid columns={2} divided>
                                         <Grid.Column>
                                         {t_strong('Seller Account: ')}{accountInfo(_product.sellerAccount)}<br />
-                                        {t_strong('Seller Name: ')}{hextoHuman(_product.sellerName)}<br />
-                                        {t_strong('Location: ')}{hextoHuman(_product.productLocation)}<br />
-                                        {t_strong('Brand: ')}{hextoHuman(_product.brand)}<br />
-                                        {t_strong('Category: ')}{hextoHuman(_product.category)}<br />
+                                        {t_strong('Seller Name: ')}{hexToHuman(_product.sellerName)}<br />
+                                        {t_strong('Location: ')}{hexToHuman(_product.productLocation)}<br />
+                                        {t_strong('Brand: ')}{hexToHuman(_product.brand)}<br />
+                                        {t_strong('Category: ')}{hexToHuman(_product.category)}<br />
                                         {t_strong('Inventory: ')}{_product.inventory}<br />
-                                        {t_strong('Delivery Info: ')}{hextoHuman(_product.deliveryInfo)}<br />
+                                        {t_strong('Delivery Info: ')}{hexToHuman(_product.deliveryInfo)}<br />
                                         {t_strong('Zeno Percent: ')}{numToPercent(_product.zenoPercent)}<br />
                                         {t_strong('Number of Zeno Buyers: ')}{_product.zenoBuyers.length}<br />
                                         {t_strong('Digital Product: ')}{boolToHuman(_product.digital)}<br />
@@ -934,7 +940,7 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
                     />
                   {isShowServiceLists && <>
                     {profileDetail.ok.serviceLists.length>0 && profileDetail.ok.serviceLists.map((_list)=> <>
-                      <h2><strong>{withCopy(hextoHuman(_list.listName))}</strong>{numBadge(_list.items.length)}
+                      <h2><strong>{withCopy(hexToHuman(_list.listName))}</strong>{numBadge(_list.items.length)}
                       <Label as='a' color='orange' circular 
                                     onClick={()=>{<>
                                       {setMessageId(_list.listId)}
@@ -950,12 +956,12 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
                       <Item.Image as='a' size='tiny' 
                                   src={hextoPhoto(_service.photoOrYoutubeLink1)} 
                                   rounded 
-                                  href={isHex(_service.photoOrYoutubeLink1) ? withHttp(hexToString(_service.photoOrYoutubeLink1).trim()) : ''} 
+                                  href={isHex(_service.photoOrYoutubeLink1) ? checkHttp(hexToString(_service.photoOrYoutubeLink1).trim()) : ''} 
                                   target="_blank" 
                                   rel="noopener noreferrer"
                                 /> 
                       <Item.Content>
-                                  <Item.Header as='a'>{hextoHuman(_service.title)}{' '}
+                                  <Item.Header as='a'>{hexToHuman(_service.title)}{' '}
                                   <Label as='a' color='orange' circular size='small'
                                          onClick={()=>{<>
                                             {setMessageId(_service.serviceId)}
@@ -973,7 +979,7 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
                                   {photoLink(_service.bookingLink, 'Booking Link')}
                                   </Item.Header>
                                   <Item.Meta>
-                                      <h3>{t_strong('Description: ')}{hextoHuman(_service.description)}</h3>
+                                      <h3>{t_strong('Description: ')}{hexToHuman(_service.description)}</h3>
                                   </Item.Meta>
                                   <Item.Description>
                                   {t_strong('Price: ')}{microToGeode(_service.price)}{' Geode'}<br />
@@ -987,7 +993,7 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
                                     summary={<Label size={'small'} color='orange' circular> {t('Reviews: ')}</Label>}>
                                       {_service.reviews.length>0 && 
                                       _service.reviews.map((_review, index: number)=> <>
-                                          {index+1}{'. '}{dateCheck(_review.timestamp)}{accountInfo(_review.reviewer)}{' | '}{hextoHuman(_review.review)}{' '}{rating[rateCheck(_review.rating)]}<br />
+                                          {index+1}{'. '}{dateCheck(_review.timestamp)}{accountInfo(_review.reviewer)}{' | '}{hexToHuman(_review.review)}{' '}{rating[rateCheck(_review.rating)]}<br />
                                       </>)}
                                     </Expander>                                  
                                   </>}
@@ -1000,8 +1006,8 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
                                     <Grid columns={2} divided>
                                         <Grid.Column>
                                         {t_strong('Seller Account: ')}{accountInfo(_service.sellerAccount)}<br />
-                                        {t_strong('Seller Name: ')}{hextoHuman(_service.sellerName)}<br />
-                                        {t_strong('Location: ')}{hextoHuman(_service.serviceLocation)}<br />
+                                        {t_strong('Seller Name: ')}{hexToHuman(_service.sellerName)}<br />
+                                        {t_strong('Location: ')}{hexToHuman(_service.serviceLocation)}<br />
                                         {t_strong('Online: ')}{boolToHuman(_service.online)}<br />
                                         {t_strong('Inventory: ')}{_service.inventory}<br />
                                         {t_strong('Zeno Percent: ')}{numToPercent(_service.zenoPercent)}<br />
@@ -1039,7 +1045,7 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
               {isShowReviews && <>
                     {profileDetail.ok.buyer.reviews.length>0 && 
                         profileDetail.ok.buyer.reviews.map((_review, index: number) => <>
-                              {index+1}{'. '}{dateCheck(_review.timestamp)}{accountInfo(_review.reviewer)}{' | '}{hextoHuman(_review.review)}{' '}{rating[rateCheck(_review.rating)]}<br />
+                              {index+1}{'. '}{dateCheck(_review.timestamp)}{accountInfo(_review.reviewer)}{' | '}{hexToHuman(_review.review)}{' '}{rating[rateCheck(_review.rating)]}<br />
                         </>)
                     }
               </>}</>}
@@ -1065,9 +1071,9 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
                             {_makeAccountUpdate()}</>}}
                         >{t('Update Settings')}</Label>
                   <br /><br />
-                    {t_strong('Name: ')}{hextoHuman(profileDetail.ok.buyer.buyerName)}<br />
+                    {t_strong('Name: ')}{hexToHuman(profileDetail.ok.buyer.buyerName)}<br />
                     {t_strong('Account ID: ')}{accountInfo(profileDetail.ok.buyer.buyerAccount)}<br />
-                    {t_strong('Location: ')}{hextoHuman(profileDetail.ok.buyer.buyerLocation)}<br />
+                    {t_strong('Location: ')}{hexToHuman(profileDetail.ok.buyer.buyerLocation)}<br />
                     {t_strong('Member since: ')}{dateCheck(profileDetail.ok.buyer.memberSince)}<br />
                     {t_strong('Buyer Rating: ')}{rating[rateCheck(profileDetail.ok.buyer.reviewAverage)]}<br />
                     {t_strong('Number of Reviews: ')}{numBadge(profileDetail.ok.buyer.reviewCount)}<br />
@@ -1117,7 +1123,7 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
       
 
   return (
-    <>
+    <StyledDiv className={className}>
     <Card>
     <AccountHeader 
             fromAcct={from} 
@@ -1225,16 +1231,16 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
         </>)}
 
     </Card>
-    </>
+    </StyledDiv>
   );
 }
-// const StyledDiv = styled.div`
-//   align-items: center;
-//   display: flex;
+const StyledDiv = styled.div`
+  align-items: center;
+  display: flex;
 
-//   .output {
-//     flex: 1 1;
-//     margin: 0.25rem 0.5rem;
-//   }
-// `;
+  .output {
+    flex: 1 1;
+    margin: 0.25rem 0.5rem;
+  }
+`;
 export default React.memo(MyAccountDetails);

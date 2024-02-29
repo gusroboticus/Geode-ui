@@ -160,7 +160,7 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
 
   const isValid = !!(accountId && weight.isValid && isValueValid);
   const isViaRpc = (isViaCall || (!message.isMutating && !message.isPayable));      
-  const isClosed = (isCalled && messageIndex === 1 );
+  const isClosed = (isCalled && (messageIndex === 1 || messageIndex === 2));
 
   return (
     <Card >
@@ -169,13 +169,13 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
           <>
             {'- Enter Your Profile Data'}</>
         )}
-        {messageIndex===1 && (
+        {messageIndex===2 && (
           <>{'- View Profiles'}</>
         )}
-        {messageIndex===2 && (
+        {messageIndex===3 && (
           <>{'- Search Profiles by Keyword'}</>
         )}
-        {messageIndex===3 && (
+        {messageIndex===4 && (
           <>{'- Search Profiles by Account ID'}</>
         )}
         </h2>
@@ -189,12 +189,12 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
           />
         )}
         {!isClosed && (<>
-        {messageIndex !== null && messageIndex===1 && (
+        {messageIndex !== null && messageIndex===2 && (
           <><br /><br />
           <Badge color='blue' icon='1'/>
           {t('Select which of your Accounts is asking for this Profile:')}
           </>)}
-        {messageIndex !== null && messageIndex===0 && (
+        {messageIndex !== null && messageIndex===1 && (
           <><br /><br />
           <Badge color='blue' icon='1'/>
           {t('Select the Account for this Profile:')}
@@ -230,7 +230,7 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
             />              
             </>
             )}
-            {messageIndex !== null && messageIndex===1 && (
+            {messageIndex !== null && messageIndex===2 && (
               <>
               <Badge color='blue' icon='2'/>
               {t('Select the Account whose Profile you want to view:')}
@@ -558,7 +558,7 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
         }
         </Card></>)}
 
-        {outcomes.length > 0 && messageIndex < 2 && (
+        {outcomes.length > 0 && messageIndex < 3 && (
             <div>
             {outcomes.map((outcome, index): React.ReactNode => (
               <Details
@@ -570,7 +570,7 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
             ))}
             </div>
         )}
-        {outcomes.length > 0 && messageIndex > 1 && (
+        {outcomes.length > 0 && messageIndex > 2 && (
             <div>
             {outcomes.map((outcome, index): React.ReactNode => (
               <SearchDetails
