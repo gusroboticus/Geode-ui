@@ -8,12 +8,12 @@ import type { CallResult } from '../shared/types.js';
 import { stringify, hexToString, isHex } from '@polkadot/util';
 import { styled, Expander, Toggle, Button, Badge, AccountName, LabelHelp, Card } from '@polkadot/react-components';
 import { Grid, List, Table, Label, Image, Divider } from 'semantic-ui-react'
-import CopyInline from '../shared/CopyInline.js';
 import { useToggle } from '@polkadot/react-hooks';
 import AccountHeader from '../shared/AccountHeader.js';
-import JSONprohibited from '../shared/geode_prohibited.json';
 import CallEndorse from './CallEndorse.js';
 import CallPost from './CallPost.js';
+import CallReply from './CallReply.js';
+import { msgIndexer, endorserBadge, linker, postHeader, replyHeader, hextoHuman } from './SocialUtil.js';
 
 interface Props {
     className?: string;
@@ -47,14 +47,8 @@ interface Props {
   ok: FeedObj
   }
   
-function FeedDetails ({ className = '', onReset, onClear, onClose, outcome: { from, message, output, params, result, when } }: Props): React.ReactElement<Props> | null {
-    console.log(JSON.stringify(onClose));
-    console.log(JSON.stringify(message));
-    console.log(JSON.stringify(params));
-    console.log(JSON.stringify(result));
-
+function FeedDetails ({ className = '', onReset, onClear, outcome: { from, output, when } }: Props): React.ReactElement<Props> | null {
     const { t } = useTranslation();
-    const searchWords: string[] = JSONprohibited;
     const [countPost, setCountPost] = useState(0);
     const [postToEndorse, setPostToEndorse] = useState(['','','','']);
     const [isEndorse, setEndorse] =useState(false);
@@ -68,30 +62,6 @@ function FeedDetails ({ className = '', onReset, onClear, onClose, outcome: { fr
     const _Obj = JSON.parse(objOutput);
     const feedDetail: FeedDetail = Object.create(_Obj);
     const withHttp = (url: string) => url.replace(/^(?:(.*:)?\/\/)?(.*)/i, (match, schemma, nonSchemmaUrl) => schemma ? match : `http://${nonSchemmaUrl}`);
-
-    function autoCorrect(arr: string[], str: string): JSX.Element {
-        arr.forEach(w => str = str.replaceAll(w, '****'));
-        arr.forEach(w => str = str.replaceAll(w.charAt(0).toUpperCase() + w.slice(1), '****'));
-        arr.forEach(w => str = str.replaceAll(w.charAt(0) + w.slice(1).toUpperCase, '****'));        
-        arr.forEach(w => str = str.replaceAll(w.toUpperCase(), '****'));
-        return (
-        <>{t(str)}</>)
-    }
-
-    function timeStampToDate(tstamp: number): JSX.Element {
-       try {
-        const event = new Date(tstamp);
-        return (
-             <><i>{event.toDateString()}{' '}
-                  {event.toLocaleTimeString()}{' '}</i></>
-         )
-       } catch(error) {
-        console.error(error)
-        return(
-            <><i>{t('No Date')}</i></>
-        )
-       }
-    }
 
 function blockAccount(_acct: string): boolean {
   const _blocked: boolean = ((feedDetail.ok.blocked.length>0 ? feedDetail.ok.blocked : []).find(_blk => _blk === _acct))
@@ -109,18 +79,13 @@ function renderLink(_link: string): JSX.Element {
     <>
     {ilink.trim() != 'http://' ? (<>
       {(ilink).includes('youtu')? (
-      <iframe width="450" height="345" src={videoLink +'?autoplay=0&mute=1'}> 
+      <iframe width="350" height="245" src={videoLink +'?autoplay=0&mute=1'}> 
       </iframe>) : (
       <Image bordered rounded src={ilink} size='large' />
       )}    
     </>) : <>{''}</>}
     <br /></>
   )
-}
-
-function hextoHuman(_hexIn: string): string {
-  const _Out: string = (isHex(_hexIn))? t(hexToString(_hexIn).trim()): '';
-  return(_Out)
 }
 
 const _reset = useCallback(
@@ -159,7 +124,6 @@ function ShowFeed(): JSX.Element {
       setCountPost(0)
       try {
         const maxIndex: number = feedDetail.ok.maxfeed>0 ? feedDetail.ok.maxfeed: 10;
-        
         return(
           <div>
           {onReset && (<>{_reset()}</>)}
@@ -239,13 +203,8 @@ function ShowFeed(): JSX.Element {
                     {index < maxIndex && (
                     <>
                     <h3> 
-                            <strong>{t('@')}</strong>
-                            <strong>{autoCorrect(searchWords, hextoHuman(_feed.username))}</strong>
-                              {' ('}<AccountName value={_feed.fromAcct} withSidebar={true}/>{') '}
-                              {' '}<Label color='blue' circular>{_feed.endorserCount}</Label>
-                              {' '}{timeStampToDate(_feed.timestamp)}{' '}
-                              {' '}
-                              {(_feed.fromAcct===from || _feed.endorsers.includes(from))? (<>
+                        {postHeader(_feed.username, _feed.fromAcct, _feed.endorserCount, _feed.timestamp)}
+                        {(_feed.fromAcct===from || _feed.endorsers.includes(from))? (<>
                                 <Badge icon='thumbs-up' color='gray'/>
                               </>) : (<>
                                 <Badge 
@@ -266,42 +225,31 @@ function ShowFeed(): JSX.Element {
                      {isShowEndorsers && _feed.endorserCount > 0 && (
                     <>
                     <List divided inverted >
-                      {_feed.endorsers.length>0 && _feed.endorsers.map((name, i: number) => <List.Item key={name}> 
-                        {(i > 0) && (<><Badge color='blue' icon='check'/>{t('(endorser No.')}{i}{') '}
-                        {' ('}<AccountName value={name} withSidebar={true}/>{') '}{name} 
-                        </>)}
-                      </List.Item>)}
+                      {_feed.endorserCount >0 && _feed.endorsers.map((_acct, i: number) => 
+                        <List.Item key={_acct}> 
+                          {endorserBadge(_acct, i)}
+                        </List.Item>)}
                     </List>     
                     </>
                     )}
                     {isShowMsgID && 
                       (<>    
                       {(_feed.replyTo != zeroMessageId)
-                      ? (<><CopyInline value={_feed.replyTo} label={''}/><i>{t('reply to: ')}{_feed.replyTo}</i><br />
-                           <CopyInline value={_feed.messageId} label={''}/><i>{t('message Id: ')}{_feed.messageId}</i></>) 
-                      : (<><CopyInline value={_feed.messageId} label={''}/><i>{t('message Id: ')}{_feed.messageId}</i></>)
+                      ? (<>{msgIndexer('reply to: ', _feed.replyTo)}
+                           {msgIndexer('message Id: ', _feed.messageId)}</>) 
+                      : (<>{msgIndexer('message Id: ', _feed.messageId)}</>)
                       }
-                      <LabelHelp help={t('Copy Message ID. ')} />
                       <br />
                         </>)} 
                         <br />      
                         {renderLink(_feed.link)}
                 {(_feed.link != '0x') ? (
-                <>
-                    {autoCorrect(searchWords, hextoHuman(_feed.message))}{' '}
-                    <Label  as='a'
-                    color='orange'
-                    circular
-                    href={isHex(_feed.link2) ? withHttp(hexToString(_feed.link2).trim()) : ''} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    >{t('Link')}
-                    </Label>{' '}
-                    {isHex(_feed.link2) ? (
-                        <LabelHelp help={withHttp(hexToString(_feed.link2).trim())} />
-                        ) : ' '}</>
+                    <>
+                    {hextoHuman(_feed.message)}{' '}
+                    {linker(_feed.link2)}
+                    </>
                     ) : (
-                    <>{autoCorrect(searchWords, hextoHuman(_feed.message))}{' '}</>
+                    <>{hextoHuman(_feed.message)}{' '}</>
                     )}
                     {' '}
 
@@ -319,12 +267,15 @@ function ShowFeed(): JSX.Element {
                            >{'Reply'}</Label>
                     
                     <br /><br />
+                    {_feed.replyCount>0 && <>
                     <Expander 
                     className='replymessage'
                     isOpen={false}
                     summary={<Label color='orange' circular> {'Replies: '}{_feed.replyCount}</Label>}>
                     {ShowReplies(_feed.messageId)}
-                    </Expander>                    
+                    </Expander>  
+                    </>}
+                   
                     <Divider />                        
                     </>)}
                     {setCountPost(index+1)}
@@ -365,67 +316,29 @@ try {
                       {!blockAccount(_replyFeed.fromAcct) && (<>
                         <Table.Row>
                             <Table.Cell>
-                              <strong>{t('Reply - @')}</strong>
-                              <strong>{hextoHuman(_replyFeed.username)}</strong>
-                              {' ('}<AccountName value={_replyFeed.fromAcct} withSidebar={true}/>{') '}
-                              {' '}<Label color='blue' circular>{_replyFeed.endorserCount}</Label>
-                              {' '}{timeStampToDate(_replyFeed.timestamp)}{' '}
-                              
-                              {(_replyFeed.fromAcct===from || _replyFeed.endorsers.includes(from))? (<>
-                                <Badge icon='thumbs-up' color='gray'/>
-                              </>) : (<>
-                                <Badge icon='thumbs-up' color={'blue'}
-                                  onClick={() => {<>
-                                    {setPostToEndorse([
-                                      _replyFeed.messageId,
-                                      _replyFeed.username,
-                                      _replyFeed.fromAcct,
-                                      _replyFeed.message
-                                    ])}
-                                    {_makeEndorse()}
-                                    </>
-                                  }}/>                              
-                              </>)}
-                              
-                              {isShowEndorsers && _replyFeed.endorserCount > 0 && (
-                                  <>
-                                  <List divided inverted >
-                                    {_replyFeed.endorsers.length>0 && _replyFeed.endorsers.map((name, i: number) => <List.Item key={name}> 
-                                    {(i > 0) && (<><Badge color='blue' icon='check'/>{t('(endorser No.')}{i}{') '}
-                                    {' ('}<AccountName value={name} withSidebar={true}/>{') '}{name} 
-                                    </>)}
-                                  </List.Item>)}
-                                  </List>     
-                                  </>
-                                  )}
-
+                              <strong>{t('Reply ')}</strong>
+                              {replyHeader(_replyFeed.username, _replyFeed.fromAcct, _replyFeed.timestamp)}
+                                  <br />
                                   {isShowMsgID && 
-                                  (<><br />{(_replyFeed.replyTo != zeroMessageId)
-                                  ? (<><CopyInline value={_replyFeed.replyTo} label={''}/><i>{t('reply to: ')}{_replyFeed.replyTo}</i><br />
-                                  <CopyInline value={_replyFeed.messageId} label={''}/><i>{t('message Id: ')}{_replyFeed.messageId}</i><br /></>) 
-                                  : (<><CopyInline value={_replyFeed.messageId} label={''}/><i>{t('message Id: ')}{_replyFeed.messageId}</i><br /></>)}
-                                  </>)} 
+                                  (<>    
+                                  {(_replyFeed.replyTo != zeroMessageId)
+                                  ? (<>{msgIndexer('reply to: ', _replyFeed.replyTo)}
+                                      {msgIndexer('message Id: ', _replyFeed.messageId)}</>) 
+                                  : (<>{msgIndexer('message Id: ', _replyFeed.messageId)}</>)
+                                  }
+                                  <br />
+                                    </>)} 
                                   <br />      
                               {renderLink(_replyFeed.link)}
                               {(_replyFeed.link != '0x') ? (
                               <>
-                              {autoCorrect(searchWords,hextoHuman(_replyFeed.message))}{' '}
-                            <Label  as='a'
-                            color='orange'
-                            circular
-                            href={isHex(_replyFeed.link2) ? withHttp(hexToString(_replyFeed.link2).trim()) : ''} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                          >{t('Link')}
-                          </Label>{' '}
-                          {isHex(_replyFeed.link2) ? (
-                            <LabelHelp help={withHttp(hexToString(_replyFeed.link2).trim())} />
-                            ) : ''}</>) : (
-                          <>{autoCorrect(searchWords, hextoHuman(_replyFeed.message))}
+                              {hextoHuman(_replyFeed.message)}{' '}
+                              {linker(_replyFeed.link2)}
+                              </>) : (
+                            <>{hextoHuman(_replyFeed.message)}
                           {' '}</>
                           )}
                         <br /> 
-
                         </Table.Cell>
                       </Table.Row>  
                       </>)}
@@ -458,8 +371,7 @@ try {
         />
       )}
       {!isPost && isReply && !isEndorse && (
-        <CallPost
-        isPost={true}
+        <CallReply
         messageId={postToEndorse[0]}
         username={postToEndorse[1]}
         fromAcct={postToEndorse[2]}

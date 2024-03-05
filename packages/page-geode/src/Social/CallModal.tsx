@@ -245,7 +245,7 @@ function CallModal ({ className = '', messageId, fromAcct, username, postMessage
         )}
         </>
         )}
-
+ 
         {messageIndex===0 && (<>
         {isReply? (
         <>
@@ -254,7 +254,7 @@ function CallModal ({ className = '', messageId, fromAcct, username, postMessage
             value={params[0]}
             onChange={(e) => {
               params[0] = e.target.value;
-              params[3] = messageId;
+              //params[3] = messageId;
               setParams([...params]);
             }}
           />
@@ -265,7 +265,7 @@ function CallModal ({ className = '', messageId, fromAcct, username, postMessage
           <Input label='' type="text"
           onChange={(e) => {
             params[0] = stringToHex(e.target.value);
-            params[3] = messageId;
+            //params[3] = messageId;
             setParams([...params]);
           }}/>
         </>}
@@ -301,6 +301,26 @@ function CallModal ({ className = '', messageId, fromAcct, username, postMessage
         </>)} 
         </h3>
         <br />        
+        </>)}
+
+        {messageIndex===12 && (<>
+          {t('Post Reply Message: ')}
+          <Input label='' type="text"
+          onChange={(e) => {
+            params[0] = stringToHex(e.target.value);
+            params[3] = messageId;
+            setParams([...params]);
+          }}/>
+          {t('Photo or YouTube Link: ')}
+          <Input label='' type='text'
+          onChange={(e) => {
+            params[1] = stringToHex(e.target.value.trim());
+            setParams([...params]);}}/>
+        {t('Website Link, Document or other Link: ')}
+          <Input label='' type='text'
+          onChange={(e) => {
+            params[2] = stringToHex(e.target.value.trim());
+            setParams([...params]);}}/>
         </>)}
 
         {message.isPayable && (

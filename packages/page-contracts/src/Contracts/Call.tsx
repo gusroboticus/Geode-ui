@@ -29,6 +29,7 @@ interface Props {
   onClose: () => void;
 }
 
+//const MAX_CALL_WEIGHT = new BN(10_000_000_000_000);
 const MAX_CALL_WEIGHT = new BN(5_000_000_000_000).isub(BN_ONE);
 
 function Call ({ className = '', contract, messageIndex, onCallResult, onChangeMessage, onClose }: Props): React.ReactElement<Props> | null {

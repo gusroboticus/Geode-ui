@@ -6,7 +6,7 @@ import { useTranslation } from '../shared/translate.js';
 import { hexToString, isHex } from '@polkadot/util';
 import CopyInline from '../shared/CopyInline.js';
 import { AccountName, IdentityIcon, LabelHelp } from '@polkadot/react-components';
-import { Label } from 'semantic-ui-react'
+import { Label } from 'semantic-ui-react';
 
 export function hexToHuman (_hexIn: string): string {
     const { t } = useTranslation();

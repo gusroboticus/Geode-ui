@@ -1,12 +1,12 @@
 {
   "source": {
-    "hash": "0xb69db55a656155aafbcb05da3a9154816545f52dc4f39a2ac728b037f12b56cf",
-    "language": "ink! 4.0.0",
-    "compiler": "rustc 1.70.0-nightly",
+    "hash": "0xbac04ac670cc60d74824e10e71f55b438aaa538f00496fdbbddac3130e42514a",
+    "language": "ink! 5.0.0-rc.1",
+    "compiler": "rustc 1.76.0",
     "build_info": {
       "build_mode": "Release",
-      "cargo_contract_version": "2.0.1",
-      "rust_toolchain": "nightly-aarch64-apple-darwin",
+      "cargo_contract_version": "4.0.0-rc.2",
+      "rust_toolchain": "stable-aarch64-apple-darwin",
       "wasm_opt_settings": {
         "keep_debug_symbols": false,
         "optimization_passes": "Z"
@@ -15,16 +15,18 @@
   },
   "contract": {
     "name": "geode_social",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "authors": [
       "Dr. Amy Messegee <support@blockandpurpose.com>"
     ],
     "description": "A public broadcast messaging app."
   },
+  "image": null,
   "spec": {
     "constructors": [
       {
         "args": [],
+        "default": false,
         "docs": [],
         "label": "new",
         "payable": false,
@@ -33,12 +35,52 @@
             "ink_primitives",
             "ConstructorResult"
           ],
-          "type": 11
+          "type": 69
         },
         "selector": "0x9bae9d5e"
       }
     ],
     "docs": [],
+    "environment": {
+      "accountId": {
+        "displayName": [
+          "AccountId"
+        ],
+        "type": 5
+      },
+      "balance": {
+        "displayName": [
+          "Balance"
+        ],
+        "type": 2
+      },
+      "blockNumber": {
+        "displayName": [
+          "BlockNumber"
+        ],
+        "type": 55
+      },
+      "chainExtension": {
+        "displayName": [
+          "ChainExtension"
+        ],
+        "type": 89
+      },
+      "hash": {
+        "displayName": [
+          "Hash"
+        ],
+        "type": 25
+      },
+      "maxEventTopics": 4,
+      "staticBufferSize": 16384,
+      "timestamp": {
+        "displayName": [
+          "Timestamp"
+        ],
+        "type": 3
+      }
+    },
     "events": [
       {
         "args": [
@@ -50,7 +92,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "type": 6
+              "type": 5
             }
           },
           {
@@ -61,7 +103,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 2
+              "type": 0
             }
           },
           {
@@ -72,7 +114,7 @@
               "displayName": [
                 "Hash"
               ],
-              "type": 9
+              "type": 25
             }
           },
           {
@@ -83,7 +125,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 2
+              "type": 0
             }
           },
           {
@@ -94,7 +136,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 2
+              "type": 0
             }
           },
           {
@@ -105,7 +147,7 @@
               "displayName": [
                 "Hash"
               ],
-              "type": 9
+              "type": 25
             }
           },
           {
@@ -116,12 +158,14 @@
               "displayName": [
                 "u64"
               ],
-              "type": 4
+              "type": 3
             }
           }
         ],
         "docs": [],
-        "label": "MessageBroadcast"
+        "label": "MessageBroadcast",
+        "module_path": "geode_social::geode_social",
+        "signature_topic": "0x94eb279651db3c132849e83908c7648ed11e7020c713414d15f7aa770d600d9f"
       },
       {
         "args": [
@@ -133,7 +177,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "type": 6
+              "type": 5
             }
           },
           {
@@ -144,7 +188,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 2
+              "type": 0
             }
           },
           {
@@ -155,7 +199,7 @@
               "displayName": [
                 "Hash"
               ],
-              "type": 9
+              "type": 25
             }
           },
           {
@@ -166,7 +210,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 2
+              "type": 0
             }
           },
           {
@@ -177,7 +221,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 2
+              "type": 0
             }
           },
           {
@@ -188,7 +232,7 @@
               "displayName": [
                 "u64"
               ],
-              "type": 4
+              "type": 3
             }
           },
           {
@@ -199,7 +243,7 @@
               "displayName": [
                 "u128"
               ],
-              "type": 3
+              "type": 2
             }
           },
           {
@@ -210,7 +254,7 @@
               "displayName": [
                 "Balance"
               ],
-              "type": 3
+              "type": 2
             }
           },
           {
@@ -221,7 +265,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 2
+              "type": 0
             }
           },
           {
@@ -232,12 +276,14 @@
               "displayName": [
                 "Balance"
               ],
-              "type": 3
+              "type": 2
             }
           }
         ],
         "docs": [],
-        "label": "PaidMessageBroadcast"
+        "label": "PaidMessageBroadcast",
+        "module_path": "geode_social::geode_social",
+        "signature_topic": "0xcedba6c106022c01b67b3b765ab2cad0d7ac9dc8b8e43695b2aa336f00806680"
       },
       {
         "args": [
@@ -249,7 +295,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "type": 6
+              "type": 5
             }
           },
           {
@@ -260,7 +306,7 @@
               "displayName": [
                 "Hash"
               ],
-              "type": 9
+              "type": 25
             }
           },
           {
@@ -271,12 +317,14 @@
               "displayName": [
                 "AccountId"
               ],
-              "type": 6
+              "type": 5
             }
           }
         ],
         "docs": [],
-        "label": "MessageElevated"
+        "label": "MessageElevated",
+        "module_path": "geode_social::geode_social",
+        "signature_topic": "0x3af00da328a40aeb1f950a2da0cbfe41b1427879c3c067439c263f9c0a87fc17"
       },
       {
         "args": [
@@ -288,7 +336,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "type": 6
+              "type": 5
             }
           },
           {
@@ -299,7 +347,7 @@
               "displayName": [
                 "Hash"
               ],
-              "type": 9
+              "type": 25
             }
           },
           {
@@ -310,12 +358,175 @@
               "displayName": [
                 "AccountId"
               ],
-              "type": 6
+              "type": 5
             }
           }
         ],
         "docs": [],
-        "label": "PaidMessageElevated"
+        "label": "PaidMessageElevated",
+        "module_path": "geode_social::geode_social",
+        "signature_topic": "0xaec4ce8b9322f1ecb836f2b7d7110a532ad94a190ae37a7914fb4f0ab1a0c993"
+      },
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "from",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 5
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "is_following",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 5
+            }
+          }
+        ],
+        "docs": [],
+        "label": "NewFollow",
+        "module_path": "geode_social::geode_social",
+        "signature_topic": "0xe5fc495ee2c90b88e132f6ce014e64402a686e6b3509feb3d2349dc815519307"
+      },
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "from",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 5
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "stopped_following",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 5
+            }
+          }
+        ],
+        "docs": [],
+        "label": "NewUnFollow",
+        "module_path": "geode_social::geode_social",
+        "signature_topic": "0xe9369a28737a62c3003b60d0781bda3175e1c02dbd3c99193b8b643fe36306d6"
+      },
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "from",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 5
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "blocked",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 5
+            }
+          }
+        ],
+        "docs": [],
+        "label": "NewBlock",
+        "module_path": "geode_social::geode_social",
+        "signature_topic": "0x4779fef38f0e1297bbc4ff10ccb15f073167179db0dd0261229854be79638013"
+      },
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "from",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 5
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "unblocked",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 5
+            }
+          }
+        ],
+        "docs": [],
+        "label": "NewUnBlock",
+        "module_path": "geode_social::geode_social",
+        "signature_topic": "0x0dcc7fcc564c30f36f82a5389e5522a9ec94d0773180bf9df161b1dcee066771"
+      },
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "from",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 5
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "username",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 0
+            }
+          },
+          {
+            "docs": [],
+            "indexed": false,
+            "label": "interests",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 0
+            }
+          }
+        ],
+        "docs": [],
+        "label": "SettingsUpdated",
+        "module_path": "geode_social::geode_social",
+        "signature_topic": "0xa9623d418426d0cc13d57639bb3f925501c724cfbd45df21de3cb5b9e8c70e4a"
       }
     ],
     "lang_error": {
@@ -323,7 +534,7 @@
         "ink",
         "LangError"
       ],
-      "type": 12
+      "type": 70
     },
     "messages": [
       {
@@ -334,7 +545,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 2
+              "type": 0
             }
           },
           {
@@ -343,7 +554,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 2
+              "type": 0
             }
           },
           {
@@ -352,19 +563,11 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 2
-            }
-          },
-          {
-            "label": "replying_to",
-            "type": {
-              "displayName": [
-                "Hash"
-              ],
-              "type": 9
+              "type": 0
             }
           }
         ],
+        "default": false,
         "docs": [],
         "label": "send_message_public",
         "mutates": true,
@@ -374,7 +577,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 13
+          "type": 71
         },
         "selector": "0x20388159"
       },
@@ -386,7 +589,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 2
+              "type": 0
             }
           },
           {
@@ -395,7 +598,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 2
+              "type": 0
             }
           },
           {
@@ -404,7 +607,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 2
+              "type": 0
             }
           },
           {
@@ -413,7 +616,16 @@
               "displayName": [
                 "u128"
               ],
-              "type": 3
+              "type": 2
+            }
+          },
+          {
+            "label": "payment_per_endorser",
+            "type": {
+              "displayName": [
+                "Balance"
+              ],
+              "type": 2
             }
           },
           {
@@ -422,10 +634,11 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 2
+              "type": 0
             }
           }
         ],
+        "default": false,
         "docs": [],
         "label": "send_paid_message_public",
         "mutates": true,
@@ -435,7 +648,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 13
+          "type": 71
         },
         "selector": "0xe366d737"
       },
@@ -447,10 +660,11 @@
               "displayName": [
                 "Hash"
               ],
-              "type": 9
+              "type": 25
             }
           }
         ],
+        "default": false,
         "docs": [],
         "label": "elevate_message",
         "mutates": true,
@@ -460,7 +674,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 13
+          "type": 71
         },
         "selector": "0x22d7fa98"
       },
@@ -472,10 +686,11 @@
               "displayName": [
                 "Hash"
               ],
-              "type": 9
+              "type": 25
             }
           }
         ],
+        "default": false,
         "docs": [],
         "label": "elevate_paid_message",
         "mutates": true,
@@ -485,7 +700,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 13
+          "type": 71
         },
         "selector": "0x17f7cdc5"
       },
@@ -497,10 +712,11 @@
               "displayName": [
                 "AccountId"
               ],
-              "type": 6
+              "type": 5
             }
           }
         ],
+        "default": false,
         "docs": [],
         "label": "follow_account",
         "mutates": true,
@@ -510,7 +726,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 13
+          "type": 71
         },
         "selector": "0x8fe9c8cb"
       },
@@ -522,10 +738,11 @@
               "displayName": [
                 "AccountId"
               ],
-              "type": 6
+              "type": 5
             }
           }
         ],
+        "default": false,
         "docs": [],
         "label": "unfollow_account",
         "mutates": true,
@@ -535,7 +752,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 13
+          "type": 71
         },
         "selector": "0xb14ae978"
       },
@@ -547,10 +764,11 @@
               "displayName": [
                 "AccountId"
               ],
-              "type": 6
+              "type": 5
             }
           }
         ],
+        "default": false,
         "docs": [],
         "label": "block_account",
         "mutates": true,
@@ -560,7 +778,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 13
+          "type": 71
         },
         "selector": "0x2a741837"
       },
@@ -572,10 +790,11 @@
               "displayName": [
                 "AccountId"
               ],
-              "type": 6
+              "type": 5
             }
           }
         ],
+        "default": false,
         "docs": [],
         "label": "unblock_account",
         "mutates": true,
@@ -585,7 +804,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 13
+          "type": 71
         },
         "selector": "0x0e3ab36b"
       },
@@ -597,7 +816,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 2
+              "type": 0
             }
           },
           {
@@ -606,7 +825,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 2
+              "type": 0
             }
           },
           {
@@ -615,7 +834,7 @@
               "displayName": [
                 "u128"
               ],
-              "type": 3
+              "type": 2
             }
           },
           {
@@ -624,10 +843,11 @@
               "displayName": [
                 "u128"
               ],
-              "type": 3
+              "type": 2
             }
           }
         ],
+        "default": false,
         "docs": [],
         "label": "update_settings",
         "mutates": true,
@@ -637,12 +857,13 @@
             "ink",
             "MessageResult"
           ],
-          "type": 13
+          "type": 71
         },
         "selector": "0x3b402e8e"
       },
       {
         "args": [],
+        "default": false,
         "docs": [],
         "label": "get_public_feed",
         "mutates": false,
@@ -652,12 +873,13 @@
             "ink",
             "MessageResult"
           ],
-          "type": 17
+          "type": 74
         },
         "selector": "0xd4e14629"
       },
       {
         "args": [],
+        "default": false,
         "docs": [],
         "label": "get_paid_feed",
         "mutates": false,
@@ -667,7 +889,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 21
+          "type": 77
         },
         "selector": "0x2714e5ec"
       },
@@ -679,10 +901,11 @@
               "displayName": [
                 "AccountId"
               ],
-              "type": 6
+              "type": 5
             }
           }
         ],
+        "default": false,
         "docs": [],
         "label": "get_account_profile",
         "mutates": false,
@@ -692,62 +915,66 @@
             "ink",
             "MessageResult"
           ],
-          "type": 25
+          "type": 80
         },
         "selector": "0x49480163"
       },
       {
         "args": [
           {
-            "label": "message_id",
-            "type": {
-              "displayName": [
-                "Hash"
-              ],
-              "type": 9
-            }
-          }
-        ],
-        "docs": [],
-        "label": "get_replies",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 27
-        },
-        "selector": "0x1d3df1c6"
-      },
-      {
-        "args": [
-          {
-            "label": "keywords",
+            "label": "new_message",
             "type": {
               "displayName": [
                 "Vec"
               ],
-              "type": 2
+              "type": 0
+            }
+          },
+          {
+            "label": "photo_or_youtube_link",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 0
+            }
+          },
+          {
+            "label": "website_or_document_link",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 0
+            }
+          },
+          {
+            "label": "replying_to",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 25
             }
           }
         ],
+        "default": false,
         "docs": [],
-        "label": "get_messages_by_keyword",
-        "mutates": false,
+        "label": "send_reply_public",
+        "mutates": true,
         "payable": false,
         "returnType": {
           "displayName": [
             "ink",
             "MessageResult"
           ],
-          "type": 28
+          "type": 71
         },
-        "selector": "0x597ba589"
+        "selector": "0x8f7168d3"
       },
       {
         "args": [],
+        "default": false,
         "docs": [],
         "label": "get_interests_data",
         "mutates": false,
@@ -757,14 +984,25 @@
             "ink",
             "MessageResult"
           ],
-          "type": 30
+          "type": 82
         },
         "selector": "0x9cb648f1"
       },
       {
-        "args": [],
+        "args": [
+          {
+            "label": "verify",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 5
+            }
+          }
+        ],
+        "default": false,
         "docs": [],
-        "label": "get_all_accounts_with_settings",
+        "label": "verify_account",
         "mutates": false,
         "payable": false,
         "returnType": {
@@ -772,24 +1010,9 @@
             "ink",
             "MessageResult"
           ],
-          "type": 31
+          "type": 84
         },
-        "selector": "0x91a7cae8"
-      },
-      {
-        "args": [],
-        "docs": [],
-        "label": "get_all_blocked",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 31
-        },
-        "selector": "0xa8ba74f6"
+        "selector": "0x9e777ece"
       },
       {
         "args": [
@@ -799,60 +1022,11 @@
               "displayName": [
                 "AccountId"
               ],
-              "type": 6
+              "type": 5
             }
           }
         ],
-        "docs": [],
-        "label": "get_account_block_count",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 32
-        },
-        "selector": "0x15bf38c8"
-      },
-      {
-        "args": [
-          {
-            "label": "user",
-            "type": {
-              "displayName": [
-                "AccountId"
-              ],
-              "type": 6
-            }
-          }
-        ],
-        "docs": [],
-        "label": "get_account_messages",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 27
-        },
-        "selector": "0x3e654784"
-      },
-      {
-        "args": [
-          {
-            "label": "user",
-            "type": {
-              "displayName": [
-                "AccountId"
-              ],
-              "type": 6
-            }
-          }
-        ],
+        "default": false,
         "docs": [],
         "label": "get_account_paid_messages",
         "mutates": false,
@@ -862,7 +1036,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 33
+          "type": 85
         },
         "selector": "0x82ae1338"
       },
@@ -874,235 +1048,11 @@
               "displayName": [
                 "AccountId"
               ],
-              "type": 6
+              "type": 5
             }
           }
         ],
-        "docs": [],
-        "label": "get_account_endorsed_messages",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 27
-        },
-        "selector": "0x5abc0a89"
-      },
-      {
-        "args": [
-          {
-            "label": "user",
-            "type": {
-              "displayName": [
-                "AccountId"
-              ],
-              "type": 6
-            }
-          }
-        ],
-        "docs": [],
-        "label": "get_messages_sent_by_account",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 34
-        },
-        "selector": "0x96cbb563"
-      },
-      {
-        "args": [
-          {
-            "label": "user",
-            "type": {
-              "displayName": [
-                "AccountId"
-              ],
-              "type": 6
-            }
-          }
-        ],
-        "docs": [],
-        "label": "get_number_messages_sent_by_account",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 32
-        },
-        "selector": "0x92fe164c"
-      },
-      {
-        "args": [
-          {
-            "label": "user",
-            "type": {
-              "displayName": [
-                "AccountId"
-              ],
-              "type": 6
-            }
-          }
-        ],
-        "docs": [],
-        "label": "get_paid_messages_sent_by_account",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 34
-        },
-        "selector": "0x543af8cc"
-      },
-      {
-        "args": [
-          {
-            "label": "user",
-            "type": {
-              "displayName": [
-                "AccountId"
-              ],
-              "type": 6
-            }
-          }
-        ],
-        "docs": [],
-        "label": "get_number_paid_messages_sent_by_account",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 32
-        },
-        "selector": "0x9585ffe4"
-      },
-      {
-        "args": [
-          {
-            "label": "user",
-            "type": {
-              "displayName": [
-                "AccountId"
-              ],
-              "type": 6
-            }
-          }
-        ],
-        "docs": [],
-        "label": "get_messages_elevated_by_account",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 34
-        },
-        "selector": "0x2ad515b4"
-      },
-      {
-        "args": [
-          {
-            "label": "user",
-            "type": {
-              "displayName": [
-                "AccountId"
-              ],
-              "type": 6
-            }
-          }
-        ],
-        "docs": [],
-        "label": "get_number_messages_elevated_by_account",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 32
-        },
-        "selector": "0xf747e8b2"
-      },
-      {
-        "args": [
-          {
-            "label": "user",
-            "type": {
-              "displayName": [
-                "AccountId"
-              ],
-              "type": 6
-            }
-          }
-        ],
-        "docs": [],
-        "label": "get_paid_messages_elevated_by_account",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 34
-        },
-        "selector": "0xce711f6b"
-      },
-      {
-        "args": [
-          {
-            "label": "user",
-            "type": {
-              "displayName": [
-                "AccountId"
-              ],
-              "type": 6
-            }
-          }
-        ],
-        "docs": [],
-        "label": "get_number_paid_messages_elevated_by_account",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 32
-        },
-        "selector": "0x34aca3cf"
-      },
-      {
-        "args": [
-          {
-            "label": "user",
-            "type": {
-              "displayName": [
-                "AccountId"
-              ],
-              "type": 6
-            }
-          }
-        ],
+        "default": false,
         "docs": [],
         "label": "get_account_following",
         "mutates": false,
@@ -1112,84 +1062,9 @@
             "ink",
             "MessageResult"
           ],
-          "type": 31
+          "type": 86
         },
         "selector": "0xa3cac767"
-      },
-      {
-        "args": [
-          {
-            "label": "user",
-            "type": {
-              "displayName": [
-                "AccountId"
-              ],
-              "type": 6
-            }
-          }
-        ],
-        "docs": [],
-        "label": "get_account_following_count",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 32
-        },
-        "selector": "0xfbb26b82"
-      },
-      {
-        "args": [
-          {
-            "label": "user",
-            "type": {
-              "displayName": [
-                "AccountId"
-              ],
-              "type": 6
-            }
-          }
-        ],
-        "docs": [],
-        "label": "get_followers",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 31
-        },
-        "selector": "0xee3276ac"
-      },
-      {
-        "args": [
-          {
-            "label": "user",
-            "type": {
-              "displayName": [
-                "AccountId"
-              ],
-              "type": 6
-            }
-          }
-        ],
-        "docs": [],
-        "label": "get_followers_count",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 32
-        },
-        "selector": "0x9ab1604d"
       },
       {
         "args": [
@@ -1199,10 +1074,11 @@
               "displayName": [
                 "Hash"
               ],
-              "type": 9
+              "type": 25
             }
           }
         ],
+        "default": false,
         "docs": [],
         "label": "get_details_for_paid_message",
         "mutates": false,
@@ -1212,7 +1088,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 35
+          "type": 87
         },
         "selector": "0x4a9f334c"
       },
@@ -1224,10 +1100,11 @@
               "displayName": [
                 "Hash"
               ],
-              "type": 9
+              "type": 25
             }
           }
         ],
+        "default": false,
         "docs": [],
         "label": "get_details_for_message",
         "mutates": false,
@@ -1237,59 +1114,9 @@
             "ink",
             "MessageResult"
           ],
-          "type": 36
+          "type": 88
         },
         "selector": "0x1855a13c"
-      },
-      {
-        "args": [
-          {
-            "label": "message_id",
-            "type": {
-              "displayName": [
-                "Hash"
-              ],
-              "type": 9
-            }
-          }
-        ],
-        "docs": [],
-        "label": "get_endorser_list_for_message",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 31
-        },
-        "selector": "0xe0811baf"
-      },
-      {
-        "args": [
-          {
-            "label": "message_id",
-            "type": {
-              "displayName": [
-                "Hash"
-              ],
-              "type": 9
-            }
-          }
-        ],
-        "docs": [],
-        "label": "get_endorser_list_for_paid_message",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 31
-        },
-        "selector": "0x04e91029"
       }
     ]
   },
@@ -1300,54 +1127,6 @@
           "fields": [
             {
               "layout": {
-                "struct": {
-                  "fields": [
-                    {
-                      "layout": {
-                        "leaf": {
-                          "key": "0x00000000",
-                          "ty": 0
-                        }
-                      },
-                      "name": "status"
-                    },
-                    {
-                      "layout": {
-                        "enum": {
-                          "dispatchKey": "0x00000000",
-                          "name": "Option",
-                          "variants": {
-                            "0": {
-                              "fields": [],
-                              "name": "None"
-                            },
-                            "1": {
-                              "fields": [
-                                {
-                                  "layout": {
-                                    "leaf": {
-                                      "key": "0x00000000",
-                                      "ty": 1
-                                    }
-                                  },
-                                  "name": "0"
-                                }
-                              ],
-                              "name": "Some"
-                            }
-                          }
-                        }
-                      },
-                      "name": "_reserved"
-                    }
-                  ],
-                  "name": "Data"
-                }
-              },
-              "name": "guard"
-            },
-            {
-              "layout": {
                 "root": {
                   "layout": {
                     "struct": {
@@ -1355,8 +1134,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xa29f52b3",
-                              "ty": 2
+                              "key": "0xb3529fa2",
+                              "ty": 0
                             }
                           },
                           "name": "username"
@@ -1364,8 +1143,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xa29f52b3",
-                              "ty": 2
+                              "key": "0xb3529fa2",
+                              "ty": 0
                             }
                           },
                           "name": "interests"
@@ -1373,8 +1152,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xa29f52b3",
-                              "ty": 3
+                              "key": "0xb3529fa2",
+                              "ty": 2
                             }
                           },
                           "name": "max_feed"
@@ -1382,8 +1161,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xa29f52b3",
-                              "ty": 3
+                              "key": "0xb3529fa2",
+                              "ty": 2
                             }
                           },
                           "name": "max_paid_feed"
@@ -1391,8 +1170,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xa29f52b3",
-                              "ty": 4
+                              "key": "0xb3529fa2",
+                              "ty": 3
                             }
                           },
                           "name": "last_update"
@@ -1401,7 +1180,8 @@
                       "name": "Settings"
                     }
                   },
-                  "root_key": "0xa29f52b3"
+                  "root_key": "0xb3529fa2",
+                  "ty": 4
                 }
               },
               "name": "account_settings_map"
@@ -1415,8 +1195,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xe2c42b2b",
-                              "ty": 5
+                              "key": "0x2b2bc4e2",
+                              "ty": 12
                             }
                           },
                           "name": "following"
@@ -1425,7 +1205,8 @@
                       "name": "Following"
                     }
                   },
-                  "root_key": "0xe2c42b2b"
+                  "root_key": "0x2b2bc4e2",
+                  "ty": 13
                 }
               },
               "name": "account_following_map"
@@ -1434,22 +1215,13 @@
               "layout": {
                 "root": {
                   "layout": {
-                    "struct": {
-                      "fields": [
-                        {
-                          "layout": {
-                            "leaf": {
-                              "key": "0xf54c53e1",
-                              "ty": 5
-                            }
-                          },
-                          "name": "followers"
-                        }
-                      ],
-                      "name": "Followers"
+                    "leaf": {
+                      "key": "0xe1534cf5",
+                      "ty": 2
                     }
                   },
-                  "root_key": "0xf54c53e1"
+                  "root_key": "0xe1534cf5",
+                  "ty": 17
                 }
               },
               "name": "account_followers_map"
@@ -1463,8 +1235,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xba5fde90",
-                              "ty": 5
+                              "key": "0x90de5fba",
+                              "ty": 12
                             }
                           },
                           "name": "blocked"
@@ -1473,19 +1245,11 @@
                       "name": "Blocked"
                     }
                   },
-                  "root_key": "0xba5fde90"
+                  "root_key": "0x90de5fba",
+                  "ty": 20
                 }
               },
               "name": "account_blocked_map"
-            },
-            {
-              "layout": {
-                "leaf": {
-                  "key": "0x00000000",
-                  "ty": 5
-                }
-              },
-              "name": "all_blocked"
             },
             {
               "layout": {
@@ -1496,8 +1260,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x2276714b",
-                              "ty": 8
+                              "key": "0x4b717622",
+                              "ty": 24
                             }
                           },
                           "name": "messages"
@@ -1506,7 +1270,8 @@
                       "name": "Messages"
                     }
                   },
-                  "root_key": "0x2276714b"
+                  "root_key": "0x4b717622",
+                  "ty": 26
                 }
               },
               "name": "account_messages_map"
@@ -1520,8 +1285,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x0da34bc6",
-                              "ty": 8
+                              "key": "0xc64ba30d",
+                              "ty": 24
                             }
                           },
                           "name": "messages"
@@ -1530,7 +1295,8 @@
                       "name": "Messages"
                     }
                   },
-                  "root_key": "0x0da34bc6"
+                  "root_key": "0xc64ba30d",
+                  "ty": 30
                 }
               },
               "name": "account_paid_messages_map"
@@ -1544,8 +1310,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xca490e23",
-                              "ty": 8
+                              "key": "0x230e49ca",
+                              "ty": 24
                             }
                           },
                           "name": "elevated"
@@ -1554,7 +1320,8 @@
                       "name": "Elevated"
                     }
                   },
-                  "root_key": "0xca490e23"
+                  "root_key": "0x230e49ca",
+                  "ty": 33
                 }
               },
               "name": "account_elevated_map"
@@ -1568,32 +1335,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x0cb59527",
-                              "ty": 8
-                            }
-                          },
-                          "name": "elevated"
-                        }
-                      ],
-                      "name": "Elevated"
-                    }
-                  },
-                  "root_key": "0x0cb59527"
-                }
-              },
-              "name": "account_paid_elevated_map"
-            },
-            {
-              "layout": {
-                "root": {
-                  "layout": {
-                    "struct": {
-                      "fields": [
-                        {
-                          "layout": {
-                            "leaf": {
-                              "key": "0x9434c528",
-                              "ty": 9
+                              "key": "0x28c53494",
+                              "ty": 25
                             }
                           },
                           "name": "message_id"
@@ -1601,8 +1344,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x9434c528",
-                              "ty": 9
+                              "key": "0x28c53494",
+                              "ty": 25
                             }
                           },
                           "name": "reply_to"
@@ -1610,8 +1353,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x9434c528",
-                              "ty": 6
+                              "key": "0x28c53494",
+                              "ty": 5
                             }
                           },
                           "name": "from_acct"
@@ -1619,8 +1362,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x9434c528",
-                              "ty": 2
+                              "key": "0x28c53494",
+                              "ty": 0
                             }
                           },
                           "name": "username"
@@ -1628,8 +1371,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x9434c528",
-                              "ty": 2
+                              "key": "0x28c53494",
+                              "ty": 0
                             }
                           },
                           "name": "message"
@@ -1637,8 +1380,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x9434c528",
-                              "ty": 2
+                              "key": "0x28c53494",
+                              "ty": 0
                             }
                           },
                           "name": "link"
@@ -1646,8 +1389,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x9434c528",
-                              "ty": 2
+                              "key": "0x28c53494",
+                              "ty": 0
                             }
                           },
                           "name": "link2"
@@ -1655,8 +1398,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x9434c528",
-                              "ty": 3
+                              "key": "0x28c53494",
+                              "ty": 2
                             }
                           },
                           "name": "endorser_count"
@@ -1664,8 +1407,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x9434c528",
-                              "ty": 3
+                              "key": "0x28c53494",
+                              "ty": 2
                             }
                           },
                           "name": "reply_count"
@@ -1673,8 +1416,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x9434c528",
-                              "ty": 4
+                              "key": "0x28c53494",
+                              "ty": 3
                             }
                           },
                           "name": "timestamp"
@@ -1682,8 +1425,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x9434c528",
-                              "ty": 5
+                              "key": "0x28c53494",
+                              "ty": 12
                             }
                           },
                           "name": "endorsers"
@@ -1692,19 +1435,11 @@
                       "name": "MessageDetails"
                     }
                   },
-                  "root_key": "0x9434c528"
+                  "root_key": "0x28c53494",
+                  "ty": 37
                 }
               },
               "name": "message_map"
-            },
-            {
-              "layout": {
-                "leaf": {
-                  "key": "0x00000000",
-                  "ty": 8
-                }
-              },
-              "name": "message_vec"
             },
             {
               "layout": {
@@ -1715,8 +1450,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x703aad5d",
-                              "ty": 9
+                              "key": "0x7c14a5de",
+                              "ty": 25
                             }
                           },
                           "name": "message_id"
@@ -1724,8 +1459,17 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x703aad5d",
-                              "ty": 6
+                              "key": "0x7c14a5de",
+                              "ty": 25
+                            }
+                          },
+                          "name": "reply_to"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x7c14a5de",
+                              "ty": 5
                             }
                           },
                           "name": "from_acct"
@@ -1733,8 +1477,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x703aad5d",
-                              "ty": 2
+                              "key": "0x7c14a5de",
+                              "ty": 0
                             }
                           },
                           "name": "username"
@@ -1742,8 +1486,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x703aad5d",
-                              "ty": 2
+                              "key": "0x7c14a5de",
+                              "ty": 0
                             }
                           },
                           "name": "message"
@@ -1751,8 +1495,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x703aad5d",
-                              "ty": 2
+                              "key": "0x7c14a5de",
+                              "ty": 0
                             }
                           },
                           "name": "link"
@@ -1760,8 +1504,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x703aad5d",
-                              "ty": 2
+                              "key": "0x7c14a5de",
+                              "ty": 0
                             }
                           },
                           "name": "link2"
@@ -1769,8 +1513,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x703aad5d",
-                              "ty": 3
+                              "key": "0x7c14a5de",
+                              "ty": 2
                             }
                           },
                           "name": "endorser_count"
@@ -1778,8 +1522,17 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x703aad5d",
-                              "ty": 4
+                              "key": "0x7c14a5de",
+                              "ty": 2
+                            }
+                          },
+                          "name": "reply_count"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x7c14a5de",
+                              "ty": 3
                             }
                           },
                           "name": "timestamp"
@@ -1787,8 +1540,105 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x703aad5d",
+                              "key": "0x7c14a5de",
+                              "ty": 12
+                            }
+                          },
+                          "name": "endorsers"
+                        }
+                      ],
+                      "name": "MessageDetails"
+                    }
+                  },
+                  "root_key": "0x7c14a5de",
+                  "ty": 41
+                }
+              },
+              "name": "reply_map"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x5dad3a70",
+                              "ty": 25
+                            }
+                          },
+                          "name": "message_id"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x5dad3a70",
+                              "ty": 5
+                            }
+                          },
+                          "name": "from_acct"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x5dad3a70",
+                              "ty": 0
+                            }
+                          },
+                          "name": "username"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x5dad3a70",
+                              "ty": 0
+                            }
+                          },
+                          "name": "message"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x5dad3a70",
+                              "ty": 0
+                            }
+                          },
+                          "name": "link"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x5dad3a70",
+                              "ty": 0
+                            }
+                          },
+                          "name": "link2"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x5dad3a70",
+                              "ty": 2
+                            }
+                          },
+                          "name": "endorser_count"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x5dad3a70",
                               "ty": 3
+                            }
+                          },
+                          "name": "timestamp"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x5dad3a70",
+                              "ty": 2
                             }
                           },
                           "name": "paid_endorser_max"
@@ -1796,8 +1646,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x703aad5d",
-                              "ty": 3
+                              "key": "0x5dad3a70",
+                              "ty": 2
                             }
                           },
                           "name": "endorser_payment"
@@ -1805,8 +1655,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x703aad5d",
-                              "ty": 2
+                              "key": "0x5dad3a70",
+                              "ty": 0
                             }
                           },
                           "name": "target_interests"
@@ -1814,8 +1664,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x703aad5d",
-                              "ty": 3
+                              "key": "0x5dad3a70",
+                              "ty": 2
                             }
                           },
                           "name": "total_staked"
@@ -1823,17 +1673,27 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x703aad5d",
-                              "ty": 5
+                              "key": "0x5dad3a70",
+                              "ty": 12
                             }
                           },
                           "name": "endorsers"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x5dad3a70",
+                              "ty": 2
+                            }
+                          },
+                          "name": "staked_balance"
                         }
                       ],
                       "name": "PaidMessageDetails"
                     }
                   },
-                  "root_key": "0x703aad5d"
+                  "root_key": "0x5dad3a70",
+                  "ty": 44
                 }
               },
               "name": "paid_message_map"
@@ -1847,8 +1707,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x02907fd7",
-                              "ty": 8
+                              "key": "0xd77f9002",
+                              "ty": 24
                             }
                           },
                           "name": "messages"
@@ -1857,16 +1717,23 @@
                       "name": "Messages"
                     }
                   },
-                  "root_key": "0x02907fd7"
+                  "root_key": "0xd77f9002",
+                  "ty": 48
                 }
               },
               "name": "target_interests_map"
             },
             {
               "layout": {
-                "leaf": {
-                  "key": "0x00000000",
-                  "ty": 10
+                "root": {
+                  "layout": {
+                    "leaf": {
+                      "key": "0xa44905f4",
+                      "ty": 0
+                    }
+                  },
+                  "root_key": "0xa44905f4",
+                  "ty": 51
                 }
               },
               "name": "target_interests_vec"
@@ -1880,8 +1747,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x30eae905",
-                              "ty": 8
+                              "key": "0x05e9ea30",
+                              "ty": 24
                             }
                           },
                           "name": "messages"
@@ -1890,7 +1757,8 @@
                       "name": "Messages"
                     }
                   },
-                  "root_key": "0x30eae905"
+                  "root_key": "0x05e9ea30",
+                  "ty": 57
                 }
               },
               "name": "message_reply_map"
@@ -1900,20 +1768,27 @@
                 "root": {
                   "layout": {
                     "leaf": {
-                      "key": "0x4dec26fc",
-                      "ty": 6
+                      "key": "0xfc26ec4d",
+                      "ty": 5
                     }
                   },
-                  "root_key": "0x4dec26fc"
+                  "root_key": "0xfc26ec4d",
+                  "ty": 60
                 }
               },
               "name": "username_map"
             },
             {
               "layout": {
-                "leaf": {
-                  "key": "0x00000000",
-                  "ty": 5
+                "root": {
+                  "layout": {
+                    "leaf": {
+                      "key": "0xdfca3424",
+                      "ty": 5
+                    }
+                  },
+                  "root_key": "0xdfca3424",
+                  "ty": 63
                 }
               },
               "name": "all_accounts_with_settings"
@@ -1922,7 +1797,8 @@
           "name": "ContractStorage"
         }
       },
-      "root_key": "0x00000000"
+      "root_key": "0x00000000",
+      "ty": 68
     }
   },
   "types": [
@@ -1930,7 +1806,9 @@
       "id": 0,
       "type": {
         "def": {
-          "primitive": "u8"
+          "sequence": {
+            "type": 1
+          }
         }
       }
     },
@@ -1938,7 +1816,7 @@
       "id": 1,
       "type": {
         "def": {
-          "tuple": []
+          "primitive": "u8"
         }
       }
     },
@@ -1946,9 +1824,7 @@
       "id": 2,
       "type": {
         "def": {
-          "sequence": {
-            "type": 0
-          }
+          "primitive": "u128"
         }
       }
     },
@@ -1956,7 +1832,7 @@
       "id": 3,
       "type": {
         "def": {
-          "primitive": "u128"
+          "primitive": "u64"
         }
       }
     },
@@ -1964,28 +1840,38 @@
       "id": 4,
       "type": {
         "def": {
-          "primitive": "u64"
-        }
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 5
+          },
+          {
+            "name": "V",
+            "type": 7
+          },
+          {
+            "name": "KeyType",
+            "type": 8
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
       }
     },
     {
       "id": 5,
       "type": {
         "def": {
-          "sequence": {
-            "type": 6
-          }
-        }
-      }
-    },
-    {
-      "id": 6,
-      "type": {
-        "def": {
           "composite": {
             "fields": [
               {
-                "type": 7,
+                "type": 6,
                 "typeName": "[u8; 32]"
               }
             ]
@@ -1999,34 +1885,400 @@
       }
     },
     {
-      "id": 7,
+      "id": 6,
       "type": {
         "def": {
           "array": {
             "len": 32,
-            "type": 0
+            "type": 1
           }
         }
+      }
+    },
+    {
+      "id": 7,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "username",
+                "type": 0,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "interests",
+                "type": 0,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "max_feed",
+                "type": 2,
+                "typeName": "u128"
+              },
+              {
+                "name": "max_paid_feed",
+                "type": 2,
+                "typeName": "u128"
+              },
+              {
+                "name": "last_update",
+                "type": 3,
+                "typeName": "u64"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_social",
+          "geode_social",
+          "Settings"
+        ]
       }
     },
     {
       "id": 8,
       "type": {
         "def": {
-          "sequence": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
             "type": 9
+          },
+          {
+            "name": "R",
+            "type": 10
           }
-        }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
       }
     },
     {
       "id": 9,
       "type": {
         "def": {
+          "composite": {}
+        },
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "AutoKey"
+        ]
+      }
+    },
+    {
+      "id": 10,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 11
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 11,
+      "type": {
+        "def": {
+          "tuple": []
+        }
+      }
+    },
+    {
+      "id": 12,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 5
+          }
+        }
+      }
+    },
+    {
+      "id": 13,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 5
+          },
+          {
+            "name": "V",
+            "type": 14
+          },
+          {
+            "name": "KeyType",
+            "type": 15
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 14,
+      "type": {
+        "def": {
           "composite": {
             "fields": [
               {
-                "type": 7,
+                "name": "following",
+                "type": 12,
+                "typeName": "Vec<AccountId>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_social",
+          "geode_social",
+          "Following"
+        ]
+      }
+    },
+    {
+      "id": 15,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 9
+          },
+          {
+            "name": "R",
+            "type": 16
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 16,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 11
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 17,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 5
+          },
+          {
+            "name": "V",
+            "type": 2
+          },
+          {
+            "name": "KeyType",
+            "type": 18
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 18,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 9
+          },
+          {
+            "name": "R",
+            "type": 19
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 19,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 11
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 20,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 5
+          },
+          {
+            "name": "V",
+            "type": 21
+          },
+          {
+            "name": "KeyType",
+            "type": 22
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 21,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "blocked",
+                "type": 12,
+                "typeName": "Vec<AccountId>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_social",
+          "geode_social",
+          "Blocked"
+        ]
+      }
+    },
+    {
+      "id": 22,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 9
+          },
+          {
+            "name": "R",
+            "type": 23
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 23,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 11
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 24,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 25
+          }
+        }
+      }
+    },
+    {
+      "id": 25,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "type": 6,
                 "typeName": "[u8; 32]"
               }
             ]
@@ -2040,17 +2292,1195 @@
       }
     },
     {
-      "id": 10,
+      "id": 26,
       "type": {
         "def": {
-          "sequence": {
-            "type": 2
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 5
+          },
+          {
+            "name": "V",
+            "type": 27
+          },
+          {
+            "name": "KeyType",
+            "type": 28
           }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 27,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "messages",
+                "type": 24,
+                "typeName": "Vec<Hash>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_social",
+          "geode_social",
+          "Messages"
+        ]
+      }
+    },
+    {
+      "id": 28,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 9
+          },
+          {
+            "name": "R",
+            "type": 29
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 29,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 11
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 30,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 5
+          },
+          {
+            "name": "V",
+            "type": 27
+          },
+          {
+            "name": "KeyType",
+            "type": 31
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 31,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 9
+          },
+          {
+            "name": "R",
+            "type": 32
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 32,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 11
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 33,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 5
+          },
+          {
+            "name": "V",
+            "type": 34
+          },
+          {
+            "name": "KeyType",
+            "type": 35
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 34,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "elevated",
+                "type": 24,
+                "typeName": "Vec<Hash>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_social",
+          "geode_social",
+          "Elevated"
+        ]
+      }
+    },
+    {
+      "id": 35,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 9
+          },
+          {
+            "name": "R",
+            "type": 36
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 36,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 11
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 37,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 25
+          },
+          {
+            "name": "V",
+            "type": 38
+          },
+          {
+            "name": "KeyType",
+            "type": 39
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 38,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "message_id",
+                "type": 25,
+                "typeName": "Hash"
+              },
+              {
+                "name": "reply_to",
+                "type": 25,
+                "typeName": "Hash"
+              },
+              {
+                "name": "from_acct",
+                "type": 5,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "username",
+                "type": 0,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "message",
+                "type": 0,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "link",
+                "type": 0,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "link2",
+                "type": 0,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "endorser_count",
+                "type": 2,
+                "typeName": "u128"
+              },
+              {
+                "name": "reply_count",
+                "type": 2,
+                "typeName": "u128"
+              },
+              {
+                "name": "timestamp",
+                "type": 3,
+                "typeName": "u64"
+              },
+              {
+                "name": "endorsers",
+                "type": 12,
+                "typeName": "Vec<AccountId>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_social",
+          "geode_social",
+          "MessageDetails"
+        ]
+      }
+    },
+    {
+      "id": 39,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 9
+          },
+          {
+            "name": "R",
+            "type": 40
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 40,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 11
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 41,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 25
+          },
+          {
+            "name": "V",
+            "type": 38
+          },
+          {
+            "name": "KeyType",
+            "type": 42
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 42,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 9
+          },
+          {
+            "name": "R",
+            "type": 43
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 43,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 11
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 44,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 25
+          },
+          {
+            "name": "V",
+            "type": 45
+          },
+          {
+            "name": "KeyType",
+            "type": 46
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 45,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "message_id",
+                "type": 25,
+                "typeName": "Hash"
+              },
+              {
+                "name": "from_acct",
+                "type": 5,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "username",
+                "type": 0,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "message",
+                "type": 0,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "link",
+                "type": 0,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "link2",
+                "type": 0,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "endorser_count",
+                "type": 2,
+                "typeName": "u128"
+              },
+              {
+                "name": "timestamp",
+                "type": 3,
+                "typeName": "u64"
+              },
+              {
+                "name": "paid_endorser_max",
+                "type": 2,
+                "typeName": "u128"
+              },
+              {
+                "name": "endorser_payment",
+                "type": 2,
+                "typeName": "Balance"
+              },
+              {
+                "name": "target_interests",
+                "type": 0,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "total_staked",
+                "type": 2,
+                "typeName": "Balance"
+              },
+              {
+                "name": "endorsers",
+                "type": 12,
+                "typeName": "Vec<AccountId>"
+              },
+              {
+                "name": "staked_balance",
+                "type": 2,
+                "typeName": "Balance"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_social",
+          "geode_social",
+          "PaidMessageDetails"
+        ]
+      }
+    },
+    {
+      "id": 46,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 9
+          },
+          {
+            "name": "R",
+            "type": 47
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 47,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 11
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 48,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 0
+          },
+          {
+            "name": "V",
+            "type": 27
+          },
+          {
+            "name": "KeyType",
+            "type": 49
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 49,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 9
+          },
+          {
+            "name": "R",
+            "type": 50
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 50,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 11
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 51,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "len",
+                "type": 54,
+                "typeName": "Lazy<u32, KeyType>"
+              },
+              {
+                "name": "elements",
+                "type": 56,
+                "typeName": "Mapping<u32, V, KeyType>"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "V",
+            "type": 0
+          },
+          {
+            "name": "KeyType",
+            "type": 52
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "vec",
+          "StorageVec"
+        ]
+      }
+    },
+    {
+      "id": 52,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 9
+          },
+          {
+            "name": "R",
+            "type": 53
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 53,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 11
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 54,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "V",
+            "type": 55
+          },
+          {
+            "name": "KeyType",
+            "type": 52
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "Lazy"
+        ]
+      }
+    },
+    {
+      "id": 55,
+      "type": {
+        "def": {
+          "primitive": "u32"
         }
       }
     },
     {
-      "id": 11,
+      "id": 56,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 55
+          },
+          {
+            "name": "V",
+            "type": 0
+          },
+          {
+            "name": "KeyType",
+            "type": 52
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 57,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 25
+          },
+          {
+            "name": "V",
+            "type": 27
+          },
+          {
+            "name": "KeyType",
+            "type": 58
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 58,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 9
+          },
+          {
+            "name": "R",
+            "type": 59
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 59,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 11
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 60,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 0
+          },
+          {
+            "name": "V",
+            "type": 5
+          },
+          {
+            "name": "KeyType",
+            "type": 61
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 61,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 9
+          },
+          {
+            "name": "R",
+            "type": 62
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 62,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 11
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 63,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "len",
+                "type": 66,
+                "typeName": "Lazy<u32, KeyType>"
+              },
+              {
+                "name": "elements",
+                "type": 67,
+                "typeName": "Mapping<u32, V, KeyType>"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "V",
+            "type": 5
+          },
+          {
+            "name": "KeyType",
+            "type": 64
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "vec",
+          "StorageVec"
+        ]
+      }
+    },
+    {
+      "id": 64,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 9
+          },
+          {
+            "name": "R",
+            "type": 65
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 65,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 11
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 66,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "V",
+            "type": 55
+          },
+          {
+            "name": "KeyType",
+            "type": 64
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "Lazy"
+        ]
+      }
+    },
+    {
+      "id": 67,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 55
+          },
+          {
+            "name": "V",
+            "type": 5
+          },
+          {
+            "name": "KeyType",
+            "type": 64
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 68,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "account_settings_map",
+                "type": 4,
+                "typeName": "<Mapping<AccountId, Settings> as::ink::storage::traits::\nAutoStorableHint<::ink::storage::traits::ManualKey<2728350387u32,\n()>,>>::Type"
+              },
+              {
+                "name": "account_following_map",
+                "type": 13,
+                "typeName": "<Mapping<AccountId, Following> as::ink::storage::traits::\nAutoStorableHint<::ink::storage::traits::ManualKey<3804506923u32,\n()>,>>::Type"
+              },
+              {
+                "name": "account_followers_map",
+                "type": 17,
+                "typeName": "<Mapping<AccountId, u128> as::ink::storage::traits::\nAutoStorableHint<::ink::storage::traits::ManualKey<4115420129u32,\n()>,>>::Type"
+              },
+              {
+                "name": "account_blocked_map",
+                "type": 20,
+                "typeName": "<Mapping<AccountId, Blocked> as::ink::storage::traits::\nAutoStorableHint<::ink::storage::traits::ManualKey<3126845072u32,\n()>,>>::Type"
+              },
+              {
+                "name": "account_messages_map",
+                "type": 26,
+                "typeName": "<Mapping<AccountId, Messages> as::ink::storage::traits::\nAutoStorableHint<::ink::storage::traits::ManualKey<578187595u32, ()\n>,>>::Type"
+              },
+              {
+                "name": "account_paid_messages_map",
+                "type": 30,
+                "typeName": "<Mapping<AccountId, Messages> as::ink::storage::traits::\nAutoStorableHint<::ink::storage::traits::ManualKey<228805574u32, ()\n>,>>::Type"
+              },
+              {
+                "name": "account_elevated_map",
+                "type": 33,
+                "typeName": "<Mapping<AccountId, Elevated> as::ink::storage::traits::\nAutoStorableHint<::ink::storage::traits::ManualKey<3393785379u32,\n()>,>>::Type"
+              },
+              {
+                "name": "message_map",
+                "type": 37,
+                "typeName": "<Mapping<Hash, MessageDetails> as::ink::storage::traits::\nAutoStorableHint<::ink::storage::traits::ManualKey<2486486312u32,\n()>,>>::Type"
+              },
+              {
+                "name": "reply_map",
+                "type": 41,
+                "typeName": "<Mapping<Hash, MessageDetails> as::ink::storage::traits::\nAutoStorableHint<::ink::storage::traits::ManualKey<3735360636u32,\n()>,>>::Type"
+              },
+              {
+                "name": "paid_message_map",
+                "type": 44,
+                "typeName": "<Mapping<Hash, PaidMessageDetails> as::ink::storage::traits::\nAutoStorableHint<::ink::storage::traits::ManualKey<1882893661u32,\n()>,>>::Type"
+              },
+              {
+                "name": "target_interests_map",
+                "type": 48,
+                "typeName": "<Mapping<Vec<u8>, Messages> as::ink::storage::traits::\nAutoStorableHint<::ink::storage::traits::ManualKey<43024343u32, ()\n>,>>::Type"
+              },
+              {
+                "name": "target_interests_vec",
+                "type": 51,
+                "typeName": "<StorageVec<Vec<u8>> as::ink::storage::traits::AutoStorableHint\n<::ink::storage::traits::ManualKey<4093987236u32, ()>,>>::Type"
+              },
+              {
+                "name": "message_reply_map",
+                "type": 57,
+                "typeName": "<Mapping<Hash, Messages> as::ink::storage::traits::\nAutoStorableHint<::ink::storage::traits::ManualKey<820701445u32, ()\n>,>>::Type"
+              },
+              {
+                "name": "username_map",
+                "type": 60,
+                "typeName": "<Mapping<Vec<u8>, AccountId> as::ink::storage::traits::\nAutoStorableHint<::ink::storage::traits::ManualKey<1307322108u32,\n()>,>>::Type"
+              },
+              {
+                "name": "all_accounts_with_settings",
+                "type": 63,
+                "typeName": "<StorageVec<AccountId> as::ink::storage::traits::AutoStorableHint\n<::ink::storage::traits::ManualKey<607439583u32, ()>,>>::Type"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_social",
+          "geode_social",
+          "ContractStorage"
+        ]
+      }
+    },
+    {
+      "id": 69,
       "type": {
         "def": {
           "variant": {
@@ -2058,7 +3488,7 @@
               {
                 "fields": [
                   {
-                    "type": 1
+                    "type": 11
                   }
                 ],
                 "index": 0,
@@ -2067,7 +3497,7 @@
               {
                 "fields": [
                   {
-                    "type": 12
+                    "type": 70
                   }
                 ],
                 "index": 1,
@@ -2079,11 +3509,11 @@
         "params": [
           {
             "name": "T",
-            "type": 1
+            "type": 11
           },
           {
             "name": "E",
-            "type": 12
+            "type": 70
           }
         ],
         "path": [
@@ -2092,7 +3522,7 @@
       }
     },
     {
-      "id": 12,
+      "id": 70,
       "type": {
         "def": {
           "variant": {
@@ -2111,7 +3541,7 @@
       }
     },
     {
-      "id": 13,
+      "id": 71,
       "type": {
         "def": {
           "variant": {
@@ -2119,7 +3549,7 @@
               {
                 "fields": [
                   {
-                    "type": 14
+                    "type": 72
                   }
                 ],
                 "index": 0,
@@ -2128,7 +3558,7 @@
               {
                 "fields": [
                   {
-                    "type": 12
+                    "type": 70
                   }
                 ],
                 "index": 1,
@@ -2140,11 +3570,11 @@
         "params": [
           {
             "name": "T",
-            "type": 14
+            "type": 72
           },
           {
             "name": "E",
-            "type": 12
+            "type": 70
           }
         ],
         "path": [
@@ -2153,7 +3583,7 @@
       }
     },
     {
-      "id": 14,
+      "id": 72,
       "type": {
         "def": {
           "variant": {
@@ -2161,7 +3591,7 @@
               {
                 "fields": [
                   {
-                    "type": 1
+                    "type": 11
                   }
                 ],
                 "index": 0,
@@ -2170,7 +3600,7 @@
               {
                 "fields": [
                   {
-                    "type": 15
+                    "type": 73
                   }
                 ],
                 "index": 1,
@@ -2182,11 +3612,11 @@
         "params": [
           {
             "name": "T",
-            "type": 1
+            "type": 11
           },
           {
             "name": "E",
-            "type": 15
+            "type": 73
           }
         ],
         "path": [
@@ -2195,14 +3625,14 @@
       }
     },
     {
-      "id": 15,
+      "id": 73,
       "type": {
         "def": {
           "variant": {
             "variants": [
               {
                 "index": 0,
-                "name": "DuplicateFollow"
+                "name": "CannotFollow"
               },
               {
                 "index": 1,
@@ -2214,7 +3644,7 @@
               },
               {
                 "index": 3,
-                "name": "DuplicateBlock"
+                "name": "CannotBlock"
               },
               {
                 "index": 4,
@@ -2257,22 +3687,24 @@
                 "name": "EndorserPayoutFailed"
               },
               {
-                "fields": [
-                  {
-                    "type": 16,
-                    "typeName": "ReentrancyGuardError"
-                  }
-                ],
                 "index": 14,
-                "name": "ReentrancyError"
-              },
-              {
-                "index": 15,
                 "name": "UsernameTaken"
               },
               {
-                "index": 16,
+                "index": 15,
                 "name": "ReplyingToMessageDoesNotExist"
+              },
+              {
+                "index": 16,
+                "name": "DataTooLarge"
+              },
+              {
+                "index": 17,
+                "name": "BidTooLow"
+              },
+              {
+                "index": 18,
+                "name": "RepliesFull"
               }
             ]
           }
@@ -2285,29 +3717,7 @@
       }
     },
     {
-      "id": 16,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "index": 0,
-                "name": "ReentrantCall"
-              }
-            ]
-          }
-        },
-        "path": [
-          "openbrush_contracts",
-          "traits",
-          "errors",
-          "reentrancy_guard",
-          "ReentrancyGuardError"
-        ]
-      }
-    },
-    {
-      "id": 17,
+      "id": 74,
       "type": {
         "def": {
           "variant": {
@@ -2315,7 +3725,7 @@
               {
                 "fields": [
                   {
-                    "type": 18
+                    "type": 75
                   }
                 ],
                 "index": 0,
@@ -2324,7 +3734,7 @@
               {
                 "fields": [
                   {
-                    "type": 12
+                    "type": 70
                   }
                 ],
                 "index": 1,
@@ -2336,11 +3746,11 @@
         "params": [
           {
             "name": "T",
-            "type": 18
+            "type": 75
           },
           {
             "name": "E",
-            "type": 12
+            "type": 70
           }
         ],
         "path": [
@@ -2349,24 +3759,24 @@
       }
     },
     {
-      "id": 18,
+      "id": 75,
       "type": {
         "def": {
           "composite": {
             "fields": [
               {
                 "name": "maxfeed",
-                "type": 3,
+                "type": 2,
                 "typeName": "u128"
               },
               {
                 "name": "blocked",
-                "type": 5,
+                "type": 12,
                 "typeName": "Vec<AccountId>"
               },
               {
                 "name": "myfeed",
-                "type": 19,
+                "type": 76,
                 "typeName": "Vec<MessageDetails>"
               }
             ]
@@ -2380,88 +3790,17 @@
       }
     },
     {
-      "id": 19,
+      "id": 76,
       "type": {
         "def": {
           "sequence": {
-            "type": 20
+            "type": 38
           }
         }
       }
     },
     {
-      "id": 20,
-      "type": {
-        "def": {
-          "composite": {
-            "fields": [
-              {
-                "name": "message_id",
-                "type": 9,
-                "typeName": "Hash"
-              },
-              {
-                "name": "reply_to",
-                "type": 9,
-                "typeName": "Hash"
-              },
-              {
-                "name": "from_acct",
-                "type": 6,
-                "typeName": "AccountId"
-              },
-              {
-                "name": "username",
-                "type": 2,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "message",
-                "type": 2,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "link",
-                "type": 2,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "link2",
-                "type": 2,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "endorser_count",
-                "type": 3,
-                "typeName": "u128"
-              },
-              {
-                "name": "reply_count",
-                "type": 3,
-                "typeName": "u128"
-              },
-              {
-                "name": "timestamp",
-                "type": 4,
-                "typeName": "u64"
-              },
-              {
-                "name": "endorsers",
-                "type": 5,
-                "typeName": "Vec<AccountId>"
-              }
-            ]
-          }
-        },
-        "path": [
-          "geode_social",
-          "geode_social",
-          "MessageDetails"
-        ]
-      }
-    },
-    {
-      "id": 21,
+      "id": 77,
       "type": {
         "def": {
           "variant": {
@@ -2469,7 +3808,7 @@
               {
                 "fields": [
                   {
-                    "type": 22
+                    "type": 78
                   }
                 ],
                 "index": 0,
@@ -2478,7 +3817,7 @@
               {
                 "fields": [
                   {
-                    "type": 12
+                    "type": 70
                   }
                 ],
                 "index": 1,
@@ -2490,11 +3829,11 @@
         "params": [
           {
             "name": "T",
-            "type": 22
+            "type": 78
           },
           {
             "name": "E",
-            "type": 12
+            "type": 70
           }
         ],
         "path": [
@@ -2503,29 +3842,29 @@
       }
     },
     {
-      "id": 22,
+      "id": 78,
       "type": {
         "def": {
           "composite": {
             "fields": [
               {
                 "name": "maxfeed",
-                "type": 3,
+                "type": 2,
                 "typeName": "u128"
               },
               {
                 "name": "myinterests",
-                "type": 2,
+                "type": 0,
                 "typeName": "Vec<u8>"
               },
               {
                 "name": "blocked",
-                "type": 5,
+                "type": 12,
                 "typeName": "Vec<AccountId>"
               },
               {
                 "name": "mypaidfeed",
-                "type": 23,
+                "type": 79,
                 "typeName": "Vec<PaidMessageDetails>"
               }
             ]
@@ -2539,98 +3878,17 @@
       }
     },
     {
-      "id": 23,
+      "id": 79,
       "type": {
         "def": {
           "sequence": {
-            "type": 24
+            "type": 45
           }
         }
       }
     },
     {
-      "id": 24,
-      "type": {
-        "def": {
-          "composite": {
-            "fields": [
-              {
-                "name": "message_id",
-                "type": 9,
-                "typeName": "Hash"
-              },
-              {
-                "name": "from_acct",
-                "type": 6,
-                "typeName": "AccountId"
-              },
-              {
-                "name": "username",
-                "type": 2,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "message",
-                "type": 2,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "link",
-                "type": 2,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "link2",
-                "type": 2,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "endorser_count",
-                "type": 3,
-                "typeName": "u128"
-              },
-              {
-                "name": "timestamp",
-                "type": 4,
-                "typeName": "u64"
-              },
-              {
-                "name": "paid_endorser_max",
-                "type": 3,
-                "typeName": "u128"
-              },
-              {
-                "name": "endorser_payment",
-                "type": 3,
-                "typeName": "Balance"
-              },
-              {
-                "name": "target_interests",
-                "type": 2,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "total_staked",
-                "type": 3,
-                "typeName": "Balance"
-              },
-              {
-                "name": "endorsers",
-                "type": 5,
-                "typeName": "Vec<AccountId>"
-              }
-            ]
-          }
-        },
-        "path": [
-          "geode_social",
-          "geode_social",
-          "PaidMessageDetails"
-        ]
-      }
-    },
-    {
-      "id": 25,
+      "id": 80,
       "type": {
         "def": {
           "variant": {
@@ -2638,7 +3896,7 @@
               {
                 "fields": [
                   {
-                    "type": 26
+                    "type": 81
                   }
                 ],
                 "index": 0,
@@ -2647,7 +3905,7 @@
               {
                 "fields": [
                   {
-                    "type": 12
+                    "type": 70
                   }
                 ],
                 "index": 1,
@@ -2659,11 +3917,11 @@
         "params": [
           {
             "name": "T",
-            "type": 26
+            "type": 81
           },
           {
             "name": "E",
-            "type": 12
+            "type": 70
           }
         ],
         "path": [
@@ -2672,34 +3930,34 @@
       }
     },
     {
-      "id": 26,
+      "id": 81,
       "type": {
         "def": {
           "composite": {
             "fields": [
               {
                 "name": "searched_account",
-                "type": 6,
+                "type": 5,
                 "typeName": "AccountId"
               },
               {
                 "name": "username",
-                "type": 2,
+                "type": 0,
                 "typeName": "Vec<u8>"
               },
               {
                 "name": "followers",
-                "type": 5,
-                "typeName": "Vec<AccountId>"
+                "type": 2,
+                "typeName": "u128"
               },
               {
                 "name": "following",
-                "type": 5,
+                "type": 12,
                 "typeName": "Vec<AccountId>"
               },
               {
                 "name": "message_list",
-                "type": 19,
+                "type": 76,
                 "typeName": "Vec<MessageDetails>"
               }
             ]
@@ -2713,7 +3971,7 @@
       }
     },
     {
-      "id": 27,
+      "id": 82,
       "type": {
         "def": {
           "variant": {
@@ -2721,7 +3979,7 @@
               {
                 "fields": [
                   {
-                    "type": 19
+                    "type": 83
                   }
                 ],
                 "index": 0,
@@ -2730,7 +3988,7 @@
               {
                 "fields": [
                   {
-                    "type": 12
+                    "type": 70
                   }
                 ],
                 "index": 1,
@@ -2742,11 +4000,11 @@
         "params": [
           {
             "name": "T",
-            "type": 19
+            "type": 83
           },
           {
             "name": "E",
-            "type": 12
+            "type": 70
           }
         ],
         "path": [
@@ -2755,7 +4013,17 @@
       }
     },
     {
-      "id": 28,
+      "id": 83,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 0
+          }
+        }
+      }
+    },
+    {
+      "id": 84,
       "type": {
         "def": {
           "variant": {
@@ -2763,7 +4031,7 @@
               {
                 "fields": [
                   {
-                    "type": 29
+                    "type": 1
                   }
                 ],
                 "index": 0,
@@ -2772,7 +4040,7 @@
               {
                 "fields": [
                   {
-                    "type": 12
+                    "type": 70
                   }
                 ],
                 "index": 1,
@@ -2784,11 +4052,11 @@
         "params": [
           {
             "name": "T",
-            "type": 29
+            "type": 1
           },
           {
             "name": "E",
-            "type": 12
+            "type": 70
           }
         ],
         "path": [
@@ -2797,33 +4065,7 @@
       }
     },
     {
-      "id": 29,
-      "type": {
-        "def": {
-          "composite": {
-            "fields": [
-              {
-                "name": "search",
-                "type": 2,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "message_list",
-                "type": 19,
-                "typeName": "Vec<MessageDetails>"
-              }
-            ]
-          }
-        },
-        "path": [
-          "geode_social",
-          "geode_social",
-          "KeywordSearchResults"
-        ]
-      }
-    },
-    {
-      "id": 30,
+      "id": 85,
       "type": {
         "def": {
           "variant": {
@@ -2831,7 +4073,7 @@
               {
                 "fields": [
                   {
-                    "type": 10
+                    "type": 79
                   }
                 ],
                 "index": 0,
@@ -2840,7 +4082,7 @@
               {
                 "fields": [
                   {
-                    "type": 12
+                    "type": 70
                   }
                 ],
                 "index": 1,
@@ -2852,11 +4094,11 @@
         "params": [
           {
             "name": "T",
-            "type": 10
+            "type": 79
           },
           {
             "name": "E",
-            "type": 12
+            "type": 70
           }
         ],
         "path": [
@@ -2865,7 +4107,7 @@
       }
     },
     {
-      "id": 31,
+      "id": 86,
       "type": {
         "def": {
           "variant": {
@@ -2873,7 +4115,7 @@
               {
                 "fields": [
                   {
-                    "type": 5
+                    "type": 12
                   }
                 ],
                 "index": 0,
@@ -2882,7 +4124,7 @@
               {
                 "fields": [
                   {
-                    "type": 12
+                    "type": 70
                   }
                 ],
                 "index": 1,
@@ -2894,11 +4136,11 @@
         "params": [
           {
             "name": "T",
-            "type": 5
+            "type": 12
           },
           {
             "name": "E",
-            "type": 12
+            "type": 70
           }
         ],
         "path": [
@@ -2907,7 +4149,7 @@
       }
     },
     {
-      "id": 32,
+      "id": 87,
       "type": {
         "def": {
           "variant": {
@@ -2915,7 +4157,7 @@
               {
                 "fields": [
                   {
-                    "type": 3
+                    "type": 45
                   }
                 ],
                 "index": 0,
@@ -2924,7 +4166,7 @@
               {
                 "fields": [
                   {
-                    "type": 12
+                    "type": 70
                   }
                 ],
                 "index": 1,
@@ -2936,11 +4178,11 @@
         "params": [
           {
             "name": "T",
-            "type": 3
+            "type": 45
           },
           {
             "name": "E",
-            "type": 12
+            "type": 70
           }
         ],
         "path": [
@@ -2949,7 +4191,7 @@
       }
     },
     {
-      "id": 33,
+      "id": 88,
       "type": {
         "def": {
           "variant": {
@@ -2957,7 +4199,7 @@
               {
                 "fields": [
                   {
-                    "type": 23
+                    "type": 38
                   }
                 ],
                 "index": 0,
@@ -2966,7 +4208,7 @@
               {
                 "fields": [
                   {
-                    "type": 12
+                    "type": 70
                   }
                 ],
                 "index": 1,
@@ -2978,11 +4220,11 @@
         "params": [
           {
             "name": "T",
-            "type": 23
+            "type": 38
           },
           {
             "name": "E",
-            "type": 12
+            "type": 70
           }
         ],
         "path": [
@@ -2991,128 +4233,15 @@
       }
     },
     {
-      "id": 34,
+      "id": 89,
       "type": {
         "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 8
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 12
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
+          "variant": {}
         },
-        "params": [
-          {
-            "name": "T",
-            "type": 8
-          },
-          {
-            "name": "E",
-            "type": 12
-          }
-        ],
         "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 35,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 24
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 12
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 24
-          },
-          {
-            "name": "E",
-            "type": 12
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 36,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 20
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 12
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 20
-          },
-          {
-            "name": "E",
-            "type": 12
-          }
-        ],
-        "path": [
-          "Result"
+          "ink_env",
+          "types",
+          "NoChainExtension"
         ]
       }
     }

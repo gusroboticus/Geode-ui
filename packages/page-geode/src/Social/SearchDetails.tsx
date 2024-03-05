@@ -15,6 +15,8 @@ import CallEndorse from './CallEndorse.js';
 import CallPost from './CallPost.js';
 import CallFollow from './CallFollow.js';
 import JSONprohibited from '../shared/geode_prohibited.json';
+import { autoCorrect, hextoHuman, timeStampToDate, numBadge, accountInfo, t_strong, paramtoAccount } from './SocialUtil.js';
+
 
 interface Props {
     className?: string;
@@ -150,34 +152,34 @@ function SearchDetails ({ className = '', onClear, outcome: { from, message, out
    }
 
 
-    function autoCorrect(arr: string[], str: string): JSX.Element {
-        arr.forEach(w => str = str.replaceAll(w, '****'));
-        arr.forEach(w => str = str.replaceAll(w.charAt(0).toUpperCase() + w.slice(1), '****'));
-        arr.forEach(w => str = str.replaceAll(w.charAt(0) + w.slice(1).toUpperCase, '****'));        
-        arr.forEach(w => str = str.replaceAll(w.toUpperCase(), '****'));
-        return (
-        <>{t(str)}</>)
-    }
+    // function autoCorrect(arr: string[], str: string): JSX.Element {
+    //     arr.forEach(w => str = str.replaceAll(w, '****'));
+    //     arr.forEach(w => str = str.replaceAll(w.charAt(0).toUpperCase() + w.slice(1), '****'));
+    //     arr.forEach(w => str = str.replaceAll(w.charAt(0) + w.slice(1).toUpperCase, '****'));        
+    //     arr.forEach(w => str = str.replaceAll(w.toUpperCase(), '****'));
+    //     return (
+    //     <>{t(str)}</>)
+    // }
   
-    function hextoHuman(_hexIn: string): string {
-      const _Out: string = (isHex(_hexIn))? t(hexToString(_hexIn).trim()): ''
-      return(_Out)
-}
+//     function hextoHuman(_hexIn: string): string {
+//       const _Out: string = (isHex(_hexIn))? t(hexToString(_hexIn).trim()): ''
+//       return(_Out)
+// }
 
-    function timeStampToDate(tstamp: number): JSX.Element {
-      try {
-       const event = new Date(tstamp);
-       return (
-            <><i>{event.toDateString()}{' '}
-                 {event.toLocaleTimeString()}{' '}</i></>
-        )
-      } catch(error) {
-       console.error(error)
-       return(
-           <><i>{t('No Date')}</i></>
-       )
-      }
-   }
+  //   function timeStampToDate(tstamp: number): JSX.Element {
+  //     try {
+  //      const event = new Date(tstamp);
+  //      return (
+  //           <><i>{event.toDateString()}{' '}
+  //                {event.toLocaleTimeString()}{' '}</i></>
+  //       )
+  //     } catch(error) {
+  //      console.error(error)
+  //      return(
+  //          <><i>{t('No Date')}</i></>
+  //      )
+  //     }
+  //  }
 
 function renderLink(_link: string): JSX.Element {
  const ilink: string = isHex(_link)? withHttp(hexToString(_link).trim()): '0x';

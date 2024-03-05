@@ -6,44 +6,29 @@ import React, { useState } from 'react';
 import { useTranslation } from '../shared/translate.js';
 import type { CallResult } from '../shared/types.js';
 import { stringify } from '@polkadot/util';
-import { IdentityIcon, styled, Button, AccountName, Card } from '@polkadot/react-components';
-import { Table, Label } from 'semantic-ui-react'
-import CopyInline from '../shared/CopyInline.js';
+import { styled, Button, Card } from '@polkadot/react-components';
+import { Table } from 'semantic-ui-react'
 import AccountHeader from '../shared/AccountHeader.js';
+import { numBadge, accountInfo, t_strong, paramtoAccount } from './SocialUtil.js';
 
 interface Props {
     className?: string;
     onClear?: () => void;
-    //account: string;
     outcome: CallResult;
     onReset?: boolean;
   }
   
-  type FeedDetail = {
+type FeedDetail = {
   ok: string[]
   }
   
-function AccountFollowDetail ({ className = '', onClear, outcome: { from, output, when } }: Props): React.ReactElement<Props> | null {
+function AccountFollowDetail ({ className = '', onClear, outcome: { from, output, params, when } }: Props): React.ReactElement<Props> | null {
     const { t } = useTranslation();
-    const objOutput: string = stringify(output);
-    const _Obj = JSON.parse(objOutput);
-    const feedDetail: FeedDetail = Object.create(_Obj);
+    const feedDetail: FeedDetail = Object.create(JSON.parse(stringify(output)));
     const [count, setCount] = useState(0);
-    function t_strong(_str: string): JSX.Element{return(<><strong>{t(_str)}</strong></>)}
-    const numCheck = (_num: number) => (_num>-1 ? _num: 0);
-    function numBadge(_num: number): JSX.Element {return(<><Label circular size='small' color='blue'>{numCheck(_num)}</Label></>)}
-    function accountInfo(_acct: string): JSX.Element {
-        return(<>
-            <IdentityIcon value={_acct}/>{' | '}
-            <AccountName value={_acct} withSidebar={true}/>{' | '}
-            {_acct}{' '}
-            <CopyInline value={_acct} label={''}/>
-        </>)
-    }
 
 function ShowFeed(): JSX.Element {
       try {
-        
         return(
           <div>
             <Table stretch>
@@ -60,6 +45,8 @@ function ShowFeed(): JSX.Element {
             </Table.Header>
             <Table.Row>
               <Table.Cell verticalAlign='top' >
+              <h2> {t_strong('For Account: ')}</h2>
+                {paramtoAccount(stringify(params))}
               <h2> {t_strong('Number of Accounts Followed: ')}{numBadge(count)}</h2>
                 {feedDetail.ok.length>0 && feedDetail.ok
                     .map((_feed, index: number) =>

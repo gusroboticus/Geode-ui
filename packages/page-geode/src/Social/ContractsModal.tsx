@@ -167,7 +167,8 @@ function ContractsModal ({  contracts: keyringContracts, initMessageIndex, messa
         />
       )}
       {isCallOpen && contract 
-                  && (messageIndex ===0 || messageIndex===2 || messageIndex===3) 
+                  && (messageIndex ===0 || messageIndex===2 || 
+                      messageIndex===3  || messageIndex===12) 
                   && (
         <CallModal
          contract={contract}

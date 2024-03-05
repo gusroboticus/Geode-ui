@@ -25,8 +25,8 @@ import StatDetails from './StatDetails.js';
 import SearchDetails from './SearchDetails.js';
 import KeywordDetails from './KeywordDetails.js';
 import AccountFollowDetails from './AccountFollowDetails.js'
-import AccountFollowerDetails from './AccountFollowerDetails.js'
-import AccountBlockedDetails from './AccountBlockedDetails.js'
+//import AccountFollowerDetails from './AccountFollowerDetails.js'
+//import AccountBlockedDetails from './AccountBlockedDetails.js'
 
 import { getCallMessageOptions } from '../shared/util.js';
 import JSONhelp from '../shared/geode_social_help.json';
@@ -158,7 +158,7 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
   const isClosed = (isCalled && ( messageIndex === 9 || messageIndex === 14 || 
                                   messageIndex===10 || messageIndex===11 || 
                                   messageIndex===13 || messageIndex===16 ||
-                                  messageIndex===29 || messageIndex===31 ));
+                                  messageIndex===15 ));
   const _help: string[] = JSONhelp;
   const _note: string[] = JSONnote;
   const _title: string[] = JSONTitle;
@@ -333,11 +333,19 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
           setParams([...params]);
         }}
         />
-        {t('Target Interests: ')}<br />
+        {t('Payment per Endorser: ')}<br />
         <Input label={''} type="text"
         value={params[4]}
         onChange={(e) => {
           params[4] = e.target.value;
+          setParams([...params]);
+        }}
+        />
+        {t('Target Interests: ')}<br />
+        <Input label={''} type="text"
+        value={params[5]}
+        onChange={(e) => {
+          params[5] = e.target.value;
           setParams([...params]);
         }}
         />
@@ -476,15 +484,6 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
             </div>
         )}
         {outcomes.length > 0 && messageIndex===16 && (
-            <div>{outcomes.map((outcome, index): React.ReactNode => (
-              <><AccountBlockedDetails
-                key={`outcome-${index}`}
-                onClear={_onClearOutcome(index)}
-                outcome={outcome}
-              /></>
-            ))}</div>
-        )}
-        {outcomes.length > 0 && messageIndex===29 && (
             <div>
             {outcomes.map((outcome, index): React.ReactNode => (
               <>
@@ -497,19 +496,6 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
             ))}
             </div>
         )}     
-        {outcomes.length > 0 && messageIndex===31 && (
-            <div>
-            {outcomes.map((outcome, index): React.ReactNode => (
-              <>
-              <AccountFollowerDetails
-                key={`outcome-${index}`}
-                onClear={_onClearOutcome(index)}
-                outcome={outcome}
-              />
-              </>
-            ))}
-            </div>
-        )}      
         </Card>
   );
 }

@@ -19,21 +19,16 @@ export default function Social ({ className = '' }: Props): React.ReactElement {
 const { t } = useTranslation();
 const { allCodes, codeTrigger } = useCodes();
 const { allContracts } = useContracts();
-const [isSearch, toggleSearch] = useToggle();
 const [isSettings, toggleSettings] = useToggle();
 const [isYourFeed, toggleYourFeed] = useToggle();
 const [isPaidFeed, togglePaidFeed] = useToggle();
 const [isAccountSearch, toggleAccountSearch] = useToggle();
-const [isKeywordSearch, toggleKeywordSearch] = useToggle();
 const [isUpdate, toggleUpdate] = useToggle();
 const [isFollow, toggleFollow] = useToggle();
 const [isUnFollow, toggleUnFollow] = useToggle();
 const [isBlock, toggleBlock] = useToggle();
 const [isUnBlock, toggleUnBlock] = useToggle();
-const [isDetails, toggleDetails] = useToggle();
 const [isAccountFollow, toggleAccountFollow] = useToggle();
-const [isAccountFollower, toggleAccountFollower] = useToggle();
-const [isAccountBlock, toggleAccountBlock] = useToggle();
 
 const refTitle: string[] = 
 [' Display a feed of all public messages and endorsed public messages from all accounts that you follow, sorted by most recent. (Click again to close) ', 
@@ -51,7 +46,7 @@ const refTitle: string[] =
  ' Unfollow selected Accounts.',
  ' Block an Account from showing in your feed',
  ' Unblock an Account',
- ' Get details for your feed, Following Accounts and Blocked Accounts',
+ ' Get details for your Following Accounts',
  ' Show Accounts You are following.',
  ' Show your blocked Accounts.',
  ' Show Accounts Following You.'];
@@ -63,14 +58,11 @@ console.log(allCodes);
     <div>
         <Table >
           <Summary />
-          {!isAccountSearch && !isKeywordSearch 
-                            && !isFollow && !isUnFollow 
-                            && !isBlock && !isUnBlock
-                            && !isUpdate && !isAccountBlock
-                            && !isAccountFollow 
-                            && !isAccountFollower &&(<>
+          {!isFollow && !isUnFollow 
+                     && !isBlock && !isUnBlock
+                     && !isUpdate &&(<>
             <Card>
-            {!isPaidFeed && !isSettings && !isSearch && !isDetails &&(
+            {!isPaidFeed && !isSettings && !isAccountSearch && !isAccountFollow &&(
             <><Button
                 icon={(isYourFeed) ? 'minus' : 'plus'}
                 label={t('Your Feed')}
@@ -78,7 +70,7 @@ console.log(allCodes);
               </Button>
               {isYourFeed && (<>{refTitle[0]}</>)}</>
           )}
-            {!isYourFeed && !isSettings && !isSearch && !isDetails &&(
+            {!isYourFeed && !isSettings && !isAccountSearch && !isAccountFollow &&(
             <><Button
               icon={(isPaidFeed) ? 'minus' : 'plus'}
               label={t('Paid Feed')}
@@ -87,15 +79,15 @@ console.log(allCodes);
             {isPaidFeed && (<>{refTitle[5]}</>)}</>
           )}
 
-            {!isPaidFeed && !isYourFeed && !isAccountSearch && !isKeywordSearch && !isSettings && !isDetails &&(
+            {!isPaidFeed && !isYourFeed && !isSettings && !isAccountFollow &&(
             <><Button
-                icon={(isSearch) ? 'minus' : 'plus'}
-                label={t('Search')}
-                onClick={toggleSearch}>
+                icon={(isAccountSearch) ? 'minus' : 'plus'}
+                label={t('Account Lookup')}
+                onClick={toggleAccountSearch}>
             </Button>
-            {isSearch && (<>{refTitle[2]}</>)}</>
+            {isAccountSearch && (<>{refTitle[8]}</>)}</>
             )}
-            {!isPaidFeed && !isYourFeed && !isUpdate && !isFollow && !isUnFollow && !isBlock && !isUnBlock && !isSearch && !isDetails &&(
+            {!isPaidFeed && !isYourFeed && !isUpdate && !isFollow && !isUnFollow && !isBlock && !isUnBlock && !isAccountSearch && !isAccountFollow &&(
             <><Button
                 icon={(isSettings) ? 'minus' : 'plus'}
                 label={t('Settings')}
@@ -103,64 +95,16 @@ console.log(allCodes);
             </Button>
             {isSettings && (<>{refTitle[3]}</>)}</>
             )}  
-            {!isAccountFollower && !isAccountFollow && !isAccountBlock && !isYourFeed && !isSettings && !isSearch && !isPaidFeed && (
-            <><Button
-                icon={(isDetails) ? 'minus' : 'plus'}
-                label={t('Details')}
-                onClick={toggleDetails}>
-            </Button>
-            {isDetails && (<>{refTitle[15]}</>)}</>
-            )}  
-            </Card>  
-          </>)}
-        {isDetails && (
-        <><Card>
-          {!isAccountFollower && !isAccountBlock && (
+            {!isYourFeed && !isSettings && !isAccountSearch && !isPaidFeed && (
             <><Button
                 icon={(isAccountFollow) ? 'minus' : 'plus'}
                 label={t('Following')}
                 onClick={toggleAccountFollow}>
-              </Button></>
-          )}
-          {!isAccountFollow && !isAccountBlock && (
-            <><Button
-              icon={(isAccountFollower) ? 'minus' : 'plus'}
-              label={t('Followers')}
-              onClick={toggleAccountFollower}>
-            </Button></>
-          )}
-          {!isAccountFollow && !isAccountFollower && (
-            <><Button
-              icon={(isAccountBlock) ? 'minus' : 'plus'}
-              label={t('Blocked Accounts')}
-              onClick={toggleAccountBlock}>
-            </Button></>
-          )}
-          {isAccountFollow && (<>{refTitle[16]}</>)}
-          {isAccountBlock && (<>{refTitle[17]}</>)}
-          {isAccountFollower && (<>{refTitle[18]}</>)}
-          </Card></>
-        )}
-        {isSearch && (
-        <><Card>
-          {!isKeywordSearch && (
-            <><Button
-                icon={(isAccountSearch) ? 'minus' : 'plus'}
-                label={t('Account Lookup')}
-                onClick={toggleAccountSearch}>
-              </Button></>
-          )}
-          {!isAccountSearch && (
-            <><Button
-              icon={(isKeywordSearch) ? 'minus' : 'plus'}
-              label={t('By Keyword')}
-              onClick={toggleKeywordSearch}>
-            </Button></>
-          )}
-          {isAccountSearch && (<>{refTitle[8]}</>)}
-          {isKeywordSearch && (<>{refTitle[9]}</>)}
-          </Card></>
-        )}
+            </Button>
+            {isAccountFollow && (<>{refTitle[15]}</>)}</>
+            )}  
+            </Card>  
+          </>)}
         {isSettings && (
         <><Card>
           {!isFollow && !isUnFollow && !isBlock && !isUnBlock && (
@@ -213,15 +157,7 @@ console.log(allCodes);
             updated={codeTrigger}
             messageId={''}
             postMessage={''}
-            initMessageIndex={29}
-        />)}
-        {isAccountFollower && (
-          <ContractsTable
-            contracts={allContracts}
-            updated={codeTrigger}
-            messageId={''}
-            postMessage={''}
-            initMessageIndex={31}
+            initMessageIndex={16}
         />)}
         {isFollow && (
           <ContractsTable
@@ -287,22 +223,7 @@ console.log(allCodes);
             postMessage={''}
             initMessageIndex={11}
         />)}
-        {isKeywordSearch && (
-          <ContractsTable
-            contracts={allContracts}
-            updated={codeTrigger}
-            messageId={''}
-            postMessage={''}
-            initMessageIndex={13}
-        />)}
-        {isAccountBlock && (
-          <ContractsTable
-            contracts={allContracts}
-            updated={codeTrigger}
-            messageId={''}
-            postMessage={''}
-            initMessageIndex={16}
-        />)}
+
     </div>
     </StyledDiv>
   );

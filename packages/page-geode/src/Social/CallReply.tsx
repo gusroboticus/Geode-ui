@@ -5,13 +5,12 @@ import React from 'react';
 import { useContracts } from '../useContracts.js';
 import { useCodes } from '../useCodes.js';
 import { styled } from '@polkadot/react-components';
-import { Card } from '@polkadot/react-components';
+//import { Card } from '@polkadot/react-components';
 import ContractsModal from './ContractsModal.js';
 
 interface Props {
   className?: string;
   onClear?: () => void;
-  isPost: boolean;
   messageId: string;
   fromAcct?: string;
   username?: string;
@@ -19,7 +18,7 @@ interface Props {
 
 }
 
-function CallPost ({ className = '', onClear, isPost, messageId,fromAcct,username, postMessage }: Props): React.ReactElement<Props> | null {
+function CallReply ({ className = '', messageId,fromAcct,username, postMessage }: Props): React.ReactElement<Props> | null {
     const { allContracts } = useContracts();
     const { allCodes, codeTrigger } = useCodes();
 
@@ -27,25 +26,13 @@ function CallPost ({ className = '', onClear, isPost, messageId,fromAcct,usernam
     console.log(JSON.stringify(allCodes));
     //console.log(JSON.stringify(onClear));
   
-    function MakePaidPost(): JSX.Element {
-    return(<>
-              <ContractsModal
-                contracts={allContracts}
-                updated={codeTrigger}
-                messageId={''}
-                postMessage={''}
-                initMessageIndex={1}
-              />                                    
-    </>)
-    }
-
-    function MakePost(): JSX.Element {
+    function MakeReplyPost(): JSX.Element {
     return(
         <div>
             <ContractsModal
               contracts={allContracts}
               updated={codeTrigger}
-              initMessageIndex={0}
+              initMessageIndex={12}
               messageId={messageId}
               fromAcct={fromAcct}
               username={username}
@@ -57,14 +44,7 @@ function CallPost ({ className = '', onClear, isPost, messageId,fromAcct,usernam
 
   return (
     <StyledDiv className={className}>
-      {isPost ? (
-        <>
-          <MakePost />
-          </>): (<>
-          <Card>
-            <MakePaidPost />
-          </Card>
-        </>)}
+        <MakeReplyPost />
     </StyledDiv>
   );
 }
@@ -79,6 +59,6 @@ const StyledDiv = styled.div`
   }
 `;
 
-export default React.memo(CallPost);
+export default React.memo(CallReply);
 
 

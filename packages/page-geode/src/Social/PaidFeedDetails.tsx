@@ -14,6 +14,7 @@ import AccountHeader from '../shared/AccountHeader.js';
 import CallEndorse from './CallEndorse.js';
 import CallPost from './CallPost.js';
 import CallStats from './CallStats.js';
+import { timeStampToDate, unitToGeode, msgIndexer, endorserBadge, linker, postHeader, replyHeader, hextoHuman } from './SocialUtil.js';
 
 interface Props {
     className?: string;
@@ -21,7 +22,7 @@ interface Props {
     outcome: CallResult;
   }
   
-  type MessageObj = {
+type MessageObj = {
     messageId: string,
     replyTo: string,
     fromAcct: string,
@@ -71,31 +72,31 @@ function PaidFeedDetails ({ className = '', onClear, outcome: { from, message, o
     const feedDetail: FeedDetail = Object.create(_Obj);
     const withHttp = (url: string) => url.replace(/^(?:(.*:)?\/\/)?(.*)/i, (match, schemma, nonSchemmaUrl) => schemma ? match : `http://${nonSchemmaUrl}`);
 
-    function timeStampToDate(tstamp: number): JSX.Element {
-       try {
-        const event = new Date(tstamp);
-        return (
-             <><i>{event.toDateString()}{' '}
-                  {event.toLocaleTimeString()}{' '}</i></>
-         )
-       } catch(error) {
-        console.error(error)
-        return(
-            <><i>{t('No Date')}</i></>
-        )
-       }
-    }
+    // function timeStampToDate(tstamp: number): JSX.Element {
+    //    try {
+    //     const event = new Date(tstamp);
+    //     return (
+    //          <><i>{event.toDateString()}{' '}
+    //               {event.toLocaleTimeString()}{' '}</i></>
+    //      )
+    //    } catch(error) {
+    //     console.error(error)
+    //     return(
+    //         <><i>{t('No Date')}</i></>
+    //     )
+    //    }
+    // }
 
-function hextoHuman(_hexIn: string): string {
-        const _Out: string = (isHex(_hexIn))? t(hexToString(_hexIn).trim()): ''
-        return(_Out)
-}
+// function hextoHuman(_hexIn: string): string {
+//         const _Out: string = (isHex(_hexIn))? t(hexToString(_hexIn).trim()): ''
+//         return(_Out)
+// }
 
-function unitToGeode(_unitIn: number): string{
-    const _convert: number = 1000000000000;
-    const _Out: string = (_unitIn / _convert).toString();
-    return(_Out)
-}
+// function unitToGeode(_unitIn: number): string{
+//     const _convert: number = 1000000000000;
+//     const _Out: string = (_unitIn / _convert).toString();
+//     return(_Out)
+// }
 
 function renderLink(_link: string): JSX.Element {
   const ilink: string = isHex(_link)? withHttp(hexToString(_link).trim()): '0x';
@@ -181,14 +182,12 @@ function ShowFeed(): JSX.Element {
                 <Grid columns={5} divided>
                   <Grid.Row>
                     <Grid.Column>
-
                       <Toggle
                         className=''
                         label={<> <Badge icon='check' color={isShowEndorsers? 'blue': 'gray'}/> {t('Show Endorsers ')} </>}
                         onChange={()=> {<>{toggleShowEndorsers()}{_reset()}</>}}
                         value={isShowEndorsers}
                       />
-                
                       <Toggle
                         className=''
                         label={<> <Badge icon='copy' color={isShowMsgID? 'orange': 'gray'}/> {t('Show Message IDs ')} </>}
@@ -219,7 +218,6 @@ function ShowFeed(): JSX.Element {
                         onChange={()=> {<>{toggleShowBlockedAccounts()}{_reset()}</>}}
                         value={isShowBlockedAccounts}
                       />
-                    
                     </Grid.Column>            
                     </>)}
                   </Grid.Row>
