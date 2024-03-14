@@ -21,6 +21,9 @@ import { useTranslation } from '../shared/translate.js';
 import useWeight from '../useWeight.js';
 import Details from './Details.js';
 import { getCallMessageOptions } from './util.js';
+import { t_strong } from './LifeWorkUtil.js';
+
+import { Dropdown as MyDropDown } from 'semantic-ui-react'
 
 interface Props {
   className?: string;
@@ -49,11 +52,22 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
   const [params, setParams] = useState<unknown[]>([]);
   const [isViaCall, toggleViaCall] = useToggle();
   const [isCalled, toggleIsCalled] = useToggle(true);
+  const [searchIndex, setSearchIndex] = useState<number | unknown>(1);
+  const [searchKeywordOne, setSearchKeywordOne] = useState<string | unknown>();
+  const [searchKeywordTwo, setSearchKeywordTwo] = useState<string | unknown>();
+  const [searchKeywordThree, setSearchKeywordThree] = useState<string | unknown>();
   const weight = useWeight();
   const dbValue = useDebounce(value);
   const dbParams = useDebounce(params);
   const isTest: boolean =false;
-  
+  const options = [
+    { key: 'workhistory', text: 'work history', value: 1 },
+    { key: 'education', text: 'education', value: 2 },
+    { key: 'expertise', text: 'expertise', value: 3 },
+    { key: 'gooddeed', text: 'good deed', value: 4 },
+    { key: 'intellectualproperty', text: 'intellectual property', value: 5 },
+  ]
+
   useEffect((): void => {
     setEstimatedWeight(null);
     setEstimatedWeightV2(null);
@@ -139,7 +153,8 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
     [outcomes]
   );
 
-  const isValid = !!(accountId && weight.isValid && isValueValid);
+  const isValid = (messageIndex===10? !!(accountId && weight.isValid && isValueValid && searchKeywordOne && searchKeywordTwo && searchKeywordThree):
+  !!(accountId && weight.isValid && isValueValid ));
   const isViaRpc = (isViaCall || (!message.isMutating && !message.isPayable));      
 
   return (
@@ -190,7 +205,6 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
           <>
         <InputAddress
           defaultValue={accountId}
-          //help={t('Specify the user account to use for this contract call. And fees will be deducted from this account.')}
           label={t('account to use')}
           labelExtra={
             <Available
@@ -211,7 +225,6 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
             <>
             <Dropdown
               defaultValue={messageIndex}
-              //help={t('The message to send to this contract. Parameters are adjusted based on the ABI provided.')}
               isError={message === null}
               label={t('claim type')}
               onChange={onChangeMessage}
@@ -251,7 +264,7 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
         <Input label={''} type="text"
         value={params[0]}
         onChange={(e) => {
-          params[0] = e.target.value;
+          params[0] = e.target.value.slice(0,300);
           setParams([...params]);
         }}
       />
@@ -260,10 +273,11 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
         <Input label={''} type="text"
         value={params[1]}
         onChange={(e) => {
-          params[1] = e.target.value;
+          params[1] = e.target.value.slice(0,300);
           setParams([...params]);
         }}
       />
+       <i>{t_strong('NOTE: ')}{t('Descriptions and Link Addresses are limited to 300 characters.')}</i><br />
     </>)}
     {messageIndex===1 && (<>
         <Badge color='blue' icon='2'/>
@@ -271,7 +285,7 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
         <Input label={''} type="text"
         value={params[0]}
         onChange={(e) => {
-          params[0] = e.target.value;
+          params[0] = e.target.value.slice(0,300);
           setParams([...params]);
         }}
       />
@@ -280,10 +294,11 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
         <Input label={' '} type="text"
         value={params[1]}
         onChange={(e) => {
-          params[1] = e.target.value;
+          params[1] = e.target.value.slice(0,300);
           setParams([...params]);
         }}
       />
+      <i>{t_strong('NOTE: ')}{t('Descriptions and Link Addresses are limited to 300 characters.')}</i><br />
     </>)}
     {messageIndex===2 && (<>
         <Badge color='blue' icon='2'/>
@@ -291,7 +306,7 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
         <Input label={''} type="text"
         value={params[0]}
         onChange={(e) => {
-          params[0] = e.target.value;
+          params[0] = e.target.value.slice(0,300);
           setParams([...params]);
         }}
       />
@@ -300,10 +315,11 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
         <Input label={' '} type="text"
         value={params[1]}
         onChange={(e) => {
-          params[1] = e.target.value;
+          params[1] = e.target.value.slice(0,300);
           setParams([...params]);
         }}
       />
+      <i>{t_strong('NOTE: ')}{t('Descriptions and Link Addresses are limited to 300 characters.')}</i><br />
     </>)}
     {messageIndex===3 && (<>
         <Badge color='blue' icon='2'/>
@@ -311,7 +327,7 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
         <Input label={''} type="text"
         value={params[0]}
         onChange={(e) => {
-          params[0] = e.target.value;
+          params[0] = e.target.value.slice(0,300);
           setParams([...params]);
         }}
       />
@@ -320,19 +336,57 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
         <Input label={' '} type="text"
         value={params[1]}
         onChange={(e) => {
-          params[1] = e.target.value;
+          params[1] = e.target.value.slice(0,300);
           setParams([...params]);
         }}
       />
+      <i>{t_strong('NOTE: ')}{t('Descriptions and Link Addresses are limited to 300 characters.')}</i><br />
     </>)}
     {isCalled && messageIndex===10 && (<>
         <Badge color='blue' icon='2'/>
-        {t('Enter Keywords to Search : ')}<br />
+        {t('Select the Claim Type to Search : ')}<br />
+        <MyDropDown
+              placeholder='Claim Type' selection options={options}
+              labeled
+              value={params[0]}
+              //onChange={(e, { value }) => setState({ value })}
+              onChange={(e, { value }) => {
+                params[0] = value;
+                setParams([...params]);
+                setSearchIndex(value);
+              }}
+            />   
+        {t('Enter a Keyword to Search : ')}<br />
         <Input label={''} type="text"
-        value={params[0]}
+        value={params[1]}
         onChange={(e) => {
-          params[0] = e.target.value;
+          params[1] = e.target.value;
           setParams([...params]);
+          setSearchKeywordOne(params[1]);
+          setSearchKeywordTwo(params[2]);
+          setSearchKeywordThree(params[3]);
+        }}
+      />
+        {t('Narrow Search with a Second Keyword : ')}<br />
+        <Input label={''} type="text"
+        value={params[2]}
+        onChange={(e) => {
+          params[2] = e.target.value;
+          setParams([...params]);
+          setSearchKeywordOne(params[1]);
+          setSearchKeywordTwo(params[2]);
+          setSearchKeywordThree(params[3]);
+        }}
+      />
+        {t('Narrow Search with a Third Keyword : ')}<br />
+        <Input label={''} type="text"
+        value={params[3]}
+        onChange={(e) => {
+          params[3] = e.target.value;
+          setParams([...params]);
+          setSearchKeywordOne(params[1]);
+          setSearchKeywordTwo(params[2]);
+          setSearchKeywordThree(params[3]);
         }}
       />
     </>)}
@@ -340,7 +394,6 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
 
         {message.isPayable && (
           <InputBalance
-            //help={t('The allotted value for this contract, i.e. the amount transferred to the contract as part of this call.')}
             isError={!isValueValid}
             isZeroable
             label={t('value')}
@@ -407,11 +460,16 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
                 key={`outcome-${index}`}
                 onClear={_onClearOutcome(index)}
                 isAccount={messageIndex===10 ? true: false}
+                searchIndex={searchIndex}
+                searchKeyword={<>{searchKeywordOne? searchKeywordOne: ''}{' '}
+                                 {searchKeywordTwo? searchKeywordTwo: ''}{' '}
+                                 {searchKeywordThree? searchKeywordThree: ''}</>}
                 outcome={outcome}
               />
             ))}
             </div>
         )}
+       
         </Card>
   );
 }

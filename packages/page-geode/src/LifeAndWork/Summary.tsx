@@ -63,7 +63,7 @@ function Summary (): React.ReactElement {
               <Grid.Column>
               <Toggle
                   className=''
-                  label={t('Show Accounts ')}
+                  label={t('My Accounts ')}
                   onChange={toggleShowAccounts}
                   value={isShowAccounts}
                 />
@@ -71,7 +71,7 @@ function Summary (): React.ReactElement {
               <Grid.Column>
               <Toggle
                   className=''
-                  label={t('Show Addresses ')}
+                  label={t('My Addresses ')}
                   onChange={toggleShowAddresses}
                   value={isShowAddresses}
                 />
@@ -79,7 +79,7 @@ function Summary (): React.ReactElement {
               <Grid.Column>
               <Toggle
                   className=''
-                  label={t('Show Events ')}
+                  label={t('Recent Events ')}
                   onChange={toggleShowEvents}
                   value={isShowEvents}
                 />

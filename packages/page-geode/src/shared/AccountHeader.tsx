@@ -83,6 +83,11 @@ function ListAccount(): JSX.Element {
                 {t('Reply to a Post')}
                 <Label color='orange' circular>{'Reply'}</Label>              
                 </>)}
+                {callFrom===1 && (<><br />
+                <strong>{'NOTE: '}</strong>
+                {t('You can have 20 claims for each claim type except for Work History where you can have 10.  ')}<br />
+                {t('All claims greater than the limit will be stored on chain but are not displayed. ')}
+                </>)}
               </>
             )}
             </>}

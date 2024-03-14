@@ -21,6 +21,8 @@ interface Props {
   className?: string;
   onClear?: () => void;
   isAccount: boolean;
+  searchIndex: number;
+  searchKeyword: string;
   outcome: CallResult;
 }
 
@@ -30,9 +32,9 @@ type ClaimObj = {
   claim: string,
   claimId: string,
   endorserCount: number,
+  link: string,
   show: boolean,
   endorsers: string[]
-  link: string
 }
 
 type ClaimDetail = {
@@ -44,11 +46,11 @@ type ClaimList = {
   noClaims: string
 }
 
-function Details ({ className = '', onClear, isAccount, outcome: { from, output, when } }: Props): React.ReactElement<Props> | null {
+function Details ({ className = '', onClear, isAccount, searchIndex, searchKeyword, outcome: { from, output, when } }: Props): React.ReactElement<Props> | null {
   //todo: code for unused params:
   console.log(JSON.stringify(onClear));
   const { t } = useTranslation();
-  const claimIdRef: string[] = [' ', 'work history', 'education', 'expertise', 'good deeds', 'intellectual property', '', '', '', '', '', '', '', '', '', '', '', '', ''];
+  const claimIdRef: string[] = [' ', 'work history', 'education', 'expertise', 'good deeds', 'intellectual property', ''];
   const searchWords: string[] = JSONprohibited;
   const [isShowEndorse, toggleShowEndorse] = useToggle(false);
   const [isShowHide, toggleShowHide] = useToggle(false);
@@ -64,8 +66,6 @@ function Details ({ className = '', onClear, isAccount, outcome: { from, output,
   const _Obj2 = JSON.parse(objOutput2);
   const claimDetail: ClaimDetail = Object.create(_Obj2);
 
-//const withHttp = (url: string) => url.replace(/^(?:(.*:)?\/\/)?(.*)/i, (match, schemma, nonSchemmaUrl) => schemma ? match : `http://${nonSchemmaUrl}`);
-
 const _resetEndorse = useCallback(
   () => {setClaimToEndorse([])
          toggleShowForm()},
@@ -80,7 +80,7 @@ const _resetShowHide = useCallback(
 )
 
 function ListClaims(props:ClaimList): JSX.Element {
-  if (claimDetail.ok) {
+  try {
     return(
       <div>
       <List divided inverted relaxed >
@@ -118,7 +118,7 @@ function ListClaims(props:ClaimList): JSX.Element {
               <Label size='tiny' circular color='blue'> {_out.endorserCount} </Label> 
               </>)}
               
-          {_out.show && hexToString(_out.link)!='' && (
+          {_out.show && hexToString(_out.link).trim()!='' && (
               <>
               {!isShowLinkAddr && (<>
                 <Label  as='a'
@@ -169,7 +169,7 @@ function ListClaims(props:ClaimList): JSX.Element {
               </>)}
 
           {_out.show && isShowLinkAddr && (<>
-                {hexToString(_out.link)!='' && (
+                {hexToString(_out.link).trim()!='' && (
                   <>
                     <br />
                     <Badge color='orange' icon='link'/>{' '}
@@ -185,7 +185,6 @@ function ListClaims(props:ClaimList): JSX.Element {
                 </>
               )} 
               </>)}
-
           {_out.show && isShowEndorse && (<>
                 <List divided inverted bulleted>
                   {_out.endorsers.map((name, i: number) => <List.Item key={name}> 
@@ -201,7 +200,8 @@ function ListClaims(props:ClaimList): JSX.Element {
       </List>
       </div>   
   )
-} else {
+} catch(e) {
+  console.log(e)
   return(
     <div>{t(props.noClaims)}</div>
   )
@@ -408,8 +408,24 @@ try {
             timeDate={when} 
             callFrom={1}/>
         <ListAccount />
-        
         <ToggleCard />
+        {isAccount? <>
+          <Table verticalAlign='top'>
+          <Table.Row>
+          <Table.Cell verticalAlign='top'>
+              <h3>
+              <LabelHelp help={t(' Search results')} />
+                          {t(' Search Results ')}
+                  <strong>{searchKeyword}</strong>{t(' in Claims ')}
+                  <strong>{claimIdRef[searchIndex]}</strong></h3><br />
+              <ListClaims
+                claimIndex={searchIndex}
+                noClaims={t('Please refine your search.')}
+               />
+          </Table.Cell>
+          </Table.Row>
+          </Table>
+        </>:<>
         <Table verticalAlign='top'>
           <Table.Row>
             <Table.Cell verticalAlign='top'>
@@ -464,6 +480,10 @@ try {
             </Table.Cell>
           </Table.Row>
         </Table>
+        
+        
+        </>}
+
     </Card>
     </StyledDiv>
   );
