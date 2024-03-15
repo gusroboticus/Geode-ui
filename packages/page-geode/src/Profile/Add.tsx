@@ -2,7 +2,6 @@
 // Copyright 2017-2023 @blockandpurpose.com
 // SPDX-License-Identifier: Apache-2.0
 
-
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import React, { useCallback, useState } from 'react';
 

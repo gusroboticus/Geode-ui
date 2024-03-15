@@ -1,7 +1,7 @@
 // Copyright 2017-2022 @polkadot/app-contracts authors & contributors
 // Copyright 2017-2023 @blockandpurpose.com
 // SPDX-License-Identifier: Apache-2.0
-// packages/page-geode/src/LifeAndWork/CallCard.tsx
+
 import { Input, Label } from 'semantic-ui-react'
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
@@ -23,6 +23,8 @@ import useWeight from '../useWeight.js';
 import Details from './Details.js';
 import SearchDetails from './SearchDetails.js';
 import { getCallMessageOptions } from '../shared/util.js';
+import { paramsToAddress, t_strong } from './ProfileUtil.js';
+import { MAX_URL, MAX_PHOTO_URL, MAX_BIO, MAX_TAGS, MAX_LOCATION, MAX_DISPLAY_NAME } from './ProfileConst.js'
 
 interface Props {
   className?: string;
@@ -51,6 +53,10 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
   const [isViaCall, toggleViaCall] = useToggle();
   const [isSaved, setSaved] = useState(false);
 
+  const [searchKeywordOne, setSearchKeywordOne] = useState<string | unknown>();
+  const [searchKeywordTwo, setSearchKeywordTwo] = useState<string | unknown>();
+  const [searchKeywordThree, setSearchKeywordThree] = useState<string | unknown>();
+
   const weight = useWeight();
   const dbValue = useDebounce(value);
   const dbParams = useDebounce(params);
@@ -67,7 +73,6 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
   const [_social, setSocial] = useAccountId();
   const [_privateMessage, setPrivateMessage] = useAccountId();
   const [_marketPlace, setMarketPlace] = useAccountId();
-  const [_moreInfo, setMoreInfo] = useState('');
   const [_makePrivate, toggleMakePrivate] = useToggle(false);
 
   const boolToString = (_bool: boolean) => _bool? 'Yes': 'No';
@@ -158,9 +163,10 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
     [outcomes]
   );
 
-  const isValid = !!(accountId && weight.isValid && isValueValid);
+  const isValid = (messageIndex===3? !!(accountId && weight.isValid && isValueValid && searchKeywordOne && searchKeywordTwo && searchKeywordThree):
+  !!(accountId && weight.isValid && isValueValid ));
   const isViaRpc = (isViaCall || (!message.isMutating && !message.isPayable));      
-  const isClosed = (isCalled && (messageIndex === 1 || messageIndex === 2));
+  const isClosed = (isCalled && (messageIndex === 1 || messageIndex === 2 || messageIndex === 3 || messageIndex === 4));
 
   return (
     <Card >
@@ -181,7 +187,6 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
         </h2>
         {isTest && (
           <InputAddress
-          //help={t('A deployed contract that has either been deployed or attached. The address and ABI are used to construct the parameters.')}
           isDisabled
           label={t('contract to use')}
           type='contract'
@@ -189,19 +194,18 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
           />
         )}
         {!isClosed && (<>
-        {messageIndex !== null && messageIndex===2 && (
+        {messageIndex !== null && (messageIndex===0 || messageIndex===2) && (
           <><br /><br />
           <Badge color='blue' icon='1'/>
-          {t('Select which of your Accounts is asking for this Profile:')}
+          {t('Select which of your Accounts to use for this Transaction:')}
           </>)}
-        {messageIndex !== null && messageIndex===1 && (
+        {messageIndex !== null && (messageIndex===1 || messageIndex===3) && (
           <><br /><br />
           <Badge color='blue' icon='1'/>
           {t('Select the Account for this Profile:')}
           </>)}
         <InputAddress
           defaultValue={accountId}
-          //help={t('Specify the user account to use for this contract call. And fees will be deducted from this account.')}
           label={t('account to use')}
           labelExtra={
             <Available
@@ -220,7 +224,6 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
             <>
             <Dropdown
               defaultValue={messageIndex}
-              //help={t('The message to send to this contract. Parameters are adjusted based on the ABI provided.')}
               isError={message === null}
               label={t('Profile Item')}
               onChange={onChangeMessage}
@@ -230,6 +233,7 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
             />              
             </>
             )}
+
             {messageIndex !== null && messageIndex===2 && (
               <>
               <Badge color='blue' icon='2'/>
@@ -241,9 +245,16 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
                 <Badge color='blue' icon='2'/>
                 {t('Enter Your Profile Data. Don`t forget to click SAVE before you submit your Profile. To make updates and changes to your profile go to Account Look up and click the Update button.')}
               </>)}
-              </>)}
             
-            {messageIndex!=0 && (<>
+            </>)}
+
+            {messageIndex===3 && (
+              <>
+              <Badge color='blue' icon='2'/>
+              {t('Enter your search keyword (Add two additional words to refine your search):')}<br /><br />
+              </>)}
+
+            {messageIndex!=0 && messageIndex!=3 &&  (<>
             <Params
               onChange={setParams}
               params={
@@ -252,20 +263,56 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
                   : undefined
               }              
               registry={contract.abi.registry}
-            /></>)}
+            />
+              </>)}
+
+          {messageIndex===3 && (<>
+          
+          {t('Enter a Keyword to Search : ')}<br />
+          <Input label={''} type="text"
+          value={params[0]}
+          onChange={(e) => {
+            params[0] = e.target.value;
+            setParams([...params]);
+            setSearchKeywordOne(params[0]);
+            setSearchKeywordTwo(params[1]);
+            setSearchKeywordThree(params[2]);
+          }}
+          />
+          {t('Narrow Search with a Second Keyword : ')}<br />
+          <Input label={''} type="text"
+          value={params[1]}
+          onChange={(e) => {
+            params[1] = e.target.value;
+            setParams([...params]);
+            setSearchKeywordOne(params[0]);
+            setSearchKeywordTwo(params[1]);
+            setSearchKeywordThree(params[2]);
+          }}
+          />
+          {t('Narrow Search with a Third Keyword : ')}<br />
+          <Input label={''} type="text"
+          value={params[2]}
+          onChange={(e) => {
+            params[2] = e.target.value;
+            setParams([...params]);
+            setSearchKeywordOne(params[0]);
+            setSearchKeywordTwo(params[1]);
+            setSearchKeywordThree(params[2]);
+          }}
+          />
+          </>)}
 
           {messageIndex===0 && (<>
           <br /><br /><br />
-
           <LabelHelp help={t('Enter the Display Name.')}/>{' '}          
-          <strong>{t('Display Name: ')}</strong>
-          <Input //label={_displayName.length>0? params[0]=stringToHex(_displayName): params[0]=displayName}
+          {t_strong('Display Name: ')}{t('(Max Character length is ')}{MAX_DISPLAY_NAME}{')'}
+          <Input 
             label={_displayName.length>0? params[0]=_displayName: params[0]=''}
             type="text"
-            //defaultValue={hextoString(paramToNum(displayName))}
             value={_displayName}
             onChange={(e) => {
-              setDisplayName(e.target.value);
+              setDisplayName(e.target.value.slice(0,MAX_DISPLAY_NAME));
               setParams([...params]);
             }}
             ><input />
@@ -273,15 +320,14 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
                     {params[0]? <>{'OK'}</>:<>{'Enter Value'}</>}</Label>
           </Input>
 
-          <LabelHelp help={t('Enter your Location (You can leave this blank if you wish).')}/>{' '}          
-          <strong>{t('Location: ')}</strong>
-          <Input //label={_location.length>0? params[1]=stringToHex(_location): params[1]=location}
+          <LabelHelp help={t('Enter your Location (You can leave this blank if you wish).')}/>{' '} 
+          {t_strong('Location: ')}{t('(Max Character length is ')}{MAX_LOCATION}{')'}         
+          <Input
             label={_location.length>0? params[1]=_location: params[1]=''}
             type="text"
-            //defaultValue={hextoString(paramToNum(location))}
             value={_location}
             onChange={(e) => {
-              setLocation(e.target.value);
+              setLocation(e.target.value.slice(0,MAX_LOCATION));
               setParams([...params]);
             }}
             ><input />
@@ -290,14 +336,13 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
           </Input>
 
           <LabelHelp help={t('Enter your expertise and/or experience tags).')}/>{' '}          
-          <strong>{t('Experience and Expertise Tags: ')}</strong>
-          <Input //label={_tags.length>0? params[2]=stringToHex(_tags): params[2]=tags}
+          {t_strong('Experience and Expertise Tags: ')}{t('(Max Character length is ')}{MAX_TAGS}{')'}         
+          <Input 
             label={_tags.length>0? params[2]=_tags: params[2]=''}
             type="text"
-            //defaultValue={hextoString(paramToNum(tags))}
             value={_tags}
             onChange={(e) => {
-              setTags(e.target.value);
+              setTags(e.target.value.slice(0,MAX_TAGS));
               setParams([...params]);
             }}
             ><input />
@@ -306,14 +351,13 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
           </Input>
 
           <LabelHelp help={t('Enter your Bio.')}/>{' '}          
-          <strong>{t('Bio: ')}</strong>
-          <Input //label={_bio.length>0? params[3]=stringToHex(_bio): params[3]=bio}
+          {t_strong('Bio: ')}{t('(Max Character length is ')}{MAX_BIO}{')'}         
+          <Input 
             label={_bio.length>0? params[3]=_bio: params[3]=''}
             type="text"
-            //defaultValue={hextoString(paramToNum(bio))}
             value={_bio}
             onChange={(e) => {
-              setBio(e.target.value);
+              setBio(e.target.value.slice(0,MAX_BIO));
               setParams([...params]);
             }}
             ><input />
@@ -322,14 +366,13 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
           </Input>
 
           <LabelHelp help={t('Enter your Photo URL (Link to a Photo).')}/>{' '}          
-          <strong>{t('Photo Url: ')}</strong>
-          <Input //label={_photoUrl.length>0? params[4]=stringToHex(_photoUrl): params[4]=photoUrl}
+          {t_strong('Photo Url: ')}{t('(Max Character length is ')}{MAX_PHOTO_URL}{')'}         
+          <Input 
             label={_photoUrl.length>0? params[4]=_photoUrl: params[4]=''}
             type="text"
-            //defaultValue={hextoString(paramToNum(photoUrl))}
             value={_photoUrl}
             onChange={(e) => {
-              setPhotoUrl(e.target.value);
+              setPhotoUrl(e.target.value.slice(0,MAX_PHOTO_URL));
               setParams([...params]);
             }}
             ><input />
@@ -338,14 +381,13 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
           </Input>
 
           <LabelHelp help={t('Enter your First Website Link.')}/>{' '}          
-          <strong>{t('Website Link 1: ')}</strong>
-          <Input //label={_websiteUrl1.length>0? params[5]=stringToHex(_websiteUrl1): params[5]=websiteUrl1}
+          {t_strong('Website Link 1: ')}{t('(Max Character length is ')}{MAX_URL}{')'}         
+          <Input 
             label={_websiteUrl1.length>0? params[5]=_websiteUrl1: params[5]=''}
             type="text"
-            //defaultValue={hextoString(paramToNum(websiteUrl1))}
             value={_websiteUrl1}
             onChange={(e) => {
-              setWebsiteUrl1(e.target.value);
+              setWebsiteUrl1(e.target.value.slice(0,MAX_URL));
               setParams([...params]);
             }}
             ><input />
@@ -354,14 +396,13 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
           </Input>
 
           <LabelHelp help={t('Enter your Second Website Link.')}/>{' '}          
-          <strong>{t('Website Link 2: ')}</strong>
-          <Input //label={_websiteUrl2.length>0? params[6]=stringToHex(_websiteUrl2): params[6]=websiteUrl2}
+          {t_strong('Website Link 2: ')}{t('(Max Character length is ')}{MAX_URL}{')'}         
+          <Input 
             label={_websiteUrl2.length>0? params[6]=_websiteUrl2: params[6]=''}
             type="text"
-            //defaultValue={hextoString(paramToNum(websiteUrl2))}
             value={_websiteUrl2}
             onChange={(e) => {
-              setWebsiteUrl2(e.target.value);
+              setWebsiteUrl2(e.target.value.slice(0,MAX_URL));
               setParams([...params]);
             }}
             ><input />
@@ -370,14 +411,13 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
           </Input>
 
           <LabelHelp help={t('Enter your Third Website Link.')}/>{' '}          
-          <strong>{t('Website Link 3: ')}</strong>
-          <Input //label={_websiteUrl3.length>0? params[7]=stringToHex(_websiteUrl3): params[7]=websiteUrl3}
+          {t_strong('Website Link 3: ')}{t('(Max Character length is ')}{MAX_URL}{')'}         
+          <Input 
             label={_websiteUrl3.length>0? params[7]=_websiteUrl3: params[7]=''}
             type="text"
-            //defaultValue={hextoString(paramToNum(websiteUrl3))}
             value={_websiteUrl3}
             onChange={(e) => {
-              setWebsiteUrl3(e.target.value);
+              setWebsiteUrl3(e.target.value.slice(0,MAX_URL));
               setParams([...params]);
             }}
             ><input />
@@ -453,32 +493,16 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
             value={_marketPlace}
           />
 
-          <LabelHelp help={t('Enter your more Information.')}/>{' '}          
-          <strong>{t('More Information: ')}</strong>
-          <Input //label={_moreInfo.length>0? params[12]=stringToHex(_moreInfo): params[12]=moreInfo}
-            label={_moreInfo.length>0? params[12]=_moreInfo: params[12]=''}
-            type="text"
-            //defaultValue={hextoString(paramToNum(moreInfo))}
-            value={_moreInfo}
-            onChange={(e) => {
-              setMoreInfo(e.target.value)
-              setParams([...params]);
-            }}
-            ><input />
-            <Label color={params[12]? 'blue': 'grey'}>
-                    {params[12]? <>{'OK'}</>:<>{'Enter Value'}</>}</Label>
-          </Input>
-
           <br /><br />
           <LabelHelp help={t('Select Yes/No to Hide Your Account.')}/> {' '}         
           <strong>{t('Hide Account: ')}</strong>
           <br /><br />
           <Toggle
             className='booleantoggle'
-            label={<strong>{t(boolToString(params[13] = _makePrivate))}</strong>}
+            label={<strong>{t(boolToString(params[12] = _makePrivate))}</strong>}
             onChange={() => {
               toggleMakePrivate()
-              params[13] = !_makePrivate;
+              params[12] = !_makePrivate;
               setParams([...params]);
             }}
             value={_makePrivate}
@@ -490,7 +514,6 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
 
         {message.isPayable && (
           <InputBalance
-            //help={t('The allotted value for this contract, i.e. the amount transferred to the contract as part of this call.')}
             isError={!isValueValid}
             isZeroable
             label={t('value')}
@@ -498,6 +521,7 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
             value={value}
           />
         )}
+
         {isTest && (
         <>
         <Badge color='green' icon='hand'/>
@@ -514,6 +538,7 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
           isCall={!message.isMutating}
           weight={weight}
         />
+
         {message.isMutating && (
           <Toggle
             className='rpc-toggle'
@@ -524,6 +549,7 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
         )}        
         </>
         )}
+
         {!isClosed && (<>
         <Card>
         {isViaRpc
@@ -570,13 +596,18 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
             ))}
             </div>
         )}
-        {outcomes.length > 0 && messageIndex > 2 && (
+        {outcomes.length > 0 && (messageIndex === 3 || messageIndex === 4) &&(
             <div>
             {outcomes.map((outcome, index): React.ReactNode => (
               <SearchDetails
                 key={`outcome-${index}`}
                 onClear={_onClearOutcome(index)}
                 isAccount={messageIndex > 1 ? true: false}
+                searchKeyword={<>{searchKeywordOne? searchKeywordOne: ''}{' '}
+                                 {searchKeywordTwo? searchKeywordTwo: ''}{' '}
+                                 {searchKeywordThree? searchKeywordThree: ''}</>}
+                msgIndex={messageIndex}
+                useAccount={paramsToAddress(params[0])}
                 outcome={outcome}
               />
             ))}

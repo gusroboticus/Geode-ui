@@ -8,7 +8,7 @@ import type { CallResult } from '../shared/types.js';
 import { stringify, hexToString, isHex } from '@polkadot/util';
 import { styled, Button, LabelHelp, Card } from '@polkadot/react-components';
 import { Table, Image } from 'semantic-ui-react'
-import { accountTitle, withHttp, autoCorrect, t_strong, showLink } from './ProfileUtil.js';
+import { accountDetail, timeStampToDate, accountTitle, withHttp, autoCorrect, t_strong, showLink } from './ProfileUtil.js';
 import JSONprohibited from '../shared/geode_prohibited.json';
 
 interface Props {
@@ -16,6 +16,9 @@ interface Props {
     onClear?: () => void;
     isAccount?: boolean;
     outcome: CallResult;
+    searchKeyword: string;
+    msgIndex: number;
+    useAccount: string;
   }
   
   type ProfileObj = {
@@ -32,15 +35,15 @@ interface Props {
     social: string,
     privateMessaging: string,
     marketplace: string,
-    moreInfo: number,
-    makePrivate: boolean
+    makePrivate: boolean,
+    timestamp: number
   }
   
   type ProfileDetail = {
   ok: ProfileObj[]
   }
 
-function SearchDetails ({ className = '', onClear, outcome: { output, when } }: Props): React.ReactElement<Props> | null {
+function SearchDetails ({ className = '', onClear, searchKeyword, msgIndex, useAccount, outcome: { output, when } }: Props): React.ReactElement<Props> | null {
     const defaultImage: string ='https://react.semantic-ui.com/images/wireframe/image.png';
     const { t } = useTranslation();
     const searchWords: string[] = JSONprohibited;
@@ -48,7 +51,7 @@ function SearchDetails ({ className = '', onClear, outcome: { output, when } }: 
     const _Obj = JSON.parse(objOutput);
     const profileDetail: ProfileDetail = Object.create(_Obj);
 
-    function ListAccount(): JSX.Element {
+function ListAccount(): JSX.Element {
       return(
           <div>
             <Table>
@@ -63,7 +66,22 @@ function SearchDetails ({ className = '', onClear, outcome: { output, when } }: 
               </Table.Row>
             </Table>
           </div>
-      )}
+)}
+
+function ListSearchResult(): JSX.Element {
+      return(
+        <div>
+        <Table>
+          <Table.Row>
+          <Table.Cell>
+            {msgIndex===4? <>
+              <h2>{t('Search Account: ')}<strong>{accountDetail(useAccount)}</strong></h2>
+            </>: <> <h2>{t('Search Keyword: ')}<strong>{searchKeyword}</strong></h2></>}
+          </Table.Cell>
+          </Table.Row>
+        </Table>
+      </div>
+)}
 
 function ShowProfile(): JSX.Element {
 try{
@@ -118,10 +136,8 @@ try{
             {profileDetail.ok[0].social && (<>{accountTitle(_out.social, ' Social: ')} </>)}     
             {profileDetail.ok[0].privateMessaging && (<>{accountTitle(_out.privateMessaging, ' Private Messaging: ')} </>)} 
             {profileDetail.ok[0].marketplace && (<>{accountTitle(_out.marketplace, ' Market Place: ')} </>)}     
-            <h3><LabelHelp help={t(' Additional Profile Information. ')} />
-            {t_strong(' More Info: ')}</h3>
-            {isHex(_out.moreInfo) ? 
-                  autoCorrect(searchWords, hexToString(_out.moreInfo)) : ' '}
+            <h3><LabelHelp help={t(' Date when account was created or last updated. ')} />
+            {t_strong(' Updated: ')}{timeStampToDate(_out.timestamp)}</h3>
             <br />    
         </Table.Cell>
       </Table.Row>
@@ -138,7 +154,7 @@ try{
     <Table>
       <Table.Row>
         <Table.Cell>
-        <strong>{t('There are no profiles available.')}</strong>
+        <strong>{t('Too many profiles to display. Please refine your search criteria.')}</strong>
         </Table.Cell>
         <Table.Cell>
         <strong>{t('Date/Time: ')}</strong>
@@ -155,8 +171,9 @@ try{
 return (
     <StyledDiv className={className}>
     <Card>
-    <ListAccount />
-    <ShowProfile />
+      <ListAccount />
+      <ListSearchResult />
+      <ShowProfile />
     </Card>
     </StyledDiv>
   );

@@ -17,6 +17,8 @@ import Params from '../shared/Params.js';
 import { useTranslation } from '../shared/translate.js';
 import useWeight from '../useWeight.js';
 import { getCallMessageOptions } from '../shared/util.js';
+import { t_strong } from './ProfileUtil.js';
+import { MAX_URL, MAX_PHOTO_URL, MAX_BIO, MAX_TAGS, MAX_LOCATION, MAX_DISPLAY_NAME } from './ProfileConst.js'
 
 interface Props {
   className?: string;
@@ -78,7 +80,7 @@ function CallModal ({ className = '', myAccount, displayName,
     const [_social, setSocial] = useAccountId();
     const [_privateMessage, setPrivateMessage] = useAccountId();
     const [_marketPlace, setMarketPlace] = useAccountId();
-    const [_moreInfo, setMoreInfo] = useState('');
+    //const [_moreInfo, setMoreInfo] = useState('');
     const [_makePrivate, toggleMakePrivate] = useToggle(paramToBool(makePrivate));
    
   const [execTx, setExecTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
@@ -177,8 +179,7 @@ function CallModal ({ className = '', myAccount, displayName,
             {'(5) '}{t('Your Photo -  Enter a valid Photo Link that represents you.')}<br />
             {'(6) '}{t('Websites give other users links to find out more about you. You can add up to three.')}<br />
             {'(7) '}{t('Enter your account addresses for other Geode Apps (Life and Work, Social, Private Messaging and Market Place.)')}<br />
-            {'(8) '}{t('Any additional information you want to add about you? Enter it here.')}<br />
-            {'(9) '}{t('Use the Hide toggle to make your profile visible (or not) to other users.  ')}<br />
+            {'(8) '}{t('Use the Hide toggle to make your profile visible (or not) to other users.  ')}<br />
             <br /><br />
             {t('⚠️ Important: Don`t forget to click Submit when completed.')} <br /><br />        
           </>)}
@@ -186,7 +187,6 @@ function CallModal ({ className = '', myAccount, displayName,
         
         {isShow && (<>
           <InputAddress
-          //help={t('A deployed contract that has either been deployed or attached. The address and ABI are used to construct the parameters.')}
           isDisabled
           label={t('contract to use')}
           type='contract'
@@ -196,7 +196,6 @@ function CallModal ({ className = '', myAccount, displayName,
         <br /><strong>{t('Account to Use: ')}</strong><br />
         <InputAddress
           defaultValue={accountId}
-          //help={t('Specify the user account to use for this contract call. And fees will be deducted from this account.')}
           label={t('call from account')}
           labelExtra={
             <Available
@@ -213,7 +212,6 @@ function CallModal ({ className = '', myAccount, displayName,
             {isShow && (<>
               <Dropdown
               defaultValue={messageIndex}
-              //help={t('The message to send to this contract. Parameters are adjusted based on the ABI provided.')}
               isError={message === null}
               label={t('message to send')}
               onChange={onChangeMessage}
@@ -249,15 +247,14 @@ function CallModal ({ className = '', myAccount, displayName,
           <AccountName value={myAccount} withSidebar={true}/>{' '}
           <CopyInline value={myAccount} label={''}/>{' '}<br /><br />
 
-          <LabelHelp help={t('Enter the Display Name.')}/>{' '}          
-          <strong>{t('Display Name: ')}</strong>
-          <Input //label={_displayName.length>0? params[0]=stringToHex(_displayName): params[0]=displayName}
+          <LabelHelp help={t('Enter the Display Name.')}/>{' '}    
+          {t_strong('Display Name: ')}{t('(Max Character length is ')}{MAX_DISPLAY_NAME}{')'}
+          <Input 
             label={_displayName.length>0? params[0]=_displayName: params[0]=hextoString(paramToNum(displayName))}
             type="text"
             defaultValue={hextoString(paramToNum(displayName))}
-            //value={_displayName}
             onChange={(e) => {
-              setDisplayName(e.target.value);
+              setDisplayName(e.target.value.slice(0,MAX_DISPLAY_NAME));
               setParams([...params]);
             }}
             ><input />
@@ -266,14 +263,13 @@ function CallModal ({ className = '', myAccount, displayName,
           </Input>
 
           <LabelHelp help={t('Enter your Location (You can leave this blank if you wish).')}/>{' '}          
-          <strong>{t('Location: ')}</strong>
-          <Input //label={_location.length>0? params[1]=stringToHex(_location): params[1]=location}
+          {t_strong('Location: ')}{t('(Max Character length is ')}{MAX_LOCATION}{')'}         
+          <Input
             label={_location.length>0? params[1]=_location: params[1]=hextoString(paramToNum(location))}
             type="text"
             defaultValue={hextoString(paramToNum(location))}
-            //value={_displayName}
             onChange={(e) => {
-              setLocation(e.target.value);
+              setLocation(e.target.value.slice(0,MAX_LOCATION));
               setParams([...params]);
             }}
             ><input />
@@ -282,14 +278,13 @@ function CallModal ({ className = '', myAccount, displayName,
           </Input>
 
           <LabelHelp help={t('Enter your expertise and/or experience tags).')}/>{' '}          
-          <strong>{t('Experience and Expertise Tags: ')}</strong>
-          <Input //label={_tags.length>0? params[2]=stringToHex(_tags): params[2]=tags}
+          {t_strong('Experience and Expertise Tags: ')}{t('(Max Character length is ')}{MAX_TAGS}{')'}         
+          <Input 
             label={_tags.length>0? params[2]=_tags: params[2]=hextoString(paramToNum(tags))}
             type="text"
             defaultValue={hextoString(paramToNum(tags))}
-            //value={_displayName}
             onChange={(e) => {
-              setTags(e.target.value);
+              setTags(e.target.value.slice(0,MAX_TAGS));
               setParams([...params]);
             }}
             ><input />
@@ -298,14 +293,13 @@ function CallModal ({ className = '', myAccount, displayName,
           </Input>
 
           <LabelHelp help={t('Enter your Bio.')}/>{' '}          
-          <strong>{t('Bio: ')}</strong>
-          <Input //label={_bio.length>0? params[3]=stringToHex(_bio): params[3]=bio}
+          {t_strong('Bio: ')}{t('(Max Character length is ')}{MAX_BIO}{')'}         
+          <Input 
             label={_bio.length>0? params[3]=_bio: params[3]=hextoString(paramToNum(bio))}
             type="text"
             defaultValue={hextoString(paramToNum(bio))}
-            //value={_displayName}
             onChange={(e) => {
-              setBio(e.target.value);
+              setBio(e.target.value.slice(0,MAX_BIO));
               setParams([...params]);
             }}
             ><input />
@@ -314,14 +308,13 @@ function CallModal ({ className = '', myAccount, displayName,
           </Input>
 
           <LabelHelp help={t('Enter your Photo URL (Link to a Photo).')}/>{' '}          
-          <strong>{t('Photo Url: ')}</strong>
-          <Input //label={_photoUrl.length>0? params[4]=stringToHex(_photoUrl): params[4]=photoUrl}
+          {t_strong('Photo Url: ')}{t('(Max Character length is ')}{MAX_PHOTO_URL}{')'}         
+          <Input
             label={_photoUrl.length>0? params[4]=_photoUrl: params[4]=hextoString(paramToNum(photoUrl))}
             type="text"
             defaultValue={hextoString(paramToNum(photoUrl))}
-            //value={_displayName}
             onChange={(e) => {
-              setPhotoUrl(e.target.value);
+              setPhotoUrl(e.target.value.slice(0,MAX_PHOTO_URL));
               setParams([...params]);
             }}
             ><input />
@@ -330,14 +323,13 @@ function CallModal ({ className = '', myAccount, displayName,
           </Input>
 
           <LabelHelp help={t('Enter your First Website Link.')}/>{' '}          
-          <strong>{t('Website Link 1: ')}</strong>
-          <Input //label={_websiteUrl1.length>0? params[5]=stringToHex(_websiteUrl1): params[5]=websiteUrl1}
+          {t_strong('Website Link 1: ')}{t('(Max Character length is ')}{MAX_URL}{')'}         
+          <Input
             label={_websiteUrl1.length>0? params[5]=_websiteUrl1: params[5]=hextoString(paramToNum(websiteUrl1))}
             type="text"
             defaultValue={hextoString(paramToNum(websiteUrl1))}
-            //value={_displayName}
             onChange={(e) => {
-              setWebsiteUrl1(e.target.value);
+              setWebsiteUrl1(e.target.value.slice(0,MAX_URL));
               setParams([...params]);
             }}
             ><input />
@@ -346,14 +338,13 @@ function CallModal ({ className = '', myAccount, displayName,
           </Input>
 
           <LabelHelp help={t('Enter your Second Website Link.')}/>{' '}          
-          <strong>{t('Website Link 2: ')}</strong>
-          <Input //label={_websiteUrl2.length>0? params[6]=stringToHex(_websiteUrl2): params[6]=websiteUrl2}
+          {t_strong('Website Link 2: ')}{t('(Max Character length is ')}{MAX_URL}{')'}         
+          <Input 
             label={_websiteUrl2.length>0? params[6]=_websiteUrl2: params[6]=hextoString(paramToNum(websiteUrl2))}
             type="text"
             defaultValue={hextoString(paramToNum(websiteUrl2))}
-            //value={_displayName}
             onChange={(e) => {
-              setWebsiteUrl2(e.target.value);
+              setWebsiteUrl2(e.target.value.slice(0,MAX_URL));
               setParams([...params]);
             }}
             ><input />
@@ -362,14 +353,13 @@ function CallModal ({ className = '', myAccount, displayName,
           </Input>
 
           <LabelHelp help={t('Enter your Third Website Link.')}/>{' '}          
-          <strong>{t('Website Link 3: ')}</strong>
-          <Input //label={_websiteUrl3.length>0? params[7]=stringToHex(_websiteUrl3): params[7]=websiteUrl3}
+          {t_strong('Website Link 3: ')}{t('(Max Character length is ')}{MAX_URL}{')'}         
+          <Input
             label={_websiteUrl3.length>0? params[7]=_websiteUrl3: params[7]=hextoString(paramToNum(websiteUrl3))}
             type="text"
             defaultValue={hextoString(paramToNum(websiteUrl3))}
-            //value={_displayName}
             onChange={(e) => {
-              setWebsiteUrl3(e.target.value);
+              setWebsiteUrl3(e.target.value.slice(0,MAX_URL));
               setParams([...params]);
             }}
             ><input />
@@ -445,31 +435,16 @@ function CallModal ({ className = '', myAccount, displayName,
             value={_marketPlace}
           />
 
-          <LabelHelp help={t('Enter your more Information.')}/>{' '}          
-          <strong>{t('More Information: ')}</strong>
-          <Input //label={_moreInfo.length>0? params[12]=stringToHex(_moreInfo): params[12]=moreInfo}
-            label={_moreInfo.length>0? params[12]=_moreInfo: params[12]=hextoString(paramToNum(moreInfo))}
-            type="text"
-            defaultValue={hextoString(paramToNum(moreInfo))}
-            onChange={(e) => {
-              setMoreInfo(e.target.value);
-              setParams([...params]);
-            }}
-            ><input />
-            <Label color={params[12]? 'blue': 'orange'}>
-                    {params[12]? <>{'OK'}</>:<>{'Enter Value'}</>}</Label>
-          </Input>
-
           <br /><br />
           <LabelHelp help={t('Select Yes/No to Hide Your Account.')}/> {' '}         
           <strong>{t('Hide Account: ')}</strong>
           <br /><br />
           <Toggle
             className='booleantoggle'
-            label={<strong>{t(boolToString(params[13] = _makePrivate))}</strong>}
+            label={<strong>{t(boolToString(params[12] = _makePrivate))}</strong>}
             onChange={() => {
               toggleMakePrivate()
-              params[13] = !_makePrivate;
+              params[12] = !_makePrivate;
               setParams([...params]);
             }}
             value={_makePrivate}
@@ -481,7 +456,6 @@ function CallModal ({ className = '', myAccount, displayName,
           <>
         {message.isPayable && (
           <InputBalance
-            //help={t('The allotted value for this contract, i.e. the amount transferred to the contract as part of this call.')}
             isError={!isValueValid}
             isZeroable
             label={t('value')}

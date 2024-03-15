@@ -5,8 +5,38 @@ import React from 'react';
 import { useTranslation } from '../shared/translate.js';
 import { hexToString, isHex } from '@polkadot/util';
 import CopyInline from '../shared/CopyInline.js';
-import { AccountName, IdentityIcon } from '@polkadot/react-components';
+import { LabelHelp, AccountName, IdentityIcon } from '@polkadot/react-components';
 import { Label } from 'semantic-ui-react';
+
+export function paramsToAddress(_param: any): string {
+    return(
+       _param? JSON.stringify(_param).slice(1, _param.length+1): '5CsCgrqDCtC3zyGr1uJNA2SzyFXqqtVcmwGqzk18xYG6JSfW'
+    )
+}
+
+export function timeStampToDate(tstamp: number): JSX.Element {
+    const { t } = useTranslation();
+        try {
+         const event = new Date(tstamp);
+         return (
+              <><i>{event.toDateString()}{' '}
+                   {event.toLocaleTimeString()}{' '}</i></>
+          )
+        } catch(error) {
+         console.error(error)
+         return(
+             <><i>{t('No Date')}</i></>
+         )
+        }
+}
+
+export function withHelp(_str: string, _help: string): JSX.Element {
+    const { t } = useTranslation();
+    return(<>
+    <LabelHelp help={t(_help)} />
+    {' '}{t(_str)}
+    </>)
+}
 
 export function hexToHuman (_hexIn: string): string {
     const { t } = useTranslation();
@@ -38,6 +68,19 @@ export function accountTitle(_id: string, _title: string): JSX.Element {
         <>
         <IdentityIcon value={_id} />
         <strong>{t(_title)}</strong>
+        <AccountName value={_id} withSidebar={true}/>
+        {' - '}{acctToShort(_id)}{' '}
+        <CopyInline value={_id} label={''}/>                    
+        <br />
+        </>
+    )
+}
+
+export function accountDetail(_id: string): JSX.Element {
+    //const { t } = useTranslation();
+    return(
+        <>
+        <IdentityIcon value={_id} />
         <AccountName value={_id} withSidebar={true}/>
         {' - '}{acctToShort(_id)}{' '}
         <CopyInline value={_id} label={''}/>                    

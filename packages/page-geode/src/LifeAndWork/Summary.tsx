@@ -6,7 +6,7 @@ import { Toggle, Badge, Card, CardSummary, SummaryBox, AccountName, LabelHelp, I
 import { useTranslation } from '../translate.js';
 import JSONinfo from '../shared/geode_lifeandwork_info.json';
 import { useToggle } from '@polkadot/react-hooks';
-import { Grid } from 'semantic-ui-react'
+import { Grid } from 'semantic-ui-react';
 import Accounts from '@polkadot/app-accounts/Accounts';
 import Contacts from '@polkadot/app-addresses/Contacts';
 import Events from '@polkadot/app-explorer/Events';
@@ -43,7 +43,6 @@ function Summary (): React.ReactElement {
       </CardSummary> 
     </SummaryBox>
     <Card> 
-
             <Badge icon={'info'} color={'blue'}/> 
               <strong> {t('Info for Life and Work: ')} </strong>
                 {info[0]+info[1]}            

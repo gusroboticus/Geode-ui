@@ -11,7 +11,7 @@ import { Table, Image, TableCell } from 'semantic-ui-react'
 import AccountHeader from '../shared/AccountHeader.js';
 import CallSendMessage from './CallSendMessage.js';
 import JSONprohibited from '../shared/geode_prohibited.json';
-import { linker, accountTitle, withHttp, autoCorrect, t_strong } from './ProfileUtil.js';
+import { timeStampToDate, linker, accountTitle, withHttp, autoCorrect, t_strong } from './ProfileUtil.js';
 
 interface Props {
     className?: string;
@@ -34,8 +34,8 @@ interface Props {
     social: string,
     privateMessaging: string,
     marketplace: string,
-    moreInfo: number,
-    makePrivate: boolean
+    makePrivate: boolean,
+    timestamp: number
   }
   
   type ProfileDetail = {
@@ -92,7 +92,7 @@ function Details ({ className = '', onClear, outcome: { from, output, when } }: 
               social={profileDetail.ok[0].social}
               privateMessage={profileDetail.ok[0].privateMessaging}
               marketPlace={profileDetail.ok[0].marketplace}
-              moreInfo={profileDetail.ok[0].moreInfo}
+              moreInfo={profileDetail.ok[0].timestamp}
               makePrivate={profileDetail.ok[0].makePrivate}
               onReset={() => _reset()}
           />
@@ -184,10 +184,8 @@ function ShowProfile(): JSX.Element {
                 {profileDetail.ok[0].social && (<>{accountTitle(profileDetail.ok[0].social, ' Social: ')} </>)}     
                 {profileDetail.ok[0].privateMessaging && (<>{accountTitle(profileDetail.ok[0].privateMessaging, ' Private Messaging: ')} </>)} 
                 {profileDetail.ok[0].marketplace && (<>{accountTitle(profileDetail.ok[0].marketplace, ' Market Place: ')} </>)}     
-                <h3><LabelHelp help={t(' Additional Profile Information. ')} />
-                {t_strong(' More Info: ')}</h3>
-                {isHex(profileDetail.ok[0].moreInfo) ? 
-                      autoCorrect(searchWords, hexToString(profileDetail.ok[0].moreInfo)) : ' '}
+                <h3><LabelHelp help={t(' Date when account was created or last updated. ')} />
+                {t_strong(' Updated: ')}{timeStampToDate(profileDetail.ok[0].timestamp)}</h3>
                 <br />    
             </Table.Cell>
             </TableCell>
