@@ -11,7 +11,7 @@ import { Table, Image, TableCell } from 'semantic-ui-react'
 import AccountHeader from '../shared/AccountHeader.js';
 import CallSendMessage from './CallSendMessage.js';
 import JSONprohibited from '../shared/geode_prohibited.json';
-import { timeStampToDate, linker, accountTitle, withHttp, autoCorrect, t_strong } from './ProfileUtil.js';
+import { timeStampToDate, linker, accountTitle, withHttp, autoCorrect } from './ProfileUtil.js';
 
 interface Props {
     className?: string;
@@ -46,11 +46,10 @@ function Details ({ className = '', onClear, outcome: { from, output, when } }: 
     const defaultImage: string ='https://react.semantic-ui.com/images/wireframe/image.png';
     const { t } = useTranslation();
     const searchWords: string[] = JSONprohibited;
-    const objOutput: string = stringify(output);
-    const _Obj = JSON.parse(objOutput);
-    const profileDetail: ProfileDetail = Object.create(_Obj);
+    const profileDetail: ProfileDetail = Object.create(JSON.parse(stringify(output)));
     const [isUpdate, setUpdate] = useState<boolean>(false);
     const [count, setCount] = useState(0);
+    function t_strong(_str: string): JSX.Element{return(<><strong>{t(_str)}</strong></>)}
 
     const _reset = useCallback(
       () => {setUpdate(false);
@@ -108,25 +107,20 @@ function Details ({ className = '', onClear, outcome: { from, output, when } }: 
     function ListAccount(): JSX.Element {
       return(
           <div>
-            <Table>
+              {matchAccounts(from) && (<>
+                <Table>
               <Table.Row>
               <Table.Cell>
-              <Button
-                  icon='times'
-                  label={t('Close')}
-                  onClick={onClear}
-                />
-              {matchAccounts(from) && (<>
                 <Button
                   icon='plus'
                   label={t('Update')}
                   onClick={()=>{<>{setCount(count + 1)}
                                   {_makeUpdate()}</>}}
                 />              
-              </>)}
               </Table.Cell>
               </Table.Row>
-            </Table>
+            </Table>        
+              </>)}            
           </div>
       )}
       
@@ -210,7 +204,7 @@ function ShowProfile(): JSX.Element {
     <AccountHeader 
             fromAcct={from} 
             timeDate={when} 
-            callFrom={2}/>
+            callFrom={100}/>
       <ListAccount />
       <ShowProfile />
       {isUpdate && (<>

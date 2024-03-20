@@ -105,7 +105,16 @@ function ListAccount(): JSX.Element {
                 {t('You can have 20 claims for each claim type except for Work History where you can have 10.  ')}<br />
                 {t('All claims greater than the limit will be stored on chain but are not displayed. ')}
                 </>)}
-                
+                {callFrom===100 && (<>
+                {t(' Link to See More: ')}<Label circular color='orange'> Link </Label>
+                {t(' Copy an Address: ')}<Badge icon='copy' color='orange' /><br />
+                  <strong>{t('NOTE: ')}</strong>
+                {t('👤 View a Profile.   ')}<br />
+                {' 🔘 '}{t('You can update your own profile here.')}<br />
+                {' 🔘 '}{t('Copy public key addresses to use in other Geode Apps.')}<br />
+                {' 🔘 '}{t('Click on the links to see more info for this profile. ')}<br />
+                </>)}
+
                 {callFrom===31 && (<>
                 {t(' Link to See More: ')}<Label circular color='orange'> Link </Label><br />
                   <strong>{t('NOTE: ')}</strong>

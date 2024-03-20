@@ -6,9 +6,9 @@ import React from 'react';
 import { useTranslation } from '../shared/translate.js';
 import type { CallResult } from '../shared/types.js';
 import { stringify, hexToString, isHex } from '@polkadot/util';
-import { styled, Button, LabelHelp, Card } from '@polkadot/react-components';
+import { styled, LabelHelp, Card } from '@polkadot/react-components';
 import { Table, Image } from 'semantic-ui-react'
-import { accountDetail, timeStampToDate, accountTitle, withHttp, autoCorrect, t_strong, showLink } from './ProfileUtil.js';
+import { accountDetail, timeStampToDate, accountTitle, withHttp, autoCorrect, showLink } from './ProfileUtil.js';
 import JSONprohibited from '../shared/geode_prohibited.json';
 
 interface Props {
@@ -43,30 +43,13 @@ interface Props {
   ok: ProfileObj[]
   }
 
-function SearchDetails ({ className = '', onClear, searchKeyword, msgIndex, useAccount, outcome: { output, when } }: Props): React.ReactElement<Props> | null {
+function SearchDetails ({ className = '', searchKeyword, msgIndex, useAccount, outcome: { output, when } }: Props): React.ReactElement<Props> | null {
     const defaultImage: string ='https://react.semantic-ui.com/images/wireframe/image.png';
     const { t } = useTranslation();
     const searchWords: string[] = JSONprohibited;
-    const objOutput: string = stringify(output);
-    const _Obj = JSON.parse(objOutput);
-    const profileDetail: ProfileDetail = Object.create(_Obj);
+    const profileDetail: ProfileDetail = Object.create(JSON.parse(stringify(output)));
+    function t_strong(_str: string): JSX.Element{return(<><strong>{t(_str)}</strong></>)}
 
-function ListAccount(): JSX.Element {
-      return(
-          <div>
-            <Table>
-              <Table.Row>
-              <Table.Cell>
-              <Button
-                  icon='times'
-                  label={t('Close')}
-                  onClick={onClear}
-                />
-              </Table.Cell>
-              </Table.Row>
-            </Table>
-          </div>
-)}
 
 function ListSearchResult(): JSX.Element {
       return(
@@ -171,7 +154,6 @@ try{
 return (
     <StyledDiv className={className}>
     <Card>
-      <ListAccount />
       <ListSearchResult />
       <ShowProfile />
     </Card>
