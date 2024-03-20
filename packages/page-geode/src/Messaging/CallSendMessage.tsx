@@ -5,8 +5,6 @@ import React from 'react';
 
 import { useContracts } from '../useContracts.js';
 import { useCodes } from '../useCodes.js';
-//import styled from 'styled-components';
-//import { __RouterContext } from 'react-router';
 import { styled } from '@polkadot/react-components';
 import ContractsTable from './ContractsTable.js';
 import ContractsModal from './ContractsModal.js';
@@ -23,18 +21,11 @@ interface Props {
   callIndex: number;
 }
 
-function CallSendMessage ({ className = '', messageId,  
-                            toAcct, username,  
-                            callIndex }: 
-                            Props): React.ReactElement<Props> | null {
+function CallSendMessage ({ className = '', messageId,  toAcct, username,  callIndex }: Props): React.ReactElement<Props> | null {
     const { allContracts } = useContracts();
     const { allCodes, codeTrigger } = useCodes();
 //todo: code for allCodes and unused params:
     console.log(JSON.stringify(allCodes));
-    // console.log(JSON.stringify(onClear));
-    // console.log(JSON.stringify(fromAcct));
-    // console.log(JSON.stringify(postMessage));
-    // console.log(JSON.stringify(onReset));
 
     function SendMessage(): JSX.Element {
     return(

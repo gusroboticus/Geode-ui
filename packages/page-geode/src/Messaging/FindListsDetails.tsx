@@ -5,11 +5,11 @@
 import React, { useState, useCallback } from 'react';
 import { useTranslation } from '../shared/translate.js';
 import type { CallResult } from '../shared/types.js';
-import { stringify, hexToString, isHex } from '@polkadot/util';
-import { styled, Button, AccountName, LabelHelp, Card } from '@polkadot/react-components';
-import { Table, Label} from 'semantic-ui-react'
+import { stringify } from '@polkadot/util';
+import { styled, Button, Card } from '@polkadot/react-components';
+import { Message, Table, Label} from 'semantic-ui-react'
 import AccountHeader from '../shared/AccountHeader.js';
-
+import { accountIdentity, searchResults, hexToHuman, numBlueButton, idToShort, booltoPublic } from './MsgUtil.js';
 import CallSendMessage from './CallSendMessage.js';
 
 interface Props {
@@ -24,11 +24,11 @@ interface Props {
     listName: string,
     hideFromSearch: boolean,
     description: string,
-    listAccounts: string[]
+    listAccounts: number
   }
 
   type SearchObj = {
-    search: string;
+    search: string[];
     lists: ListObj[];
   }
 
@@ -36,18 +36,13 @@ interface Props {
   ok: SearchObj;
   }
   
-function FindListsDetails ({  className = '', onClear, 
-                              outcome: { from, output, when } }: 
-                              Props): React.ReactElement<Props> | null {
-    //todo: code for unused params or remove!:
-    // console.log(JSON.stringify(message));
-    // console.log(JSON.stringify(params));
-    // console.log(JSON.stringify(result));
+function FindListsDetails ({  className = '', outcome: { from, output, when } }: Props): React.ReactElement<Props> | null {
 
     const { t } = useTranslation();
-    const objOutput: string = stringify(output);
-    const _Obj = JSON.parse(objOutput);
-    const searchDetail: SearchDetail = Object.create(_Obj);
+    function t_strong(_str: string): JSX.Element{return(<><strong>{t(_str)}</strong></>)}
+    function noop (): void {// do nothing
+    }
+    const searchDetail: SearchDetail = Object.create(JSON.parse(stringify(output)));
 
     const [isJoinList, setJoinList] = useState(false);
     const [isUnsubscribe, setUnsubscribe] = useState(false);
@@ -77,32 +72,6 @@ function FindListsDetails ({  className = '', onClear,
               },
         []
       )
-
-
-    function hextoHuman(_hexIn: string): string {
-      return((isHex(_hexIn))? t(hexToString(_hexIn).trim()): '')
-    }
-    
-    function booltoPrivate(_bool: boolean): string {
-      return(_bool? t('Private'): t('Public'))
-    }
-
-    function ListAccount(): JSX.Element {
-      return(
-          <div>
-            <Table>
-              <Table.Row>
-              <Table.Cell>
-              <Button
-                  icon='times'
-                  label={t(' Close ')}
-                  onClick={onClear}
-                />
-              </Table.Cell>
-              </Table.Row>
-            </Table>
-          </div>
-      )}  
       
 function GetLists(): JSX.Element {
       try {
@@ -113,31 +82,27 @@ function GetLists(): JSX.Element {
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>
-                {searchDetail.ok.search!='0x' && (<>
-                    {t('Search Results for: ')}
-                    {hextoHuman(searchDetail.ok.search)} {' '}{' | '}{' '}
-                </>)}
-                {t(' Total Number of Lists: ')} {listCount} {' '}    
+              {searchResults(searchDetail.ok.search)}        
               </Table.HeaderCell>
             </Table.Row>
           </Table.Header>
 
           <Table.Row>
             <Table.Cell verticalAlign='top'>
-            <h3><LabelHelp help={t(' Your Lists ')} />
-                <strong>{t('Your Lists: ')}</strong></h3> 
+            <h3><Button isCircular onClick={noop} icon='people-group'/>{t_strong(' Lists ')}{' '}{t(' Total Lists: ')}{' '}
+            {numBlueButton(listCount)}
+            {' '}</h3> 
                 {searchDetail.ok.lists.length>0 &&  
                   searchDetail.ok.lists.map((_lists, index: number)=> <>
-                  <h2><strong>{'@'}{hextoHuman(_lists.listName)}</strong>
-                  {' ('}<AccountName value={_lists.owner} withSidebar={true}/>{') '}                      
-                  </h2>
-                  <strong>{t('List ID: ')}</strong>{}
-                  {_lists.listId}<br />
-                  <strong>{t('Description: ')}</strong>{}
-                  {hextoHuman(_lists.description)}<br />
-                  <strong>{t('List Type: ')}</strong>
-                  {booltoPrivate(_lists.hideFromSearch)}
-                  <br /><br />
+
+                  <Message floating content>
+                  <h3><strong>{'@'}{hexToHuman(_lists.listName)}</strong></h3>
+                  {t_strong('List Owner: ')}{accountIdentity(_lists.owner)}
+                  {t_strong('List ID: ')}{idToShort(_lists.listId)}<br />
+                  {t_strong('Description: ')}{hexToHuman(_lists.description)}<br />
+                  {t_strong('List Type: ')} {booltoPublic(_lists.hideFromSearch)}<br />
+                  </Message>
+
                 {setListCount(index+1)}
                 <Label color='orange' as='a'
                        onClick={()=>{<>
@@ -167,21 +132,19 @@ function GetLists(): JSX.Element {
       console.log(e);
       return(
         <div>
-          <Card>{t('No Data in your Lists')}</Card>
+          <Card>{t('Please refine your keyword search.')}</Card>
         </div>
       )
     }
 }
     
-
   return (
     <StyledDiv className={className}>
     <Card>
     <AccountHeader 
             fromAcct={from} 
             timeDate={when} 
-            callFrom={2}/>
-      <ListAccount />
+            callFrom={39}/>
       {!isUnsubscribe && isJoinList && (<>
         <CallSendMessage
                 callIndex={19}

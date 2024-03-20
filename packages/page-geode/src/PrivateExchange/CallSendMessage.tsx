@@ -19,12 +19,11 @@ interface Props {
   passInventory?: number;
   passCountry?: string;
   passCity?: string;
-  passNotes?: string;
   callIndex: number;
 }
 
 function CallSendMessage ({ className = '', passListingID, passOfferCoin, passAskingCoin, 
-                          passPrice, passMethod, passInventory, passCountry, passCity, passNotes,
+                          passPrice, passMethod, passInventory, passCountry, passCity,
                           callIndex,
                           }: Props): React.ReactElement<Props> | null {
     const { allContracts } = useContracts();
@@ -32,7 +31,6 @@ function CallSendMessage ({ className = '', passListingID, passOfferCoin, passAs
 
     //todo: code for allCodes:
     console.log(JSON.stringify(allCodes));
-    // console.log(JSON.stringify(onClear));
 
     function SendMessage(): JSX.Element {
     return(
@@ -48,7 +46,6 @@ function CallSendMessage ({ className = '', passListingID, passOfferCoin, passAs
                 passInventory={passInventory}
                 passCountry={passCountry}
                 passCity={passCity}
-                passNotes={passNotes}
                 initMessageIndex={callIndex}
              />
         </div>

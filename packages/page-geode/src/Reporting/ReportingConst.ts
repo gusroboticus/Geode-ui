@@ -1,0 +1,11 @@
+export const MAX_REPORTER_LEGAL_NAME = 100;
+export const MAX_REPORTER_PHONE = 20;
+export const MAX_GEODE_APPS = 100;
+export const MAX_ACTIVITY_ID_LIST = 350;
+export const MAX_CRIME_CATEGORY = 100;
+export const MAX_CRIME_DESCRIPTION = 260;
+export const MAX_ACCUSED_LOCATION = 100;
+export const MAX_NAME = 100;
+export const MAX_ORGANIZATION = 100;
+export const MAX_PHONE = 20;
+export const MAX_EMAIL = 100;

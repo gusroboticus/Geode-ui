@@ -29,7 +29,6 @@ type ListingObj = {
   inventory: number,
   country: string,
   city: string,
-  notes: string,
   hide: boolean,
 }
 
@@ -57,7 +56,7 @@ function ViewMyListings ({ className = '', outcome: { output } }: Props): React.
   const [passInventory, setPassInventory] = useState(0);
   const [passCountry, setPassCountry] = useState('');
   const [passCity, setPassCity] = useState('');
-  const [passNotes, setPassNotes] = useState('');
+  //const [passNotes, setPassNotes] = useState('');
   
   // useToggles for secondary buttons on this display
   const [isNewListing, toggleNewListing] = useToggle(false);
@@ -121,8 +120,6 @@ function ViewMyListings ({ className = '', outcome: { output } }: Props): React.
                   <>{isHex(_listings.city) ? hexToString(_listings.city) : ' '}{t(', ')}{isHex(_listings.country) ? hexToString(_listings.country) : ' '}</>
                   <br />{t_strong(' Method: ')}
                   <>{isHex(_listings.method) ? hexToString(_listings.method) : ' '}</>
-                  <br />{t_strong(' Notes: ')}
-                  <>{isHex(_listings.notes) ? hexToString(_listings.notes) : ' '}</>
 
                   <br />
                   <Label as='a' 
@@ -137,7 +134,6 @@ function ViewMyListings ({ className = '', outcome: { output } }: Props): React.
                           {setPassInventory(_listings.inventory)}
                           {setPassCountry(_listings.country)}
                           {setPassCity(_listings.city)}
-                          {setPassNotes(_listings.notes)}
                           {setCount(count + 1)}
                           {_editListing()}</>}}
                         >{'Edit'}</Label>
@@ -180,7 +176,6 @@ function ViewMyListings ({ className = '', outcome: { output } }: Props): React.
           passInventory={passInventory}
           passCountry={passCountry}
           passCity={passCity}
-          passNotes={passNotes}
           callIndex={1}
           onClear={() => _reset()}
         />

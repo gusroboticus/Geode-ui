@@ -5,11 +5,11 @@
 import React, { useState, useCallback } from 'react';
 import { useTranslation } from '../shared/translate.js';
 import type { CallResult } from '../shared/types.js';
-import { stringify, hexToString, isHex } from '@polkadot/util';
-import { styled, Button, AccountName, LabelHelp, Card } from '@polkadot/react-components';
-import { Table, Label } from 'semantic-ui-react'
-import CopyInline from '../shared/CopyInline.js';
+import { stringify } from '@polkadot/util';
+import { styled, Button, Card } from '@polkadot/react-components';
+import { Message, Table, Label } from 'semantic-ui-react'
 import AccountHeader from '../shared/AccountHeader.js';
+import { accountIdentity, hexToHuman, numBlueButton, idToShort } from './MsgUtil.js';
 import CallSendMessage from './CallSendMessage.js';
 
 interface Props {
@@ -29,17 +29,13 @@ interface Props {
   ok: ListObj[];
   }
   
-function SubListsDetails ({ className = '', onClear, outcome: { from, output, when } }: Props): React.ReactElement<Props> | null {
-
-    //todo: code for unused params or remove!:
-    // console.log(JSON.stringify(message));
-    // console.log(JSON.stringify(params));
-    // console.log(JSON.stringify(result));
+function SubListsDetails ({ className = '', outcome: { from, output, when } }: Props): React.ReactElement<Props> | null {
     
     const { t } = useTranslation();
-    const objOutput: string = stringify(output);
-    const _Obj = JSON.parse(objOutput);
-    const subDetail: SubDetail = Object.create(_Obj);
+    function t_strong(_str: string): JSX.Element{return(<><strong>{t(_str)}</strong></>)}
+    function noop (): void {// do nothing
+    }
+    const subDetail: SubDetail = Object.create(JSON.parse(stringify(output)));
 
     const [isUnsubscribe, setUnsubscribe] = useState(false);
     const [_listId, setListId] = useState<string>('');
@@ -59,28 +55,6 @@ function SubListsDetails ({ className = '', onClear, outcome: { from, output, wh
               },
         []
       )
-
-
-    function hextoHuman(_hexIn: string): string {
-      return((isHex(_hexIn))? t(hexToString(_hexIn).trim()): '')
-    }
-    
-    function ListAccount(): JSX.Element {
-      return(
-          <div>
-            <Table>
-              <Table.Row>
-              <Table.Cell>
-              <Button
-                  icon='times'
-                  label={t(' Close ')}
-                  onClick={onClear}
-                />
-              </Table.Cell>
-              </Table.Row>
-            </Table>
-          </div>
-      )}  
       
 function GetLists(): JSX.Element {
       try {
@@ -88,30 +62,21 @@ function GetLists(): JSX.Element {
         return(
           <div>
           <Table stretch>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell>
-                {t(' Total Number of Lists: ')} {listCount} {' '}    
-              </Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-
           <Table.Row>
             <Table.Cell verticalAlign='top'>
-            <h3><LabelHelp help={t(' Your Lists ')} />
-                <strong>{t('Your Lists: ')}</strong></h3> 
+            <h3><Button isCircular onClick={noop} icon='address-card'/>{t_strong(' Your Subscribed Lists ')}{' '}{t(' Total Lists: ')}{' '}
+            {numBlueButton(listCount)}
+            {' '}</h3> 
                 {subDetail.ok.length>0 &&  
                   subDetail.ok.map((_lists, index: number)=> <>
-                  <h2><strong>{'@'}{hextoHuman(_lists.listName)}</strong>
-                  {' ('}<AccountName value={_lists.owner} withSidebar={true}/>{') '}                      
-                  </h2>
-                  <strong>{t('List ID: ')}</strong>{}
-                  {_lists.listId}{' '}
-                  <CopyInline value={_lists.listId} label={''} />
-                  <br />
-                  <strong>{t('Description: ')}</strong>{}
-                  {hextoHuman(_lists.description)}<br />
-                  <br />
+
+                  <Message floating content>
+                  <h3><strong>{'@'}{hexToHuman(_lists.listName)}</strong></h3>
+                  {t_strong('List Owner: ')}{accountIdentity(_lists.owner)}
+                  {t_strong('List ID: ')}{idToShort(_lists.listId)}<br />
+                  {t_strong('Description: ')}{hexToHuman(_lists.description)}<br />
+                  </Message>
+
                 {setListCount(index+1)}
                 <Label color='orange' as='a'
                        onClick={()=>{<>
@@ -133,7 +98,7 @@ function GetLists(): JSX.Element {
       console.log(e);
       return(
         <div>
-          <Card>{t('No Data in your Lists')}</Card>
+          <Card>{t('No Data in your Subscribed Lists')}</Card>
         </div>
       )
     }
@@ -146,8 +111,7 @@ function GetLists(): JSX.Element {
     <AccountHeader 
             fromAcct={from} 
             timeDate={when} 
-            callFrom={2}/>
-      <ListAccount />
+            callFrom={310}/>
         {isUnsubscribe && (<>
         <CallSendMessage
                 callIndex={20}

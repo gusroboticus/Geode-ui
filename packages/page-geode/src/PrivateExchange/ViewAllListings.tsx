@@ -27,7 +27,6 @@ type ListingObj = {
   inventory: number,
   country: string,
   city: string,
-  notes: string,
   hide: boolean,
 }
 
@@ -60,7 +59,6 @@ function ViewAllListings ({ className = '', outcome: { output } }: Props): React
                 hexToString(obj.city).toLowerCase().includes(searchString.toLowerCase())
                 || hexToString(obj.country).toLowerCase().includes(searchString.toLowerCase())
                 || hexToString(obj.method).toLowerCase().includes(searchString.toLowerCase())
-                || hexToString(obj.notes).toLowerCase().includes(searchString.toLowerCase())
                 || obj.seller.includes(searchString)
                 || hexToString(obj.offerCoin).toLowerCase().includes(searchString.toLowerCase())
                 || hexToString(obj.askingCoin).toLowerCase().includes(searchString.toLowerCase())
@@ -85,7 +83,6 @@ function ViewAllListings ({ className = '', outcome: { output } }: Props): React
                                               {t_strong('Price: ')}{BNtoGeode(_out.price)}<br />
                                               {t_strong('Available: ')}{BNtoGeode(_out.inventory)}<br />
                                               {t_strong('Method: ')}{hexToHuman(_out.method)}<br />
-                                              {t_strong('Notes: ')}{hexToHuman(_out.notes)}<br />
                                               {t_strong('Hidden: ')}{boolToHuman(_out.hide)}<br />
                                               </Grid.Column>
                                           </Grid>

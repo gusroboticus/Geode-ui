@@ -5,13 +5,13 @@
 import React, { useState, useCallback } from 'react';
 import { useTranslation } from '../shared/translate.js';
 import type { CallResult } from '../shared/types.js';
-import { stringify, hexToString, isHex } from '@polkadot/util';
-import { styled, Expander, Button, AccountName, LabelHelp, IdentityIcon, Card } from '@polkadot/react-components';
-import { Table, Label } from 'semantic-ui-react'
-import CopyInline from '../shared/CopyInline.js';
+import { stringify } from '@polkadot/util';
+import { styled, Expander, Button, Card } from '@polkadot/react-components';
+import { Message, Table, Label } from 'semantic-ui-react'
 import AccountHeader from '../shared/AccountHeader.js';
 import { useToggle } from '@polkadot/react-hooks';
 import CallSendMessage from './CallSendMessage.js';
+import { numBlueButton, numGreyButton, listName, hexToHuman, booltoPublic, idToShort, accountIdentity } from './MsgUtil.js';
 
 interface Props {
     className?: string;
@@ -24,22 +24,20 @@ interface Props {
     groupName: string,
     hideFromSearch: boolean,
     description: string,
-    groupAccounts: string[]
+    groupAccounts: string[],
+    subscribers: number
   }
 
   type ListsDetail = {
   ok: GroupObj[]
   }
   
-function MyGroupsDetails ({ className = '', onClear, 
-                            outcome: { from, output, when } }: 
-                            Props): React.ReactElement<Props> | null {
-    //todo: code for unused params or remove!:
-    // console.log(JSON.stringify(message));
-    // console.log(JSON.stringify(params));
-    // console.log(JSON.stringify(result));
+function MyGroupsDetails ({ className = '', outcome: { from, output, when } }: Props): React.ReactElement<Props> | null {
 
     const { t } = useTranslation();
+    function t_strong(_str: string): JSX.Element{return(<><strong>{t(_str)}</strong></>)}
+    function noop (): void {// do nothing
+    }
 
     const objOutput: string = stringify(output);
     const _Obj = JSON.parse(objOutput);
@@ -102,15 +100,6 @@ function MyGroupsDetails ({ className = '', onClear,
         []
       )
 
-
-    function hextoHuman(_hexIn: string): string {
-      return((isHex(_hexIn))? t(hexToString(_hexIn).trim()): '')
-    }
-    
-    function booltoPrivate(_bool: boolean): string {
-      return(_bool? t('Private'): t('Public'))
-    }
-
     function ListAccount(): JSX.Element {
       return(
           <div>
@@ -118,16 +107,9 @@ function MyGroupsDetails ({ className = '', onClear,
               <Table.Row>
               <Table.Cell>
               <Button
-                  icon='times'
-                  label={t(' Close ')}
-                  onClick={onClear}
-                />
-              <Button
                   icon={isMake? 'minus': 'plus'}
                   label={t(' Make a Group')}
-                  onClick={()=> {<>{toggleMake()}
-                                   {_reset()}
-                                   </>}}
+                  onClick={()=> {<>{toggleMake()}{_reset()}</>}}
                 />
               </Table.Cell>
               </Table.Row>
@@ -141,42 +123,34 @@ function GetGroups(): JSX.Element {
         return(
           <div>
           <Table stretch>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell>
-                {t(' Total Groups: ')} {groupCount}               
-              </Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-
           <Table.Row>
             <Table.Cell verticalAlign='top'>
-            <h3><LabelHelp help={t(' Your Groups ')} />
-                <strong>{t('Your Groups: ')}</strong></h3> 
-                
+            <h3><Button isCircular onClick={noop} icon='calendar-check'/>{t_strong(' Your Groups: ')}{' '}{t(' Total Number of Groups: ')}{' '}
+            {numBlueButton(groupCount)}
+            {' '}</h3> 
                 {groupsDetail.ok.length>0 &&  
                   groupsDetail.ok.map((_groups, index: number)=> <>
-                  <h2><strong>{'@'}{hextoHuman(_groups.groupName)}</strong>                    
-                  </h2>
-                  <strong>{t('Group ID: ')}</strong>{}
-                  {_groups.groupId}{' '}
-                  <CopyInline value={_groups.groupId} label={''}/><br />
-                  <strong>{t('Description: ')}</strong>{}
-                  {hextoHuman(_groups.description)}<br />
-                  <strong>{t('Group Type: ')}</strong>
-                  {booltoPrivate(_groups.hideFromSearch)}
-                  <br /><br />
-                <Expander 
-                    className='listAccounts'
-                    isOpen={false}
-                    summary={<Label size={'small'} color='orange' circular> {'Accounts'}</Label>}>
-                    {_groups.groupAccounts.length>0  &&
-                       _groups.groupAccounts.map(_groupAccounts => <>
-                       {_groupAccounts}
-                       <IdentityIcon value={_groupAccounts} />
-                       {' ('}<AccountName value={_groupAccounts} withSidebar={true}/>{') '}
-                    </>)}
-                </Expander><br /><br />
+                  <h3>{listName(_groups.groupName)}</h3>
+                    <Message floating content>
+                      {t_strong('Group ID: ')}
+                      {idToShort(_groups.groupId)}{' '}<br />
+                      {t_strong('Description: ')}
+                      {hexToHuman(_groups.description)}<br />
+                      {t_strong('Group Type: ')}
+                      {booltoPublic(_groups.hideFromSearch)}<br />
+                      {t_strong('Number of Subscribers: ')}
+                      {numGreyButton(_groups.subscribers)}
+                      <br /><br />
+                    <Expander 
+                        className='listAccounts'
+                        isOpen={false}
+                        summary={<Label size={'small'} color='orange' circular> {'Accounts'}</Label>}>
+                        {_groups.groupAccounts.length>0  &&
+                          _groups.groupAccounts.map(_groupAccounts => <>
+                          {accountIdentity(_groupAccounts)}
+                        </>)}
+                    </Expander>
+                    </Message>
                 {setGroupCount(index+1)}
                 <Label color='orange' as='a'
                 onClick={()=>{<>
@@ -233,7 +207,7 @@ function GetGroups(): JSX.Element {
     <AccountHeader 
             fromAcct={from} 
             timeDate={when} 
-            callFrom={2}/>
+            callFrom={36}/>
       <ListAccount />
       {!isSendGroup && !isDeleteSent && !isUpdateGroup && !isleaveGroup && isMake && (<>
         <CallSendMessage

@@ -19,6 +19,7 @@ import Params from '../shared/Params.js';
 import { useTranslation } from '../shared/translate.js';
 import useWeight from '../useWeight.js';
 import { getCallMessageOptions } from '../shared/util.js';
+import { t_strong, accountIdentity } from './ReportingUtil.js';
 
 interface Props {
   className?: string;
@@ -148,7 +149,6 @@ function CallModal ({ className = '', removeAccountID,
         
         {isShow && (<>
           <InputAddress
-          //help={t('A deployed contract that has either been deployed or attached. The address and ABI are used to construct the parameters.')}
           isDisabled
           label={t('contract to use')}
           type='contract'
@@ -158,7 +158,6 @@ function CallModal ({ className = '', removeAccountID,
         <br /><strong>{t('Account to Use: ')}</strong><br />
         <InputAddress
           defaultValue={accountId}
-          //help={t('Specify the user account to use for this contract call. And fees will be deducted from this account.')}
           label={t('call from account')}
           labelExtra={
             <Available
@@ -175,7 +174,6 @@ function CallModal ({ className = '', removeAccountID,
             {isShow && (<>
               <Dropdown
               defaultValue={messageIndex}
-              //help={t('The message to send to this contract. Parameters are adjusted based on the ABI provided.')}
               isError={message === null}
               label={t('message to send')}
               onChange={onChangeMessage}
@@ -202,12 +200,12 @@ function CallModal ({ className = '', removeAccountID,
         )}
 
         {/* custom modal for this contract message... */}
-        {(messageIndex===3 || messageIndex===5) && (<>
+        {(messageIndex===3) && (<>
           <br /><br />        
-          <strong>{t('Account To Be Removed: ')}</strong>
-          {params[0] = removeAccountID}
-        </>)}
+          {t_strong('Account To Be Removed: ')}<br />
+          {accountIdentity(removeAccountID? params[0] = removeAccountID:'')}
 
+        </>)}
 
         {message.isPayable && (
           <InputBalance

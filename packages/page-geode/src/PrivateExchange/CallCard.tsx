@@ -23,6 +23,7 @@ import useWeight from '../useWeight.js';
 import ViewAllListings from './ViewAllListings.js';
 import ViewMyListings from './ViewMyListings.js';
 import { getCallMessageOptions } from './util.js';
+import { MAX_LISTINGS, MAX_OFFER_COIN, MAX_ASK_COIN, MAX_PAIR, MAX_METHOD, MAX_COUNTRY, MAX_CITY } from './ExchangeConst.js'
 
 interface Props {
   className?: string;
@@ -53,10 +54,16 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
   const dbValue = useDebounce(value);
   const dbParams = useDebounce(params);
   const [isCalled, toggleIsCalled] = useToggle(false);
+  const [isSaved, setSaved] = useState(false);
 
-  const [formPrice, setFormPrice] = useState<string>();
-  const [formInventory, setFormInventory] = useState<string>();
-  
+  const [formOffer, setFormOffer] = useState<string>('');
+  const [formAsk, setFormAsk] = useState<string>('');
+  const [formPrice, setFormPrice] = useState<string>('');
+  const [formInventory, setFormInventory] = useState<string>('');
+  const [formMethod, setFormMethod] = useState<string>('');
+  const [formCountry, setFormCountry] = useState<string>('');
+  const [formCity, setFormCity] = useState<string>('');
+
   const isTest: boolean = false;
   //const isTestData: boolean = false; //takes out code elements we only see for test
 
@@ -163,8 +170,14 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
           />
         )}
         {messageIndex !== null && messageIndex===0 && (
-          <><br /><br />
-          <Badge color='blue' icon='i'/>
+          <>
+          <br />
+          {t_strong(' PLEASE NOTE: ')} 
+          <br />{' 🔘 '}{t_strong(' Users looking to trade coin will only see the 58 most recently listed pairs, and the 5 best-priced listings per pair. Please price your listing to be competitive.')}
+          <br />{' 🔘 '}{t(' All listings are saved to the Chain but may not be shown. ')}
+          <br />{' 🔘 '}{t(' Each account can have a maximum of ')}{MAX_LISTINGS}{t(' listings.')}
+          <br /><br />
+          <Badge color='blue' icon='1'/>
           {t('Select which of your Accounts is making this listing:')}
           </>)}
         {!isCalled && (
@@ -216,42 +229,47 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
         {messageIndex=== 0 && (
               <>
               <Container>
-                    <Badge color='blue' icon='i'/>
+                    <Badge color='blue' icon='2'/>
                     {t('Please fill out the details for your listing:')}
                     <br /><br />
 
-                    {t_strong('What coin are you offering?')}
-                    <Input label='' type="text" 
-                            value={params[0]}
+                    {t_strong('What coin are you offering? ')}{t('(Max Character length is ')}{MAX_OFFER_COIN}{')'}
+                    <Input label={formOffer? params[0] = formOffer: ''} type="text" 
+                            value={formOffer}
                             onChange={(e)=>{
-                              params[0]=e.target.value;
+                              params[0]=e.target.value.slice(0,MAX_OFFER_COIN);
+                              setFormOffer(e.target.value.slice(0,MAX_OFFER_COIN));
                               setParams([...params]);
                             }}
                     ><input /></Input>
 
-                    {t_strong('What coin or currency are you asking for?')}
-                    <Input label='' type="text" 
-                            value={params[1]}
+                    {t_strong('What coin or currency are you asking for? ')}{t('(Max Character length is ')}{MAX_ASK_COIN}{')'}
+                    <Input label={formAsk? params[1] = formAsk: ''} type="text" 
+                            value={formAsk}
                             onChange={(e)=>{
-                              params[1]=e.target.value;
+                              params[1]=e.target.value.slice(0,MAX_ASK_COIN);
+                              setFormAsk(e.target.value.slice(0,MAX_ASK_COIN));
                               setParams([...params]);
                             }}
                     ><input /></Input>
 
-                    {t_strong('Price per asking coin')}
+                    {t_strong('Price per asking coin')}{t('(Max Character length is ')}{MAX_PAIR}{')'}
                     <Input label={formPrice? params[2] = GeodeToZeo(formPrice) : '0'} type="text"
                         value={formPrice}
                         onChange={(e) => {
-                          setFormPrice(e.target.value);
+                          params[2]=e.target.value.slice(0,MAX_PAIR);
+                          setFormPrice(e.target.value.slice(0,MAX_PAIR));
+                          setParams([...params]);
                         }}
                       ><input />
                     </Input>
 
-                    {t_strong('Method: Instructions for how buyers can find you, communicate with you and buy coin')}
-                    <Input label='' type="text" 
-                            value={params[3]}
+                    {t_strong('Method: Instructions for how buyers can find you, communicate with you and buy coin')}{t('(Max Character length is ')}{MAX_METHOD}{')'}
+                    <Input label={formMethod? params[3] = formMethod: ''} type="text" 
+                            value={formMethod}
                             onChange={(e)=>{
-                              params[3]=e.target.value;
+                              params[3]=e.target.value.slice(0,MAX_METHOD);
+                              setFormMethod(e.target.value.slice(0,MAX_METHOD))
                               setParams([...params]);
                             }}
                     ><input /></Input>
@@ -260,40 +278,35 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
                     <Input label={formInventory? params[4] = GeodeToZeo(formInventory) : '0'} type="text"
                         value={formInventory}
                         onChange={(e) => {
+                          params[4]=e.target.value;
                           setFormInventory(e.target.value);
+                          setParams([...params]);
                         }}
                       ><input />
                     </Input>
 
-                    {t_strong('What country do you live in? (for local in person sales)')}
-                    <Input label='' type="text" 
-                            value={params[5]}
+                    {t_strong('What country do you live in? (for local in person sales)')}{t('(Max Character length is ')}{MAX_COUNTRY}{')'}
+                    <Input label={formCountry? params[5] = formCountry : ''} type="text" 
+                            value={formCountry}
                             onChange={(e)=>{
-                              params[5]=e.target.value;
+                              params[5]=e.target.value.slice(0,MAX_COUNTRY);
+                              setFormCountry(e.target.value.slice(0,MAX_COUNTRY));
                               setParams([...params]);
                             }}
                     ><input /></Input>
 
-                    {t_strong('What city do you live in? (for local in person sales)')}
-                    <Input label='' type="text" 
-                            value={params[6]}
+                    {t_strong('What city do you live in? (for local in person sales)')}{t('(Max Character length is ')}{MAX_CITY}{')'}
+                    <Input label={formCity? params[6] = formCity: ''} type="text" 
+                            value={formCity}
                             onChange={(e)=>{
-                              params[6]=e.target.value;
+                              params[6]=e.target.value.slice(0,MAX_CITY);
+                              setFormCity(e.target.value.slice(0,MAX_CITY));
                               setParams([...params]);
                             }}
                     ><input /></Input>
 
-                    {t_strong('Notes: What else should buyers know?')}
-                    <Input label='' type="text" 
-                            value={params[7]}
-                            onChange={(e)=>{
-                              params[7]=e.target.value;
-                              setParams([...params]);
-                            }}
-                    ><input /></Input>
               </Container>
           </>)}
-
 
         {message.isPayable && (
           <InputBalance
@@ -344,14 +357,26 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
             />
           )
           : (
+            <div>
+            <Button
+              icon='sign-in-alt'
+              isDisabled={formPrice==='' && formInventory==='' &&
+                          formMethod==='' && formCountry==='' &&
+                          formOffer==='' && formCity==='' && formAsk===''}
+              label={t('Save')}
+              onClick={()=>{setSaved(true);
+                          setParams([...params]);
+                      }} 
+            />
             <TxButton
               accountId={accountId}
               extrinsic={execTx}
               icon='sign-in-alt'
-              isDisabled={!isValid || !execTx}
+              isDisabled={!isValid || !execTx || !isSaved}
               label={t('Submit')}
               onStart={onClose}
             />
+            </div>
           )
         }
         </Card>

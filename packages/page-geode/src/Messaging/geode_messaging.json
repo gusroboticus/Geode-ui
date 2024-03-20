@@ -1,12 +1,12 @@
 {
   "source": {
-    "hash": "0x5e8e1bf473b4cbbc91bb2981512fcb9ef9b87f93b8738085033a63f68dc8d42e",
-    "language": "ink! 4.2.0",
-    "compiler": "rustc 1.70.0-nightly",
+    "hash": "0xad86b398c545ecedc7392c95a3a1d3ebed83452cb56a39c8e4350da0a4a23fb6",
+    "language": "ink! 5.0.0",
+    "compiler": "rustc 1.76.0",
     "build_info": {
       "build_mode": "Release",
-      "cargo_contract_version": "2.0.1",
-      "rust_toolchain": "nightly-aarch64-apple-darwin",
+      "cargo_contract_version": "4.0.0-rc.2",
+      "rust_toolchain": "stable-aarch64-apple-darwin",
       "wasm_opt_settings": {
         "keep_debug_symbols": false,
         "optimization_passes": "Z"
@@ -15,12 +15,13 @@
   },
   "contract": {
     "name": "geode_messaging",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "authors": [
       "Dr. Amy Messegee <support@blockandpurpose.com>"
     ],
     "description": "A public broadcast messaging app."
   },
+  "image": null,
   "spec": {
     "constructors": [
       {
@@ -34,7 +35,7 @@
             "ink_primitives",
             "ConstructorResult"
           ],
-          "type": 11
+          "type": 91
         },
         "selector": "0x9bae9d5e"
       }
@@ -45,47 +46,254 @@
         "displayName": [
           "AccountId"
         ],
-        "type": 2
+        "type": 0
       },
       "balance": {
         "displayName": [
           "Balance"
         ],
-        "type": 5
+        "type": 4
       },
       "blockNumber": {
         "displayName": [
           "BlockNumber"
         ],
-        "type": 64
+        "type": 80
       },
       "chainExtension": {
         "displayName": [
           "ChainExtension"
         ],
-        "type": 65
+        "type": 129
       },
       "hash": {
         "displayName": [
           "Hash"
         ],
-        "type": 10
+        "type": 22
       },
       "maxEventTopics": 4,
+      "staticBufferSize": 892000,
       "timestamp": {
         "displayName": [
           "Timestamp"
         ],
-        "type": 7
+        "type": 6
       }
     },
-    "events": [],
+    "events": [
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "from",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 0
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "username",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 3
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "interests",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 3
+            }
+          },
+          {
+            "docs": [],
+            "indexed": false,
+            "label": "inbox_fee",
+            "type": {
+              "displayName": [
+                "Balance"
+              ],
+              "type": 4
+            }
+          }
+        ],
+        "docs": [],
+        "label": "SettingsUpdated",
+        "module_path": "geode_messaging::geode_messaging",
+        "signature_topic": "0x4a773417232019ae0f05ddbc5ef00b5ac4f7ded983f19b4fb81659ea33bd6778"
+      },
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "from",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 0
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "group_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 22
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "group_name",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 3
+            }
+          },
+          {
+            "docs": [],
+            "indexed": false,
+            "label": "description",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 3
+            }
+          }
+        ],
+        "docs": [],
+        "label": "NewPublicGroup",
+        "module_path": "geode_messaging::geode_messaging",
+        "signature_topic": "0xd9ee81d5f73e8a94a4660355025e9e1ece8a424fd4ba73882ff665ce4e0a8cb8"
+      },
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "list_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 22
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "owner",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 0
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "list_name",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 3
+            }
+          },
+          {
+            "docs": [],
+            "indexed": false,
+            "label": "description",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 3
+            }
+          }
+        ],
+        "docs": [],
+        "label": "NewPublicList",
+        "module_path": "geode_messaging::geode_messaging",
+        "signature_topic": "0xb4fae6fa6556a478d99c60f01619bddfe62eeb7a9bc2d7e0d81e89b8b77e8dcb"
+      },
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "list_id",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 22
+            }
+          }
+        ],
+        "docs": [],
+        "label": "ListDeleted",
+        "module_path": "geode_messaging::geode_messaging",
+        "signature_topic": "0xd52b81afbd5c2c8a3141cdba6fa679f5bc765b04517577aa25ae1a51a1cb5517"
+      },
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "claimant",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 0
+            }
+          },
+          {
+            "docs": [],
+            "indexed": false,
+            "label": "reward",
+            "type": {
+              "displayName": [
+                "Balance"
+              ],
+              "type": 4
+            }
+          }
+        ],
+        "docs": [],
+        "label": "AccountRewardedMessaging",
+        "module_path": "geode_messaging::geode_messaging",
+        "signature_topic": "0x908ab389772ad4965b2157ad83f36b0649e92ee6ce2f2a2180795557e18c88a2"
+      }
+    ],
     "lang_error": {
       "displayName": [
         "ink",
         "LangError"
       ],
-      "type": 12
+      "type": 92
     },
     "messages": [
       {
@@ -96,7 +304,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 4
+              "type": 3
             }
           },
           {
@@ -105,7 +313,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 4
+              "type": 3
             }
           },
           {
@@ -114,7 +322,7 @@
               "displayName": [
                 "Balance"
               ],
-              "type": 5
+              "type": 4
             }
           },
           {
@@ -123,7 +331,7 @@
               "displayName": [
                 "bool"
               ],
-              "type": 6
+              "type": 5
             }
           }
         ],
@@ -137,7 +345,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 13
+          "type": 93
         },
         "selector": "0x3b402e8e"
       },
@@ -149,7 +357,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "type": 2
+              "type": 0
             }
           },
           {
@@ -158,7 +366,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 4
+              "type": 3
             }
           },
           {
@@ -167,7 +375,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 4
+              "type": 3
             }
           }
         ],
@@ -181,7 +389,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 13
+          "type": 93
         },
         "selector": "0x956ab1e1"
       },
@@ -193,7 +401,7 @@
               "displayName": [
                 "Hash"
               ],
-              "type": 10
+              "type": 22
             }
           },
           {
@@ -202,7 +410,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 4
+              "type": 3
             }
           },
           {
@@ -211,7 +419,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 4
+              "type": 3
             }
           }
         ],
@@ -225,7 +433,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 13
+          "type": 93
         },
         "selector": "0x2e5257ac"
       },
@@ -235,9 +443,9 @@
             "label": "allow",
             "type": {
               "displayName": [
-                "AccountId"
+                "Vec"
               ],
-              "type": 2
+              "type": 13
             }
           }
         ],
@@ -251,7 +459,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 13
+          "type": 93
         },
         "selector": "0x815c22c2"
       },
@@ -263,7 +471,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "type": 2
+              "type": 0
             }
           }
         ],
@@ -277,7 +485,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 13
+          "type": 93
         },
         "selector": "0xbb8bad9e"
       },
@@ -289,7 +497,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "type": 2
+              "type": 0
             }
           }
         ],
@@ -303,7 +511,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 13
+          "type": 93
         },
         "selector": "0x2a741837"
       },
@@ -315,7 +523,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "type": 2
+              "type": 0
             }
           }
         ],
@@ -329,7 +537,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 13
+          "type": 93
         },
         "selector": "0x0e3ab36b"
       },
@@ -341,7 +549,7 @@
               "displayName": [
                 "Hash"
               ],
-              "type": 10
+              "type": 22
             }
           }
         ],
@@ -355,7 +563,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 13
+          "type": 93
         },
         "selector": "0x341c9981"
       },
@@ -367,7 +575,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "type": 2
+              "type": 0
             }
           }
         ],
@@ -381,7 +589,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 13
+          "type": 93
         },
         "selector": "0xf3dbe8b7"
       },
@@ -393,7 +601,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 4
+              "type": 3
             }
           },
           {
@@ -402,7 +610,7 @@
               "displayName": [
                 "bool"
               ],
-              "type": 6
+              "type": 5
             }
           },
           {
@@ -411,7 +619,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 4
+              "type": 3
             }
           },
           {
@@ -420,7 +628,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 4
+              "type": 3
             }
           },
           {
@@ -429,7 +637,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 4
+              "type": 3
             }
           }
         ],
@@ -443,7 +651,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 13
+          "type": 93
         },
         "selector": "0xd3bd0c1b"
       },
@@ -455,7 +663,7 @@
               "displayName": [
                 "Hash"
               ],
-              "type": 10
+              "type": 22
             }
           }
         ],
@@ -469,7 +677,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 13
+          "type": 93
         },
         "selector": "0xcd8f5bdc"
       },
@@ -481,7 +689,7 @@
               "displayName": [
                 "Hash"
               ],
-              "type": 10
+              "type": 22
             }
           }
         ],
@@ -495,7 +703,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 13
+          "type": 93
         },
         "selector": "0x190719ec"
       },
@@ -507,7 +715,7 @@
               "displayName": [
                 "Hash"
               ],
-              "type": 10
+              "type": 22
             }
           }
         ],
@@ -521,7 +729,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 13
+          "type": 93
         },
         "selector": "0x2fcbf992"
       },
@@ -533,7 +741,7 @@
               "displayName": [
                 "Hash"
               ],
-              "type": 10
+              "type": 22
             }
           }
         ],
@@ -547,7 +755,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 13
+          "type": 93
         },
         "selector": "0xf404a4bc"
       },
@@ -559,16 +767,7 @@
               "displayName": [
                 "Hash"
               ],
-              "type": 10
-            }
-          },
-          {
-            "label": "group_name",
-            "type": {
-              "displayName": [
-                "Vec"
-              ],
-              "type": 4
+              "type": 22
             }
           },
           {
@@ -577,7 +776,7 @@
               "displayName": [
                 "bool"
               ],
-              "type": 6
+              "type": 5
             }
           },
           {
@@ -586,7 +785,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 4
+              "type": 3
             }
           }
         ],
@@ -600,7 +799,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 13
+          "type": 93
         },
         "selector": "0x3d8e082c"
       },
@@ -612,7 +811,7 @@
               "displayName": [
                 "Hash"
               ],
-              "type": 10
+              "type": 22
             }
           },
           {
@@ -621,7 +820,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 4
+              "type": 3
             }
           },
           {
@@ -630,7 +829,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 4
+              "type": 3
             }
           }
         ],
@@ -644,7 +843,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 13
+          "type": 93
         },
         "selector": "0x24481420"
       },
@@ -656,7 +855,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 4
+              "type": 3
             }
           },
           {
@@ -665,7 +864,7 @@
               "displayName": [
                 "bool"
               ],
-              "type": 6
+              "type": 5
             }
           },
           {
@@ -674,7 +873,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 4
+              "type": 3
             }
           }
         ],
@@ -688,7 +887,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 13
+          "type": 93
         },
         "selector": "0xbf846cd7"
       },
@@ -700,7 +899,7 @@
               "displayName": [
                 "Hash"
               ],
-              "type": 10
+              "type": 22
             }
           }
         ],
@@ -714,7 +913,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 13
+          "type": 93
         },
         "selector": "0x13e05bf6"
       },
@@ -726,7 +925,7 @@
               "displayName": [
                 "Hash"
               ],
-              "type": 10
+              "type": 22
             }
           }
         ],
@@ -740,7 +939,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 13
+          "type": 93
         },
         "selector": "0xd9c67492"
       },
@@ -752,7 +951,7 @@
               "displayName": [
                 "Hash"
               ],
-              "type": 10
+              "type": 22
             }
           }
         ],
@@ -766,7 +965,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 13
+          "type": 93
         },
         "selector": "0x2b95d4c7"
       },
@@ -778,7 +977,7 @@
               "displayName": [
                 "Hash"
               ],
-              "type": 10
+              "type": 22
             }
           }
         ],
@@ -792,19 +991,19 @@
             "ink",
             "MessageResult"
           ],
-          "type": 13
+          "type": 93
         },
         "selector": "0xe7398aa8"
       },
       {
         "args": [
           {
-            "label": "to_list_id",
+            "label": "to_account",
             "type": {
               "displayName": [
-                "Hash"
+                "AccountId"
               ],
-              "type": 10
+              "type": 0
             }
           },
           {
@@ -813,7 +1012,7 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 4
+              "type": 3
             }
           },
           {
@@ -822,13 +1021,13 @@
               "displayName": [
                 "Vec"
               ],
-              "type": 4
+              "type": 3
             }
           }
         ],
         "default": false,
         "docs": [],
-        "label": "send_message_to_paid_list",
+        "label": "send_paid_message",
         "mutates": true,
         "payable": true,
         "returnType": {
@@ -836,131 +1035,9 @@
             "ink",
             "MessageResult"
           ],
-          "type": 13
+          "type": 93
         },
-        "selector": "0x6e2f49eb"
-      },
-      {
-        "args": [
-          {
-            "label": "new_list_name",
-            "type": {
-              "displayName": [
-                "Vec"
-              ],
-              "type": 4
-            }
-          },
-          {
-            "label": "description",
-            "type": {
-              "displayName": [
-                "Vec"
-              ],
-              "type": 4
-            }
-          },
-          {
-            "label": "initial_accounts",
-            "type": {
-              "displayName": [
-                "Vec"
-              ],
-              "type": 8
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "make_a_new_paid_list",
-        "mutates": true,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 13
-        },
-        "selector": "0x08497bc1"
-      },
-      {
-        "args": [
-          {
-            "label": "delete_this_list",
-            "type": {
-              "displayName": [
-                "Hash"
-              ],
-              "type": 10
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "delete_paid_list",
-        "mutates": true,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 13
-        },
-        "selector": "0x94dcf32f"
-      },
-      {
-        "args": [
-          {
-            "label": "list_id_to_block",
-            "type": {
-              "displayName": [
-                "Hash"
-              ],
-              "type": 10
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "block_paid_list",
-        "mutates": true,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 13
-        },
-        "selector": "0x06a1ef8f"
-      },
-      {
-        "args": [
-          {
-            "label": "list_id_to_unblock",
-            "type": {
-              "displayName": [
-                "Hash"
-              ],
-              "type": 10
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "unblock_paid_list",
-        "mutates": true,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 13
-        },
-        "selector": "0xfec6a075"
+        "selector": "0x788dd537"
       },
       {
         "args": [],
@@ -974,7 +1051,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 17
+          "type": 96
         },
         "selector": "0x11ebd854"
       },
@@ -983,14 +1060,14 @@
         "default": false,
         "docs": [],
         "label": "get_my_paid_inbox",
-        "mutates": false,
+        "mutates": true,
         "payable": false,
         "returnType": {
           "displayName": [
             "ink",
             "MessageResult"
           ],
-          "type": 27
+          "type": 100
         },
         "selector": "0xaf28aaa7"
       },
@@ -1006,7 +1083,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 29
+          "type": 103
         },
         "selector": "0x44adb30d"
       },
@@ -1022,71 +1099,37 @@
             "ink",
             "MessageResult"
           ],
-          "type": 31
+          "type": 105
         },
         "selector": "0x7cbd285a"
       },
       {
         "args": [
           {
-            "label": "keywords",
+            "label": "keywords1",
             "type": {
               "displayName": [
                 "Vec"
               ],
-              "type": 4
+              "type": 3
             }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "search_inbox_by_keyword",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 34
-        },
-        "selector": "0x609a495c"
-      },
-      {
-        "args": [
+          },
           {
-            "label": "find_account",
-            "type": {
-              "displayName": [
-                "AccountId"
-              ],
-              "type": 2
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "search_inbox_by_account",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 36
-        },
-        "selector": "0xbcac634c"
-      },
-      {
-        "args": [
-          {
-            "label": "keywords",
+            "label": "keywords2",
             "type": {
               "displayName": [
                 "Vec"
               ],
-              "type": 4
+              "type": 3
+            }
+          },
+          {
+            "label": "keywords3",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 3
             }
           }
         ],
@@ -1100,7 +1143,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 38
+          "type": 107
         },
         "selector": "0x48781f1e"
       },
@@ -1116,25 +1159,9 @@
             "ink",
             "MessageResult"
           ],
-          "type": 42
+          "type": 112
         },
         "selector": "0x26e82c0b"
-      },
-      {
-        "args": [],
-        "default": false,
-        "docs": [],
-        "label": "get_my_paid_lists",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 45
-        },
-        "selector": "0x57efc041"
       },
       {
         "args": [],
@@ -1148,19 +1175,37 @@
             "ink",
             "MessageResult"
           ],
-          "type": 48
+          "type": 114
         },
         "selector": "0xb8ce21b4"
       },
       {
         "args": [
           {
-            "label": "keywords",
+            "label": "keywords1",
             "type": {
               "displayName": [
                 "Vec"
               ],
-              "type": 4
+              "type": 3
+            }
+          },
+          {
+            "label": "keywords2",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 3
+            }
+          },
+          {
+            "label": "keywords3",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 3
             }
           }
         ],
@@ -1174,17 +1219,145 @@
             "ink",
             "MessageResult"
           ],
-          "type": 51
+          "type": 117
         },
         "selector": "0xe203ec98"
       },
       {
         "args": [
           {
-            "label": "keywords",
+            "label": "get_settings_for",
             "type": {
               "displayName": [
-                "Vec"
+                "AccountId"
+              ],
+              "type": 0
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "get_account_settings_data",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 119
+        },
+        "selector": "0x64a815d7"
+      },
+      {
+        "args": [
+          {
+            "label": "verify",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 0
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "verify_account",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 120
+        },
+        "selector": "0x9e777ece"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "get_my_inbox_lists",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 121
+        },
+        "selector": "0x325f8fd4"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "get_my_inbox_groups",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 126
+        },
+        "selector": "0x70c3c724"
+      },
+      {
+        "args": [
+          {
+            "label": "newroot",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 0
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "set_reward_root",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 93
+        },
+        "selector": "0x09b9219a"
+      },
+      {
+        "args": [
+          {
+            "label": "on",
+            "type": {
+              "displayName": [
+                "u8"
+              ],
+              "type": 2
+            }
+          },
+          {
+            "label": "interval",
+            "type": {
+              "displayName": [
+                "u128"
+              ],
+              "type": 4
+            }
+          },
+          {
+            "label": "amount",
+            "type": {
+              "displayName": [
+                "Balance"
               ],
               "type": 4
             }
@@ -1192,39 +1365,55 @@
         ],
         "default": false,
         "docs": [],
-        "label": "find_accounts_by_keyword",
-        "mutates": false,
+        "label": "set_reward",
+        "mutates": true,
         "payable": false,
         "returnType": {
           "displayName": [
             "ink",
             "MessageResult"
           ],
-          "type": 53
+          "type": 93
         },
-        "selector": "0x9d8aca63"
+        "selector": "0x78b4b9c1"
       },
       {
         "args": [],
         "default": false,
         "docs": [],
-        "label": "get_settings_data",
-        "mutates": false,
-        "payable": false,
+        "label": "add_reward_balance",
+        "mutates": true,
+        "payable": true,
         "returnType": {
           "displayName": [
             "ink",
             "MessageResult"
           ],
-          "type": 57
+          "type": 93
         },
-        "selector": "0x34718cb8"
+        "selector": "0xd47b8ae7"
       },
       {
         "args": [],
         "default": false,
         "docs": [],
-        "label": "get_settings_data_caller",
+        "label": "shut_down_reward",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 93
+        },
+        "selector": "0x8c332eba"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "get_reward_settings",
         "mutates": false,
         "payable": false,
         "returnType": {
@@ -1232,9 +1421,9 @@
             "ink",
             "MessageResult"
           ],
-          "type": 62
+          "type": 127
         },
-        "selector": "0x1346e40d"
+        "selector": "0xbff72181"
       }
     ]
   },
@@ -1245,54 +1434,6 @@
           "fields": [
             {
               "layout": {
-                "struct": {
-                  "fields": [
-                    {
-                      "layout": {
-                        "leaf": {
-                          "key": "0x00000000",
-                          "ty": 0
-                        }
-                      },
-                      "name": "status"
-                    },
-                    {
-                      "layout": {
-                        "enum": {
-                          "dispatchKey": "0x00000000",
-                          "name": "Option",
-                          "variants": {
-                            "0": {
-                              "fields": [],
-                              "name": "None"
-                            },
-                            "1": {
-                              "fields": [
-                                {
-                                  "layout": {
-                                    "leaf": {
-                                      "key": "0x00000000",
-                                      "ty": 1
-                                    }
-                                  },
-                                  "name": "0"
-                                }
-                              ],
-                              "name": "Some"
-                            }
-                          }
-                        }
-                      },
-                      "name": "_reserved"
-                    }
-                  ],
-                  "name": "Data"
-                }
-              },
-              "name": "guard"
-            },
-            {
-              "layout": {
                 "root": {
                   "layout": {
                     "struct": {
@@ -1300,8 +1441,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x9db0d447",
-                              "ty": 2
+                              "key": "0x47d4b09d",
+                              "ty": 0
                             }
                           },
                           "name": "user_account"
@@ -1309,8 +1450,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x9db0d447",
-                              "ty": 4
+                              "key": "0x47d4b09d",
+                              "ty": 3
                             }
                           },
                           "name": "username"
@@ -1318,8 +1459,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x9db0d447",
-                              "ty": 4
+                              "key": "0x47d4b09d",
+                              "ty": 3
                             }
                           },
                           "name": "interests"
@@ -1327,8 +1468,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x9db0d447",
-                              "ty": 5
+                              "key": "0x47d4b09d",
+                              "ty": 4
                             }
                           },
                           "name": "inbox_fee"
@@ -1336,8 +1477,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x9db0d447",
-                              "ty": 6
+                              "key": "0x47d4b09d",
+                              "ty": 5
                             }
                           },
                           "name": "hide_from_search"
@@ -1345,8 +1486,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x9db0d447",
-                              "ty": 7
+                              "key": "0x47d4b09d",
+                              "ty": 6
                             }
                           },
                           "name": "last_update"
@@ -1355,7 +1496,8 @@
                       "name": "Settings"
                     }
                   },
-                  "root_key": "0x9db0d447"
+                  "root_key": "0x47d4b09d",
+                  "ty": 7
                 }
               },
               "name": "account_settings"
@@ -1369,8 +1511,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xd36539a6",
-                              "ty": 8
+                              "key": "0xa63965d3",
+                              "ty": 13
                             }
                           },
                           "name": "accountvector"
@@ -1379,7 +1521,8 @@
                       "name": "AccountVector"
                     }
                   },
-                  "root_key": "0xd36539a6"
+                  "root_key": "0xa63965d3",
+                  "ty": 14
                 }
               },
               "name": "account_allowed"
@@ -1393,8 +1536,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xfafed94f",
-                              "ty": 8
+                              "key": "0x4fd9fefa",
+                              "ty": 13
                             }
                           },
                           "name": "accountvector"
@@ -1403,7 +1546,8 @@
                       "name": "AccountVector"
                     }
                   },
-                  "root_key": "0xfafed94f"
+                  "root_key": "0x4fd9fefa",
+                  "ty": 18
                 }
               },
               "name": "account_blocked_accounts"
@@ -1417,8 +1561,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xcfae7571",
-                              "ty": 9
+                              "key": "0x7175aecf",
+                              "ty": 21
                             }
                           },
                           "name": "hashvector"
@@ -1427,7 +1571,8 @@
                       "name": "HashVector"
                     }
                   },
-                  "root_key": "0xcfae7571"
+                  "root_key": "0x7175aecf",
+                  "ty": 23
                 }
               },
               "name": "account_blocked_lists"
@@ -1441,8 +1586,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x16811590",
-                              "ty": 9
+                              "key": "0x90158116",
+                              "ty": 21
                             }
                           },
                           "name": "hashvector"
@@ -1451,7 +1596,8 @@
                       "name": "HashVector"
                     }
                   },
-                  "root_key": "0x16811590"
+                  "root_key": "0x90158116",
+                  "ty": 27
                 }
               },
               "name": "account_subscribed_groups"
@@ -1465,8 +1611,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x28e91863",
-                              "ty": 9
+                              "key": "0x6318e928",
+                              "ty": 21
                             }
                           },
                           "name": "hashvector"
@@ -1475,7 +1621,8 @@
                       "name": "HashVector"
                     }
                   },
-                  "root_key": "0x28e91863"
+                  "root_key": "0x6318e928",
+                  "ty": 30
                 }
               },
               "name": "account_owned_open_lists"
@@ -1489,8 +1636,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x0f32d689",
-                              "ty": 9
+                              "key": "0x94c50021",
+                              "ty": 21
                             }
                           },
                           "name": "hashvector"
@@ -1499,10 +1646,11 @@
                       "name": "HashVector"
                     }
                   },
-                  "root_key": "0x0f32d689"
+                  "root_key": "0x94c50021",
+                  "ty": 33
                 }
               },
-              "name": "account_owned_paid_lists"
+              "name": "account_paid_inbox"
             },
             {
               "layout": {
@@ -1513,8 +1661,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x3796f5da",
-                              "ty": 9
+                              "key": "0x89823494",
+                              "ty": 21
                             }
                           },
                           "name": "hashvector"
@@ -1523,31 +1671,8 @@
                       "name": "HashVector"
                     }
                   },
-                  "root_key": "0x3796f5da"
-                }
-              },
-              "name": "paid_lists_with_account"
-            },
-            {
-              "layout": {
-                "root": {
-                  "layout": {
-                    "struct": {
-                      "fields": [
-                        {
-                          "layout": {
-                            "leaf": {
-                              "key": "0x94348289",
-                              "ty": 9
-                            }
-                          },
-                          "name": "hashvector"
-                        }
-                      ],
-                      "name": "HashVector"
-                    }
-                  },
-                  "root_key": "0x94348289"
+                  "root_key": "0x89823494",
+                  "ty": 36
                 }
               },
               "name": "account_subscribed_lists"
@@ -1561,8 +1686,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x6c01b1aa",
-                              "ty": 9
+                              "key": "0xaab1016c",
+                              "ty": 21
                             }
                           },
                           "name": "hashvector"
@@ -1571,7 +1696,8 @@
                       "name": "HashVector"
                     }
                   },
-                  "root_key": "0x6c01b1aa"
+                  "root_key": "0xaab1016c",
+                  "ty": 39
                 }
               },
               "name": "sent_messages_to_account"
@@ -1585,8 +1711,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x2732d97a",
-                              "ty": 9
+                              "key": "0x7ad93227",
+                              "ty": 21
                             }
                           },
                           "name": "hashvector"
@@ -1595,7 +1721,8 @@
                       "name": "HashVector"
                     }
                   },
-                  "root_key": "0x2732d97a"
+                  "root_key": "0x7ad93227",
+                  "ty": 43
                 }
               },
               "name": "sent_messages_to_list"
@@ -1609,8 +1736,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x4910749c",
-                              "ty": 9
+                              "key": "0xaad86049",
+                              "ty": 21
                             }
                           },
                           "name": "hashvector"
@@ -1619,31 +1746,8 @@
                       "name": "HashVector"
                     }
                   },
-                  "root_key": "0x4910749c"
-                }
-              },
-              "name": "sent_messages_to_paid_list"
-            },
-            {
-              "layout": {
-                "root": {
-                  "layout": {
-                    "struct": {
-                      "fields": [
-                        {
-                          "layout": {
-                            "leaf": {
-                              "key": "0x4960d8aa",
-                              "ty": 9
-                            }
-                          },
-                          "name": "hashvector"
-                        }
-                      ],
-                      "name": "HashVector"
-                    }
-                  },
-                  "root_key": "0x4960d8aa"
+                  "root_key": "0xaad86049",
+                  "ty": 46
                 }
               },
               "name": "sent_messages_to_group"
@@ -1657,8 +1761,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xb1ea3c59",
-                              "ty": 9
+                              "key": "0x593ceab1",
+                              "ty": 21
                             }
                           },
                           "name": "hashvector"
@@ -1667,7 +1771,8 @@
                       "name": "HashVector"
                     }
                   },
-                  "root_key": "0xb1ea3c59"
+                  "root_key": "0x593ceab1",
+                  "ty": 50
                 }
               },
               "name": "all_messages_to_group"
@@ -1681,8 +1786,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xb2660d46",
-                              "ty": 10
+                              "key": "0x460d66b2",
+                              "ty": 22
                             }
                           },
                           "name": "message_id"
@@ -1690,8 +1795,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xb2660d46",
-                              "ty": 2
+                              "key": "0x460d66b2",
+                              "ty": 0
                             }
                           },
                           "name": "from_acct"
@@ -1699,8 +1804,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xb2660d46",
-                              "ty": 4
+                              "key": "0x460d66b2",
+                              "ty": 3
                             }
                           },
                           "name": "from_username"
@@ -1708,8 +1813,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xb2660d46",
-                              "ty": 2
+                              "key": "0x460d66b2",
+                              "ty": 0
                             }
                           },
                           "name": "to_acct"
@@ -1717,8 +1822,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xb2660d46",
-                              "ty": 4
+                              "key": "0x460d66b2",
+                              "ty": 3
                             }
                           },
                           "name": "message"
@@ -1726,8 +1831,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xb2660d46",
-                              "ty": 4
+                              "key": "0x460d66b2",
+                              "ty": 3
                             }
                           },
                           "name": "file_url"
@@ -1735,8 +1840,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xb2660d46",
-                              "ty": 7
+                              "key": "0x460d66b2",
+                              "ty": 6
                             }
                           },
                           "name": "timestamp"
@@ -1745,7 +1850,8 @@
                       "name": "MessageDetails"
                     }
                   },
-                  "root_key": "0xb2660d46"
+                  "root_key": "0x460d66b2",
+                  "ty": 53
                 }
               },
               "name": "message_details"
@@ -1759,8 +1865,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x8b406896",
-                              "ty": 10
+                              "key": "0x9668408b",
+                              "ty": 22
                             }
                           },
                           "name": "message_id"
@@ -1768,8 +1874,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x8b406896",
-                              "ty": 2
+                              "key": "0x9668408b",
+                              "ty": 0
                             }
                           },
                           "name": "from_acct"
@@ -1777,8 +1883,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x8b406896",
-                              "ty": 4
+                              "key": "0x9668408b",
+                              "ty": 3
                             }
                           },
                           "name": "username"
@@ -1786,8 +1892,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x8b406896",
-                              "ty": 10
+                              "key": "0x9668408b",
+                              "ty": 22
                             }
                           },
                           "name": "to_list_id"
@@ -1795,8 +1901,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x8b406896",
-                              "ty": 4
+                              "key": "0x9668408b",
+                              "ty": 3
                             }
                           },
                           "name": "to_list_name"
@@ -1804,8 +1910,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x8b406896",
-                              "ty": 4
+                              "key": "0x9668408b",
+                              "ty": 3
                             }
                           },
                           "name": "message"
@@ -1813,8 +1919,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x8b406896",
-                              "ty": 4
+                              "key": "0x9668408b",
+                              "ty": 3
                             }
                           },
                           "name": "file_url"
@@ -1822,8 +1928,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x8b406896",
-                              "ty": 7
+                              "key": "0x9668408b",
+                              "ty": 6
                             }
                           },
                           "name": "timestamp"
@@ -1832,7 +1938,8 @@
                       "name": "ListMessageDetails"
                     }
                   },
-                  "root_key": "0x8b406896"
+                  "root_key": "0x9668408b",
+                  "ty": 57
                 }
               },
               "name": "list_message_details"
@@ -1846,8 +1953,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x271ff112",
-                              "ty": 10
+                              "key": "0xb65b013d",
+                              "ty": 22
                             }
                           },
                           "name": "message_id"
@@ -1855,8 +1962,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x271ff112",
-                              "ty": 2
+                              "key": "0xb65b013d",
+                              "ty": 0
                             }
                           },
                           "name": "from_acct"
@@ -1864,35 +1971,26 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x271ff112",
-                              "ty": 4
+                              "key": "0xb65b013d",
+                              "ty": 3
                             }
                           },
-                          "name": "username"
+                          "name": "from_username"
                         },
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x271ff112",
-                              "ty": 10
+                              "key": "0xb65b013d",
+                              "ty": 0
                             }
                           },
-                          "name": "to_list_id"
+                          "name": "to_acct"
                         },
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x271ff112",
-                              "ty": 4
-                            }
-                          },
-                          "name": "to_list_name"
-                        },
-                        {
-                          "layout": {
-                            "leaf": {
-                              "key": "0x271ff112",
-                              "ty": 4
+                              "key": "0xb65b013d",
+                              "ty": 3
                             }
                           },
                           "name": "message"
@@ -1900,8 +1998,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x271ff112",
-                              "ty": 4
+                              "key": "0xb65b013d",
+                              "ty": 3
                             }
                           },
                           "name": "file_url"
@@ -1909,20 +2007,30 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x271ff112",
-                              "ty": 7
+                              "key": "0xb65b013d",
+                              "ty": 6
                             }
                           },
                           "name": "timestamp"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb65b013d",
+                              "ty": 4
+                            }
+                          },
+                          "name": "bid"
                         }
                       ],
-                      "name": "ListMessageDetails"
+                      "name": "PaidMessageDetails"
                     }
                   },
-                  "root_key": "0x271ff112"
+                  "root_key": "0xb65b013d",
+                  "ty": 61
                 }
               },
-              "name": "paid_list_message_details"
+              "name": "paid_message_details"
             },
             {
               "layout": {
@@ -1933,8 +2041,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xd56d3356",
-                              "ty": 10
+                              "key": "0x56336dd5",
+                              "ty": 22
                             }
                           },
                           "name": "message_id"
@@ -1942,8 +2050,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xd56d3356",
-                              "ty": 2
+                              "key": "0x56336dd5",
+                              "ty": 0
                             }
                           },
                           "name": "from_acct"
@@ -1951,8 +2059,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xd56d3356",
-                              "ty": 4
+                              "key": "0x56336dd5",
+                              "ty": 3
                             }
                           },
                           "name": "username"
@@ -1960,8 +2068,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xd56d3356",
-                              "ty": 10
+                              "key": "0x56336dd5",
+                              "ty": 22
                             }
                           },
                           "name": "to_list_id"
@@ -1969,8 +2077,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xd56d3356",
-                              "ty": 4
+                              "key": "0x56336dd5",
+                              "ty": 3
                             }
                           },
                           "name": "to_list_name"
@@ -1978,8 +2086,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xd56d3356",
-                              "ty": 4
+                              "key": "0x56336dd5",
+                              "ty": 3
                             }
                           },
                           "name": "message"
@@ -1987,8 +2095,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xd56d3356",
-                              "ty": 4
+                              "key": "0x56336dd5",
+                              "ty": 3
                             }
                           },
                           "name": "file_url"
@@ -1996,8 +2104,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xd56d3356",
-                              "ty": 7
+                              "key": "0x56336dd5",
+                              "ty": 6
                             }
                           },
                           "name": "timestamp"
@@ -2006,7 +2114,8 @@
                       "name": "ListMessageDetails"
                     }
                   },
-                  "root_key": "0xd56d3356"
+                  "root_key": "0x56336dd5",
+                  "ty": 65
                 }
               },
               "name": "group_message_details"
@@ -2020,8 +2129,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x70fe141b",
-                              "ty": 10
+                              "key": "0x1b14fe70",
+                              "ty": 22
                             }
                           },
                           "name": "list_id"
@@ -2029,8 +2138,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x70fe141b",
-                              "ty": 2
+                              "key": "0x1b14fe70",
+                              "ty": 0
                             }
                           },
                           "name": "owner"
@@ -2038,8 +2147,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x70fe141b",
-                              "ty": 4
+                              "key": "0x1b14fe70",
+                              "ty": 3
                             }
                           },
                           "name": "list_name"
@@ -2047,8 +2156,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x70fe141b",
-                              "ty": 6
+                              "key": "0x1b14fe70",
+                              "ty": 5
                             }
                           },
                           "name": "hide_from_search"
@@ -2056,8 +2165,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x70fe141b",
-                              "ty": 4
+                              "key": "0x1b14fe70",
+                              "ty": 3
                             }
                           },
                           "name": "description"
@@ -2065,8 +2174,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x70fe141b",
-                              "ty": 8
+                              "key": "0x1b14fe70",
+                              "ty": 4
                             }
                           },
                           "name": "list_accounts"
@@ -2075,7 +2184,8 @@
                       "name": "OpenListDetails"
                     }
                   },
-                  "root_key": "0x70fe141b"
+                  "root_key": "0x1b14fe70",
+                  "ty": 68
                 }
               },
               "name": "open_list_details"
@@ -2089,77 +2199,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x9e3009ad",
-                              "ty": 10
-                            }
-                          },
-                          "name": "list_id"
-                        },
-                        {
-                          "layout": {
-                            "leaf": {
-                              "key": "0x9e3009ad",
-                              "ty": 2
-                            }
-                          },
-                          "name": "owner"
-                        },
-                        {
-                          "layout": {
-                            "leaf": {
-                              "key": "0x9e3009ad",
-                              "ty": 4
-                            }
-                          },
-                          "name": "list_name"
-                        },
-                        {
-                          "layout": {
-                            "leaf": {
-                              "key": "0x9e3009ad",
-                              "ty": 5
-                            }
-                          },
-                          "name": "total_fee"
-                        },
-                        {
-                          "layout": {
-                            "leaf": {
-                              "key": "0x9e3009ad",
-                              "ty": 4
-                            }
-                          },
-                          "name": "description"
-                        },
-                        {
-                          "layout": {
-                            "leaf": {
-                              "key": "0x9e3009ad",
-                              "ty": 8
-                            }
-                          },
-                          "name": "list_accounts"
-                        }
-                      ],
-                      "name": "PaidListDetails"
-                    }
-                  },
-                  "root_key": "0x9e3009ad"
-                }
-              },
-              "name": "paid_list_details"
-            },
-            {
-              "layout": {
-                "root": {
-                  "layout": {
-                    "struct": {
-                      "fields": [
-                        {
-                          "layout": {
-                            "leaf": {
-                              "key": "0xdfda51d3",
-                              "ty": 10
+                              "key": "0xd351dadf",
+                              "ty": 22
                             }
                           },
                           "name": "group_id"
@@ -2167,8 +2208,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xdfda51d3",
-                              "ty": 4
+                              "key": "0xd351dadf",
+                              "ty": 3
                             }
                           },
                           "name": "group_name"
@@ -2176,8 +2217,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xdfda51d3",
-                              "ty": 6
+                              "key": "0xd351dadf",
+                              "ty": 5
                             }
                           },
                           "name": "hide_from_search"
@@ -2185,8 +2226,8 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xdfda51d3",
-                              "ty": 4
+                              "key": "0xd351dadf",
+                              "ty": 3
                             }
                           },
                           "name": "description"
@@ -2194,35 +2235,57 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0xdfda51d3",
-                              "ty": 8
+                              "key": "0xd351dadf",
+                              "ty": 13
                             }
                           },
                           "name": "group_accounts"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xd351dadf",
+                              "ty": 4
+                            }
+                          },
+                          "name": "subscribers"
                         }
                       ],
                       "name": "GroupDetails"
                     }
                   },
-                  "root_key": "0xdfda51d3"
+                  "root_key": "0xd351dadf",
+                  "ty": 72
                 }
               },
               "name": "group_details"
             },
             {
               "layout": {
-                "leaf": {
-                  "key": "0x00000000",
-                  "ty": 9
+                "root": {
+                  "layout": {
+                    "leaf": {
+                      "key": "0x8b6ad8e5",
+                      "ty": 22
+                    }
+                  },
+                  "root_key": "0x8b6ad8e5",
+                  "ty": 76
                 }
               },
               "name": "open_lists"
             },
             {
               "layout": {
-                "leaf": {
-                  "key": "0x00000000",
-                  "ty": 9
+                "root": {
+                  "layout": {
+                    "leaf": {
+                      "key": "0xc0f89d36",
+                      "ty": 22
+                    }
+                  },
+                  "root_key": "0xc0f89d36",
+                  "ty": 82
                 }
               },
               "name": "groups"
@@ -2232,11 +2295,12 @@
                 "root": {
                   "layout": {
                     "leaf": {
-                      "key": "0x4dec26fc",
-                      "ty": 2
+                      "key": "0xfc26ec4d",
+                      "ty": 0
                     }
                   },
-                  "root_key": "0x4dec26fc"
+                  "root_key": "0xfc26ec4d",
+                  "ty": 87
                 }
               },
               "name": "username_map"
@@ -2245,16 +2309,80 @@
               "layout": {
                 "leaf": {
                   "key": "0x00000000",
-                  "ty": 8
+                  "ty": 2
                 }
               },
-              "name": "all_accounts_with_settings"
+              "name": "reward_root_set"
+            },
+            {
+              "layout": {
+                "leaf": {
+                  "key": "0x00000000",
+                  "ty": 0
+                }
+              },
+              "name": "reward_root"
+            },
+            {
+              "layout": {
+                "leaf": {
+                  "key": "0x00000000",
+                  "ty": 4
+                }
+              },
+              "name": "reward_interval"
+            },
+            {
+              "layout": {
+                "leaf": {
+                  "key": "0x00000000",
+                  "ty": 4
+                }
+              },
+              "name": "reward_amount"
+            },
+            {
+              "layout": {
+                "leaf": {
+                  "key": "0x00000000",
+                  "ty": 2
+                }
+              },
+              "name": "reward_on"
+            },
+            {
+              "layout": {
+                "leaf": {
+                  "key": "0x00000000",
+                  "ty": 4
+                }
+              },
+              "name": "reward_balance"
+            },
+            {
+              "layout": {
+                "leaf": {
+                  "key": "0x00000000",
+                  "ty": 4
+                }
+              },
+              "name": "reward_payouts"
+            },
+            {
+              "layout": {
+                "leaf": {
+                  "key": "0x00000000",
+                  "ty": 4
+                }
+              },
+              "name": "claim_counter"
             }
           ],
           "name": "ContractStorage"
         }
       },
-      "root_key": "0x00000000"
+      "root_key": "0x00000000",
+      "ty": 90
     }
   },
   "types": [
@@ -2262,26 +2390,10 @@
       "id": 0,
       "type": {
         "def": {
-          "primitive": "u8"
-        }
-      }
-    },
-    {
-      "id": 1,
-      "type": {
-        "def": {
-          "tuple": []
-        }
-      }
-    },
-    {
-      "id": 2,
-      "type": {
-        "def": {
           "composite": {
             "fields": [
               {
-                "type": 3,
+                "type": 1,
                 "typeName": "[u8; 32]"
               }
             ]
@@ -2295,52 +2407,26 @@
       }
     },
     {
-      "id": 3,
+      "id": 1,
       "type": {
         "def": {
           "array": {
             "len": 32,
-            "type": 0
+            "type": 2
           }
         }
       }
     },
     {
-      "id": 4,
+      "id": 2,
       "type": {
         "def": {
-          "sequence": {
-            "type": 0
-          }
+          "primitive": "u8"
         }
       }
     },
     {
-      "id": 5,
-      "type": {
-        "def": {
-          "primitive": "u128"
-        }
-      }
-    },
-    {
-      "id": 6,
-      "type": {
-        "def": {
-          "primitive": "bool"
-        }
-      }
-    },
-    {
-      "id": 7,
-      "type": {
-        "def": {
-          "primitive": "u64"
-        }
-      }
-    },
-    {
-      "id": 8,
+      "id": 3,
       "type": {
         "def": {
           "sequence": {
@@ -2350,23 +2436,355 @@
       }
     },
     {
+      "id": 4,
+      "type": {
+        "def": {
+          "primitive": "u128"
+        }
+      }
+    },
+    {
+      "id": 5,
+      "type": {
+        "def": {
+          "primitive": "bool"
+        }
+      }
+    },
+    {
+      "id": 6,
+      "type": {
+        "def": {
+          "primitive": "u64"
+        }
+      }
+    },
+    {
+      "id": 7,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 0
+          },
+          {
+            "name": "V",
+            "type": 8
+          },
+          {
+            "name": "KeyType",
+            "type": 9
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 8,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "user_account",
+                "type": 0,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "username",
+                "type": 3,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "interests",
+                "type": 3,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "inbox_fee",
+                "type": 4,
+                "typeName": "Balance"
+              },
+              {
+                "name": "hide_from_search",
+                "type": 5,
+                "typeName": "bool"
+              },
+              {
+                "name": "last_update",
+                "type": 6,
+                "typeName": "u64"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_messaging",
+          "geode_messaging",
+          "Settings"
+        ]
+      }
+    },
+    {
       "id": 9,
       "type": {
         "def": {
-          "sequence": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
             "type": 10
+          },
+          {
+            "name": "R",
+            "type": 11
           }
-        }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
       }
     },
     {
       "id": 10,
       "type": {
         "def": {
+          "composite": {}
+        },
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "AutoKey"
+        ]
+      }
+    },
+    {
+      "id": 11,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 12
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 12,
+      "type": {
+        "def": {
+          "tuple": []
+        }
+      }
+    },
+    {
+      "id": 13,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 0
+          }
+        }
+      }
+    },
+    {
+      "id": 14,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 0
+          },
+          {
+            "name": "V",
+            "type": 15
+          },
+          {
+            "name": "KeyType",
+            "type": 16
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 15,
+      "type": {
+        "def": {
           "composite": {
             "fields": [
               {
-                "type": 3,
+                "name": "accountvector",
+                "type": 13,
+                "typeName": "Vec<AccountId>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_messaging",
+          "geode_messaging",
+          "AccountVector"
+        ]
+      }
+    },
+    {
+      "id": 16,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 10
+          },
+          {
+            "name": "R",
+            "type": 17
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 17,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 12
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 18,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 0
+          },
+          {
+            "name": "V",
+            "type": 15
+          },
+          {
+            "name": "KeyType",
+            "type": 19
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 19,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 10
+          },
+          {
+            "name": "R",
+            "type": 20
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 20,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 12
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 21,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 22
+          }
+        }
+      }
+    },
+    {
+      "id": 22,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "type": 1,
                 "typeName": "[u8; 32]"
               }
             ]
@@ -2380,7 +2798,1854 @@
       }
     },
     {
-      "id": 11,
+      "id": 23,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 0
+          },
+          {
+            "name": "V",
+            "type": 24
+          },
+          {
+            "name": "KeyType",
+            "type": 25
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 24,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "hashvector",
+                "type": 21,
+                "typeName": "Vec<Hash>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_messaging",
+          "geode_messaging",
+          "HashVector"
+        ]
+      }
+    },
+    {
+      "id": 25,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 10
+          },
+          {
+            "name": "R",
+            "type": 26
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 26,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 12
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 27,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 0
+          },
+          {
+            "name": "V",
+            "type": 24
+          },
+          {
+            "name": "KeyType",
+            "type": 28
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 28,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 10
+          },
+          {
+            "name": "R",
+            "type": 29
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 29,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 12
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 30,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 0
+          },
+          {
+            "name": "V",
+            "type": 24
+          },
+          {
+            "name": "KeyType",
+            "type": 31
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 31,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 10
+          },
+          {
+            "name": "R",
+            "type": 32
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 32,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 12
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 33,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 0
+          },
+          {
+            "name": "V",
+            "type": 24
+          },
+          {
+            "name": "KeyType",
+            "type": 34
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 34,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 10
+          },
+          {
+            "name": "R",
+            "type": 35
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 35,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 12
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 36,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 0
+          },
+          {
+            "name": "V",
+            "type": 24
+          },
+          {
+            "name": "KeyType",
+            "type": 37
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 37,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 10
+          },
+          {
+            "name": "R",
+            "type": 38
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 38,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 12
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 39,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 40
+          },
+          {
+            "name": "V",
+            "type": 24
+          },
+          {
+            "name": "KeyType",
+            "type": 41
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 40,
+      "type": {
+        "def": {
+          "tuple": [
+            0,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "id": 41,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 10
+          },
+          {
+            "name": "R",
+            "type": 42
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 42,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 12
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 43,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 22
+          },
+          {
+            "name": "V",
+            "type": 24
+          },
+          {
+            "name": "KeyType",
+            "type": 44
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 44,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 10
+          },
+          {
+            "name": "R",
+            "type": 45
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 45,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 12
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 46,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 47
+          },
+          {
+            "name": "V",
+            "type": 24
+          },
+          {
+            "name": "KeyType",
+            "type": 48
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 47,
+      "type": {
+        "def": {
+          "tuple": [
+            0,
+            22
+          ]
+        }
+      }
+    },
+    {
+      "id": 48,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 10
+          },
+          {
+            "name": "R",
+            "type": 49
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 49,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 12
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 50,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 22
+          },
+          {
+            "name": "V",
+            "type": 24
+          },
+          {
+            "name": "KeyType",
+            "type": 51
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 51,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 10
+          },
+          {
+            "name": "R",
+            "type": 52
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 52,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 12
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 53,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 22
+          },
+          {
+            "name": "V",
+            "type": 54
+          },
+          {
+            "name": "KeyType",
+            "type": 55
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 54,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "message_id",
+                "type": 22,
+                "typeName": "Hash"
+              },
+              {
+                "name": "from_acct",
+                "type": 0,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "from_username",
+                "type": 3,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "to_acct",
+                "type": 0,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "message",
+                "type": 3,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "file_url",
+                "type": 3,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "timestamp",
+                "type": 6,
+                "typeName": "u64"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_messaging",
+          "geode_messaging",
+          "MessageDetails"
+        ]
+      }
+    },
+    {
+      "id": 55,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 10
+          },
+          {
+            "name": "R",
+            "type": 56
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 56,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 12
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 57,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 22
+          },
+          {
+            "name": "V",
+            "type": 58
+          },
+          {
+            "name": "KeyType",
+            "type": 59
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 58,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "message_id",
+                "type": 22,
+                "typeName": "Hash"
+              },
+              {
+                "name": "from_acct",
+                "type": 0,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "username",
+                "type": 3,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "to_list_id",
+                "type": 22,
+                "typeName": "Hash"
+              },
+              {
+                "name": "to_list_name",
+                "type": 3,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "message",
+                "type": 3,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "file_url",
+                "type": 3,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "timestamp",
+                "type": 6,
+                "typeName": "u64"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_messaging",
+          "geode_messaging",
+          "ListMessageDetails"
+        ]
+      }
+    },
+    {
+      "id": 59,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 10
+          },
+          {
+            "name": "R",
+            "type": 60
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 60,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 12
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 61,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 22
+          },
+          {
+            "name": "V",
+            "type": 62
+          },
+          {
+            "name": "KeyType",
+            "type": 63
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 62,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "message_id",
+                "type": 22,
+                "typeName": "Hash"
+              },
+              {
+                "name": "from_acct",
+                "type": 0,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "from_username",
+                "type": 3,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "to_acct",
+                "type": 0,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "message",
+                "type": 3,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "file_url",
+                "type": 3,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "timestamp",
+                "type": 6,
+                "typeName": "u64"
+              },
+              {
+                "name": "bid",
+                "type": 4,
+                "typeName": "Balance"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_messaging",
+          "geode_messaging",
+          "PaidMessageDetails"
+        ]
+      }
+    },
+    {
+      "id": 63,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 10
+          },
+          {
+            "name": "R",
+            "type": 64
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 64,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 12
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 65,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 22
+          },
+          {
+            "name": "V",
+            "type": 58
+          },
+          {
+            "name": "KeyType",
+            "type": 66
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 66,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 10
+          },
+          {
+            "name": "R",
+            "type": 67
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 67,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 12
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 68,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 22
+          },
+          {
+            "name": "V",
+            "type": 69
+          },
+          {
+            "name": "KeyType",
+            "type": 70
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 69,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "list_id",
+                "type": 22,
+                "typeName": "Hash"
+              },
+              {
+                "name": "owner",
+                "type": 0,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "list_name",
+                "type": 3,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "hide_from_search",
+                "type": 5,
+                "typeName": "bool"
+              },
+              {
+                "name": "description",
+                "type": 3,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "list_accounts",
+                "type": 4,
+                "typeName": "u128"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_messaging",
+          "geode_messaging",
+          "OpenListDetails"
+        ]
+      }
+    },
+    {
+      "id": 70,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 10
+          },
+          {
+            "name": "R",
+            "type": 71
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 71,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 12
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 72,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 22
+          },
+          {
+            "name": "V",
+            "type": 73
+          },
+          {
+            "name": "KeyType",
+            "type": 74
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 73,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "group_id",
+                "type": 22,
+                "typeName": "Hash"
+              },
+              {
+                "name": "group_name",
+                "type": 3,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "hide_from_search",
+                "type": 5,
+                "typeName": "bool"
+              },
+              {
+                "name": "description",
+                "type": 3,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "group_accounts",
+                "type": 13,
+                "typeName": "Vec<AccountId>"
+              },
+              {
+                "name": "subscribers",
+                "type": 4,
+                "typeName": "u128"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_messaging",
+          "geode_messaging",
+          "GroupDetails"
+        ]
+      }
+    },
+    {
+      "id": 74,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 10
+          },
+          {
+            "name": "R",
+            "type": 75
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 75,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 12
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 76,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "len",
+                "type": 79,
+                "typeName": "Lazy<u32, KeyType>"
+              },
+              {
+                "name": "elements",
+                "type": 81,
+                "typeName": "Mapping<u32, V, KeyType>"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "V",
+            "type": 22
+          },
+          {
+            "name": "KeyType",
+            "type": 77
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "vec",
+          "StorageVec"
+        ]
+      }
+    },
+    {
+      "id": 77,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 10
+          },
+          {
+            "name": "R",
+            "type": 78
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 78,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 12
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 79,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "V",
+            "type": 80
+          },
+          {
+            "name": "KeyType",
+            "type": 77
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "Lazy"
+        ]
+      }
+    },
+    {
+      "id": 80,
+      "type": {
+        "def": {
+          "primitive": "u32"
+        }
+      }
+    },
+    {
+      "id": 81,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 80
+          },
+          {
+            "name": "V",
+            "type": 22
+          },
+          {
+            "name": "KeyType",
+            "type": 77
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 82,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "len",
+                "type": 85,
+                "typeName": "Lazy<u32, KeyType>"
+              },
+              {
+                "name": "elements",
+                "type": 86,
+                "typeName": "Mapping<u32, V, KeyType>"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "V",
+            "type": 22
+          },
+          {
+            "name": "KeyType",
+            "type": 83
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "vec",
+          "StorageVec"
+        ]
+      }
+    },
+    {
+      "id": 83,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 10
+          },
+          {
+            "name": "R",
+            "type": 84
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 84,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 12
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 85,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "V",
+            "type": 80
+          },
+          {
+            "name": "KeyType",
+            "type": 83
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "Lazy"
+        ]
+      }
+    },
+    {
+      "id": 86,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 80
+          },
+          {
+            "name": "V",
+            "type": 22
+          },
+          {
+            "name": "KeyType",
+            "type": 83
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 87,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 3
+          },
+          {
+            "name": "V",
+            "type": 0
+          },
+          {
+            "name": "KeyType",
+            "type": 88
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 88,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 10
+          },
+          {
+            "name": "R",
+            "type": 89
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 89,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 12
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 90,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "account_settings",
+                "type": 7,
+                "typeName": "<Mapping<AccountId, Settings> as::ink::storage::traits::\nAutoStorableHint<::ink::storage::traits::ManualKey<2645611591u32,\n()>,>>::Type"
+              },
+              {
+                "name": "account_allowed",
+                "type": 14,
+                "typeName": "<Mapping<AccountId, AccountVector> as::ink::storage::traits::\nAutoStorableHint<::ink::storage::traits::ManualKey<3546626470u32,\n()>,>>::Type"
+              },
+              {
+                "name": "account_blocked_accounts",
+                "type": 18,
+                "typeName": "<Mapping<AccountId, AccountVector> as::ink::storage::traits::\nAutoStorableHint<::ink::storage::traits::ManualKey<4211005775u32,\n()>,>>::Type"
+              },
+              {
+                "name": "account_blocked_lists",
+                "type": 23,
+                "typeName": "<Mapping<AccountId, HashVector> as::ink::storage::traits::\nAutoStorableHint<::ink::storage::traits::ManualKey<3484317041u32,\n()>,>>::Type"
+              },
+              {
+                "name": "account_subscribed_groups",
+                "type": 27,
+                "typeName": "<Mapping<AccountId, HashVector> as::ink::storage::traits::\nAutoStorableHint<::ink::storage::traits::ManualKey<377558416u32, ()\n>,>>::Type"
+              },
+              {
+                "name": "account_owned_open_lists",
+                "type": 30,
+                "typeName": "<Mapping<AccountId, HashVector> as::ink::storage::traits::\nAutoStorableHint<::ink::storage::traits::ManualKey<686364771u32, ()\n>,>>::Type"
+              },
+              {
+                "name": "account_paid_inbox",
+                "type": 33,
+                "typeName": "<Mapping<AccountId, HashVector> as::ink::storage::traits::\nAutoStorableHint<::ink::storage::traits::ManualKey<553698708u32, ()\n>,>>::Type"
+              },
+              {
+                "name": "account_subscribed_lists",
+                "type": 36,
+                "typeName": "<Mapping<AccountId, HashVector> as::ink::storage::traits::\nAutoStorableHint<::ink::storage::traits::ManualKey<2486469257u32,\n()>,>>::Type"
+              },
+              {
+                "name": "sent_messages_to_account",
+                "type": 39,
+                "typeName": "<Mapping<(AccountId, AccountId), HashVector> as::ink::storage::\ntraits::AutoStorableHint<::ink::storage::traits::ManualKey<\n1812050346u32, ()>,>>::Type"
+              },
+              {
+                "name": "sent_messages_to_list",
+                "type": 43,
+                "typeName": "<Mapping<Hash, HashVector> as::ink::storage::traits::\nAutoStorableHint<::ink::storage::traits::ManualKey<657643898u32, ()\n>,>>::Type"
+              },
+              {
+                "name": "sent_messages_to_group",
+                "type": 46,
+                "typeName": "<Mapping<(AccountId, Hash), HashVector> as::ink::storage::traits::\nAutoStorableHint<::ink::storage::traits::ManualKey<1231083690u32,\n()>,>>::Type"
+              },
+              {
+                "name": "all_messages_to_group",
+                "type": 50,
+                "typeName": "<Mapping<Hash, HashVector> as::ink::storage::traits::\nAutoStorableHint<::ink::storage::traits::ManualKey<2984918105u32,\n()>,>>::Type"
+              },
+              {
+                "name": "message_details",
+                "type": 53,
+                "typeName": "<Mapping<Hash, MessageDetails> as::ink::storage::traits::\nAutoStorableHint<::ink::storage::traits::ManualKey<2993032518u32,\n()>,>>::Type"
+              },
+              {
+                "name": "list_message_details",
+                "type": 57,
+                "typeName": "<Mapping<Hash, ListMessageDetails> as::ink::storage::traits::\nAutoStorableHint<::ink::storage::traits::ManualKey<2336254102u32,\n()>,>>::Type"
+              },
+              {
+                "name": "paid_message_details",
+                "type": 61,
+                "typeName": "<Mapping<Hash, PaidMessageDetails> as::ink::storage::traits::\nAutoStorableHint<::ink::storage::traits::ManualKey<1023499190u32,\n()>,>>::Type"
+              },
+              {
+                "name": "group_message_details",
+                "type": 65,
+                "typeName": "<Mapping<Hash, ListMessageDetails> as::ink::storage::traits::\nAutoStorableHint<::ink::storage::traits::ManualKey<3580703574u32,\n()>,>>::Type"
+              },
+              {
+                "name": "open_list_details",
+                "type": 68,
+                "typeName": "<Mapping<Hash, OpenListDetails> as::ink::storage::traits::\nAutoStorableHint<::ink::storage::traits::ManualKey<1895699483u32,\n()>,>>::Type"
+              },
+              {
+                "name": "group_details",
+                "type": 72,
+                "typeName": "<Mapping<Hash, GroupDetails> as::ink::storage::traits::\nAutoStorableHint<::ink::storage::traits::ManualKey<3755626963u32,\n()>,>>::Type"
+              },
+              {
+                "name": "open_lists",
+                "type": 76,
+                "typeName": "<StorageVec<Hash> as::ink::storage::traits::AutoStorableHint<::\nink::storage::traits::ManualKey<3856165515u32, ()>,>>::Type"
+              },
+              {
+                "name": "groups",
+                "type": 82,
+                "typeName": "<StorageVec<Hash> as::ink::storage::traits::AutoStorableHint<::\nink::storage::traits::ManualKey<916322496u32, ()>,>>::Type"
+              },
+              {
+                "name": "username_map",
+                "type": 87,
+                "typeName": "<Mapping<Vec<u8>, AccountId> as::ink::storage::traits::\nAutoStorableHint<::ink::storage::traits::ManualKey<1307322108u32,\n()>,>>::Type"
+              },
+              {
+                "name": "reward_root_set",
+                "type": 2,
+                "typeName": "<u8 as::ink::storage::traits::AutoStorableHint<::ink::storage::\ntraits::ManualKey<1798355505u32, ()>,>>::Type"
+              },
+              {
+                "name": "reward_root",
+                "type": 0,
+                "typeName": "<AccountId as::ink::storage::traits::AutoStorableHint<::ink::\nstorage::traits::ManualKey<366376395u32, ()>,>>::Type"
+              },
+              {
+                "name": "reward_interval",
+                "type": 4,
+                "typeName": "<u128 as::ink::storage::traits::AutoStorableHint<::ink::storage\n::traits::ManualKey<1033886958u32, ()>,>>::Type"
+              },
+              {
+                "name": "reward_amount",
+                "type": 4,
+                "typeName": "<Balance as::ink::storage::traits::AutoStorableHint<::ink::\nstorage::traits::ManualKey<502513777u32, ()>,>>::Type"
+              },
+              {
+                "name": "reward_on",
+                "type": 2,
+                "typeName": "<u8 as::ink::storage::traits::AutoStorableHint<::ink::storage::\ntraits::ManualKey<2931413185u32, ()>,>>::Type"
+              },
+              {
+                "name": "reward_balance",
+                "type": 4,
+                "typeName": "<Balance as::ink::storage::traits::AutoStorableHint<::ink::\nstorage::traits::ManualKey<2092167264u32, ()>,>>::Type"
+              },
+              {
+                "name": "reward_payouts",
+                "type": 4,
+                "typeName": "<Balance as::ink::storage::traits::AutoStorableHint<::ink::\nstorage::traits::ManualKey<236833823u32, ()>,>>::Type"
+              },
+              {
+                "name": "claim_counter",
+                "type": 4,
+                "typeName": "<u128 as::ink::storage::traits::AutoStorableHint<::ink::storage\n::traits::ManualKey<2826509857u32, ()>,>>::Type"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_messaging",
+          "geode_messaging",
+          "ContractStorage"
+        ]
+      }
+    },
+    {
+      "id": 91,
       "type": {
         "def": {
           "variant": {
@@ -2388,7 +4653,7 @@
               {
                 "fields": [
                   {
-                    "type": 1
+                    "type": 12
                   }
                 ],
                 "index": 0,
@@ -2397,7 +4662,7 @@
               {
                 "fields": [
                   {
-                    "type": 12
+                    "type": 92
                   }
                 ],
                 "index": 1,
@@ -2409,11 +4674,11 @@
         "params": [
           {
             "name": "T",
-            "type": 1
+            "type": 12
           },
           {
             "name": "E",
-            "type": 12
+            "type": 92
           }
         ],
         "path": [
@@ -2422,7 +4687,7 @@
       }
     },
     {
-      "id": 12,
+      "id": 92,
       "type": {
         "def": {
           "variant": {
@@ -2441,7 +4706,7 @@
       }
     },
     {
-      "id": 13,
+      "id": 93,
       "type": {
         "def": {
           "variant": {
@@ -2449,58 +4714,58 @@
               {
                 "fields": [
                   {
-                    "type": 14
+                    "type": 94
                   }
                 ],
                 "index": 0,
                 "name": "Ok"
               },
+              {
+                "fields": [
+                  {
+                    "type": 92
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 94
+          },
+          {
+            "name": "E",
+            "type": 92
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 94,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
               {
                 "fields": [
                   {
                     "type": 12
                   }
                 ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 14
-          },
-          {
-            "name": "E",
-            "type": 12
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 14,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 1
-                  }
-                ],
                 "index": 0,
                 "name": "Ok"
               },
               {
                 "fields": [
                   {
-                    "type": 15
+                    "type": 95
                   }
                 ],
                 "index": 1,
@@ -2512,11 +4777,11 @@
         "params": [
           {
             "name": "T",
-            "type": 1
+            "type": 12
           },
           {
             "name": "E",
-            "type": 15
+            "type": 95
           }
         ],
         "path": [
@@ -2525,7 +4790,7 @@
       }
     },
     {
-      "id": 15,
+      "id": 95,
       "type": {
         "def": {
           "variant": {
@@ -2599,22 +4864,28 @@
                 "name": "PayoutFailed"
               },
               {
-                "fields": [
-                  {
-                    "type": 16,
-                    "typeName": "ReentrancyGuardError"
-                  }
-                ],
                 "index": 17,
-                "name": "ReentrancyError"
-              },
-              {
-                "index": 18,
                 "name": "UsernameTaken"
               },
               {
-                "index": 19,
+                "index": 18,
                 "name": "NonexistentAccount"
+              },
+              {
+                "index": 19,
+                "name": "DataTooLarge"
+              },
+              {
+                "index": 20,
+                "name": "StorageFull"
+              },
+              {
+                "index": 21,
+                "name": "CannotSendPaidMessage"
+              },
+              {
+                "index": 22,
+                "name": "PermissionDenied"
               }
             ]
           }
@@ -2627,29 +4898,7 @@
       }
     },
     {
-      "id": 16,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "index": 0,
-                "name": "ReentrantCall"
-              }
-            ]
-          }
-        },
-        "path": [
-          "openbrush_contracts",
-          "traits",
-          "errors",
-          "reentrancy_guard",
-          "ReentrancyGuardError"
-        ]
-      }
-    },
-    {
-      "id": 17,
+      "id": 96,
       "type": {
         "def": {
           "variant": {
@@ -2657,7 +4906,7 @@
               {
                 "fields": [
                   {
-                    "type": 18
+                    "type": 97
                   }
                 ],
                 "index": 0,
@@ -2666,7 +4915,7 @@
               {
                 "fields": [
                   {
-                    "type": 12
+                    "type": 92
                   }
                 ],
                 "index": 1,
@@ -2678,11 +4927,11 @@
         "params": [
           {
             "name": "T",
-            "type": 18
+            "type": 97
           },
           {
             "name": "E",
-            "type": 12
+            "type": 92
           }
         ],
         "path": [
@@ -2691,70 +4940,34 @@
       }
     },
     {
-      "id": 18,
-      "type": {
-        "def": {
-          "composite": {
-            "fields": [
-              {
-                "name": "blocked_accts",
-                "type": 8,
-                "typeName": "Vec<AccountId>"
-              },
-              {
-                "name": "people",
-                "type": 19,
-                "typeName": "Vec<ConversationWithAccount>"
-              },
-              {
-                "name": "groups",
-                "type": 23,
-                "typeName": "Vec<MessagesFromList>"
-              },
-              {
-                "name": "lists",
-                "type": 23,
-                "typeName": "Vec<MessagesFromList>"
-              }
-            ]
-          }
-        },
-        "path": [
-          "geode_messaging",
-          "geode_messaging",
-          "MyInbox"
-        ]
-      }
-    },
-    {
-      "id": 19,
+      "id": 97,
       "type": {
         "def": {
           "sequence": {
-            "type": 20
+            "type": 98
           }
         }
       }
     },
     {
-      "id": 20,
+      "id": 98,
       "type": {
         "def": {
           "composite": {
             "fields": [
               {
                 "name": "allowed_account",
-                "type": 2,
+                "type": 0,
                 "typeName": "AccountId"
               },
               {
                 "name": "username",
-                "type": 4,
+                "type": 3,
                 "typeName": "Vec<u8>"
               },
               {
                 "name": "conversation",
-                "type": 21,
+                "type": 99,
                 "typeName": "Vec<MessageDetails>"
               }
             ]
@@ -2768,175 +4981,17 @@
       }
     },
     {
-      "id": 21,
+      "id": 99,
       "type": {
         "def": {
           "sequence": {
-            "type": 22
+            "type": 54
           }
         }
       }
     },
     {
-      "id": 22,
-      "type": {
-        "def": {
-          "composite": {
-            "fields": [
-              {
-                "name": "message_id",
-                "type": 10,
-                "typeName": "Hash"
-              },
-              {
-                "name": "from_acct",
-                "type": 2,
-                "typeName": "AccountId"
-              },
-              {
-                "name": "from_username",
-                "type": 4,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "to_acct",
-                "type": 2,
-                "typeName": "AccountId"
-              },
-              {
-                "name": "message",
-                "type": 4,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "file_url",
-                "type": 4,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "timestamp",
-                "type": 7,
-                "typeName": "u64"
-              }
-            ]
-          }
-        },
-        "path": [
-          "geode_messaging",
-          "geode_messaging",
-          "MessageDetails"
-        ]
-      }
-    },
-    {
-      "id": 23,
-      "type": {
-        "def": {
-          "sequence": {
-            "type": 24
-          }
-        }
-      }
-    },
-    {
-      "id": 24,
-      "type": {
-        "def": {
-          "composite": {
-            "fields": [
-              {
-                "name": "allowed_list",
-                "type": 10,
-                "typeName": "Hash"
-              },
-              {
-                "name": "list_name",
-                "type": 4,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "list_messages",
-                "type": 25,
-                "typeName": "Vec<ListMessageDetails>"
-              }
-            ]
-          }
-        },
-        "path": [
-          "geode_messaging",
-          "geode_messaging",
-          "MessagesFromList"
-        ]
-      }
-    },
-    {
-      "id": 25,
-      "type": {
-        "def": {
-          "sequence": {
-            "type": 26
-          }
-        }
-      }
-    },
-    {
-      "id": 26,
-      "type": {
-        "def": {
-          "composite": {
-            "fields": [
-              {
-                "name": "message_id",
-                "type": 10,
-                "typeName": "Hash"
-              },
-              {
-                "name": "from_acct",
-                "type": 2,
-                "typeName": "AccountId"
-              },
-              {
-                "name": "username",
-                "type": 4,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "to_list_id",
-                "type": 10,
-                "typeName": "Hash"
-              },
-              {
-                "name": "to_list_name",
-                "type": 4,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "message",
-                "type": 4,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "file_url",
-                "type": 4,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "timestamp",
-                "type": 7,
-                "typeName": "u64"
-              }
-            ]
-          }
-        },
-        "path": [
-          "geode_messaging",
-          "geode_messaging",
-          "ListMessageDetails"
-        ]
-      }
-    },
-    {
-      "id": 27,
+      "id": 100,
       "type": {
         "def": {
           "variant": {
@@ -2944,7 +4999,7 @@
               {
                 "fields": [
                   {
-                    "type": 28
+                    "type": 101
                   }
                 ],
                 "index": 0,
@@ -2953,7 +5008,7 @@
               {
                 "fields": [
                   {
-                    "type": 12
+                    "type": 92
                   }
                 ],
                 "index": 1,
@@ -2965,11 +5020,11 @@
         "params": [
           {
             "name": "T",
-            "type": 28
+            "type": 101
           },
           {
             "name": "E",
-            "type": 12
+            "type": 92
           }
         ],
         "path": [
@@ -2978,33 +5033,7 @@
       }
     },
     {
-      "id": 28,
-      "type": {
-        "def": {
-          "composite": {
-            "fields": [
-              {
-                "name": "blocked_lists",
-                "type": 9,
-                "typeName": "Vec<Hash>"
-              },
-              {
-                "name": "messages",
-                "type": 25,
-                "typeName": "Vec<ListMessageDetails>"
-              }
-            ]
-          }
-        },
-        "path": [
-          "geode_messaging",
-          "geode_messaging",
-          "MyPaidInbox"
-        ]
-      }
-    },
-    {
-      "id": 29,
+      "id": 101,
       "type": {
         "def": {
           "variant": {
@@ -3012,7 +5041,7 @@
               {
                 "fields": [
                   {
-                    "type": 30
+                    "type": 102
                   }
                 ],
                 "index": 0,
@@ -3021,7 +5050,7 @@
               {
                 "fields": [
                   {
-                    "type": 12
+                    "type": 95
                   }
                 ],
                 "index": 1,
@@ -3033,11 +5062,11 @@
         "params": [
           {
             "name": "T",
-            "type": 30
+            "type": 102
           },
           {
             "name": "E",
-            "type": 12
+            "type": 95
           }
         ],
         "path": [
@@ -3046,19 +5075,71 @@
       }
     },
     {
-      "id": 30,
+      "id": 102,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 62
+          }
+        }
+      }
+    },
+    {
+      "id": 103,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 104
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 92
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 104
+          },
+          {
+            "name": "E",
+            "type": 92
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 104,
       "type": {
         "def": {
           "composite": {
             "fields": [
               {
                 "name": "allowed_accounts",
-                "type": 8,
+                "type": 13,
                 "typeName": "Vec<AccountId>"
               },
               {
                 "name": "blocked_accounts",
-                "type": 8,
+                "type": 13,
                 "typeName": "Vec<AccountId>"
               }
             ]
@@ -3072,7 +5153,7 @@
       }
     },
     {
-      "id": 31,
+      "id": 105,
       "type": {
         "def": {
           "variant": {
@@ -3080,7 +5161,7 @@
               {
                 "fields": [
                   {
-                    "type": 32
+                    "type": 106
                   }
                 ],
                 "index": 0,
@@ -3089,7 +5170,7 @@
               {
                 "fields": [
                   {
-                    "type": 12
+                    "type": 92
                   }
                 ],
                 "index": 1,
@@ -3101,11 +5182,11 @@
         "params": [
           {
             "name": "T",
-            "type": 32
+            "type": 106
           },
           {
             "name": "E",
-            "type": 12
+            "type": 92
           }
         ],
         "path": [
@@ -3114,58 +5195,17 @@
       }
     },
     {
-      "id": 32,
+      "id": 106,
       "type": {
         "def": {
           "sequence": {
-            "type": 33
+            "type": 73
           }
         }
       }
     },
     {
-      "id": 33,
-      "type": {
-        "def": {
-          "composite": {
-            "fields": [
-              {
-                "name": "group_id",
-                "type": 10,
-                "typeName": "Hash"
-              },
-              {
-                "name": "group_name",
-                "type": 4,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "hide_from_search",
-                "type": 6,
-                "typeName": "bool"
-              },
-              {
-                "name": "description",
-                "type": 4,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "group_accounts",
-                "type": 8,
-                "typeName": "Vec<AccountId>"
-              }
-            ]
-          }
-        },
-        "path": [
-          "geode_messaging",
-          "geode_messaging",
-          "GroupDetails"
-        ]
-      }
-    },
-    {
-      "id": 34,
+      "id": 107,
       "type": {
         "def": {
           "variant": {
@@ -3173,7 +5213,7 @@
               {
                 "fields": [
                   {
-                    "type": 35
+                    "type": 108
                   }
                 ],
                 "index": 0,
@@ -3182,7 +5222,7 @@
               {
                 "fields": [
                   {
-                    "type": 12
+                    "type": 92
                   }
                 ],
                 "index": 1,
@@ -3194,11 +5234,11 @@
         "params": [
           {
             "name": "T",
-            "type": 35
+            "type": 108
           },
           {
             "name": "E",
-            "type": 12
+            "type": 92
           }
         ],
         "path": [
@@ -3207,180 +5247,19 @@
       }
     },
     {
-      "id": 35,
+      "id": 108,
       "type": {
         "def": {
           "composite": {
             "fields": [
               {
                 "name": "search",
-                "type": 4,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "private_messages",
-                "type": 21,
-                "typeName": "Vec<MessageDetails>"
-              },
-              {
-                "name": "group_messages",
-                "type": 25,
-                "typeName": "Vec<ListMessageDetails>"
-              },
-              {
-                "name": "list_messages",
-                "type": 25,
-                "typeName": "Vec<ListMessageDetails>"
-              }
-            ]
-          }
-        },
-        "path": [
-          "geode_messaging",
-          "geode_messaging",
-          "InboxSearchResults"
-        ]
-      }
-    },
-    {
-      "id": 36,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 37
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 12
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 37
-          },
-          {
-            "name": "E",
-            "type": 12
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 37,
-      "type": {
-        "def": {
-          "composite": {
-            "fields": [
-              {
-                "name": "search",
-                "type": 2,
-                "typeName": "AccountId"
-              },
-              {
-                "name": "username",
-                "type": 4,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "private_messages",
-                "type": 21,
-                "typeName": "Vec<MessageDetails>"
-              },
-              {
-                "name": "group_messages",
-                "type": 25,
-                "typeName": "Vec<ListMessageDetails>"
-              },
-              {
-                "name": "list_messages",
-                "type": 25,
-                "typeName": "Vec<ListMessageDetails>"
-              }
-            ]
-          }
-        },
-        "path": [
-          "geode_messaging",
-          "geode_messaging",
-          "InboxAcctSearchResults"
-        ]
-      }
-    },
-    {
-      "id": 38,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 39
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 12
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 39
-          },
-          {
-            "name": "E",
-            "type": 12
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 39,
-      "type": {
-        "def": {
-          "composite": {
-            "fields": [
-              {
-                "name": "search",
-                "type": 4,
-                "typeName": "Vec<u8>"
+                "type": 109,
+                "typeName": "Vec<Vec<u8>>"
               },
               {
                 "name": "groups",
-                "type": 40,
+                "type": 110,
                 "typeName": "Vec<GroupPublicDetails>"
               }
             ]
@@ -3394,35 +5273,50 @@
       }
     },
     {
-      "id": 40,
+      "id": 109,
       "type": {
         "def": {
           "sequence": {
-            "type": 41
+            "type": 3
           }
         }
       }
     },
     {
-      "id": 41,
+      "id": 110,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 111
+          }
+        }
+      }
+    },
+    {
+      "id": 111,
       "type": {
         "def": {
           "composite": {
             "fields": [
               {
                 "name": "group_id",
-                "type": 10,
+                "type": 22,
                 "typeName": "Hash"
               },
               {
                 "name": "group_name",
-                "type": 4,
+                "type": 3,
                 "typeName": "Vec<u8>"
               },
               {
                 "name": "description",
-                "type": 4,
+                "type": 3,
                 "typeName": "Vec<u8>"
+              },
+              {
+                "name": "subscribers",
+                "type": 4,
+                "typeName": "u128"
               }
             ]
           }
@@ -3435,7 +5329,7 @@
       }
     },
     {
-      "id": 42,
+      "id": 112,
       "type": {
         "def": {
           "variant": {
@@ -3443,7 +5337,7 @@
               {
                 "fields": [
                   {
-                    "type": 43
+                    "type": 113
                   }
                 ],
                 "index": 0,
@@ -3452,7 +5346,7 @@
               {
                 "fields": [
                   {
-                    "type": 12
+                    "type": 92
                   }
                 ],
                 "index": 1,
@@ -3464,11 +5358,11 @@
         "params": [
           {
             "name": "T",
-            "type": 43
+            "type": 113
           },
           {
             "name": "E",
-            "type": 12
+            "type": 92
           }
         ],
         "path": [
@@ -3477,236 +5371,97 @@
       }
     },
     {
-      "id": 43,
+      "id": 113,
       "type": {
         "def": {
           "sequence": {
-            "type": 44
+            "type": 69
           }
         }
       }
     },
     {
-      "id": 44,
+      "id": 114,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 115
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 92
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 115
+          },
+          {
+            "name": "E",
+            "type": 92
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 115,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 116
+          }
+        }
+      }
+    },
+    {
+      "id": 116,
       "type": {
         "def": {
           "composite": {
             "fields": [
               {
                 "name": "list_id",
-                "type": 10,
+                "type": 22,
                 "typeName": "Hash"
               },
               {
                 "name": "owner",
-                "type": 2,
+                "type": 0,
                 "typeName": "AccountId"
               },
               {
                 "name": "list_name",
-                "type": 4,
+                "type": 3,
                 "typeName": "Vec<u8>"
               },
               {
-                "name": "hide_from_search",
-                "type": 6,
-                "typeName": "bool"
-              },
-              {
                 "name": "description",
-                "type": 4,
+                "type": 3,
                 "typeName": "Vec<u8>"
               },
               {
                 "name": "list_accounts",
-                "type": 8,
-                "typeName": "Vec<AccountId>"
-              }
-            ]
-          }
-        },
-        "path": [
-          "geode_messaging",
-          "geode_messaging",
-          "OpenListDetails"
-        ]
-      }
-    },
-    {
-      "id": 45,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 46
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 12
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 46
-          },
-          {
-            "name": "E",
-            "type": 12
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 46,
-      "type": {
-        "def": {
-          "sequence": {
-            "type": 47
-          }
-        }
-      }
-    },
-    {
-      "id": 47,
-      "type": {
-        "def": {
-          "composite": {
-            "fields": [
-              {
-                "name": "list_id",
-                "type": 10,
-                "typeName": "Hash"
-              },
-              {
-                "name": "owner",
-                "type": 2,
-                "typeName": "AccountId"
-              },
-              {
-                "name": "list_name",
                 "type": 4,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "total_fee",
-                "type": 5,
-                "typeName": "Balance"
-              },
-              {
-                "name": "description",
-                "type": 4,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "list_accounts",
-                "type": 8,
-                "typeName": "Vec<AccountId>"
-              }
-            ]
-          }
-        },
-        "path": [
-          "geode_messaging",
-          "geode_messaging",
-          "PaidListDetails"
-        ]
-      }
-    },
-    {
-      "id": 48,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 49
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 12
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 49
-          },
-          {
-            "name": "E",
-            "type": 12
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 49,
-      "type": {
-        "def": {
-          "sequence": {
-            "type": 50
-          }
-        }
-      }
-    },
-    {
-      "id": 50,
-      "type": {
-        "def": {
-          "composite": {
-            "fields": [
-              {
-                "name": "list_id",
-                "type": 10,
-                "typeName": "Hash"
-              },
-              {
-                "name": "owner",
-                "type": 2,
-                "typeName": "AccountId"
-              },
-              {
-                "name": "list_name",
-                "type": 4,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "description",
-                "type": 4,
-                "typeName": "Vec<u8>"
+                "typeName": "u128"
               }
             ]
           }
@@ -3719,7 +5474,7 @@
       }
     },
     {
-      "id": 51,
+      "id": 117,
       "type": {
         "def": {
           "variant": {
@@ -3727,7 +5482,7 @@
               {
                 "fields": [
                   {
-                    "type": 52
+                    "type": 118
                   }
                 ],
                 "index": 0,
@@ -3736,7 +5491,7 @@
               {
                 "fields": [
                   {
-                    "type": 12
+                    "type": 92
                   }
                 ],
                 "index": 1,
@@ -3748,11 +5503,11 @@
         "params": [
           {
             "name": "T",
-            "type": 52
+            "type": 118
           },
           {
             "name": "E",
-            "type": 12
+            "type": 92
           }
         ],
         "path": [
@@ -3761,19 +5516,19 @@
       }
     },
     {
-      "id": 52,
+      "id": 118,
       "type": {
         "def": {
           "composite": {
             "fields": [
               {
                 "name": "search",
-                "type": 4,
-                "typeName": "Vec<u8>"
+                "type": 109,
+                "typeName": "Vec<Vec<u8>>"
               },
               {
                 "name": "lists",
-                "type": 49,
+                "type": 115,
                 "typeName": "Vec<OpenListPublicDetails>"
               }
             ]
@@ -3787,7 +5542,7 @@
       }
     },
     {
-      "id": 53,
+      "id": 119,
       "type": {
         "def": {
           "variant": {
@@ -3795,7 +5550,7 @@
               {
                 "fields": [
                   {
-                    "type": 54
+                    "type": 8
                   }
                 ],
                 "index": 0,
@@ -3804,7 +5559,7 @@
               {
                 "fields": [
                   {
-                    "type": 12
+                    "type": 92
                   }
                 ],
                 "index": 1,
@@ -3816,11 +5571,11 @@
         "params": [
           {
             "name": "T",
-            "type": 54
+            "type": 8
           },
           {
             "name": "E",
-            "type": 12
+            "type": 92
           }
         ],
         "path": [
@@ -3829,20 +5584,104 @@
       }
     },
     {
-      "id": 54,
+      "id": 120,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 2
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 92
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 2
+          },
+          {
+            "name": "E",
+            "type": 92
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 121,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 122
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 92
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 122
+          },
+          {
+            "name": "E",
+            "type": 92
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 122,
       "type": {
         "def": {
           "composite": {
             "fields": [
               {
-                "name": "search",
-                "type": 4,
-                "typeName": "Vec<u8>"
+                "name": "lists",
+                "type": 123,
+                "typeName": "Vec<MessagesFromList>"
               },
               {
-                "name": "accounts",
-                "type": 55,
-                "typeName": "Vec<Settings>"
+                "name": "defunct_lists",
+                "type": 21,
+                "typeName": "Vec<Hash>"
               }
             ]
           }
@@ -3850,256 +5689,190 @@
         "path": [
           "geode_messaging",
           "geode_messaging",
-          "AccountSearchResults"
+          "MyInboxLists"
         ]
       }
     },
     {
-      "id": 55,
+      "id": 123,
       "type": {
         "def": {
           "sequence": {
-            "type": 56
+            "type": 124
           }
         }
       }
     },
     {
-      "id": 56,
+      "id": 124,
       "type": {
         "def": {
           "composite": {
             "fields": [
               {
-                "name": "user_account",
+                "name": "allowed_list",
+                "type": 22,
+                "typeName": "Hash"
+              },
+              {
+                "name": "list_name",
+                "type": 3,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "list_messages",
+                "type": 125,
+                "typeName": "Vec<ListMessageDetails>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_messaging",
+          "geode_messaging",
+          "MessagesFromList"
+        ]
+      }
+    },
+    {
+      "id": 125,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 58
+          }
+        }
+      }
+    },
+    {
+      "id": 126,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 123
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 92
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 123
+          },
+          {
+            "name": "E",
+            "type": 92
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 127,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 128
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 92
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 128
+          },
+          {
+            "name": "E",
+            "type": 92
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 128,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "reward_on",
                 "type": 2,
+                "typeName": "u8"
+              },
+              {
+                "name": "reward_root_set",
+                "type": 2,
+                "typeName": "u8"
+              },
+              {
+                "name": "reward_root",
+                "type": 0,
                 "typeName": "AccountId"
               },
               {
-                "name": "username",
+                "name": "reward_interval",
                 "type": 4,
-                "typeName": "Vec<u8>"
+                "typeName": "u128"
               },
               {
-                "name": "interests",
+                "name": "reward_amount",
                 "type": 4,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "inbox_fee",
-                "type": 5,
                 "typeName": "Balance"
               },
               {
-                "name": "hide_from_search",
-                "type": 6,
-                "typeName": "bool"
-              },
-              {
-                "name": "last_update",
-                "type": 7,
-                "typeName": "u64"
-              }
-            ]
-          }
-        },
-        "path": [
-          "geode_messaging",
-          "geode_messaging",
-          "Settings"
-        ]
-      }
-    },
-    {
-      "id": 57,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 58
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 12
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 58
-          },
-          {
-            "name": "E",
-            "type": 12
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 58,
-      "type": {
-        "def": {
-          "composite": {
-            "fields": [
-              {
-                "name": "interests",
-                "type": 59,
-                "typeName": "Vec<Vec<u8>>"
-              },
-              {
-                "name": "inbox_fee",
-                "type": 60,
-                "typeName": "Vec<Balance>"
-              },
-              {
-                "name": "last_update",
-                "type": 61,
-                "typeName": "Vec<u64>"
-              }
-            ]
-          }
-        },
-        "path": [
-          "geode_messaging",
-          "geode_messaging",
-          "SettingsData"
-        ]
-      }
-    },
-    {
-      "id": 59,
-      "type": {
-        "def": {
-          "sequence": {
-            "type": 4
-          }
-        }
-      }
-    },
-    {
-      "id": 60,
-      "type": {
-        "def": {
-          "sequence": {
-            "type": 5
-          }
-        }
-      }
-    },
-    {
-      "id": 61,
-      "type": {
-        "def": {
-          "sequence": {
-            "type": 7
-          }
-        }
-      }
-    },
-    {
-      "id": 62,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 63
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 12
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 63
-          },
-          {
-            "name": "E",
-            "type": 12
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 63,
-      "type": {
-        "def": {
-          "composite": {
-            "fields": [
-              {
-                "name": "caller_interests",
+                "name": "reward_balance",
                 "type": 4,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "caller_inbox_fee",
-                "type": 5,
                 "typeName": "Balance"
               },
               {
-                "name": "caller_last_update",
-                "type": 7,
-                "typeName": "u64"
-              },
-              {
-                "name": "caller_hide",
-                "type": 6,
-                "typeName": "bool"
-              },
-              {
-                "name": "caller_username",
+                "name": "reward_payouts",
                 "type": 4,
-                "typeName": "Vec<u8>"
+                "typeName": "Balance"
               },
               {
-                "name": "interests",
-                "type": 59,
-                "typeName": "Vec<Vec<u8>>"
-              },
-              {
-                "name": "inbox_fee",
-                "type": 60,
-                "typeName": "Vec<Balance>"
-              },
-              {
-                "name": "last_update",
-                "type": 61,
-                "typeName": "Vec<u64>"
+                "name": "claim_counter",
+                "type": 4,
+                "typeName": "u128"
               }
             ]
           }
@@ -4107,20 +5880,12 @@
         "path": [
           "geode_messaging",
           "geode_messaging",
-          "CallerSettingsData"
+          "RewardSettings"
         ]
       }
     },
     {
-      "id": 64,
-      "type": {
-        "def": {
-          "primitive": "u32"
-        }
-      }
-    },
-    {
-      "id": 65,
+      "id": 129,
       "type": {
         "def": {
           "variant": {}
@@ -4133,5 +5898,5 @@
       }
     }
   ],
-  "version": "4"
+  "version": 5
 }

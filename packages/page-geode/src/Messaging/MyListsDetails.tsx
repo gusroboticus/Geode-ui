@@ -5,12 +5,12 @@
 import React, { useState, useCallback } from 'react';
 import { useTranslation } from '../shared/translate.js';
 import type { CallResult } from '../shared/types.js';
-import { stringify, hexToString, isHex } from '@polkadot/util';
-import { styled, Expander, Button, AccountName, LabelHelp, IdentityIcon, Card } from '@polkadot/react-components';
-import { Table, Label} from 'semantic-ui-react'
+import { stringify } from '@polkadot/util';
+import { styled, Button, Card } from '@polkadot/react-components';
+import { Message, Table, Label} from 'semantic-ui-react'
 import AccountHeader from '../shared/AccountHeader.js';
 import { useToggle } from '@polkadot/react-hooks';
-
+import { idToShort, accountIdentity, booltoPublic, hexToHuman, numBlueButton } from './MsgUtil.js';
 import CallSendMessage from './CallSendMessage.js';
 
 interface Props {
@@ -25,27 +25,20 @@ interface Props {
     listName: string,
     hideFromSearch: boolean,
     description: string,
-    listAccounts: string[]
+    listAccounts: number
   }
 
   type ListsDetail = {
   ok: ListsObj[]
   }
   
-function MyListsDetails ({  className = '', onClear, 
-                            outcome: { from, output, when } }: 
-                            Props): React.ReactElement<Props> | null {
-                              
-    //todo: code for unused params or remove!:
-    // console.log(JSON.stringify(message));
-    // console.log(JSON.stringify(params));
-    // console.log(JSON.stringify(result));
+function MyListsDetails ({  className = '', outcome: { from, output, when } }: Props): React.ReactElement<Props> | null {
 
     const { t } = useTranslation();
-
-    const objOutput: string = stringify(output);
-    const _Obj = JSON.parse(objOutput);
-    const listsDetail: ListsDetail = Object.create(_Obj);
+    function t_strong(_str: string): JSX.Element{return(<><strong>{t(_str)}</strong></>)}
+    function noop (): void {// do nothing
+    }
+    const listsDetail: ListsDetail = Object.create(JSON.parse(stringify(output)));
 
     const [isMakeList, toggleMakeList] = useToggle(false);
     const [isDeleteList, setDeleteList] = useState(false);
@@ -78,26 +71,12 @@ function MyListsDetails ({  className = '', onClear,
         []
       )
 
-
-    function hextoHuman(_hexIn: string): string {
-      return((isHex(_hexIn))? t(hexToString(_hexIn).trim()): '')
-    }
-    
-    function booltoPrivate(_bool: boolean): string {
-      return(_bool? t('Private'): t('Public'))
-    }
-
     function ListAccount(): JSX.Element {
       return(
           <div>
             <Table>
               <Table.Row>
               <Table.Cell>
-              <Button
-                  icon='times'
-                  label={t(' Close ')}
-                  onClick={onClear}
-                />
               <Button
                   icon={isMakeList? 'minus': 'plus'}
                   label={t(' Make a New List')}
@@ -113,46 +92,31 @@ function MyListsDetails ({  className = '', onClear,
       
 function GetLists(): JSX.Element {
       try {
-
         return(
           <div>
           <Table stretch>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell>
-                {t(' Total Lists: ')} {listCount}               
-              </Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-
           <Table.Row>
             <Table.Cell verticalAlign='top'>
-            <h3><LabelHelp help={t(' Your Lists ')} />
-                <strong>{t('Your Lists: ')}</strong></h3> 
-                
+                <h3><Button isCircular onClick={noop} icon='people-group'/>{t_strong(' Your Lists: ')}{' '}{t(' Total Lists: ')}{' '}
+                {numBlueButton(listCount)}
+                {' '}</h3> 
                 {listsDetail.ok.length>0 &&  
                   listsDetail.ok.map((_lists, index: number)=> <>
-                  <h2><strong>{'@'}{hextoHuman(_lists.listName)}</strong>
-                  {' ('}<AccountName value={_lists.owner} withSidebar={true}/>{') '}                      
-                  </h2>
-                  <strong>{t('List ID: ')}</strong>{}
-                  {_lists.listId}<br />
-                  <strong>{t('Description: ')}</strong>{}
-                  {hextoHuman(_lists.description)}<br />
-                  <strong>{t('List Type: ')}</strong>
-                  {booltoPrivate(_lists.hideFromSearch)}
-                  <br /><br />
-                <Expander 
-                    className='listAccounts'
-                    isOpen={false}
-                    summary={<Label size={'small'} color='orange' circular> {'Accounts'}</Label>}>
-                    {_lists.listAccounts.length>0  &&
-                       _lists.listAccounts.map(_listAccounts => <>
-                       {_listAccounts}
-                       <IdentityIcon value={_listAccounts} />
-                       {' ('}<AccountName value={_listAccounts} withSidebar={true}/>{') '}
-                    </>)}
-                </Expander><br /><br />
+                  <h3><strong>{'@'}{hexToHuman(_lists.listName)}</strong>                 
+                  </h3>
+                  <Message floating content>
+                  {t_strong('List Owner: ')}
+                  {accountIdentity(_lists.owner)}<br />
+                  {t_strong('List ID: ')}
+                  {idToShort(_lists.listId)}<br />
+                  {t_strong('Description: ')}
+                  {hexToHuman(_lists.description)}<br />
+                  {t_strong('List Type: ')}
+                  {booltoPublic(_lists.hideFromSearch)}<br />
+                  {t_strong('Number of Accounts: ')}
+                  {numBlueButton(_lists.listAccounts)}
+                  <br />
+                  </Message>
                 {setListCount(index+1)}
                 <Label color='orange' as='a'
                 onClick={()=>{<>
@@ -193,7 +157,7 @@ function GetLists(): JSX.Element {
     <AccountHeader 
             fromAcct={from} 
             timeDate={when} 
-            callFrom={2}/>
+            callFrom={38}/>
       <ListAccount />
       {!isSendMsg && !isDeleteList && isMakeList && (<>
         <CallSendMessage

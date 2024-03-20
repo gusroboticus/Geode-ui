@@ -38,7 +38,6 @@ export interface Props {
   passInventory?: number;
   passCountry?: string;
   passCity?: string;
-  passNotes?: string;
 }
 
 interface Indexes {
@@ -55,7 +54,7 @@ function filterContracts (api: ApiPromise, keyringContracts: string[] = []): Con
 
 function ContractsTable ({  contracts: keyringContracts, initMessageIndex, 
                             passListingID, passOfferCoin, passAskingCoin, passPrice, passMethod, 
-                            passInventory, passCountry, passCity, passNotes
+                            passInventory, passCountry, passCity
                           }: Props): React.ReactElement<Props> {
   const _initIndex: number = (initMessageIndex > -1) ? initMessageIndex: 0;
   let _initContractIndex: number = 0;
@@ -201,7 +200,6 @@ function ContractsTable ({  contracts: keyringContracts, initMessageIndex,
          passInventory={passInventory}
          passCountry={passCountry}
          passCity={passCity}
-         passNotes={passNotes}
          onClose={_toggleCall}
          />
       )

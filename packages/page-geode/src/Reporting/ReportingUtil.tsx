@@ -4,6 +4,8 @@
 import React from 'react';
 import { useTranslation } from '../shared/translate.js';
 import { hexToString, isHex } from '@polkadot/util';
+import { AccountName, IdentityIcon } from '@polkadot/react-components';
+import CopyInline from '../shared/CopyInline.js';
 
 export function timeStampToDate(tstamp: number): JSX.Element {
     const { t } = useTranslation();
@@ -31,4 +33,19 @@ export function t_strong(_str: string): JSX.Element{
     return(<><strong>{t(_str)}</strong></>)
   }
 
+  export function accountIdentity(_id: string): JSX.Element {
+    return(
+        <>
+        <IdentityIcon value={_id} />
+        <AccountName value={_id} withSidebar={true}/>
+        {' - '}{_id}{' '}
+        <CopyInline value={_id} label={''}/>                    
+        <br />
+        </>
+    )
+}
+
+export function acctToShort (_acct: string): string {
+    return (_acct.length>7 ? _acct.slice(0,7)+'...' : _acct);
+}
 

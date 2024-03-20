@@ -23,9 +23,9 @@ import { getContractForAddress } from '../shared/util.js';
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * uncomment for test configuration - - - - >  *
-// import JSONContractAddress from '../shared/geode_contracts_test.json';
+import JSONContractAddress from '../shared/geode_contracts_test.json';
 // * uncomment for production chain - - - - - >  *
-import JSONContractAddress from '../shared/geode_contracts.json';
+// import JSONContractAddress from '../shared/geode_contracts.json';
 // * * * * * * * * * * * * * * * * * * * * * * * *
 
 export interface Props {
@@ -217,7 +217,7 @@ function ContractsTable ({ contracts: keyringContracts, initMessageIndex }: Prop
       {(
         messageIndex===3  || messageIndex===4  ||
         messageIndex===5  || messageIndex===6  || 
-        messageIndex===8  || messageIndex===22) && isCallOpen && contract && (
+        messageIndex===8  ) && isCallOpen && contract && (
         <CallSubCard
           contract={contract}
           messageIndex={messageIndex}
@@ -225,15 +225,13 @@ function ContractsTable ({ contracts: keyringContracts, initMessageIndex }: Prop
         />
       )}
       {(messageIndex===0  || messageIndex===10 ||
-        messageIndex===13 ||
-        messageIndex===26 || 
+        messageIndex===13 || messageIndex===22 ||
+        messageIndex===26 || messageIndex===24 ||
         messageIndex===27 || messageIndex===28 || 
         messageIndex===29 || messageIndex===30 ||
         messageIndex===31 || messageIndex===32 ||
-        messageIndex===33 || messageIndex===36 ||
-        messageIndex===35 || messageIndex===34 || 
-        messageIndex===37 || messageIndex===38 ||
-        messageIndex===39) 
+        messageIndex===33 || messageIndex===25 ||
+        messageIndex===34 ) 
         && isCallOpen && contract && (
         <CallCard
           contract={contract}

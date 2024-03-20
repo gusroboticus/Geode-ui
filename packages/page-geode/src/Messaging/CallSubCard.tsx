@@ -151,7 +151,7 @@ function CallSubCard ({ className = '', contract, messageIndex, onChangeMessage,
                 {'(2) '}{t('Select the Account you wish to delete messages.')}<br />
                 {'(3) '}{t('Click Submit.')}<br />
               </>)}
-        {messageIndex==22 && (<>
+        {messageIndex==99 && (<>
                 <h2>
                 <Badge icon='info' color={'blue'} />
                 <strong>{t('Make a Paid List')}</strong></h2>

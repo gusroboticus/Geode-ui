@@ -22,6 +22,8 @@ import Params from '../shared/Params.js';
 import { useTranslation } from '../shared/translate.js';
 import useWeight from '../useWeight.js';
 import { getCallMessageOptions } from '../shared/util.js';
+import { MAX_LISTINGS, MAX_PAIR, MAX_METHOD, MAX_COUNTRY, MAX_CITY } from './ExchangeConst.js'
+
 
 interface Props {
   className?: string;
@@ -33,7 +35,6 @@ interface Props {
   passInventory?: number;
   passCountry?: string;
   passCity?: string;
-  passNotes?: string;
   hideThisListing?: boolean;
   contract: ContractPromise;
   messageIndex: number;
@@ -47,7 +48,7 @@ const BNtoGeode = (_num: number|undefined) => _num? _num/1000000000000: 0;
 const boolToString = (_bool: boolean) => _bool? 'Yes': 'No';
 
 function CallModal ({ className = '', passListingID, passOfferCoin, passAskingCoin, passPrice, passMethod, 
-                      passInventory, passCountry, passCity, passNotes, hideThisListing, 
+                      passInventory, passCountry, passCity, hideThisListing, 
                       contract, messageIndex, onCallResult, onChangeMessage,
                       onClose }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
@@ -64,13 +65,14 @@ function CallModal ({ className = '', passListingID, passOfferCoin, passAskingCo
   
   const [isViaCall, toggleViaCall] = useToggle();
   const [isHideListing, toggleHideListing] = useToggle();
+  const [isSaved, setSaved] = useState(false);
 
   const [formPrice, setFormPrice] = useState<string>();
   const [formInventory, setFormInventory] = useState<string>();
   const [formMethod, setFormMethod] = useState<string>();
   const [formCountry, setFormCountry] = useState<string>();
   const [formCity, setFormCity] = useState<string>();
-  const [formNotes, setFormNotes] = useState<string>();
+  //const [formNotes, setFormNotes] = useState<string>();
 
   const weight = useWeight();
   const dbValue = useDebounce(value);
@@ -224,68 +226,69 @@ function CallModal ({ className = '', passListingID, passOfferCoin, passAskingCo
 
         {/* custom modal for this contract message... */}
         {messageIndex===1 && (<>
+          <br />
+          {t_strong(' PLEASE NOTE: ')} 
+          <br />{' 🔘 '}{t_strong(' Users looking to trade coin will only see the 58 most recently listed pairs, and the 5 best-priced listings per pair. Please price your listing to be competitive.')}
+          <br />{' 🔘 '}{t(' All listings are saved to the Chain but may not be shown. ')}
+          <br />{' 🔘 '}{t(' Each account can have a maximum of ')}{MAX_LISTINGS}{t(' listings.')}
+          <br /><br />
           <br />       
           {t_strong('Editing This Listing ID: ')}<br />
           {params[0] = passListingID}
           <br /><h2><strong>{hexToString(passOfferCoin)}{t('/')}{hexToString(passAskingCoin)}</strong></h2>
           <br />
 
-          {t_strong('Price per coin in ')}{hexToString(passAskingCoin)}
+          {t_strong('Price per coin in ')}{hexToString(passAskingCoin)}{t('(Max Character length is ')}{MAX_PAIR}{')'}
           <Input label={formPrice? params[1] = GeodeToZeo(formPrice): params[1] = passPrice} type="text"
                 defaultValue={BNtoGeode(passPrice)}
                 value={formPrice}
                 onChange={(e) => {
-                    setFormPrice(e.target.value);
+                  setFormPrice(e.target.value.slice(0,MAX_PAIR));
+                  setParams([...params]);
                 }}
                 ><input />
           </Input>
 
-          {t_strong('Method: explain how you want buyers to communicate with you, etc. ')}
+          {t_strong('Method: explain how you want buyers to communicate with you, etc. ')}{t('(Max Character length is ')}{MAX_METHOD}{')'}
           <Input label={formMethod? params[2] = formMethod: params[2] = hexToString(passMethod)} type="text" 
-                value={formMethod}
-                defaultValue={hexToString(passMethod)}
-                onChange={(e)=>{
-                    setFormMethod(e.target.value);
+              value={formMethod}
+              defaultValue={hexToString(passMethod)}
+              onChange={(e)=>{
+                  setFormMethod(e.target.value.slice(0,MAX_METHOD));
+                  setParams([...params]);
                 }}
                 ><input />
           </Input>
 
           {t_strong('Inventory: how much of the offer coin do you have for sale?')}
           <Input label={formInventory? params[3] = GeodeToZeo(formInventory) : params[3] = passInventory} type="text"
-                  value={formInventory}
-                  defaultValue={BNtoGeode(passInventory)}
-                  onChange={(e) => {
-                    setFormInventory(e.target.value);
+              value={formInventory}
+              defaultValue={BNtoGeode(passInventory)}
+              onChange={(e) => {
+                  setFormInventory(e.target.value);
+                  setParams([...params]);
                   }}
                 ><input />
           </Input>
 
-          {t_strong('Country: what country do you live in (for local sales)')}
+          {t_strong('Country: what country do you live in (for local sales)')}{t('(Max Character length is ')}{MAX_COUNTRY}{')'}
           <Input label={formCountry? params[4] = formCountry: params[4] = hexToString(passCountry)} type="text" 
               value={formCountry}
               defaultValue={hexToString(passCountry)}
               onChange={(e)=>{
-              setFormCountry(e.target.value);
-              }}
+                  setFormCountry(e.target.value.slice(0,MAX_COUNTRY));
+                  setParams([...params]);
+                  }}
               ><input />
           </Input>
 
-          {t_strong('City: what city do you live in (for local sales)')}
+          {t_strong('City: what city do you live in (for local sales)')}{t('(Max Character length is ')}{MAX_CITY}{')'}
           <Input label={formCity? params[5] = formCity: params[5] = hexToString(passCity)} type="text" 
               value={formCity}
               defaultValue={hexToString(passCity)}
               onChange={(e)=>{
-              setFormCity(e.target.value);
-              }}
-              ><input />
-          </Input>
-
-          {t_strong('Notes: what else should buyers know?')}
-          <Input label={formNotes? params[6] = formNotes: params[6] = hexToString(passNotes)} type="text" 
-              value={formNotes}
-              defaultValue={hexToString(passNotes)}
-              onChange={(e)=>{
-              setFormNotes(e.target.value);
+                  setFormCity(e.target.value.slice(0,MAX_CITY));
+                  setParams([...params]);
               }}
               ><input />
           </Input>
@@ -294,10 +297,10 @@ function CallModal ({ className = '', passListingID, passOfferCoin, passAskingCo
           <br />
           <Toggle
             className='booleantoggle'
-            label={<strong>{t(boolToString(isHideListing))}</strong>}
+            label={<strong>{t(boolToString(isHideListing))}{params[6] = isHideListing}</strong>}
             onChange={() => {
               toggleHideListing()
-              params[7] = !isHideListing;
+              params[6] = !isHideListing;
               setParams([...params]);
             }}
             value={isHideListing}
@@ -350,11 +353,20 @@ function CallModal ({ className = '', passListingID, passOfferCoin, passAskingCo
           )
           : (
             <>
-            { <TxButton
+            <Button
+              icon='sign-in-alt'
+              //isDisabled={!isValid}
+              label={t('Save')}
+              onClick={()=>{setSaved(true);
+                          setParams([...params]);
+              }} 
+            />
+            { 
+            <TxButton
               accountId={accountId}
               extrinsic={execTx}
               icon='sign-in-alt'
-              isDisabled={!isValid || !execTx}
+              isDisabled={!isValid || !execTx || !isSaved}
               label={t('Submit')}
               onStart={onClose}
             />

@@ -20,6 +20,9 @@ export default function Messaging ({ className = '' }: Props): React.ReactElemen
     // main_menus
     const [isInBox, toggleInBox] = useToggle(false);
     const [isMyInbox, toggleMyInBox] = useToggle(false);
+    // const [isShowMyGroups, toggleShowMyGroups] = useToggle(false);
+    // const [isShowMyLists, toggleShowMyLists] = useToggle(false);
+
     const [isAcct, toggleAcct] = useToggle(false);
     const [isKeyword, toggleKeyword] = useToggle(false);
 
@@ -158,13 +161,13 @@ export default function Messaging ({ className = '' }: Props): React.ReactElemen
           </Button>    
           <Button
             icon={(isKeyword) ? 'minus' : 'plus'}
-            label={t('Search by Keyword')}
+            label={t('My Groups')}
             isDisabled={isMyInbox || isAcct }
             onClick={toggleKeyword}>
           </Button>    
           <Button
             icon={(isAcct) ? 'minus' : 'plus'}
-            label={t('Search by Account')}
+            label={t('My Lists')}
             isDisabled={isMyInbox || isKeyword }
             onClick={toggleAcct}>
           </Button>       
@@ -198,16 +201,16 @@ export default function Messaging ({ className = '' }: Props): React.ReactElemen
             isDisabled={isMyLists || isMyPaidLists || isSubLists || isFindAccts || isGetStats}
             onClick={toggleFindLists}>
           </Button>    
-          <Button
+          {/* <Button
             icon={(isFindAccts) ? 'minus' : 'plus'}
             label={t('Find Accounts')}
             isDisabled={isMyLists || isMyPaidLists || isSubLists || isFindLists || isGetStats}
             onClick={toggleFindAccts}>
-          </Button>    
+          </Button>     */}
           <Button
             icon={(isGetStats) ? 'minus' : 'plus'}
             label={t('Statistics')}
-            isDisabled={isMyLists || isMyPaidLists || isSubLists || isFindLists || isFindAccts}
+            isDisabled={true}
             onClick={toggleGetStats}>
           </Button>    
         </Card>
@@ -255,25 +258,25 @@ export default function Messaging ({ className = '' }: Props): React.ReactElemen
           <ContractsTable
           contracts={allContracts}
           updated={codeTrigger}
-          initMessageIndex={38}
+          initMessageIndex={999}
         />)}
         {isShowUpdate && (
           <ContractsTable
           contracts={allContracts}
           updated={codeTrigger}
-          initMessageIndex={39}
+          initMessageIndex={30}
         />)}
         {isFindLists && (          
         <ContractsTable
           contracts={allContracts}
           updated={codeTrigger}
-          initMessageIndex={36}
+          initMessageIndex={29}
         />)}
         {isMyLists && (
           <ContractsTable
           contracts={allContracts}
           updated={codeTrigger}
-          initMessageIndex={33}
+          initMessageIndex={27}
         />)}
         {isMyPaidLists && (
           <ContractsTable
@@ -285,57 +288,57 @@ export default function Messaging ({ className = '' }: Props): React.ReactElemen
           <ContractsTable
           contracts={allContracts}
           updated={codeTrigger}
-          initMessageIndex={35}
+          initMessageIndex={28}
         />)}
         {isFindAccts && (
           <ContractsTable
           contracts={allContracts}
           updated={codeTrigger}
-          initMessageIndex={37}
+          initMessageIndex={999}
         />)}
         {isMyGroup && (
           <ContractsTable
           contracts={allContracts}
           updated={codeTrigger}
-          initMessageIndex={29}
+          initMessageIndex={25}
         />)}
         {isAcct && (
           <ContractsTable
           contracts={allContracts}
           updated={codeTrigger}
-          initMessageIndex={31}
+          initMessageIndex={32}
         />)}
         {isKeyword && (
           <ContractsTable
           contracts={allContracts}
           updated={codeTrigger}
-          initMessageIndex={30}
+          initMessageIndex={33}
         />)}
 
         {isFindGroups && (
           <ContractsTable
           contracts={allContracts}
           updated={codeTrigger}
-          initMessageIndex={32}
+          initMessageIndex={26}
         />)}
 
         {isMyInbox && (
           <ContractsTable
             contracts={allContracts}
             updated={codeTrigger}
-            initMessageIndex={26}
+            initMessageIndex={22}
         />)}
         {isPaidInBox && (
           <ContractsTable
             contracts={allContracts}
             updated={codeTrigger}
-            initMessageIndex={27}
+            initMessageIndex={99}
         />)}
         {isAllowedAccount && (
           <ContractsTable
           contracts={allContracts}
           updated={codeTrigger}
-          initMessageIndex={28}
+          initMessageIndex={24}
         />)}
         {isJoinGroups && (
           <ContractsTable

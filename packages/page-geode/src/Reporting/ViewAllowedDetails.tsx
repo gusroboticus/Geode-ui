@@ -27,13 +27,8 @@ type EntityObj = {
   email: string,
 }
 
-type Entity = {
-  delegates: EntityObj[],
-  entities: EntityObj[],
-}
-
 type EntityDetail = {
-  ok: Entity
+  ok: EntityObj[]
 }
 
 
@@ -69,13 +64,6 @@ function ViewAllowedDetails ({ className = '', onClear, outcome: { output } }: P
     []
   )
 
-  const _removeEntity = useCallback(
-    () => {setRemoveDelegate(false);
-      setRemoveEntity(true);
-          },
-    []
-  )
-
   function ShowSubMenus(): JSX.Element {
     return(
         <div>
@@ -87,12 +75,6 @@ function ViewAllowedDetails ({ className = '', onClear, outcome: { output } }: P
                   label={t('Add A Delegate')}
                   isDisabled={isAddEntity}
                   onClick={()=> {<>{toggleAddDelegate()}{_reset()}</>}}
-                />
-                <Button
-                  icon={isAddEntity? 'minus': 'plus'}
-                  label={t('Add Law Enforcement')}
-                  isDisabled={isAddDelegate}
-                  onClick={()=> {<>{toggleAddEntity()}{_reset()}</>}}
                 />
              </Table.Cell>
             </Table.Row>
@@ -109,7 +91,7 @@ function ViewAllowedDetails ({ className = '', onClear, outcome: { output } }: P
             <Table.Cell verticalAlign='top'>
               <h3>{t_strong(' Geode Legal Team Delegates: ')}</h3>
               <br />
-              {entityDetail.ok.delegates.map((_delegates) =>  
+              {entityDetail.ok.map((_delegates) =>  
                 <div>
                   {t_strong(' Name: ')}
                   {isHex(_delegates.name) ? hexToString(_delegates.name) : ' '}
@@ -136,41 +118,6 @@ function ViewAllowedDetails ({ className = '', onClear, outcome: { output } }: P
             </Table.Cell>
           </Table.Row>
         </Table>
-        
-        <div>
-        <Table stretch>
-          <Table.Row>
-            <Table.Cell verticalAlign='top'>
-              <h3><strong>{t(' Allowed Law Enforcement Entities: ')}</strong></h3>
-              <br />
-              {entityDetail.ok.entities.map((_entities) =>  
-              <div>
-                {t_strong(' Name: ')}
-                <>{isHex(_entities.name) ? hexToString(_entities.name) : ' '}</>
-                <br />{t_strong(' Account: ')}
-                <><AccountName value={_entities.userAcct} withSidebar={true}/></>
-                <br />{t_strong(' Organization: ')}
-                <>{isHex(_entities.organization) ? hexToString(_entities.organization) : ' '}</>
-                <br />{t_strong(' Phone: ')}
-                <>{isHex(_entities.phone) ? hexToString(_entities.phone) : ' '}</>
-                <br />{t_strong(' Email: ')}
-                <>{isHex(_entities.email) ? hexToString(_entities.email) : ' '}</>
-                <br />
-                  <Label as='a' 
-                        circular
-                        color='orange'
-                        onClick={()=>{<>
-                          {setRemoveAccountID(_entities.userAcct)}
-                          {setCount(count + 1)}
-                          {_removeEntity()}</>}}
-                        >{'Remove'}</Label>
-                  <br /><br />
-              </div>
-              )}
-            </Table.Cell>
-          </Table.Row>
-        </Table>
-        </div>
         </div> 
       )
 

@@ -164,8 +164,7 @@ function ContractsTable ({  contracts: keyringContracts, initMessageIndex, remov
       </Table>}
       
       {isCallOpen && contract 
-                  && messageIndex!=3 && messageIndex !=5
-                  && (
+                  && (messageIndex ===2 || messageIndex===5 || messageIndex===4 || messageIndex===0) && (
         <CallCard
           contract={contract}
           messageIndex={messageIndex}
@@ -175,8 +174,7 @@ function ContractsTable ({  contracts: keyringContracts, initMessageIndex, remov
       )}
       
       {isCallOpen && contract 
-                  && (messageIndex ===3 || messageIndex ===5)
-                  && (
+                  && ( messageIndex ===3) && (
         <CallModal
          contract={contract}
          messageIndex={messageIndex}

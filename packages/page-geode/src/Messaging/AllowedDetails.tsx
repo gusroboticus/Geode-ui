@@ -4,12 +4,13 @@
 import React from 'react';
 import { useTranslation } from '../translate.js';
 import type { CallResult } from '../shared/types.js';
-//import styled from 'styled-components';
 import { stringify } from '@polkadot/util';
 import { useToggle } from '@polkadot/react-hooks';
-import { Button, AccountName, IdentityIcon, Card, styled } from '@polkadot/react-components';
+import { Button, Card, styled } from '@polkadot/react-components';
 import { Table} from 'semantic-ui-react'
+import AccountHeader from '../shared/AccountHeader.js';
 import CallSendMessage from './CallSendMessage.js';
+import { allowedAccounts } from './MsgUtil.js';
 
 interface Props {
     className?: string;
@@ -27,19 +28,12 @@ interface Props {
   ok: AllowBlockObj
   }
   
-function AllowedDetails ({ className = '', onClear, 
-                           outcome: { output, when } 
-                                    }: Props): React.ReactElement<Props> | null {
-    //todo: code for unused params or remove!:
-    // console.log(JSON.stringify(from));
-    // console.log(JSON.stringify(message));
-    // console.log(JSON.stringify(params));
-    // console.log(JSON.stringify(result));
+function AllowedDetails ({ className = '', outcome: { output, when, from } }: Props): React.ReactElement<Props> | null {
 
     const { t } = useTranslation();
-    const objOutput: string = stringify(output);
-    const _Obj = JSON.parse(objOutput);
-    const allowBlockDetail: AllowBlockDetail = Object.create(_Obj);
+    function t_strong(_str: string): JSX.Element{return(<><strong>{t(_str)}</strong></>)}
+
+    const allowBlockDetail: AllowBlockDetail = Object.create(JSON.parse(stringify(output)));
     const [isAdd, toggleAdd] = useToggle(false);
     const [isBlock, toggleBlock] = useToggle(false);
     const [isDelete, toggleDelete] = useToggle(false);
@@ -52,11 +46,6 @@ function AllowedDetails ({ className = '', onClear,
             <Table>
               <Table.Row>
               <Table.Cell>
-              <Button
-                  icon='times'
-                  label={t('Close')}
-                  onClick={onClear}
-                />
               <Button
                   icon={isAdd? 'minus': 'plus'}
                   label={t('Add')}
@@ -102,23 +91,19 @@ try{
         <Table stretch>
           <Table.Row>
             <Table.Cell verticalAlign='top'>
-            <strong>{t('Allowed Accounts: ')}</strong><br />
+            {t_strong('Allowed Accounts: ')}<br />
             {allowBlockDetail.ok.allowedAccounts.map((_out) => 
             <>
-              <IdentityIcon value={_out} />
-              {' ('}<AccountName value={_out} withSidebar={true}/>{') '}
-              {' '}{_out}{' '}<br />
+              {allowedAccounts(_out)}
             </>)}
         </Table.Cell>
       </Table.Row>
       <Table.Row>
             <Table.Cell verticalAlign='top'>
-            <strong>{t('Blocked Accounts: ')}</strong><br />
+            {t_strong('Blocked Accounts: ')}<br />
             {allowBlockDetail.ok.blockedAccounts.map((_out) => 
             <>
-              <IdentityIcon value={_out} />
-              {' ('}<AccountName value={_out} withSidebar={true}/>{') '}
-              {' '}{_out}{' '}<br />
+              {allowedAccounts(_out)}
             </>)}
         </Table.Cell>
       </Table.Row>
@@ -133,7 +118,7 @@ try{
     <Table>
       <Table.Row>
         <Table.Cell>
-        <strong>{t('There are no allowewd or blocked accounts.')}</strong>
+        <strong>{t('There are no allowed or blocked accounts.')}</strong>
         </Table.Cell>
         <Table.Cell>
         <strong>{t('Date/Time: ')}</strong>
@@ -150,6 +135,10 @@ try{
 return (
     <StyledDiv className={className}>
     <Card>
+    <AccountHeader 
+            fromAcct={from} 
+            timeDate={when} 
+            callFrom={33}/>
     <ListAccount />
 
     {isAdd && !isBlock && !isDelete && !isRemove && !isUnBlock &&(

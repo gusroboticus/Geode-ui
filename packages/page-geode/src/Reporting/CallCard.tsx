@@ -23,6 +23,9 @@ import useWeight from '../useWeight.js';
 import ViewReportsDetails from './ViewReportsDetails.js';
 import ViewAllowedDetails from './ViewAllowedDetails.js';
 import { getCallMessageOptions } from './util.js';
+import { t_strong } from './ReportingUtil.js';
+import { MAX_REPORTER_LEGAL_NAME, MAX_REPORTER_PHONE, MAX_GEODE_APPS, MAX_ACTIVITY_ID_LIST, MAX_CRIME_CATEGORY } from './ReportingConst.js'
+import { MAX_CRIME_DESCRIPTION, MAX_ACCUSED_LOCATION, MAX_NAME, MAX_ORGANIZATION, MAX_PHONE, MAX_EMAIL } from './ReportingConst.js'
 
 interface Props {
   className?: string;
@@ -156,19 +159,15 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
           <>{'- Add A Delegate To The Legal Team (Legal Root User Only)'}</>
         )}
         {messageIndex===4 && (
-          <>{'- Add Access For A Law Enforcement Entity (Any Geode Delegate Can Do This)'}</>
-        )}
-        {messageIndex===6 && (
           <>{'- View All Reports'}</>
         )}
-        {messageIndex===7 && (
+        {messageIndex===5 && (
           <>{'- View Legal Team And Allowed Law Enforcement Entities'}</>
         )}
         
         </h2>
         {isTest && (
           <InputAddress
-          //help={t('A deployed contract that has either been deployed or attached. The address and ABI are used to construct the parameters.')}
           isDisabled
           label={t('contract to use')}
           type='contract'
@@ -180,7 +179,12 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
           <Badge color='blue' icon='1'/>
           {t('Select which of your Accounts is making this report:')}
           </>)}
-        {messageIndex !== null && messageIndex===7 && (
+        {messageIndex !== null && messageIndex===2 && (
+          <><br /><br />
+          <Badge color='blue' icon='1'/>
+          {t('Select which of your Accounts is making this transaction:')}
+          </>)}
+        {messageIndex !== null && messageIndex===5 && (
           <><br /><br />
           <Badge color='blue' icon='i'/>
           {t('Only Legal Team Accounts Can See This:')}
@@ -189,7 +193,6 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
         <>
         <InputAddress
           defaultValue={accountId}
-          //help={t('Specify the user account to use for this contract call. And fees will be deducted from this account.')}
           label={t('account to use')}
           labelExtra={
             <Available
@@ -209,7 +212,6 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
             <>
             <Dropdown
               defaultValue={messageIndex}
-              //help={t('The message to send to this contract. Parameters are adjusted based on the ABI provided.')}
               isError={message === null}
               label={t('Reporting Item')}
               onChange={onChangeMessage}
@@ -220,30 +222,88 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
             </>
             )}
 
+            {messageIndex=== 2 && (
+              <>
+                <Badge color='blue' icon='2'/>
+                {t('Please fill out the folowing fields:')}
+                <br /><br />
+                {t_strong('Account Id')}
+                <InputAddress
+                    label={t('Account Id')}
+                    defaultValue={accusedAccountId}
+                    labelExtra={
+                      <Available
+                        label={t('transferrable')}
+                        params={accusedAccountId}
+                      />
+                      }
+                    onChange={setAccusedAccountId}
+                    type='account'
+                    value={params[0]=accusedAccountId}
+                />
+                {t_strong('Name ')}{t('(Max Character length is ')}{MAX_NAME}{')'}
+                    <Input label='' type="text" 
+                            value={params[1]}
+                            onChange={(e)=>{
+                              params[1]=e.target.value.slice(0,MAX_NAME);
+                              setParams([...params]);
+                            }}
+                    ></Input>
+                                
+                {t_strong('Organization ')}{t('(Max Character length is ')}{MAX_ORGANIZATION}{')'}
+                    <Input label='' type="text" 
+                            value={params[2]}
+                            onChange={(e)=>{
+                              params[2]=e.target.value.slice(0,MAX_ORGANIZATION);
+                              setParams([...params]);
+                            }}
+                    ></Input>
+
+                {t_strong('Phone Number ')}{t('(Max Character length is ')}{MAX_PHONE}{')'}
+                    <Input label='' type="text" 
+                            value={params[3]}
+                            onChange={(e)=>{
+                              params[3]=e.target.value.slice(0,MAX_PHONE);
+                              setParams([...params]);
+                            }}
+                    ></Input>
+
+                {t_strong('Email ')}{t('(Max Character length is ')}{MAX_EMAIL}{')'}
+                    <Input label='' type="text" 
+                            value={params[4]}
+                            onChange={(e)=>{
+                              params[4]=e.target.value.slice(0,MAX_EMAIL);
+                              setParams([...params]);
+                            }}
+                    ></Input>    
+              
+              </>)}
+
+
             {messageIndex=== 0 && (
               <>
                 <Badge color='blue' icon='2'/>
                 {t('Please fill out the folowing fields:')}
                 <br /><br />
-                <strong>{t('Your Legal Name')}</strong>
+                {t_strong('Your Legal Name')}{t('(Max Character length is ')}{MAX_REPORTER_LEGAL_NAME}{')'}
                     <Input label='' type="text" 
                             value={params[0]}
                             onChange={(e)=>{
-                              params[0]=e.target.value;
+                              params[0]=e.target.value.slice(0,MAX_REPORTER_LEGAL_NAME);
                               setParams([...params]);
                             }}
                     ></Input>
                 
-                <strong>{t('Your Phone Number')}</strong>
+                {t_strong('Your Phone Number')}{t('(Max Character length is ')}{MAX_REPORTER_PHONE}{')'}
                     <Input label='' type="text" 
                             value={params[1]}
                             onChange={(e)=>{
-                              params[1]=e.target.value;
+                              params[1]=e.target.value.slice(0,MAX_REPORTER_PHONE);
                               setParams([...params]);
                             }}
                     ></Input>
 
-                <strong>{t('Accused Account')}</strong>
+                {t_strong('Accused Account')}
                 <InputAddress
                     label={t('Accused Account')}
                     defaultValue={accusedAccountId}
@@ -258,55 +318,55 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
                     value={params[2]=accusedAccountId}
                 />
                 
-                <strong>{t('Geode Apps Where The Crime Happened')}</strong>
+                {t_strong('Geode Apps Where The Crime Happened')}{t('(Max Character length is ')}{MAX_GEODE_APPS}{')'}
                     <Input label='' type="text" 
                             value={params[3]}
                             onChange={(e)=>{
-                              params[3]=e.target.value;
+                              params[3]=e.target.value.slice(0,MAX_GEODE_APPS);
                               setParams([...params]);
                             }}
                     ></Input>
 
-                <strong>{t('Activity ID List (Hash IDs for the post, product, etc in question)')}</strong>
+                {t_strong('Activity ID List (Hash IDs for the post, product, etc in question)')}{t('(Max Character length is ')}{MAX_ACTIVITY_ID_LIST}{')'}
                     <Input label='' type="text" 
                             value={params[4]}
                             onChange={(e)=>{
-                              params[4]=e.target.value;
+                              params[4]=e.target.value.slice(0,MAX_ACTIVITY_ID_LIST);
                               setParams([...params]);
                             }}
                     ></Input>
 
-                <strong>{t('Crime Category (What kind of crime is this?)')}</strong>
+                {t_strong('Crime Category (What kind of crime is this?)')}{t('(Max Character length is ')}{MAX_CRIME_CATEGORY}{')'}
                     <Input label='' type="text" 
                             value={params[5]}
                             onChange={(e)=>{
-                              params[5]=e.target.value;
+                              params[5]=e.target.value.slice(0,MAX_CRIME_CATEGORY);
                               setParams([...params]);
                             }}
                     ></Input>
 
-                <strong>{t('Crime Description (Put the details of the crime here)')}</strong>
+                {t_strong('Crime Description (Put the details of the crime here)')}{t('(Max Character length is ')}{MAX_CRIME_DESCRIPTION}{')'}
                     <Input label='' type="text" 
                             value={params[6]}
                             onChange={(e)=>{
-                              params[6]=e.target.value;
+                              params[6]=e.target.value.slice(0,MAX_CRIME_DESCRIPTION);
                               setParams([...params]);
                             }}
                     ></Input>
 
-                <strong>{t('Accused User Location (What is the country, state and city of the accused user?)')}</strong>
+                {t_strong('Accused User Location (What is the country, state and city of the accused user?)')}{t('(Max Character length is ')}{MAX_ACCUSED_LOCATION}{')'}
                     <Input label='' type="text" 
                             value={params[7]}
                             onChange={(e)=>{
-                              params[7]=e.target.value;
+                              params[7]=e.target.value.slice(0,MAX_ACCUSED_LOCATION);
                               setParams([...params]);
                             }}
                     ></Input>    
               
               </>)}
 
-            
-              {messageIndex != 0 && ( <Params
+              {messageIndex != 0 && messageIndex != 2 && 
+              ( <Params
               onChange={setParams}
               params={
                 message
@@ -315,13 +375,11 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
               }              
               registry={contract.abi.registry}
             />)}
-
           </>
         )}
 
         {message.isPayable && (
           <InputBalance
-            //help={t('The allotted value for this contract, i.e. the amount transferred to the contract as part of this call.')}
             isError={!isValueValid}
             isZeroable
             label={t('value')}
@@ -382,7 +440,7 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
         </Card>
         </>)}
 
-        {outcomes.length > 0 && messageIndex === 6 && (
+        {outcomes.length > 0 && messageIndex === 4 && (
             <div>
             {outcomes.map((outcome, index): React.ReactNode => (
               <ViewReportsDetails
@@ -393,7 +451,7 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
             ))}
             </div>
         )}
-        {outcomes.length > 0 && messageIndex === 7 && (
+        {outcomes.length > 0 && messageIndex === 5 && (
             <div>
             {outcomes.map((outcome, index): React.ReactNode => (
               <ViewAllowedDetails

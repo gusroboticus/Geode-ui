@@ -10,6 +10,8 @@ import { styled, Button, LabelHelp, Card } from '@polkadot/react-components';
 import { Table, Label, Divider } from 'semantic-ui-react'
 import CopyInline from '../shared/CopyInline.js';
 import AccountHeader from '../shared/AccountHeader.js';
+import { t_strong, feeAverage, hexToHuman, timeStampToDate, removeDuplicates, removeSpaces } from './MsgUtil.js';
+
 
 interface Props {
     className?: string;
@@ -18,9 +20,12 @@ interface Props {
   }
   
 type SettingsObj = {
+    userAccount: string,
+    username: string,
     interests: string[],
     inboxFee: number[],
-    lastUpdate: number[]
+    hideFromSearch: boolean,
+    lastUpdate: number
   }
 
 type SettingsDetail = {
@@ -34,44 +39,44 @@ function SettingsDetails ({ className = '', onClear, outcome: { from, output, wh
     // console.log(JSON.stringify(result));
 
   const { t } = useTranslation();
-  const objOutput: string = stringify(output);
-  const _Obj = JSON.parse(objOutput);
-  const settingsDetail: SettingsDetail = Object.create(_Obj);
+  //const objOutput: string = stringify(output);
+  //const _Obj = JSON.parse(stringify(output));
+  const settingsDetail: SettingsDetail = Object.create(JSON.parse(stringify(output)));
 
-  function feeAverage(_fee: number[]): string {
-      return(_fee.reduce((a,b) => a+b)/_fee.length).toString()
-  }
+  // function feeAverage(_fee: number[]): string {
+  //     return(_fee.reduce((a,b) => a+b)/_fee.length).toString()
+  // }
 
-  function hextoHuman(_hexIn: string): string {
-      const _Out: string = (isHex(_hexIn))? t(hexToString(_hexIn).trim()): '';
-      return(_Out)
-    }
+  // function hextoHuman(_hexIn: string): string {
+  //     const _Out: string = (isHex(_hexIn))? t(hexToString(_hexIn).trim()): '';
+  //     return(_Out)
+  //   }
     
-  function timeStampToDate(tstamp: number): JSX.Element {
-      try {
-       const event = new Date(tstamp);
-       return (
-            <><i>{event.toDateString()}{' '}
-                 {event.toLocaleTimeString()}{' '}</i></>
-        )
-      } catch(error) {
-       console.error(error)
-       return(
-           <><i>{t('No Date')}</i></>
-       )
-      }
-   }
+  // function timeStampToDate(tstamp: number): JSX.Element {
+  //     try {
+  //      const event = new Date(tstamp);
+  //      return (
+  //           <><i>{event.toDateString()}{' '}
+  //                {event.toLocaleTimeString()}{' '}</i></>
+  //       )
+  //     } catch(error) {
+  //      console.error(error)
+  //      return(
+  //          <><i>{t('No Date')}</i></>
+  //      )
+  //     }
+  //  }
 
-   function removeDuplicates(arr: string[]) {
-    return arr.filter((item, index) => arr.indexOf(item) === index);
-  }
+  //  function removeDuplicates(arr: string[]) {
+  //   return arr.filter((item, index) => arr.indexOf(item) === index);
+  // }
     
-  function removeSpaces(arr: string[]) {
-    return arr.map(_w => (_w.trim()).toLowerCase() // Normalize
-    .replace(/["“”(\[{}\])]|\B['‘]([^'’]+)['’]/g, '$1') // Strip quotes and brackets
-    .replace(/[‒–—―…]|--|\.\.\./g, ' ') // Strip dashes and ellipses
-    .replace(/[!?;:.,]\B/g, '')); // Strip punctuation marks
-  }
+  // function removeSpaces(arr: string[]) {
+  //   return arr.map(_w => (_w.trim()).toLowerCase() // Normalize
+  //   .replace(/["“”(\[{}\])]|\B['‘]([^'’]+)['’]/g, '$1') // Strip quotes and brackets
+  //   .replace(/[‒–—―…]|--|\.\.\./g, ' ') // Strip dashes and ellipses
+  //   .replace(/[!?;:.,]\B/g, '')); // Strip punctuation marks
+  // }
 
   function ShowOrderByAlpha(inStr: string, inArr: string[]): JSX.Element {
     return(
@@ -119,7 +124,7 @@ function ShowData(): JSX.Element {
       try {
         const maxIndex: number = settingsDetail.ok.interests.length;
         const averageFee: string = feeAverage(settingsDetail.ok.inboxFee);
-        const modArr: string[] = (settingsDetail.ok.interests.map(_w => hextoHuman(_w).trimStart() + ', ')).concat();
+        const modArr: string[] = (settingsDetail.ok.interests.map(_w => hexToHuman(_w).trimStart() + ', ')).concat();
         const strArr: string = JSON.stringify(modArr.toString().split(','));
         const strObj: string[] = removeDuplicates(removeSpaces(JSON.parse(strArr)));
 
@@ -146,8 +151,8 @@ function ShowData(): JSX.Element {
                   <u><strong>{t(' Interest Words by User Accounts:')}</strong></u><br /><br />
                   {settingsDetail.ok.interests.map((_word) => 
                     <>
-                    <CopyInline value={hextoHuman(_word)} label={''}/>
-                    {hextoHuman(_word)}<br />
+                    <CopyInline value={hexToHuman(_word)} label={''}/>
+                    {hexToHuman(_word)}<br />
                     </>)
                   }    
                 <Divider />

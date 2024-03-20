@@ -19,6 +19,8 @@ import Params from '../shared/Params.js';
 import { useTranslation } from '../shared/translate.js';
 import useWeight from '../useWeight.js';
 import { getCallMessageOptions } from '../shared/util.js';
+//import { t_strong } from './MsgUtil.js';
+import { MAX_LIST_MESSAGE, MAX_GROUP_DESCRIPTION, MAX_MESSAGE, MAX_FILE_URL } from './MsgConst.js'
 
 interface Props {
   className?: string;
@@ -62,6 +64,7 @@ function CallModal ({ className = '', messageId, toAcct,
   const paramToString = (_string: string|undefined) => _string? _string : '';
   const hexToHuman =(_string: string|undefined) => isHex(_string)? hexToString(_string): '';
   const boolToString = (_bool: boolean) => _bool? 'Yes': 'No';
+  function t_strong(_str: string): JSX.Element{return(<><strong>{t(_str)}</strong></>)}
 
 
   const weight = useWeight();
@@ -372,17 +375,17 @@ function CallModal ({ className = '', messageId, toAcct,
               <h3><strong>{t('⚠️ PLEASE NOTE: You can only send messages to Lists that you created and own.')}</strong></h3>
               <br />
               <LabelHelp help={t('This is the List Id for the List to Send a Message.')}/>{' '}          
-              <strong>{t('List Id: ')}</strong>{' '}
+              {t_strong('List Id: ')}
               {messageIndex===15? params[0] = toAcct: params[0] = messageId}
               <br /><br />
               <LabelHelp help={t('Enter your message here..')}/>{' '}          
-              <strong>{t('Message: ')}</strong>
+              {t_strong('Message: ')}{' '}{t('(Max Character length is ')}{MAX_LIST_MESSAGE}{')'}
               <Input 
                 label={messageValue? params[1]=messageValue: params[1]=''}
                 type="text"
                 value={messageValue}
                 onChange={(e) => {
-                  setMessageValue(e.target.value);
+                  setMessageValue(e.target.value.slice(0,MAX_LIST_MESSAGE));
                   setParams([...params]);
                 }}
               ><input />
@@ -390,13 +393,13 @@ function CallModal ({ className = '', messageId, toAcct,
                     {params[1]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
               </Input>
               <LabelHelp help={t('Enter a link to a file.')}/>{' '}          
-              <strong>{t('File Link: ')}</strong>
+              {t_strong('File Link: ')}{' '}{t('(Max Character length is ')}{MAX_FILE_URL}{')'}
               <Input 
                 label={fileLinkValue? params[2]=fileLinkValue: params[2]=''}
                 type="text"
                 value={fileLinkValue}
                 onChange={(e) => {
-                  setFileLinkValue(e.target.value);
+                  setFileLinkValue(e.target.value.slice(0,MAX_FILE_URL));
                   setParams([...params]);
                 }}
                 ><input />
@@ -410,49 +413,34 @@ function CallModal ({ className = '', messageId, toAcct,
               <strong>{t('Group Id: ')}</strong>{' '}
               {params[0] = messageId}
               <br /><br />
-              <LabelHelp help={t('Enter your Updated Group name.')}/>{' '}          
-              <strong>{t(' Group Name: ')}</strong>
-              <Input 
-                label={messageValue? params[1]=messageValue: params[1]=''}
-                type="text"
-                value={messageValue}
-                onChange={(e) => {
-                  setMessageValue(e.target.value);
-                  setParams([...params]);
-                }}
-              ><input />
-              <Label color={params[1]? 'blue': 'grey'}>
-                    {params[1]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
-              </Input>
-
-              <br /><br />
+              
               <LabelHelp help={t('Select Yes/No to Make this Group Private/Public.')}/> {' '}         
               <strong>{t('Make Group Private (Yes/No): ')}</strong>
               <br /><br />
               <Toggle
                 className='booleantoggle'
-                label={<strong>{t(boolToString(params[2] = _isHide))}</strong>}
+                label={<strong>{t(boolToString(params[1] = _isHide))}</strong>}
                 onChange={() => {
                   toggleIsHide()
-                  params[2] = !_isHide;
+                  params[1] = !_isHide;
                   setParams([...params]);
                 }}
                 value={_isHide}
               />
-              <br /><br />
+              <br />
               <LabelHelp help={t('Enter the Group description.')}/>{' '}          
-              <strong>{t('Group Description: ')}</strong>
+              {t_strong('Group Description: ')}{t('(Max Character length is ')}{MAX_GROUP_DESCRIPTION}{')'}
               <Input 
-                label={fileLinkValue? params[3]=fileLinkValue: params[3]=''}
+                label={fileLinkValue? params[2]=fileLinkValue: params[2]=''}
                 type="text"
                 value={fileLinkValue}
                 onChange={(e) => {
-                  setFileLinkValue(e.target.value);
+                  setFileLinkValue(e.target.value.slice(0,MAX_GROUP_DESCRIPTION));
                   setParams([...params]);
                 }}
                 ><input />
-                <Label color={params[3]? 'blue': 'grey'}>
-                        {params[3]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
+                <Label color={params[2]? 'blue': 'grey'}>
+                        {params[2]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
               </Input>            
               <br /><br />            
             </>)}
@@ -508,13 +496,13 @@ function CallModal ({ className = '', messageId, toAcct,
               {messageId? params[0] = messageId: params[0] = toAcct}
               <br /><br />
               <LabelHelp help={t('Enter your message here..')}/>{' '}          
-              <strong>{t('Message: ')}</strong>
+              {t_strong('Message: ')}{t('(Max Character length is ')}{MAX_MESSAGE}{')'}
               <Input 
                 label={messageValue? params[1]=messageValue: params[1]=''}
                 type="text"
                 value={messageValue}
                 onChange={(e) => {
-                  setMessageValue(e.target.value);
+                  setMessageValue(e.target.value.slice(0,MAX_MESSAGE));
                   setParams([...params]);
                 }}
               ><input />
@@ -522,13 +510,13 @@ function CallModal ({ className = '', messageId, toAcct,
                     {params[1]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
               </Input>
               <LabelHelp help={t('Enter a link to a file.')}/>{' '}          
-              <strong>{t('File Link: ')}</strong>
+              {t_strong('File Link: ')}{t('(Max Character length is ')}{MAX_FILE_URL}{')'} 
               <Input 
                 label={fileLinkValue? params[2]=fileLinkValue: params[2]=''}
                 type="text"
                 value={fileLinkValue}
                 onChange={(e) => {
-                  setFileLinkValue(e.target.value);
+                  setFileLinkValue(e.target.value.slice(0,MAX_FILE_URL));
                   setParams([...params]);
                 }}
                 ><input />
@@ -542,7 +530,7 @@ function CallModal ({ className = '', messageId, toAcct,
             {messageIndex===1 && (<>
               <br />
               <LabelHelp help={t('Select Message Recipient.')}/>{' '}          
-              <strong>{t('Message Recipient: ')}</strong>{' '}
+              {t_strong('Message Recipient: ')}{' '}
               {params[0] = recipientValue}<br />
               <InputAddress
                 defaultValue={paramToString(toAcct)}
@@ -558,14 +546,14 @@ function CallModal ({ className = '', messageId, toAcct,
                 value={recipientValue}
               />
 
-              <LabelHelp help={t('Enter your message here..')}/>{' '}          
-              <strong>{t('Message: ')}</strong>
+              <LabelHelp help={t('Enter your message here..')}/>{' '}         
+              {t_strong('Message: ')}{t('(Max Character length is ')}{MAX_MESSAGE}{')'} 
               <Input 
                 label={messageValue? params[1]=messageValue: params[1]=''}
                 type="text"
                 value={messageValue}
                 onChange={(e) => {
-                  setMessageValue(e.target.value);
+                  setMessageValue(e.target.value.slice(0,MAX_MESSAGE));
                   setParams([...params]);
                 }}
               ><input />
@@ -573,14 +561,14 @@ function CallModal ({ className = '', messageId, toAcct,
                     {params[1]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
               </Input>
 
-          <LabelHelp help={t('Enter a link to a file.')}/>{' '}          
-          <strong>{t('File Link: ')}</strong>
+          <LabelHelp help={t('Enter a link to a file.')}/>{' '}             
+          {t_strong('File Link: ')}{t('(Max Character length is ')}{MAX_FILE_URL}{')'} 
           <Input 
             label={fileLinkValue? params[2]=fileLinkValue: params[2]=''}
             type="text"
             value={fileLinkValue}
             onChange={(e) => {
-              setFileLinkValue(e.target.value);
+              setFileLinkValue(e.target.value.slice(0,MAX_FILE_URL));
               setParams([...params]);
             }}
             ><input />

@@ -113,13 +113,13 @@ export default function Reporting ({ className = '' }: Props): React.ReactElemen
           <ContractsTable
             contracts={allContracts}
             updated={codeTrigger}
-            initMessageIndex={6}
+            initMessageIndex={4}
         />)}
         {isViewAllowedAccounts && (
           <ContractsTable
             contracts={allContracts}
             updated={codeTrigger}
-            initMessageIndex={7}
+            initMessageIndex={5}
         />)}
 
     </div>
