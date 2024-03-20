@@ -231,7 +231,7 @@ function ContractsTable ({ contracts: keyringContracts, initMessageIndex }: Prop
         messageIndex===29 || messageIndex===30 ||
         messageIndex===31 || messageIndex===32 ||
         messageIndex===33 || messageIndex===25 ||
-        messageIndex===34 ) 
+        messageIndex===23 ) 
         && isCallOpen && contract && (
         <CallCard
           contract={contract}

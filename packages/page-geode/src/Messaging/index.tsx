@@ -20,9 +20,7 @@ export default function Messaging ({ className = '' }: Props): React.ReactElemen
     // main_menus
     const [isInBox, toggleInBox] = useToggle(false);
     const [isMyInbox, toggleMyInBox] = useToggle(false);
-    // const [isShowMyGroups, toggleShowMyGroups] = useToggle(false);
-    // const [isShowMyLists, toggleShowMyLists] = useToggle(false);
-
+ 
     const [isAcct, toggleAcct] = useToggle(false);
     const [isKeyword, toggleKeyword] = useToggle(false);
 
@@ -40,10 +38,10 @@ export default function Messaging ({ className = '' }: Props): React.ReactElemen
 
     const [isLists, toggleLists] = useToggle();
     const [isMyLists, toggleMyLists] = useToggle();
-    const [isMyPaidLists, toggleMyPaidLists] = useToggle();
+    const isMyPaidLists = false;
     const [isSubLists, toggleSubLists] = useToggle();
     const [isFindLists, toggleFindLists] = useToggle(); 
-    const [isFindAccts, toggleFindAccts] = useToggle();
+    const isFindAccts = false;
     const [isGetStats, toggleGetStats] = useToggle();
     // set to TRUE to deploy this app
     const deployApp: boolean = true;
@@ -184,12 +182,6 @@ export default function Messaging ({ className = '' }: Props): React.ReactElemen
             onClick={toggleMyLists}>
           </Button>    
           <Button
-            icon={(isMyPaidLists) ? 'minus' : 'plus'}
-            label={t('My Paid Lists')}
-            isDisabled={isMyLists || isSubLists || isFindLists || isFindAccts || isGetStats}
-            onClick={toggleMyPaidLists}>
-          </Button>    
-          <Button
             icon={(isSubLists) ? 'minus' : 'plus'}
             label={t('Subscribed Lists')}
             isDisabled={isMyLists || isMyPaidLists || isFindLists || isFindAccts || isGetStats}
@@ -201,12 +193,6 @@ export default function Messaging ({ className = '' }: Props): React.ReactElemen
             isDisabled={isMyLists || isMyPaidLists || isSubLists || isFindAccts || isGetStats}
             onClick={toggleFindLists}>
           </Button>    
-          {/* <Button
-            icon={(isFindAccts) ? 'minus' : 'plus'}
-            label={t('Find Accounts')}
-            isDisabled={isMyLists || isMyPaidLists || isSubLists || isFindLists || isGetStats}
-            onClick={toggleFindAccts}>
-          </Button>     */}
           <Button
             icon={(isGetStats) ? 'minus' : 'plus'}
             label={t('Statistics')}
@@ -254,12 +240,12 @@ export default function Messaging ({ className = '' }: Props): React.ReactElemen
           initMessageIndex={0}
         />)}
 
-        {isGetStats && (
+        {/* {isGetStats && (
           <ContractsTable
           contracts={allContracts}
           updated={codeTrigger}
           initMessageIndex={999}
-        />)}
+        />)} */}
         {isShowUpdate && (
           <ContractsTable
           contracts={allContracts}
@@ -277,12 +263,6 @@ export default function Messaging ({ className = '' }: Props): React.ReactElemen
           contracts={allContracts}
           updated={codeTrigger}
           initMessageIndex={27}
-        />)}
-        {isMyPaidLists && (
-          <ContractsTable
-          contracts={allContracts}
-          updated={codeTrigger}
-          initMessageIndex={34}
         />)}
         {isSubLists && (
           <ContractsTable
@@ -332,7 +312,7 @@ export default function Messaging ({ className = '' }: Props): React.ReactElemen
           <ContractsTable
             contracts={allContracts}
             updated={codeTrigger}
-            initMessageIndex={99}
+            initMessageIndex={23}
         />)}
         {isAllowedAccount && (
           <ContractsTable

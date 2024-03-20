@@ -15,7 +15,7 @@ import { styled, Expander, LabelHelp, Badge, Card, Button, Dropdown, InputAddres
 import { useAccountId, useApi, useDebounce, useFormField, useToggle } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { BN, BN_ONE, BN_ZERO } from '@polkadot/util';
-import { MAX_MESSAGE, MAX_FILE_URL, MAX_USERNAME, MAX_INTERESTS, MAX_GROUP_NAME, MAX_GROUP_DESCRIPTION, MAX_GROUP_ACCOUNTS } from './MsgConst.js'
+import { MAX_MESSAGE, MAX_FILE_URL, MAX_USERNAME, MAX_INTERESTS, MAX_GROUP_NAME, MAX_GROUP_DESCRIPTION } from './MsgConst.js'
 import { MAX_LIST_NAME, MAX_LIST_DESCRIPTION } from './MsgConst.js'
 import { booltoPublic, GeodeToZeo } from './MsgUtil.js';
 
@@ -29,7 +29,7 @@ import InBoxDetails from './InBoxDetails.js';
 import MyListsDetails from './MyListsDetails.js';
 import FindListsDetails from './FindListsDetails.js';
 import SubListsDetails from './SubListsDetails.js';
-import MyPaidListsDetails from './MyPaidListsDetails.js';
+//import MyPaidListsDetails from './MyPaidListsDetails.js';
 import MyPaidInBoxDetails from './MyPaidInboxDetails.js';
 import MyGroupsDetails from './MyGroupsDetails.js';
 import FindGroupsDetails from './FindGroupsDetails.js';
@@ -168,12 +168,13 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
 
   const isValid = !!(accountId && weight.isValid && isValueValid);
   const isViaRpc = (isViaCall || (!message.isMutating && !message.isPayable));      
-  const isClosed = (isCalled && (messageIndex===22 || messageIndex===24 || messageIndex===27 || 
+  const isClosed = (isCalled && (messageIndex===22 || messageIndex===24 || 
+                                 messageIndex===27 || 
                                  messageIndex===28 || messageIndex===29 ||
                                  messageIndex===30 || messageIndex===31 ||
                                  messageIndex===32 || messageIndex===33 || 
                                  messageIndex===26 || messageIndex===27 ||
-                                 messageIndex===25));
+                                 messageIndex===23 || messageIndex===25));
                                
   return (
     <Card >
@@ -185,54 +186,6 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
             className='viewInfo'
             isOpen={false}
             summary={<strong>{t('Instructions: ')}</strong>}>
-              {/* {messageIndex===39 && (<>
-                <h2><strong>{t('Private Messaging - Settings Analysis')}</strong></h2><br />
-                <strong>{t('Instructions for Settings Analysis: ')}</strong><br />
-                {'(1) '}{t('Select the Account to use for this transaction. ')}<br /> 
-                {'(2) '}{t('Click View ')}<br />
-                <br />
-              </>)} */}
-              {/* {messageIndex===38 && (<>
-                <h2><strong>{t('Private Messaging - Settings Analysis')}</strong></h2><br />
-                <strong>{t('Instructions for Settings Analysis: ')}</strong><br />
-                {'(1) '}{t('Select the Account to use for this transaction. ')}<br /> 
-                {'(2) '}{t('Click View ')}<br />
-                <br />
-              </>)} */}
-              {/* {messageIndex===37 && (<>
-                <h2><strong>{t('Private Messaging - Find Accounts by Interest Words')}</strong></h2><br />
-                <strong>{t('Instructions for Finding Accounts based on Interest Words: ')}</strong><br />
-                {'(1) '}{t('Select the Account to use for this transaction. ')}<br /> 
-                {'(2) '}{t('Enter the Interest word to Search (⚠️ NOTE: this is Case Sensitive)')}<br />
-                {'(3) '}{t('Click View ')}<br />
-                <br />
-              </>)} */}
-              {/* {messageIndex===36 && (<>
-                <h2><strong>{t('Private Messaging - Find a List by Keyword.')}</strong></h2><br />
-                <strong>{t('Instructions for Finding a List by using a Search Keyword: ')}</strong><br />
-                {'(1) '}{t('Select the Account to use for this transaction. ')}<br /> 
-                {'(2) '}{t('Enter a Search Keyword (⚠️ NOTE: this is Case Sensitive)')}<br />
-                {'(3) '}{t('Click View ')}<br /><br />
-                {t('⚠️ Note: You can Unsubscribe from a List by clicking the Unsubscribe Button or Join the List by Clicking Join List.')}
-                <br />
-              </>)} */}
-              {messageIndex===35 && (<>
-                <h2><strong>{t('Private Messaging - Your Subscribed Lists')}</strong></h2><br />
-                <strong>{t('Instructions for getting your Subscribed Lists: ')}</strong><br />
-                {'(1) '}{t('Select the Account to use for this transaction. ')}<br /> 
-                {'(2) '}{t('Click View ')}<br /><br />
-                {t('⚠️ Note: You can Unsubscribe from a List by clicking the Unsubscribe Button.')}
-
-                <br />
-              </>)}
-              {messageIndex===34 && (<>
-                <h2><strong>{t('Private Messaging - Paid Lists')}</strong></h2><br />
-                <strong>{t('Instructions for Managing Your Paid Lists: ')}</strong><br />
-                {'(1) '}{t('Select the Account to use for this transaction and then Click View')}<br /> 
-                {'(2) '}{t('You can create New Paid Lists, Send Messages or Delete existing Paid Lists.')}<br />
-                <br />
-                {t('⚠️ Please Note: To view your Paid Lists got to your PAID Inbox.')}
-              </>)}
               {messageIndex===33 && (<>
                 <h2><strong>{t('Private Messaging - My Groups')}</strong></h2><br />
                 <strong>{t('Instructions for Viewing Your Group Messages: ')}</strong><br />
@@ -247,13 +200,6 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
                 {'(2) '}{t('Click View')}<br />
                 <br />
               </>)}
-              {/* {messageIndex===31 && (<>
-                <h2><strong>{t('Private Messaging - Search Inbox by Accounts')}</strong></h2><br />
-                <strong>{t('Instructions for Searching your Inbox by Accounts: ')}</strong><br />
-                {'(1) '}{t('Select the Account to use for this transaction.')}<br /> 
-                {'(2) '}{t('Select the Account you wish to Search for in your Inbox.')}<br />
-                {'(3) '}{t('Click View')}<br />
-              </>)} */}
               {messageIndex===30 && (<>
                 <h2><strong>{t('Private Messaging - User Settings')}</strong></h2><br />
                 <strong>{t('Instructions for getting User Settings: ')}</strong><br />
@@ -273,14 +219,6 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
                 <strong>{t('Instructions for Managing Your Subscribed Lists: ')}</strong><br />
                 {'(1) '}{t('Select the Account to use for this transaction.')}<br /> 
                 {'(2) '}{t('Click View')}<br /><br />
-              </>)}
-              {messageIndex===99 && (<>
-                <h2><strong>{t('Private Messaging - MyPaid Inbox')}</strong></h2><br />
-                <strong>{t('Instructions for Getting your PAID Inbox: ')}</strong><br />
-                {'(1) '}{t('Select the Account to use for this transaction.')}<br /> 
-                {'(2) '}{t('Click View')}<br /><br />
-                {t('! IMPORTANT: You Get Paid for receiving these messages. To Block messages from your Inbox click the Block Button. ')}
-
               </>)}
               {messageIndex===27 && (<>
                 <h2><strong>{t('Private Messaging - Get My Lists')}</strong></h2><br />
@@ -310,6 +248,13 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
                 <strong>{t('NOTE: ')}</strong><br />
                 {t(' To Start a conversation with a person in your Allowed Accounts go to Your InBox and click Start Conversation.')}<br />
                 {t(' Important: To send a message to another account the recipient of the message must add you to their allowed acounts.')}<br />
+              </>)}
+              {messageIndex===23 && (<>
+                <h2><strong>{t('Private Messaging - MyPaid Inbox')}</strong></h2><br />
+                <strong>{t('Instructions for Getting your PAID Inbox: ')}</strong><br />
+                {'(1) '}{t('Select the Account to use for this transaction.')}<br /> 
+                {'(2) '}{t('Click View')}<br /><br />
+                {t('! IMPORTANT: You Get Paid for receiving these messages. To Block messages from your Inbox click the Block Button. ')}
               </>)}
               {messageIndex===22 && (<>
                 <h2><strong>{t('Private Messaging - Get Your Inbox')}</strong></h2><br />
@@ -678,18 +623,6 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
         </>
         )}
 
-        {outcomes.length > 0 && messageIndex===40 && (
-            <div>
-            {outcomes.map((outcome, index): React.ReactNode => (
-              <UserSettingsDetails
-                key={`outcome-${index}`}
-                onClear={_onClearOutcome(index)}
-                outcome={outcome}
-              />
-            ))}
-            </div>
-        )}
-
         {outcomes.length > 0 && messageIndex===30 && (
             <div>
             {outcomes.map((outcome, index): React.ReactNode => (
@@ -701,18 +634,6 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
             ))}
             </div>
         )}
-
-        {/* {outcomes.length > 0 && messageIndex===37 && (
-            <div>
-            {outcomes.map((outcome, index): React.ReactNode => (
-              <FindAccountDetails
-                key={`outcome-${index}`}
-                onClear={_onClearOutcome(index)}
-                outcome={outcome}
-              />
-            ))}
-            </div>
-        )} */}
 
         {outcomes.length > 0 && messageIndex===29 && (
             <div>
@@ -730,18 +651,6 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
             <div>
             {outcomes.map((outcome, index): React.ReactNode => (
               <SubListsDetails
-                key={`outcome-${index}`}
-                onClear={_onClearOutcome(index)}
-                outcome={outcome}
-              />
-            ))}
-            </div>
-        )}
-
-        {outcomes.length > 0 && messageIndex===34 && (
-            <div>
-            {outcomes.map((outcome, index): React.ReactNode => (
-              <MyPaidListsDetails
                 key={`outcome-${index}`}
                 onClear={_onClearOutcome(index)}
                 outcome={outcome}
@@ -773,30 +682,6 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
             ))}
             </div>
         )}
-
-        {/* {outcomes.length > 0 && messageIndex===31 && (
-            <div>
-            {outcomes.map((outcome, index): React.ReactNode => (
-              <SearchAccountDetails
-                key={`outcome-${index}`}
-                onClear={_onClearOutcome(index)}
-                outcome={outcome}
-              />
-            ))}
-            </div>
-        )} */}
-
-        {/* {outcomes.length > 0 && messageIndex===99 && (
-            <div>
-            {outcomes.map((outcome, index): React.ReactNode => (
-              <SearchKeywordDetails
-                key={`outcome-${index}`}
-                onClear={_onClearOutcome(index)}
-                outcome={outcome}
-              />
-            ))}
-            </div>
-        )} */}
 
         {outcomes.length > 0 && messageIndex===25 && (
             <div>
@@ -842,7 +727,7 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
             ))}
             </div>
         )}
-        {outcomes.length > 0 && messageIndex===99 && (
+        {outcomes.length > 0 && messageIndex===23 && (
             <div>
             {outcomes.map((outcome, index): React.ReactNode => (
               <MyPaidInBoxDetails

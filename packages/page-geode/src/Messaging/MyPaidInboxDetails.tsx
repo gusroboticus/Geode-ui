@@ -10,7 +10,7 @@ import { styled, Expander, Button, AccountName, LabelHelp, IdentityIcon, Card } 
 import { Divider, Table, Label } from 'semantic-ui-react'
 import CopyInline from '../shared/CopyInline.js';
 import AccountHeader from '../shared/AccountHeader.js';
-
+import { numBlueButton, linker, userIdentity, messageBox, hexToHuman, timeStampToDate } from './MsgUtil.js';
 import CallSendMessage from './CallSendMessage.js';
 
 
@@ -40,24 +40,19 @@ interface Props {
   ok: MyPaidInBoxObj
   }
   
-function MyPaidInBoxDetails ({  className = '', onClear, 
-                                outcome: { from, output, when } }: 
-                                Props): React.ReactElement<Props> | null {
-
-    //todo: code for unused params or remove!:
-    // console.log(JSON.stringify(message));
-    // console.log(JSON.stringify(params));
-    // console.log(JSON.stringify(result));
+function MyPaidInBoxDetails ({  className = '', outcome: { from, output, when } }: Props): React.ReactElement<Props> | null {
 
     const { t } = useTranslation();
-    const objOutput: string = stringify(output);
-    const _Obj = JSON.parse(objOutput);
-    const myPaidInBoxDetail: MyPaidInBoxDetail = Object.create(_Obj);
+    function t_strong(_str: string): JSX.Element{return(<><strong>{t(_str)}</strong></>)}
+    function noop (): void {// do nothing
+    }
+    const myPaidInBoxDetail: MyPaidInBoxDetail = Object.create(JSON.parse(stringify(output)));
 
     const [_toListId, setListId] = useState('');
     const [_listname, setListname] = useState('');
     const [isBlock, setBlock] = useState(false);
     const [isUnBlock, setUnBlock] = useState(false);
+    const [isPaidMessage, setPaidMessage] = useState(false);
 
     const [count, setCount] = useState(0);
 
@@ -66,6 +61,7 @@ function MyPaidInBoxDetails ({  className = '', onClear,
     const _reset = useCallback(
       () => {setBlock(false);
              setUnBlock(false);
+             setPaidMessage(false);
             },
       []
     )
@@ -73,6 +69,7 @@ function MyPaidInBoxDetails ({  className = '', onClear,
     const _makeBlocked = useCallback(
       () => {setBlock(true);
              setUnBlock(false);
+             setPaidMessage(false);
             },
       []
     )
@@ -80,35 +77,25 @@ function MyPaidInBoxDetails ({  className = '', onClear,
     const _makeUnBlocked = useCallback(
       () => {setBlock(false);
              setUnBlock(true);
+             setPaidMessage(false);
             },
       []
     )
 
-    function hextoHuman(_hexIn: string): string {
-      const _Out: string = (isHex(_hexIn))? t(hexToString(_hexIn).trim()): '';
-      return(_Out)
-    }
+    const _makePaidMessage = useCallback(
+      () => {setBlock(false);
+             setUnBlock(false);
+             setPaidMessage(true);
+            },
+      []
+    )
+
     
     function blockedLists(_acct: string): boolean {
       const _blocked: boolean = ((myPaidInBoxDetail.ok.blockedLists.length>0 ? myPaidInBoxDetail.ok.blockedLists : []).find(_blk => _blk === _acct))
        ? true : false
       return(_blocked)
     }  
-
-    function timeStampToDate(tstamp: number): JSX.Element {
-      try {
-       const event = new Date(tstamp);
-       return (
-            <><i>{event.toDateString()}{' '}
-                 {event.toLocaleTimeString()}{' '}</i></>
-        )
-      } catch(error) {
-       console.error(error)
-       return(
-           <><i>{t('No Date')}</i></>
-       )
-      }
-   }
 
     function ListAccount(): JSX.Element {
       return(
@@ -117,9 +104,9 @@ function MyPaidInBoxDetails ({  className = '', onClear,
               <Table.Row>
               <Table.Cell>
               <Button
-                  icon='times'
-                  label={t(' Close ')}
-                  onClick={onClear}
+                  icon={isPaidMessage? 'minus': 'plus'}
+                  label={t(' Send a Paid Message')}
+                  onClick={()=> {<>{_makePaidMessage()}{_reset()}</>}}
                 />
               </Table.Cell>
               </Table.Row>
@@ -172,7 +159,7 @@ function GetMessages(): JSX.Element {
                   {!blockedLists(_messages.toListId) && <>
                     
                     <h2><strong>{'@'}
-                        {hextoHuman(_messages.toListName)}
+                        {hexToHuman(_messages.toListName)}
                        </strong> {' '}{' '} 
                        <Label color='blue' size='mini'>{'Paid'}</Label>
                   </h2>
@@ -188,10 +175,10 @@ function GetMessages(): JSX.Element {
                       <h3>
                         <i>
                         <IdentityIcon value={_messages.fromAcct} />
-                        {' @'}{hextoHuman(_messages.username)}
+                        {' @'}{hexToHuman(_messages.username)}
                         {' ('}<AccountName value={_messages.fromAcct} withSidebar={true}/>{') '}
                         </i>
-                        <Label color='blue' pointing='left'>{hextoHuman(_messages.message)}</Label>
+                        <Label color='blue' pointing='left'>{hexToHuman(_messages.message)}</Label>
                         {(_messages.fileUrl != '0x') && (
                             <>
                             <LabelHelp help={t(isHex(_messages.fileUrl) ? withHttp(hexToString(_messages.fileUrl).trim()) : '')} />
@@ -241,7 +228,7 @@ function GetMessages(): JSX.Element {
             fromAcct={from} 
             timeDate={when} 
             callFrom={2}/>
-      <ListAccount />
+      <ListAccount/>
       <GetMessages />
         {isBlock && (<>
         <CallSendMessage
@@ -255,6 +242,15 @@ function GetMessages(): JSX.Element {
         {isUnBlock && (<>
         <CallSendMessage
                 callIndex={25}
+                toAcct={_toListId}
+                messageId={''}
+                username={''}
+                onReset={() => _reset()}
+            />      
+        </>)}
+        {isPaidMessage && (<>
+        <CallSendMessage
+                callIndex={21}
                 toAcct={_toListId}
                 messageId={''}
                 username={''}
