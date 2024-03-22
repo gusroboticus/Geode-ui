@@ -224,9 +224,20 @@ function ListAccount(): JSX.Element {
                 {' 🔘 '}{t('Unsubscribe to a list.')}<br />
                 {' 🔘 '}{t('To send a message to your list or create a new list go to (My Lists).')}<br />
                 {' ‼️ '}{t('Only the List Owner can send messages to a List.')}
-
                 <br />
                 {t_strong('IMPORTANT: ')}{t('To see recent updates remember to reload this page.')}
+                </>)}
+                {callFrom===311 && (<>
+                {t(' Copy a Message Id: ')}<Badge icon='copy' color='orange' /><br />
+                {t(' Link to See More: ')}<Label circular color='orange'> Link </Label><br />
+                {' 🏆 '}{t(' This application pays out directly for reading messages in your Paid Inbox.')}<br />
+                {t_strong('NOTE: ')}
+                {t(' ✉️ You can do the following here:')}<br />
+                {' 🔘 '}{t('Read your paid messages. ')}<br />
+                {' 🔘 '}{t('Send a paid message to an address. ')}<br />
+                {' 🔘 '}{t('Get paid for your Paid Messages.')}<br />
+                {' 🔘 '}{t('Clear your Paid Message Inbox.')}
+                <br />
                 </>)}
               </>
               

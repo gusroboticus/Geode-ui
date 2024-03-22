@@ -48,7 +48,7 @@ export default function Messaging ({ className = '' }: Props): React.ReactElemen
 
     const refTitle: string[] = 
     [' Load Your Inbox. Search by Keyword or Account. (Click again to close) ', 
-     ' Load Your Paid Inbox. Block or Unblock Lists. (Click again to close) ', 
+     ' Load Your Paid Inbox. (Click again to close) ', 
      ' Update your User Settings for Private Messaging. ',
      ' Add, Remove, Block or Unblock Accounts as well as Delete Messages. (Click again to close) ',
      ' Manage Your Message Groups. Find, Make, Join Public and Private Groups. ',

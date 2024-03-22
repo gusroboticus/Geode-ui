@@ -19,7 +19,6 @@ import Params from '../shared/Params.js';
 import { useTranslation } from '../shared/translate.js';
 import useWeight from '../useWeight.js';
 import { getCallMessageOptions } from '../shared/util.js';
-//import { t_strong } from './MsgUtil.js';
 import { MAX_LIST_MESSAGE, MAX_GROUP_DESCRIPTION, MAX_MESSAGE, MAX_FILE_URL } from './MsgConst.js'
 
 interface Props {
@@ -71,11 +70,12 @@ function CallModal ({ className = '', messageId, toAcct,
   const dbValue = useDebounce(value);
   const dbParams = useDebounce(params);
   const refHeader: string[] = 
-  ['','Send a Message','Send a Message to a Group','','Disallow Account',
-   '','Unblock Account','Delete a Message','','',
-   'Join a Group','Delete Sent Messages from a Group','','Leave a Group','Update Group Settings',
-   'Send a Message To a List','','','Delete a List','Join a List', 'Unsubscribe', 
-   'Send a Message To A Paid List','','Delete a Paid List'];
+  ['zero','Send a Message','Send a Message to a Group','three','Disallow Account',
+   'five','Unblock Account','Delete a Message','eight','nine',
+   'Join a Group','Delete Sent Messages from a Group','twelve','Leave a Group','Update Group Settings',
+   'Send a Message To a List','16','17','Delete a List','Join a List', 'Unsubscribe', 
+   'Send a Paid Message','22','23','24','25','26','27','28','29','30','31','32','33',
+   '34','35','36','37','38','Pay Out and Clear Your Paid InBox'];
   // NOTE!:
   // for test
   const isShow: boolean = false;
@@ -256,24 +256,25 @@ function CallModal ({ className = '', messageId, toAcct,
             {t('⚠️ NOTE: This will unsubscribe you from the List and all its messages.')}
           </>)}
           {messageIndex===21 && (<>
-          <h2><strong>{t('Private Messaging - Send a Message to a PAID List')}</strong></h2><br />
+          <h2><strong>{t('Private Messaging - Send a PAID Message to an Address.')}</strong></h2><br />
             <strong>{t('Instructions: ')}</strong><br />
             {'(1) '}{t('Select the Account to use (call from account)')}<br /> 
+            {'(2) '}{t('Select the Account to send the Paid message ')}<br /> 
             {'(2) '}{t('Enter a message to send to the list.')}<br />
             {'(3) '}{t('Add a File URL for more information.')}<br />
-            {'(4) '}{t('Enter a Value that will be paid out to the accounts that will view this message.')}<br />
-            {t('⚠️ NOTE: The value must be great than or equal to the Total Fee listed for the Paid List.')}<br />
+            {'(4) '}{t('Enter a Value that will be paid out to the account that will view this message.')}<br />
+            {t('⚠️ NOTE: The value must be great than or equal to the Total Fee requested by the recipiant.')}<br />
             {'(5) '}{t('Click Submit button to sign and submit this transaction')}
             <br /><br />
             {t('⚠️ NOTE: This will send a message to all Accounts in the Paid List.')}
           </>)}
-          {messageIndex===23 && (<>
-          <h2><strong>{t('Private Messaging - Delete a PAID List')}</strong></h2><br />
+          {messageIndex===39 && (<>
+          <h2><strong>{t('Private Messaging - Pay Out your Paid Messages ')}</strong></h2><br />
             <strong>{t('Instructions: ')}</strong><br />
             {'(1) '}{t('Select the Account to use (call from account)')}<br /> 
             {'(2) '}{t('Click Submit button to sign and submit this transaction')}
             <br /><br />
-            {t('⚠️ NOTE: This will delete the Paid List and all its messages.')}
+            {t('⚠️ NOTE: This will Pay your account for read paid messages and clear your Paid message Inbox.')}
           </>)}
         </Expander>
         <br />
@@ -348,6 +349,8 @@ function CallModal ({ className = '', messageId, toAcct,
               </h2>       
             </>)}
 
+
+
             {messageIndex===19 && (<>
               <h2>
               <LabelHelp help={t('Name of the List to Join.')}/>{' '}          
@@ -368,7 +371,7 @@ function CallModal ({ className = '', messageId, toAcct,
               </h2>       
             </>)}
 
-            {(messageIndex===15 || messageIndex===21) && (<>
+            {messageIndex===15 && (<>
               <h2>
               <LabelHelp help={t('Name of the List to Send a Message.')}/>{' '}          
               <strong>{t('Send Message To: ')}{hexToHuman(username)}</strong></h2>
@@ -527,7 +530,7 @@ function CallModal ({ className = '', messageId, toAcct,
 
 
 
-            {messageIndex===1 && (<>
+            {(messageIndex===1 || messageIndex===21) && (<>
               <br />
               <LabelHelp help={t('Select Message Recipient.')}/>{' '}          
               {t_strong('Message Recipient: ')}{' '}

@@ -38,7 +38,8 @@ function CallSendMessage ({ className = '', messageId,  toAcct, username,  callI
             callIndex===16 || callIndex===23 ||
             callIndex===18 || callIndex===19 ||
             callIndex===20 || callIndex===21 || 
-            callIndex===24 || callIndex===25) ? <>
+            callIndex===24 || callIndex===25 ||
+            callIndex===39) ? <>
             <ContractsModal
                 toAcct={toAcct}
                 messageId={messageId}

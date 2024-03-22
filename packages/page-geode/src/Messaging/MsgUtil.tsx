@@ -214,6 +214,22 @@ export function timeStampToDate(tstamp: number): JSX.Element {
     </>)
   }
 
+  export function paidMessageBox(message: string, fromAcct: string, username: string, bid: number): JSX.Element {
+    const conv_bid = BNtoGeode(bid);
+    const { t } = useTranslation();
+    return(<>
+                {hexToHuman(message).length>0 && <>
+                    <IdentityIcon value={fromAcct} />
+                      {' ('}<AccountName value={fromAcct} withSidebar={true}/>{') '}
+                      {hexToHuman(username)}
+                      <Label color='blue' textAlign='left' pointing='left'>
+                          {hexToHuman(message)}{t(' 💸 Bid: ')}{conv_bid}{' Geode'}
+                      </Label>
+
+                </>}
+    </>)
+  }
+
   export function userIdentity(_username: string, _acct: string): JSX.Element {
     return(<>
                 <IdentityIcon size={22} value={_acct} />{' '}
