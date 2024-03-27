@@ -7,6 +7,8 @@ import { useCodes } from '../useCodes.js';
 import { styled } from '@polkadot/react-components';
 import { Card } from '@polkadot/react-components';
 import ContractsModal from './ContractsModal.js';
+import ContractsTable from './ContractsTable.js';
+
 
 interface Props {
   className?: string;
@@ -16,10 +18,9 @@ interface Props {
   fromAcct?: string;
   username?: string;
   postMessage: string;
-
 }
 
-function CallPost ({ className = '', onClear, isPost, messageId,fromAcct,username, postMessage }: Props): React.ReactElement<Props> | null {
+function CallPost ({ className = '', isPost, messageId,fromAcct,username, postMessage }: Props): React.ReactElement<Props> | null {
     const { allContracts } = useContracts();
     const { allCodes, codeTrigger } = useCodes();
 
@@ -29,7 +30,7 @@ function CallPost ({ className = '', onClear, isPost, messageId,fromAcct,usernam
   
     function MakePaidPost(): JSX.Element {
     return(<>
-              <ContractsModal
+              <ContractsTable
                 contracts={allContracts}
                 updated={codeTrigger}
                 messageId={''}
@@ -50,6 +51,8 @@ function CallPost ({ className = '', onClear, isPost, messageId,fromAcct,usernam
               fromAcct={fromAcct}
               username={username}
               postMessage={postMessage}   
+              isShowMsgID={false}
+              acctBlocked={[]}
             />                
         </div>
     )

@@ -6,15 +6,14 @@ import React, { useState, useCallback } from 'react';
 import { useTranslation } from '../shared/translate.js';
 import type { CallResult } from '../shared/types.js';
 import { stringify, hexToString, isHex } from '@polkadot/util';
-import { styled, Toggle, Button, Badge, AccountName, LabelHelp, Card } from '@polkadot/react-components';
+import { styled, Toggle, Button, Badge, LabelHelp, Card } from '@polkadot/react-components';
 import { Grid, List, Table, Label, Image, Divider } from 'semantic-ui-react'
-import CopyInline from '../shared/CopyInline.js';
 import { useToggle } from '@polkadot/react-hooks';
 import AccountHeader from '../shared/AccountHeader.js';
 import CallEndorse from './CallEndorse.js';
 import CallPost from './CallPost.js';
 import CallStats from './CallStats.js';
-import { timeStampToDate, unitToGeode, msgIndexer, endorserBadge, linker, postHeader, replyHeader, hextoHuman } from './SocialUtil.js';
+import { infoMessage, infoBlocked, blockedAccount, paidAcctHeader, paidEndorseHeader, endorserBadge, msgIndexer, postHeader, replyHeader, hextoHuman } from './SocialUtil.js';
 
 interface Props {
     className?: string;
@@ -50,11 +49,8 @@ type MessageObj = {
   ok: FeedObj
   }
   
-function PaidFeedDetails ({ className = '', onClear, outcome: { from, message, output, params, result, when } }: Props): React.ReactElement<Props> | null {
+function PaidFeedDetails ({ className = '', outcome: { from, output, when } }: Props): React.ReactElement<Props> | null {
     // todo -> code unused params
-    console.log(JSON.stringify(message));
-    console.log(JSON.stringify(params));
-    console.log(JSON.stringify(result));
 
     const { t } = useTranslation();
     const [countPost, setCountPost] = useState(0);
@@ -71,32 +67,8 @@ function PaidFeedDetails ({ className = '', onClear, outcome: { from, message, o
     const _Obj = JSON.parse(objOutput);
     const feedDetail: FeedDetail = Object.create(_Obj);
     const withHttp = (url: string) => url.replace(/^(?:(.*:)?\/\/)?(.*)/i, (match, schemma, nonSchemmaUrl) => schemma ? match : `http://${nonSchemmaUrl}`);
-
-    // function timeStampToDate(tstamp: number): JSX.Element {
-    //    try {
-    //     const event = new Date(tstamp);
-    //     return (
-    //          <><i>{event.toDateString()}{' '}
-    //               {event.toLocaleTimeString()}{' '}</i></>
-    //      )
-    //    } catch(error) {
-    //     console.error(error)
-    //     return(
-    //         <><i>{t('No Date')}</i></>
-    //     )
-    //    }
-    // }
-
-// function hextoHuman(_hexIn: string): string {
-//         const _Out: string = (isHex(_hexIn))? t(hexToString(_hexIn).trim()): ''
-//         return(_Out)
-// }
-
-// function unitToGeode(_unitIn: number): string{
-//     const _convert: number = 1000000000000;
-//     const _Out: string = (_unitIn / _convert).toString();
-//     return(_Out)
-// }
+    function t_strong(_str: string): JSX.Element{return(<><strong>{t(_str)}</strong></>)}
+    function _strong(_num: number): JSX.Element{return(<><strong>{_num}</strong></>)}
 
 function renderLink(_link: string): JSX.Element {
   const ilink: string = isHex(_link)? withHttp(hexToString(_link).trim()): '0x';
@@ -157,23 +129,17 @@ function ShowFeed(): JSX.Element {
               <Table.Row>
                 <Table.HeaderCell>
                   <Button
-                    icon='times'
-                    label={t('Close')}
-                    onClick={onClear}
-                  />
-                  <Button
                     icon={isPaidPost? 'minus': 'plus'}
                     label={t('Paid Post')}
                     onClick={()=>{isPaidPost? _reset(): _makePaidPost()}}
                   />
                   <Button
                     icon={isTarget? 'minus': 'plus'}
-                    label={t('Interest Analysis')}
+                    label={t('Endorse Paid Ad')}
                     onClick={()=>{isTarget? _reset(): _makeTarget()}}
                   />
-                  {t(' Number of Posts: ')}
-                  <strong>{countPost}</strong>
-                  {t(' | Number of Posts to show: ')}<strong>{maxIndex}</strong>
+                  {t(' Number of Posts: ')}{_strong(countPost)}
+                  {t(' | Number of Posts to show: ')}{_strong(maxIndex)}
                   <br />
                 </Table.HeaderCell>
                 </Table.Row>
@@ -223,14 +189,13 @@ function ShowFeed(): JSX.Element {
                   </Grid.Row>
                 </Grid>    
                 {isShowMyInterest && feedDetail.ok.myinterests.length>0 && (<>
-                  <br /><Badge icon='info'color={'blue'} />
-                  {t('Your Interests')}{': ('}{hextoHuman(feedDetail.ok.myinterests)}{') '}
+                  <br />{infoMessage('Your Interests: ', feedDetail.ok.myinterests)}
                 </>)}
                 {feedDetail.ok.blocked.length>0 && isShowBlockedAccounts &&(<>
-                  <br /><Badge icon='hand'color={'red'}/> 
-                  {t(' Blocked: ')}<strong>{feedDetail.ok.blocked.length}</strong>
+                  <br />{infoBlocked(feedDetail.ok.blocked.length)}
+                  
                   {feedDetail.ok.blocked.map(_blkd =>
-                  <>{' ('}<AccountName value={_blkd} withSidebar={true}/>{') '}
+                  <>{blockedAccount(_blkd)}
                   </>)}
                 </>)}
                 </Table.HeaderCell>
@@ -252,11 +217,7 @@ function ShowFeed(): JSX.Element {
                     <>
                     {index < maxIndex && (
                     <>
-                    <h3> <strong>{t('@')}</strong>
-                         <strong>{hextoHuman(_feed.username)}</strong>
-                              {' ('}<AccountName value={_feed.fromAcct} withSidebar={true}/>{') '}
-                              {' '}<Label color='blue' circular>{_feed.endorserCount}</Label>
-                              {' '}{timeStampToDate(_feed.timestamp)}{' '}
+                    <h3> {paidAcctHeader(_feed.username, _feed.fromAcct, _feed.endorserCount, _feed.timestamp)}
 
                               {(_feed.fromAcct===from || _feed.endorsers.includes(from))? (<>
                                 <Badge icon='thumbs-up' color='gray'/>
@@ -276,29 +237,19 @@ function ShowFeed(): JSX.Element {
                                   }}/>                              
                               </>)}
                           <LabelHelp help={t('Use the Thumbs Up button to Endorse Paid Ads and Get Paid! ')} />
-                     </h3>
-                            <i><strong>{t('Payment: ')}{unitToGeode(_feed.endorserPayment)}{' Geode'}
-                            {t(', Paid Endorsements Left: ')}{_feed.paidEndorserMax-_feed.endorserCount}</strong></i>
-                            <br />
-                    {isShowMsgID && _feed.messageId && (<>
-                      <br />{' Message ID: '}{_feed.messageId}{' '}
-                      <CopyInline value={_feed.messageId} label={''}/>
-                      <LabelHelp help={t('Use the orange Copy button to copy the Paid Ad Message ID. ')} />
-                    </>)}
+
+                    </h3>{paidEndorseHeader(_feed.endorserPayment, _feed.paidEndorserMax, _feed.endorserCount)}<br />
+                    {isShowMsgID && _feed.messageId && (<><br />{msgIndexer(' Message ID: ', _feed.messageId)}</>)}
                     {isShowEndorsers && _feed.endorserCount > 0 && (
-                      <><List divided inverted >
+                    <><List divided inverted >
                       {_feed.endorsers.length>0 && _feed.endorsers.map((name, i: number) => <List.Item key={name}> 
-                        {(i > 0) && (<><Badge color='blue' icon='check'/>{t('(endorser No.')}{i}{') '}
-                        {' ('}<AccountName value={name} withSidebar={true}/>{') '}{name} 
+                        {(i > 0) && (<>
+                         {endorserBadge(name, i)}                        
                         </>)}
                       </List.Item>)}
-                    </List>     
-                    </>
+                    </List></>
                     )}
-                {isShowAdInterest && 
-                      (<>
-                      <br />{t(' Ad Target Interest: ')}<strong>{hextoHuman(_feed.targetInterests)}</strong>
-                      </>)} 
+                    {isShowAdInterest && (<><br />{infoMessage(' Ad Target Interest: ', _feed.targetInterests)}</>)} 
                 <br />      
                 {renderLink(_feed.link)}
                 {(_feed.link != '0x') ? (
@@ -344,7 +295,7 @@ function ShowFeed(): JSX.Element {
   return (
     <StyledDiv className={className}>
     <Card>
-    <AccountHeader fromAcct={from} timeDate={when} callFrom={0}/>
+    <AccountHeader fromAcct={from} timeDate={when} callFrom={203}/>
       {!isEndorse && !isPaidPost && isTarget && (
         <CallStats />
       )}

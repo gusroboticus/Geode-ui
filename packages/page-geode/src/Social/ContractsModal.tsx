@@ -34,6 +34,8 @@ export interface Props {
   fromAcct?: string;
   username?: string;
   postMessage: string;
+  acctBlocked: string[];
+  isShowMsgID: boolean;
 }
 
 interface Indexes {
@@ -48,7 +50,7 @@ function filterContracts (api: ApiPromise, keyringContracts: string[] = []): Con
     .filter((contract): contract is ContractPromise => !!contract);
 }
 
-function ContractsModal ({  contracts: keyringContracts, initMessageIndex, messageId, fromAcct, username, postMessage }: Props): React.ReactElement<Props> {
+function ContractsModal ({  contracts: keyringContracts, initMessageIndex, messageId, fromAcct, username, postMessage, acctBlocked, isShowMsgID }: Props): React.ReactElement<Props> {
   const _initIndex: number = (initMessageIndex > -1) ? initMessageIndex: 0;
   let _initContractIndex: number = 0;
   const { t } = useTranslation();
@@ -158,17 +160,20 @@ function ContractsModal ({  contracts: keyringContracts, initMessageIndex, messa
       {isCallOpen && contract 
                   && messageIndex!=0 
                   && messageIndex!=2 && messageIndex!=3 
-                  && (
+                  && messageIndex===18 && (
         <CallCard
           contract={contract}
+          messageId={messageId}
           messageIndex={messageIndex}
           onCallResult={onCallResult}
           onChangeMessage={_setMessageIndex}
+          isShowMsgID={isShowMsgID}
+          acctBlocked={acctBlocked}
         />
       )}
       {isCallOpen && contract 
                   && (messageIndex ===0 || messageIndex===2 || 
-                      messageIndex===3  || messageIndex===12) 
+                      messageIndex===3  || messageIndex===12 ) 
                   && (
         <CallModal
          contract={contract}
@@ -179,6 +184,8 @@ function ContractsModal ({  contracts: keyringContracts, initMessageIndex, messa
          fromAcct={fromAcct}
          username={username}
          postMessage={postMessage}
+         acctBlocked={acctBlocked} 
+         isShowMsgID={isShowMsgID}
          onClose={_toggleCall}
          />
       )

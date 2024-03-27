@@ -69,7 +69,7 @@ function ContractsModal ({ contracts: keyringContracts, initMessageIndex, toAcct
   const contractAddress: string = (JSONContractAddress[3])? JSONContractAddress[3] :'5Gun25WYTUoEE2YUHGH4bnbV3V314u8Gwkn2cTsaE8ALXNAv';
 
   const headerRef = useRef<[string?, string?, number?][]>([
-    [t('Add claims for Geode Private Messaging'), 'start'],
+    [t('Geode Private Messaging'), 'start'],
     [undefined, undefined, 3],
     [t('status'), 'start'],
     []

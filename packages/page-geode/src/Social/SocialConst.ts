@@ -1,0 +1,11 @@
+export const MAX_PUBLIC_MESSAGES = 300;
+export const MAX_PAID_MESSAGES = 300;
+export const MAX_LINKS = 300;
+export const MAX_USERNAMES = 90;
+export const MAX_SETTINGS_INTERESTS = 90;
+export const MAX_TARGET_INTERESTS = 50;
+export const MAX_NUMBER = 3;
+export const ZERO_MSG_ID = '0x0000000000000000000000000000000000000000000000000000000000000000'
+export const DEFAULT_FEED_INDEX = 10;
+export const MAX_FEED_INDEX = 1000;
+export const MAX_NUM_PAYMENT = 6;

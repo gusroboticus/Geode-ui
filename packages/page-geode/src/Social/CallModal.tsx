@@ -12,12 +12,14 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { styled, Expander, AccountName, IdentityIcon, Button, Dropdown, InputAddress, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { useAccountId, useApi, useDebounce, useFormField, useToggle } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
-import { isHex, stringToHex, hexToString, BN, BN_ONE, BN_ZERO } from '@polkadot/util';
+import { stringToHex, BN, BN_ONE, BN_ZERO } from '@polkadot/util';
 import InputMegaGas from '../shared/InputMegaGas.js';
 import Params from '../shared/Params.js';
 import { useTranslation } from '../shared/translate.js';
 import useWeight from '../useWeight.js';
 import { getCallMessageOptions } from '../shared/util.js';
+import { ZERO_MSG_ID, MAX_LINKS, MAX_PUBLIC_MESSAGES } from './SocialConst.js'
+import { hexToHuman } from './SocialUtil.js';
 
 interface Props {
   className?: string;
@@ -52,17 +54,13 @@ function CallModal ({ className = '', messageId, fromAcct, username, postMessage
   const weight = useWeight();
   const dbValue = useDebounce(value);
   const dbParams = useDebounce(params);
-  const zeroMessageId: string = '0x0000000000000000000000000000000000000000000000000000000000000000';
-  const isReply: boolean = (messageId===zeroMessageId)? false: true; 
+  function t_strong(_str: string): JSX.Element{return(<><strong>{t(_str)}</strong></>)}
+  //const zeroMessageId: string = '0x0000000000000000000000000000000000000000000000000000000000000000';
+  const isReply: boolean = (messageId===ZERO_MSG_ID)? false: true; 
 
   // for test
   const isShow: boolean = false;
   const isShowParams: boolean = true;
-
-  function hextoHuman(_hexIn: string): string {
-    const _Out: string = (isHex(_hexIn))? t(hexToString(_hexIn).trim()): '';
-    return(_Out)
-  }
 
   useEffect((): void => {
     setEstimatedWeight(null);
@@ -160,9 +158,17 @@ function CallModal ({ className = '', messageId, fromAcct, username, postMessage
          className='paramsExpander'
          isOpen={false}
          summary={'Instructions: '}>
-        {messageIndex !== null && (messageIndex===2 || messageIndex===3) && (<>
+        {messageIndex !== null && messageIndex===2 && (<>
           <h2><strong>{t('Social - Endorse a Post')}</strong></h2><br />
             <strong>{t('Instructions for Endorsing a Post: ')}</strong><br />
+            {'(1) '}{t('Make Sure the (account to use) is NOT the owner of the Post')}<br /> 
+            {'(2) '}{t('Click Submit button to sign and submit this transaction')}
+            <br /><br />
+            {t('⚠️ Please Note: You can not endorse your own posts.')}
+          </>)}
+          {messageIndex !== null && messageIndex===3 && (<>
+          <h2><strong>{t('Social - Endorse a Paid Post')}</strong></h2><br />
+            <strong>{t('Instructions for Endorsing a Paid Post: ')}</strong><br />
             {'(1) '}{t('Make Sure the (account to use) is NOT the owner of the Post')}<br /> 
             {'(2) '}{t('Click Submit button to sign and submit this transaction')}
             <br /><br />
@@ -179,6 +185,16 @@ function CallModal ({ className = '', messageId, fromAcct, username, postMessage
             {t("⚠️ Please Note: Don't Forget to Click Submit when done! ")}<br /><br />
           </>)}
         {messageIndex !== null && messageIndex === 0 && postMessage && (<>
+            <h2><strong>{t('Social - Reply to a Post ')}{' '}</strong></h2><br />
+            <strong>{t('Instructions for Replying to a Post: ')}</strong><br />
+            {'(1) '}{t('Call from Account - Your Account for Post Originator. ')}<br /> 
+            {'(2) '}{t('Enter your Post message in the text field. ')}<br />
+            {'(3) '}{t('Photo or YouTube Link -  Enter a valid Photo or YouTube Link.')}<br />
+            {'(4) '}{t('Website or Document Link - Enter your Website or Document Link for further information.')}<br />
+            <br /><br />
+            {t("⚠️ Please Note: Don't Forget to Click Submit when done! ")}<br /><br />
+          </>)}
+          {messageIndex !== null && messageIndex === 12 &&  (<>
             <h2><strong>{t('Social - Reply to a Post ')}{' '}</strong></h2><br />
             <strong>{t('Instructions for Replying to a Post: ')}</strong><br />
             {'(1) '}{t('Call from Account - Your Account for Post Originator. ')}<br /> 
@@ -247,44 +263,45 @@ function CallModal ({ className = '', messageId, fromAcct, username, postMessage
         )}
  
         {messageIndex===0 && (<>
+          <br />{' 🏆 '}{t_strong(' NOTE: This application provides random awards for making Posts.')}<br /><br />
         {isReply? (
         <>
-        {t('Reply Message: ')}
+        {t('Reply Message: ')}{t( '(Max Character length is ')}{MAX_PUBLIC_MESSAGES}{')'}<br />
           <Input label='' type="text"
             value={params[0]}
             onChange={(e) => {
-              params[0] = e.target.value;
-              //params[3] = messageId;
+              params[0] = e.target.value.slice(0,MAX_PUBLIC_MESSAGES);
               setParams([...params]);
             }}
           />
           </>
         ):
         <>
-        {t('Post Message: ')}
+        {t('Post Message: ')}{t( '(Max Character length is ')}{MAX_PUBLIC_MESSAGES}{')'}<br />
           <Input label='' type="text"
           onChange={(e) => {
-            params[0] = stringToHex(e.target.value);
-            //params[3] = messageId;
+            params[0] = stringToHex(e.target.value.slice(0,MAX_PUBLIC_MESSAGES));
             setParams([...params]);
           }}/>
         </>}
-        {t('Photo or YouTube Link: ')}
+        {t('Photo or YouTube Link: ')}{t( '(Max Character length is ')}{MAX_LINKS}{')'}<br />
           <Input label='' type='text'
           onChange={(e) => {
-            params[1] = stringToHex(e.target.value.trim());
+            params[1] = stringToHex(e.target.value.slice(0,MAX_LINKS).trim());
             setParams([...params]);}}/>
-        {t('Website Link, Document or other Link: ')}
+        {t('Website Link, Document or other Link: ')}{t( '(Max Character length is ')}{MAX_LINKS}{')'}<br />
           <Input label='' type='text'
           onChange={(e) => {
-            params[2] = stringToHex(e.target.value.trim());
+            params[2] = stringToHex(e.target.value.slice(0,MAX_LINKS).trim());
             setParams([...params]);}}/>
         </>)}
 
-        {(messageIndex===2 || messageIndex===3) && (<>
-          <br />{t(' Message ID : ')}{JSON.stringify(params=[messageId])}
-          <h3>
-        <strong>{t(' Owner of Post: ')}</strong>
+        {messageIndex===2 && (<>
+          <br />{t_strong(' Message ID : ')}{JSON.stringify(params=[messageId])}
+          <br />
+          <br />{t_strong('IMPORTANT: You can not endorse your own posts. ')}<br />
+          <br />
+          <h4>{t_strong(' Owner of Post: ')}
         {fromAcct && (
               <>
               <IdentityIcon size={32} value={fromAcct} />
@@ -292,34 +309,61 @@ function CallModal ({ className = '', messageId, fromAcct, username, postMessage
               </>)}        
         {username && (
               <>
-              {' @'}{hextoHuman(username)}
+          <br />{t_strong(' Username: ')}{' @'}{hexToHuman(username)}
               </>)}  
-              <br /><br />
+          <br />
         {postMessage && (<>
-          <strong>{t(' Post: ')}</strong>
-          <h5>{hextoHuman(postMessage)}</h5> <br />     
+          {t_strong(' Post: ')}{hexToHuman(postMessage)}<br />     
         </>)} 
-        </h3>
+        </h4>
+        <br />        
+        </>)}
+
+        {messageIndex===3 && (<>
+          <br />{t_strong(' Message ID : ')}{JSON.stringify(params=[messageId])}
+          <br />{t_strong('IMPORTANT: If you endorse your own paid ad you will withdraw all the remaining amount from that Ad. ')}
+          <br /><br />
+          <br />{t_strong('NOTE: ')}{'You are paid for endorsing a Paid Post 💰'}
+          <br />{t('Check the Events Log or your Account Balance for confirmation of payouts.')}
+          
+          <h4>{t_strong(' Owner of Post: ')}
+        {fromAcct && (
+              <>
+              <IdentityIcon size={32} value={fromAcct} />
+              <AccountName value={fromAcct} withSidebar={true}/>
+        </>)}    
+        <br />   
+        {username && (
+              <>
+              {t_strong(' Username: ')}{' @'}{hexToHuman(username)}
+        </>)}  
+        <br />
+        {postMessage && (
+              <>
+              {t_strong(' Post: ')}{hexToHuman(postMessage)} <br />     
+        </>)} 
+        </h4>
         <br />        
         </>)}
 
         {messageIndex===12 && (<>
-          {t('Post Reply Message: ')}
+          <br />{' 🏆 '}{t_strong(' NOTE: This application provides random awards for making Posts.')}<br /><br />
+          {t('Post Reply Message: ')}{t( '(Max Character length is ')}{MAX_PUBLIC_MESSAGES}{')'}
           <Input label='' type="text"
           onChange={(e) => {
-            params[0] = stringToHex(e.target.value);
+            params[0] = stringToHex(e.target.value.slice(0,MAX_PUBLIC_MESSAGES));
             params[3] = messageId;
             setParams([...params]);
           }}/>
-          {t('Photo or YouTube Link: ')}
+          {t('Photo or YouTube Link: ')}{t( '(Max Character length is ')}{MAX_LINKS}{')'}
           <Input label='' type='text'
           onChange={(e) => {
-            params[1] = stringToHex(e.target.value.trim());
+            params[1] = stringToHex(e.target.value.slice(0,MAX_LINKS).trim());
             setParams([...params]);}}/>
-        {t('Website Link, Document or other Link: ')}
+        {t('Website Link, Document or other Link: ')}{t( '(Max Character length is ')}{MAX_LINKS}{')'}
           <Input label='' type='text'
           onChange={(e) => {
-            params[2] = stringToHex(e.target.value.trim());
+            params[2] = stringToHex(e.target.value.slice(0,MAX_LINKS).trim());
             setParams([...params]);}}/>
         </>)}
 

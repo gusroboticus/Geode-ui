@@ -6,17 +6,16 @@ import React, { useState, useCallback } from 'react';
 import { useTranslation } from '../shared/translate.js';
 import type { CallResult } from '../shared/types.js';
 import { stringify, hexToString, isHex } from '@polkadot/util';
-import { styled, Expander, Toggle, Badge, Button, AccountName, LabelHelp, IdentityIcon, Card } from '@polkadot/react-components';
-import { Grid, Image, Divider, List, Table, Label } from 'semantic-ui-react';
-import CopyInline from '../shared/CopyInline.js';
+import { styled, Expander, Toggle, Badge, AccountName, LabelHelp, Card } from '@polkadot/react-components';
+import { Grid, Image, Divider, Table, Label } from 'semantic-ui-react';
 import { useToggle } from '@polkadot/react-hooks';
 import AccountHeader from '../shared/AccountHeader.js';
 import CallEndorse from './CallEndorse.js';
 import CallPost from './CallPost.js';
 import CallFollow from './CallFollow.js';
 import JSONprohibited from '../shared/geode_prohibited.json';
-import { autoCorrect, hextoHuman, timeStampToDate, numBadge, accountInfo, t_strong, paramtoAccount } from './SocialUtil.js';
-
+import { msgIndexer, searchHeader, autoCorrect, hextoHuman, userInfo } from './SocialUtil.js';
+import { MAX_FEED_INDEX, ZERO_MSG_ID } from './SocialConst.js'
 
 interface Props {
     className?: string;
@@ -34,14 +33,13 @@ interface Props {
     link2: string,
     endorserCount: number,
     replyCount: number,
-    timestamp: number,
-    endorsers: string[]
+    timestamp: number
   }
 
   type FeedObj = {
     searchedAccount: string,
     username: string,
-    followers: string[],
+    followers: number,
     following: string[],
     messageList: MessageObj[],
   }
@@ -50,20 +48,11 @@ interface Props {
   ok: FeedObj
   }
   
-function SearchDetails ({ className = '', onClear, outcome: { from, message, output, params, result, when } }: Props): React.ReactElement<Props> | null {
-    // todo -> code unused params
-    console.log(JSON.stringify(message));
-    console.log(JSON.stringify(params));
-    console.log(JSON.stringify(result));
+function SearchDetails ({ className = '', outcome: { from, output, when } }: Props): React.ReactElement<Props> | null {
     
     const { t } = useTranslation();
     const searchWords: string[] = JSONprohibited;
-    const zeroMessageId: string = '0x0000000000000000000000000000000000000000000000000000000000000000'
-    const maxIndex = 25;
-
-    const [isShowFollowers, toggleShowFollowers] = useToggle(false);
     const [isShowFollowing, toggleShowFollowing] = useToggle(false);
-    const [isShowEndorsers, toggleShowEndorse] = useToggle(false);
     const [isShowMessageID, toggleShowMsgId] = useToggle(false);
 
     const [postToEndorse, setPostToEndorse] = useState(['','','','']);
@@ -72,114 +61,9 @@ function SearchDetails ({ className = '', onClear, outcome: { from, message, out
     const [isAcctFollow, setAcctFollow] = useState(false);
 
     const [countPost, setCountPost] = useState(0);
-    const [pgIndex, setPgIndex] = useState(1);
 
-    const objOutput: string = stringify(output);
-    const _Obj = JSON.parse(objOutput);
-    const feedDetail: FeedDetail = Object.create(_Obj);
+    const feedDetail: FeedDetail = Object.create(JSON.parse(stringify(output)));
     const withHttp = (url: string) => url.replace(/^(?:(.*:)?\/\/)?(.*)/i, (match, schemma, nonSchemmaUrl) => schemma ? match : `http://${nonSchemmaUrl}`);
-
-   function PagePager(): JSX.Element {
-    const currPgIndex: number = (pgIndex > 0) ? pgIndex : (pgIndex < countPost) ? pgIndex : countPost;
-    const _indexer: number = maxIndex;
-    return(
-      <div>
-        {countPost>0 && (<>
-        <Table>
-          <Table.Row>
-            <Table.Cell>
-             <Button icon={'minus'} 
-              label={t('Prev Page')}
-              isDisabled={currPgIndex===1}
-              onClick={()=> {<>{setPgIndex((currPgIndex-_indexer)>0 ? currPgIndex-_indexer : 1)}{_reset()}</>}} />
-             <Button icon={'plus'} 
-              label={t('Next Page')}
-              isDisabled={currPgIndex>countPost}
-              onClick={()=> {<>{setPgIndex(currPgIndex<countPost-1 ? currPgIndex+_indexer : countPost)}{_reset()}</>}}/>
-             <LabelHelp help={t(' Use these buttons to page through Posts.')} /> 
-            </Table.Cell>
-          </Table.Row>
-        </Table>
-        </>)}
-      </div>
-    )
-   }
-
-   function PageIndexer(): JSX.Element {
-    try {
-      const _rtnIsFollowing: boolean = feedDetail.ok.followers.includes(from);
-      const currPgIndex: number = (pgIndex > 0) ? pgIndex : (pgIndex < countPost) ? pgIndex : countPost;
-      const _indexer: number = 1;  
-      return (
-        <div>
-          <Table>
-            <Table.Row>
-              <Table.Cell>
-              <Button
-                icon='times'
-                label={t('Close')}
-                onClick={onClear}
-              />
-               <Button icon={'home'} 
-                isDisabled={countPost===0}
-                onClick={()=> {<>{setPgIndex(1)}{_reset()}</>}}/>
-               <Button icon={'minus'} 
-                isDisabled={countPost===0}
-                onClick={()=> {<>{setPgIndex((currPgIndex-_indexer)>0? currPgIndex-_indexer : 1)}{_reset()}</>}}/>
-               <Button icon={'plus'} 
-                isDisabled={countPost===0}
-                onClick={()=> {<>{setPgIndex(currPgIndex<countPost-1? currPgIndex+_indexer : countPost)}{_reset()}</>}}/>
-               <Button icon={'sign-in-alt'}
-                isDisabled={countPost===0}
-                onClick={()=> {<>{setPgIndex((countPost>0)? countPost: 1)}{_reset()}</>}}/>
-               {!_rtnIsFollowing && (<>
-                {' | '}
-               <Button icon={isAcctFollow? 'minus': 'plus'} label={'Follow'}
-                onClick={()=>{!isAcctFollow? _makeFollow(): _reset()}}/>               
-               </>)}
-               <strong>{t(' | Showing Post: ')}{pgIndex<countPost? pgIndex: countPost}{' thru '}{
-               (pgIndex+maxIndex) < countPost? pgIndex+maxIndex: countPost}</strong>
-               <LabelHelp help={t(' Use these buttons to page through your Posts.')} /> 
-              </Table.Cell>
-            </Table.Row>
-          </Table>
-        </div>
-      )  
-    } catch(e) {
-      console.log(e)
-      return(<>{'Nothing to show.'}</>)
-    }
-   }
-
-
-    // function autoCorrect(arr: string[], str: string): JSX.Element {
-    //     arr.forEach(w => str = str.replaceAll(w, '****'));
-    //     arr.forEach(w => str = str.replaceAll(w.charAt(0).toUpperCase() + w.slice(1), '****'));
-    //     arr.forEach(w => str = str.replaceAll(w.charAt(0) + w.slice(1).toUpperCase, '****'));        
-    //     arr.forEach(w => str = str.replaceAll(w.toUpperCase(), '****'));
-    //     return (
-    //     <>{t(str)}</>)
-    // }
-  
-//     function hextoHuman(_hexIn: string): string {
-//       const _Out: string = (isHex(_hexIn))? t(hexToString(_hexIn).trim()): ''
-//       return(_Out)
-// }
-
-  //   function timeStampToDate(tstamp: number): JSX.Element {
-  //     try {
-  //      const event = new Date(tstamp);
-  //      return (
-  //           <><i>{event.toDateString()}{' '}
-  //                {event.toLocaleTimeString()}{' '}</i></>
-  //       )
-  //     } catch(error) {
-  //      console.error(error)
-  //      return(
-  //          <><i>{t('No Date')}</i></>
-  //      )
-  //     }
-  //  }
 
 function renderLink(_link: string): JSX.Element {
  const ilink: string = isHex(_link)? withHttp(hexToString(_link).trim()): '0x';
@@ -235,10 +119,7 @@ const _makeFollow = useCallback(
 
 function ShowAccount(): JSX.Element {
   try{
-    const noFollowers: number = feedDetail.ok.followers.length>0 ? feedDetail.ok.followers.length: 0;
     const noFollowing: number = feedDetail.ok.following.length>0 ? feedDetail.ok.following.length: 0;
-    const _username: string = feedDetail.ok.searchedAccount.length>0 ? hextoHuman(feedDetail.ok.username): '';
-    const _rtnIsFollowing: boolean = feedDetail.ok.followers.includes(from);
     return (<>
             <Table stretch verticalAlign='top'>
             <Table.Header>
@@ -246,23 +127,13 @@ function ShowAccount(): JSX.Element {
                 <Table.HeaderCell verticalAlign='top'>
                 {feedDetail.ok.searchedAccount.length>0 && (
                   <><h2>
-                    <IdentityIcon size={32} value={feedDetail.ok.searchedAccount} />
-                    {' '}
-                    <AccountName value={feedDetail.ok.searchedAccount} withSidebar={true}/>
-                    {' '}
-                    {_username.trim()!='' && (<><strong>{'@'}{_username}</strong></>)}
-                    {' '}
-                    {_rtnIsFollowing? (<>
-                      <Label color='blue' circular>{'Following'}</Label>
-                    </>): (<>
+                      {userInfo(feedDetail.ok.searchedAccount, feedDetail.ok.username)}
                       <Label as='a' circular 
                            color={!isAcctFollow? 'orange' : 'blue'}
                            onClick={() => {!isAcctFollow? _makeFollow(): _reset()}}
-                    >{t('Follow')}</Label>
-                    <LabelHelp help={t(' Use the orange Follow button to follow this account. Click again to Close the Modal. ')} /> 
-                    
-                    </>)}
-                  </h2>
+                          >{t('Follow')}</Label>
+                          <LabelHelp help={t(' Use the orange Follow button to follow this account. Click again to Close the Modal. ')} /> 
+                    </h2>
                   {t('Number of Posts: ')}<strong>{countPost}</strong>
                   </>
                 )}                
@@ -276,14 +147,6 @@ function ShowAccount(): JSX.Element {
                   <Grid.Column>
                   <Toggle
                     className=''
-                    label={<> <Badge icon='check' color={isShowEndorsers? 'blue': 'gray'}/> {t('Show Endorsers ')} </>}
-                    onChange={()=> <>{toggleShowEndorse()}{_reset()}</>}
-                    value={isShowEndorsers}
-                  />
-                  </Grid.Column>
-                  <Grid.Column>
-                  <Toggle
-                    className=''
                     label={<> <Badge icon='copy' color={isShowMessageID? 'orange': 'gray'}/> {t('Show Message IDs ')} </>}
                     onChange={()=> <>{toggleShowMsgId()}{_reset()}</>}
                     value={isShowMessageID}
@@ -292,26 +155,6 @@ function ShowAccount(): JSX.Element {
                 </Grid.Row>
                </Grid>
                 <br />
-                {feedDetail.ok.followers.length>0 ? (
-                  <>
-                  <Badge
-                    icon='info'
-                    color={(isShowFollowers) ? 'blue' : 'gray'}
-                    onClick={()=> <>{toggleShowFollowers()}{_reset()}</>}/> 
-                {t(' Followers: ')}<strong>{noFollowers}</strong>
-                
-                {isShowFollowers && feedDetail.ok.followers.length>0 && (
-                  <>
-                  {feedDetail.ok.followers.map(_followers =>
-                  <>{' ('}<AccountName value={_followers} withSidebar={true}/>{') '}
-                  </>)}
-
-                  </>
-                )}
-                </>) : <>
-                    <Badge icon='info' color='red' />
-                    {t('This Account has no Followers')}</> }
-                <br /><br />
                 {feedDetail.ok.following.length>0 ? (
                 <>
                 <Badge
@@ -360,8 +203,10 @@ function ShowAccount(): JSX.Element {
               {feedDetail.ok.messageList.length>0 && feedDetail.ok.messageList
                   // filter out duplicates
                   .filter((value, index, array) => index == array.findIndex(item => item.messageId == value.messageId))
+                  // filter out zero message Ids
+                  .filter(a => a.messageId != ZERO_MSG_ID)
                   // filter out all replies
-                  .filter(_subFeed => _subFeed.replyTo === zeroMessageId)
+                  .filter(a => a.replyTo === ZERO_MSG_ID)
                   // sort into descending order based on timestamp
                   .sort((a, b) => b.timestamp - a.timestamp)
                   // sort message replys below original messages
@@ -369,16 +214,11 @@ function ShowAccount(): JSX.Element {
                   //.sort((a, b) => (a.replyTo === b.replyTo)? 1 : -1)
                   .map((_feed, index: number) =>
                   <>
-                  {index >= pgIndex -1 && index < pgIndex + maxIndex && (
+                  {index <= MAX_FEED_INDEX && (
                   <>
                   <h3> 
-                          <strong>{t('@')}</strong>
-                          <strong>{hextoHuman(_feed.username)}</strong>
-                            {' ('}<AccountName value={_feed.fromAcct} withSidebar={true}/>{') '}
-                            {' '}<Label color='blue' circular>{_feed.endorserCount}</Label>
-                            {' '}{timeStampToDate(_feed.timestamp)}{' '}
-                            {' '}
-                            {(_feed.fromAcct===from || _feed.endorsers.includes(from))? (<>
+                            {searchHeader('@', _feed.username, _feed.fromAcct, _feed.endorserCount, _feed.timestamp)}
+                            {(_feed.fromAcct===from)? (<>
                                 <Badge icon='thumbs-up' color='gray'/>
                               </>) : (<>
                                 <Badge 
@@ -396,27 +236,12 @@ function ShowAccount(): JSX.Element {
                                   }}/>                              
                               </>)}                          
                    </h3>
-                   {isShowEndorsers && _feed.endorserCount > 0 && (
-                  <>
-                  <List divided inverted >
-                    {_feed.endorsers.length>0 && _feed.endorsers.map((name, i: number) => <List.Item key={name}> 
-                      {(i > 0) && (<><Badge color='blue' icon='check'/>{t('(endorser No.')}{i}{') '}
-                      {' ('}<AccountName value={name} withSidebar={true}/>{') '}{name} 
-                      </>)}
-                    </List.Item>)}
-                  </List>     
-                  </>
-                  )}
-                  {isShowMessageID && 
-                    (<>{(_feed.replyTo != zeroMessageId)
-                    ? (<><i>{t('reply to: ')}{_feed.replyTo}</i>
-                         {' '}<CopyInline value={_feed.replyTo} label={''}/><br />
-                         <i>{t('message Id: ')}{_feed.messageId}</i>
-                         {' '}<CopyInline value={_feed.messageId} label={''}/><br />
-                         </>) 
-                    : (<><i>{t('message Id: ')}{_feed.messageId}</i>
-                         {' '}<CopyInline value={_feed.messageId} label={''}/><br />
-                         </>)}
+                   {isShowMessageID && 
+                    (<>{(_feed.replyTo != ZERO_MSG_ID)
+                    ? (<>{msgIndexer('reply to: ', _feed.replyTo)}<br />
+                         {msgIndexer('message Id: ', _feed.messageId)}<br />
+                    </>) 
+                    : (<>{msgIndexer('message Id: ', _feed.messageId)}</>)}
                       </>)} 
                       <br />      
                       {renderLink(_feed.link)}
@@ -447,13 +272,14 @@ function ShowAccount(): JSX.Element {
                            >{'Reply'}
                     </Label>
                   <br /> <br />
-                  
-                  <Expander 
+                  {_feed.replyCount>0 && (<>
+                    <Expander 
                     className='replymessage'
                     isOpen={false}
                     summary={<Label color='orange' circular> {'Replies: '}{_feed.replyCount}</Label>}>
                     {ShowReplies(_feed.messageId)}
-                    </Expander>    
+                    </Expander>   
+                  </>)}
                   <Divider />                        
                   </>)}
             {setCountPost(index+1)}</>
@@ -493,12 +319,10 @@ function ShowReplies(replyMessageId: string): JSX.Element {
                         <>
                           <Table.Row>
                               <Table.Cell>
-                                <strong>{t('Reply - @')}</strong>
-                                <strong>{hextoHuman(_replyFeed.username)}</strong>
-                                {' ('}<AccountName value={_replyFeed.fromAcct} withSidebar={true}/>{') '}
-                                {' '}<Label color='blue' circular>{_replyFeed.endorserCount}</Label>
-                                {' '}{timeStampToDate(_replyFeed.timestamp)}{' '}
-                                {(_replyFeed.fromAcct===from || _replyFeed.endorsers.includes(from))? (<>
+
+                              {searchHeader('Reply - @', _replyFeed.username, _replyFeed.fromAcct, _replyFeed.endorserCount, _replyFeed.timestamp)}
+
+                                {(_replyFeed.fromAcct===from)? (<>
                                 <Badge icon='thumbs-up' color='gray'/>
                                 </>) : (<>
                                 <Badge icon='thumbs-up' color={'blue'}
@@ -514,28 +338,14 @@ function ShowReplies(replyMessageId: string): JSX.Element {
                                   }}/>                              
                                 </>)}
                                 <br />                         
-                                {isShowEndorsers && _replyFeed.endorserCount > 0 && (
-                                    <>
-                                    <List divided inverted >
-                                      {_replyFeed.endorsers.length>0 && _replyFeed.endorsers.map((name, i: number) => <List.Item key={name}> 
-                                      {(i > 0) && (<><Badge color='blue' icon='check'/>{t('(endorser No.')}{i}{') '}
-                                      {' ('}<AccountName value={name} withSidebar={true}/>{') '}{name} 
-                                      </>)}
-                                    </List.Item>)}
-                                    </List>     
-                                    </>
-                                    )}
-  
-                                    {isShowMessageID && 
-                                    (<><br />{(_replyFeed.replyTo != zeroMessageId)
-                                    ? (<><i>{t('reply to: ')}{_replyFeed.replyTo}</i>
-                                    {' '}<CopyInline value={_replyFeed.replyTo} label={''}/> <br />
-                                    <i>{t('message Id: ')}{_replyFeed.messageId}</i>
-                                    {' '}<CopyInline value={_replyFeed.messageId} label={''}/><br /></>) 
-                                    : (<><i>{t('message Id: ')}{_replyFeed.messageId}</i>
-                                    {' '}<CopyInline value={_replyFeed.messageId} label={''}/> <br /></>)}
-                                    </>)} 
-                                    <br />      
+                                {isShowMessageID && 
+                                (<>{(_replyFeed.replyTo != ZERO_MSG_ID)
+                                ? (<>{msgIndexer('reply to: ', _replyFeed.replyTo)}<br />
+                                    {msgIndexer('message Id: ', _replyFeed.messageId)}<br />
+                                </>) 
+                                : (<>{msgIndexer('message Id: ', _replyFeed.messageId)}</>)}
+                                  </>)} 
+                                  <br />    
                                 {renderLink(_replyFeed.link)}
                                 {(_replyFeed.link != '0x') ? (
                                 <>
@@ -574,15 +384,12 @@ function ShowReplies(replyMessageId: string): JSX.Element {
 return (
     <StyledDiv className={className}>
     <Card >
-        <AccountHeader fromAcct={from} timeDate={when} callFrom={3}/>
+        <AccountHeader fromAcct={from} timeDate={when} callFrom={202}/>
         <ShowAccount />
         {isAcctFollow && !isPostReply && !isEndorse && (
-          <CallFollow />
+        <CallFollow />
         ) }
-        <PageIndexer />
         <ShowFeed />
-        <PagePager />
-
         {!isAcctFollow && !isPostReply && isEndorse && postToEndorse[0] && (
         <CallEndorse
             isPost={true}

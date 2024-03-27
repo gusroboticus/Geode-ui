@@ -95,6 +95,7 @@ function Summary (): React.ReactElement {
         <LabelHelp help={t('Click on the Icon or Open the Side Car for Copying the Account Address.')} />
         {' '}{t(info[2])}{' '}
         {' '}{showAccount(info[3])}
+        {' '}{showAccount(info[4])}
         
       </>)}    
       {isShowAccounts && (<>

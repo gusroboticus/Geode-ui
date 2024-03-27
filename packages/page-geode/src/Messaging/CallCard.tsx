@@ -8,9 +8,7 @@ import type { ContractPromise } from '@polkadot/api-contract';
 import type { ContractCallOutcome } from '@polkadot/api-contract/types';
 import type { WeightV2 } from '@polkadot/types/interfaces';
 import type { CallResult } from '../shared/types.js';
-
 import React, { useCallback, useEffect, useState } from 'react';
-
 import { styled, Expander, LabelHelp, Badge, Card, Button, Dropdown, InputAddress, InputBalance, Toggle, TxButton } from '@polkadot/react-components';
 import { useAccountId, useApi, useDebounce, useFormField, useToggle } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
@@ -29,14 +27,9 @@ import InBoxDetails from './InBoxDetails.js';
 import MyListsDetails from './MyListsDetails.js';
 import FindListsDetails from './FindListsDetails.js';
 import SubListsDetails from './SubListsDetails.js';
-//import MyPaidListsDetails from './MyPaidListsDetails.js';
 import MyPaidInBoxDetails from './MyPaidInboxDetails.js';
 import MyGroupsDetails from './MyGroupsDetails.js';
 import FindGroupsDetails from './FindGroupsDetails.js';
-// import SearchAccountDetails from './SearchAccountDetails.js';
-// import SearchKeywordDetails from './SeacrhKeywordDetails.js';
-// import FindAccountDetails from './FindAccountDetails.js';
-// import SettingsDetails from './SettingsDetails.js';
 import UserSettingsDetails from './UserSettingsDetails.js';
 import ShowGroupDetails from './ShowGroupDetails.js';
 import ShowListDetails from './ShowListDetails.js';

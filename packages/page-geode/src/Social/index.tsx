@@ -157,7 +157,7 @@ console.log(allCodes);
             updated={codeTrigger}
             messageId={''}
             postMessage={''}
-            initMessageIndex={16}
+            initMessageIndex={15}
         />)}
         {isFollow && (
           <ContractsTable

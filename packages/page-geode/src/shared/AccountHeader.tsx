@@ -7,6 +7,7 @@ import { styled, Toggle, Badge, AccountName, LabelHelp, IdentityIcon, Card } fro
 import { Item, Label } from 'semantic-ui-react'
 import CopyInline from '../shared/CopyInline.js';
 import { useToggle } from '@polkadot/react-hooks';
+import { Available } from '@polkadot/react-query';
 
 interface Props {
     className?: string;
@@ -52,11 +53,17 @@ function ListAccount(): JSX.Element {
             label={<><strong>{t(' user: ')}</strong>
             {isShowCallAccount && (
               <>
-              {' called from User Account: '}
+              {' '}
               <IdentityIcon size={24} value={fromAcct} />
-             {' '}
-             <AccountName value={fromAcct} withSidebar={true}/>
-             <LabelHelp help={t(' The account calling the information. ')} /> 
+              {' '}
+              <AccountName value={fromAcct} withSidebar={true}/>
+              {' '}
+              <Available
+                label={t('transferrable: ')}
+                params={fromAcct}
+              />
+              {' '}
+              <LabelHelp help={t(' The account calling the information. ')} /> 
               </>
             )}
             </>}
@@ -109,15 +116,73 @@ function ListAccount(): JSX.Element {
                 {t(' Link to See More: ')}<Label circular color='orange'> Link </Label>
                 {t(' Copy an Address: ')}<Badge icon='copy' color='orange' /><br />
                   <strong>{t('NOTE: ')}</strong>
-                {t('👤 View a Profile.   ')}<br />
+                {t('👤 View a Profile   ')}<br />
                 {' 🔘 '}{t('You can update your own profile here.')}<br />
                 {' 🔘 '}{t('Copy public key addresses to use in other Geode Apps.')}<br />
                 {' 🔘 '}{t('Click on the links to see more info for this profile. ')}<br />
                 </>)}
 
+                {callFrom===200 && (<>
+                {t(' Link to See More: ')}<Label circular size='tiny' color='orange'> Link </Label>
+                {t(' No. of Endorsements: ')}<Label circular size='tiny' color='blue'>{'#'}</Label>
+                {t(' See Replies: ')}<Label color='orange' size='tiny' circular >{'Replies #'}</Label> 
+                {t(' Endorse a Post: ')}<Badge icon='thumbs-up' color='blue' />
+                {t(' Copy Message ID: ')}<CopyInline value={' '} label={''}/>
+                {t('Reply to a Post')}<Label color='orange' size='tiny' circular>{'Reply'}</Label><br />  
+                <strong>{t('NOTE: ')}</strong><br />
+                {' 🏆 '}{t('This application provides random awards for making public posts.')}<br />
+                {' 📬 '}{t('Things you can do here:')}<br />
+                {' 🔘 '}{t('Make public posts')}<br /> 
+                {' 🔘 '}{t('Reply to Posts')}<br />
+                {' 🔘 '}{t('Endorse a Post')}<br />
+                {' ⚠️ '}{t('You may not endorse your own posts. ')}<br />
+                {t_strong('IMPORTANT: ')}{t('To see recent updates remember to reload this page.')}
+                </>)}
+                {callFrom===201 && (<>
+                {t(' Copy Address: ')}<CopyInline value={' '} label={''}/><br />  
+                <strong>{t('NOTE: ')}</strong><br />
+                {' 📬 '}{t('Things you can do here:')}<br />
+                {' 🔘 '}{t('Check the accounts that an account is following.')}<br /> 
+                </>)}
+                {callFrom===202 && (<>
+                {t(' Link to See More: ')}<Label circular size='tiny' color='orange'> Link </Label>
+                {t(' No. of Endorsements: ')}<Label circular size='tiny' color='blue'>{'#'}</Label>
+                {t(' See Replies: ')}<Label color='orange' size='tiny' circular >{'Replies #'}</Label> 
+                {t(' Endorse a Post: ')}<Badge icon='thumbs-up' color='blue' />
+                {t(' Copy Message ID: ')}<CopyInline value={' '} label={''}/>
+                {t('Reply to a Post')}<Label color='orange' size='tiny' circular>{'Reply'}</Label><br />  
+                <strong>{t('NOTE: ')}</strong><br />
+                {' 🏆 '}{t('This application provides random awards for making and replying to public posts.')}<br />
+                {' 📬 '}{t('Things you can do here:')}<br />
+                {' 🔘 '}{t('View an account`s public posts')}<br /> 
+                {' 🔘 '}{t('View replys to public posts')}<br /> 
+                {' 🔘 '}{t('Reply to Posts')}<br />
+                {' 🔘 '}{t('Endorse a Post')}<br />
+                {' !! '}{t('You may not endorse your own posts. ')}<br />
+                {t_strong('IMPORTANT: ')}{t('To see recent updates remember to reload this page.')}
+                </>)}
+                {callFrom===203 && (<>
+                {t(' Link to See More: ')}<Label circular size='tiny' color='orange'> Link </Label>
+                {t(' No. of Endorsements: ')}<Label circular size='tiny' color='blue'>{'#'}</Label>
+                {t(' See Replies: ')}<Label color='orange' size='tiny' circular >{'Replies #'}</Label> 
+                {t(' Endorse a Post: ')}<Badge icon='thumbs-up' color='blue' />
+                {t(' Copy Message ID: ')}<CopyInline value={' '} label={''}/>
+                {t('Reply to a Post')}<Label color='orange' size='tiny' circular>{'Reply'}</Label><br />  
+                <strong>{t('NOTE: ')}</strong><br />
+                {' 📬 '}{t('Things you can do here:')}<br />
+                {' 🔘 '}{t('View an account`s paid posts')}<br /> 
+                {' 🔘 '}{t('Endorse an Ad and get paid 💰 ! ')}<br /> 
+                {' 🔘 '}{t('See accounts that have endorsed the Ad')}<br />
+                {' 🔘 '}{t('View and copy the Message ID of an ad ')}<br />
+                {' 🔘 '}{t('See the ad`s target interest words ')}<br />
+                {' 🔘 '}{t('show your interest words ')}<br />
+                {' 🔘 '}{t('show your blocked accounts ')}<br /><br />
+                {' ⚠️ '}{t('If you endorse your own paid ad it will remove the remaining balance of the Ad. ')}<br /><br />
+                {t_strong('IMPORTANT: ')}{t('To see recent updates remember to reload this page.')}
+                </>)}
                 {callFrom===31 && (<>
                 {t(' Link to See More: ')}<Label circular color='orange'> Link </Label><br />
-                  <strong>{t('NOTE: ')}</strong>
+                <strong>{t('NOTE: ')}</strong>
                 {' 🏆 '}{t(' This application provides random awards for sending private messages.')}<br />
                 {t('📨 Send messages to people directly by clicking on the blue envelop icon button ( ✉️ ).   ')}<br />
                 {' 🔘 '}{t('Click the ( messages ✉️ ) button to see your conversations.')}<br />
@@ -140,10 +205,10 @@ function ListAccount(): JSX.Element {
                   <strong>{t('NOTE: ')}</strong>
                 {t('Manage the accounts that you can receive and send messages.   ')}<br />
                 {t('You can do the following here:')}<br />
-                {' 🔘 '}{t('Add Accounts to Your Inbox. ')}<br />
-                {' 🔘 '}{t('Remove Accounts from Your Inbox. ')}<br />
-                {' 🔘 '}{t('Unblock Accounts from Your Inbox. ')}<br />
-                {' 🔘 '}{t('Delete All Messages to another User. ')}<br />
+                {' 🔘 '}{t('Add Accounts to Your Inbox ')}<br />
+                {' 🔘 '}{t('Remove Accounts from Your Inbox ')}<br />
+                {' 🔘 '}{t('Unblock Accounts from Your Inbox ')}<br />
+                {' 🔘 '}{t('Delete All Messages to another User ')}<br />
                 <br />
                 {t_strong('IMPORTANT: ')}{t('To see recent updates remember to reload this page.')}
                 </>)}
@@ -153,8 +218,8 @@ function ListAccount(): JSX.Element {
                 {' 🏆 '}{t(' This application provides random awards for sending messages to a group.')}<br />
                 {t('Send a message to the Group by clicking the blue envelop icon ( ✉️ ).')}<br />
                 {t(' ✉️ You can do the following here:')}<br />
-                {' 🔘 '}{t('Check your Group Messages. ')}<br />
-                {' 🔘 '}{t('Send a message to the Group. ')}<br />
+                {' 🔘 '}{t('Check your Group Messages ')}<br />
+                {' 🔘 '}{t('Send a message to the Group ')}<br />
                 {' 🔘 '}{t('Click the ( messages ✉️ ) button to see your conversations.')}<br />
                 <br />
                 {t_strong('IMPORTANT: ')}{t('To see recent updates remember to reload this page.')}
@@ -163,7 +228,7 @@ function ListAccount(): JSX.Element {
                 {t(' Number of Lists that contain messages: ')}<Badge icon='1' color='blue' /><br />
                   <strong>{t('NOTE: ')}</strong>
                 {t(' You can do the following here:')}<br />
-                {' 🔘 '}{t('Check your mail lists. ')}<br />
+                {' 🔘 '}{t('Check your mail lists ')}<br />
                 {' 🔘 '}{t('Click the ( messages ✉️ ) button to see your list messages.')}<br />
                 <br />
                 {t_strong('IMPORTANT: ')}{t('To see recent updates remember to reload this page.')}
@@ -173,12 +238,12 @@ function ListAccount(): JSX.Element {
                 {t_strong('NOTE: ')}
                 {' 🏆 '}{t(' This application provides random awards for sending messages to a group.')}<br />
                 {t(' ✉️ You can do the following here:')}<br />
-                {' 🔘 '}{t('Review Your Groups. ')}<br />
-                {' 🔘 '}{t('See the accounts subscribed to the Groups.')}<br />
-                {' 🔘 '}{t('Send a Message to a Group (Click Send to Group).')}<br />
-                {' 🔘 '}{t('Delete Your Messages sent to a Group (Delete Sent).')}<br />
-                {' 🔘 '}{t('Update Your Group Settings if you are the Group owner (Update Group).')}<br />
-                {' 🔘 '}{t('Leave a Group (Leave Group).')}<br />
+                {' 🔘 '}{t('Review Your Groups ')}<br />
+                {' 🔘 '}{t('See the accounts subscribed to the Groups')}<br />
+                {' 🔘 '}{t('Send a Message to a Group (Click Send to Group)')}<br />
+                {' 🔘 '}{t('Delete Your Messages sent to a Group (Delete Sent)')}<br />
+                {' 🔘 '}{t('Update Your Group Settings if you are the Group owner (Update Group)')}<br />
+                {' 🔘 '}{t('Leave a Group (Leave Group)')}<br />
                 <br />
                 {t_strong('IMPORTANT: ')}{t('To see recent updates remember to reload this page.')}
                 </>)}
@@ -187,8 +252,8 @@ function ListAccount(): JSX.Element {
                 {' 🏆 '}{t(' This application provides random awards for making a Group and Joining a Group.')}<br />
                 {t_strong('NOTE: ')}<br />
                 {t(' ✉️ You can do the following here:')}<br />
-                {' 🔘 '}{t('Join a Group. ')}<br />
-                {' 🔘 '}{t('Leave a Group.')}<br />
+                {' 🔘 '}{t('Join a Group ')}<br />
+                {' 🔘 '}{t('Leave a Group')}<br />
                 {' 🔘 '}{t('Create a new Group')}<br />
                 <br />
                 {t_strong('IMPORTANT: ')}{t('To see recent updates remember to reload this page.')}
@@ -198,8 +263,8 @@ function ListAccount(): JSX.Element {
                 {' 🏆 '}{t(' This application provides random awards for making a list and sending messages to a List.')}<br />
                 {t_strong('NOTE: ')}
                 {t(' ✉️ You can do the following here:')}<br />
-                {' 🔘 '}{t('Send a Message to a List that you own. ')}<br />
-                {' 🔘 '}{t('Delete a List.')}<br />
+                {' 🔘 '}{t('Send a Message to a List that you own ')}<br />
+                {' 🔘 '}{t('Delete a List')}<br />
                 {' 🔘 '}{t('Create a new List')}<br />
                 {' ‼️ '}{t('Only the List Owner can send messages to a List.')}
                 <br />
@@ -210,7 +275,7 @@ function ListAccount(): JSX.Element {
                 {' 🏆 '}{t(' This application provides random awards for joining a list.')}<br />
                 {t_strong('NOTE: ')}
                 {t(' ✉️ You can do the following here:')}<br />
-                {' 🔘 '}{t('Sort and find lists to join. ')}<br />
+                {' 🔘 '}{t('Sort and find lists to join ')}<br />
                 {' 🔘 '}{t('Unsubscribe to a list')}<br />
                 {' ‼️ '}{t('Only the List Owner can send messages to a List.')}
                 <br />
@@ -220,8 +285,8 @@ function ListAccount(): JSX.Element {
                 {t(' Copy an Address or List Id: ')}<Badge icon='copy' color='orange' /><br />
                 {t_strong('NOTE: ')}
                 {t(' ✉️ You can do the following here:')}<br />
-                {' 🔘 '}{t('View your subscribed lists. ')}<br />
-                {' 🔘 '}{t('Unsubscribe to a list.')}<br />
+                {' 🔘 '}{t('View your subscribed lists ')}<br />
+                {' 🔘 '}{t('Unsubscribe to a list')}<br />
                 {' 🔘 '}{t('To send a message to your list or create a new list go to (My Lists).')}<br />
                 {' ‼️ '}{t('Only the List Owner can send messages to a List.')}
                 <br />
@@ -233,10 +298,10 @@ function ListAccount(): JSX.Element {
                 {' 🏆 '}{t(' This application pays out directly for reading messages in your Paid Inbox.')}<br />
                 {t_strong('NOTE: ')}
                 {t(' ✉️ You can do the following here:')}<br />
-                {' 🔘 '}{t('Read your paid messages. ')}<br />
-                {' 🔘 '}{t('Send a paid message to an address. ')}<br />
-                {' 🔘 '}{t('Get paid for your Paid Messages.')}<br />
-                {' 🔘 '}{t('Clear your Paid Message Inbox.')}
+                {' 🔘 '}{t('Read your paid messages ')}<br />
+                {' 🔘 '}{t('Send a paid message to an address ')}<br />
+                {' 🔘 '}{t('Get paid for your Paid Messages')}<br />
+                {' 🔘 '}{t('Clear your Paid Message Inbox')}
                 <br />
                 </>)}
               </>

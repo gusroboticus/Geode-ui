@@ -9,7 +9,7 @@ import { stringify } from '@polkadot/util';
 import { styled, Button, Card } from '@polkadot/react-components';
 import { Table } from 'semantic-ui-react'
 import AccountHeader from '../shared/AccountHeader.js';
-import { numBadge, accountInfo, t_strong, paramtoAccount } from './SocialUtil.js';
+import { numBadge, accountInfo, paramtoAccount } from './SocialUtil.js';
 
 interface Props {
     className?: string;
@@ -22,8 +22,12 @@ type FeedDetail = {
   ok: string[]
   }
   
-function AccountFollowDetail ({ className = '', onClear, outcome: { from, output, params, when } }: Props): React.ReactElement<Props> | null {
+function AccountFollowDetail ({ className = '', outcome: { from, output, params, when } }: Props): React.ReactElement<Props> | null {
     const { t } = useTranslation();
+    function t_strong(_str: string): JSX.Element{return(<><strong>{t(_str)}</strong></>)}
+    // function noop (): void {// do nothing
+    // }
+
     const feedDetail: FeedDetail = Object.create(JSON.parse(stringify(output)));
     const [count, setCount] = useState(0);
 
@@ -32,22 +36,11 @@ function ShowFeed(): JSX.Element {
         return(
           <div>
             <Table stretch>
-            <Table.Header>
-              <Table.Row>
-                <Table.HeaderCell>
-                <Button
-                  icon='times'
-                  label={t('Close')}
-                  onClick={onClear}
-                />
-                </Table.HeaderCell>
-            </Table.Row>
-            </Table.Header>
             <Table.Row>
               <Table.Cell verticalAlign='top' >
-              <h2> {t_strong('For Account: ')}</h2>
-                {paramtoAccount(stringify(params))}
-              <h2> {t_strong('Number of Accounts Followed: ')}{numBadge(count)}</h2>
+              <h3> {t_strong('Accounts Followed for: ')}<br />
+                   {paramtoAccount(stringify(params))}</h3>
+              <h3> {t_strong('Number of Accounts Followed: ')}{numBadge(count)}</h3>
                 {feedDetail.ok.length>0 && feedDetail.ok
                     .map((_feed, index: number) =>
                     <>
@@ -73,7 +66,7 @@ function ShowFeed(): JSX.Element {
   return (
     <StyledDiv className={className}>
     <Card>
-      <AccountHeader fromAcct={from} timeDate={when} callFrom={99}/>
+      <AccountHeader fromAcct={from} timeDate={when} callFrom={201}/>
       <ShowFeed />
     </Card>
     </StyledDiv>

@@ -5,7 +5,7 @@ import React from 'react';
 import { styled, Card } from '@polkadot/react-components';
 import { useContracts } from '../useContracts.js';
 import { useCodes } from '../useCodes.js';
-import ContractsModal from './ContractsModal.js';
+import ContractsTable from './ContractsTable.js';
 
 interface Props {
   className?: string;
@@ -21,22 +21,17 @@ function CallFollow ({ className = '' }: Props): React.ReactElement<Props> | nul
     const { allCodes, codeTrigger } = useCodes();
 //todo: code for unused params:
     console.log(JSON.stringify(allCodes));
-    // console.log(JSON.stringify(onClear));
-    // console.log(JSON.stringify(messageId));
-    // console.log(JSON.stringify(fromAcct));
-    // console.log(JSON.stringify(username));
-    // console.log(JSON.stringify(postMessage));
 
     function MakeAccountFollow(): JSX.Element {
     return(
-        <div>
-                <ContractsModal
-                        contracts={allContracts}
-                        updated={codeTrigger}
-                        messageId={''}
-                        postMessage={''}
-                        initMessageIndex={4}
-                    />                       
+        <div> 
+          <ContractsTable
+            contracts={allContracts}
+            updated={codeTrigger}
+            messageId={''}
+            postMessage={''}
+            initMessageIndex={4}
+        />
         </div>
     )
 }
@@ -44,6 +39,7 @@ function CallFollow ({ className = '' }: Props): React.ReactElement<Props> | nul
   return (
     <StyledDiv className={className}>
       <Card>
+      
       <MakeAccountFollow />
       </Card>
     </StyledDiv>

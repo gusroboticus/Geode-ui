@@ -5,7 +5,7 @@ import React from 'react';
 import { useContracts } from '../useContracts.js';
 import { useCodes } from '../useCodes.js';
 import { styled, Card } from '@polkadot/react-components';
-import ContractsModal from './ContractsModal.js';
+import ContractsTable from './ContractsTable.js';
 
 interface Props {
   className?: string;
@@ -22,12 +22,12 @@ function CallStats ({ className = '', onClear }: Props): React.ReactElement<Prop
     function CallInterestStats(): JSX.Element {
     return(
         <div> 
-                <ContractsModal
+                <ContractsTable
                         contracts={allContracts}
                         updated={codeTrigger}
                         messageId={''}
                         postMessage={''}
-                        initMessageIndex={14}
+                        initMessageIndex={3}
                     />                              
         </div>
     )

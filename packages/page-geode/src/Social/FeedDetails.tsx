@@ -7,13 +7,15 @@ import { useTranslation } from '../shared/translate.js';
 import type { CallResult } from '../shared/types.js';
 import { stringify, hexToString, isHex } from '@polkadot/util';
 import { styled, Expander, Toggle, Button, Badge, AccountName, LabelHelp, Card } from '@polkadot/react-components';
-import { Grid, List, Table, Label, Image, Divider } from 'semantic-ui-react'
+import { Grid, Table, Label, Image, Divider } from 'semantic-ui-react'
 import { useToggle } from '@polkadot/react-hooks';
 import AccountHeader from '../shared/AccountHeader.js';
 import CallEndorse from './CallEndorse.js';
 import CallPost from './CallPost.js';
 import CallReply from './CallReply.js';
-import { msgIndexer, endorserBadge, linker, postHeader, replyHeader, hextoHuman } from './SocialUtil.js';
+import CallGetReplies from './CallGetReplies.js';
+import { msgIndexer, linker, postHeader, numBadge, hextoHuman, boolToHuman } from './SocialUtil.js';
+import { DEFAULT_FEED_INDEX, ZERO_MSG_ID } from './SocialConst.js'
 
 interface Props {
     className?: string;
@@ -33,8 +35,7 @@ interface Props {
     link2: string,
     endorserCount: number,
     replyCount: number,
-    timestamp: number,
-    endorsers: string[]
+    timestamp: number
   }
 
   type FeedObj = {
@@ -47,22 +48,20 @@ interface Props {
   ok: FeedObj
   }
   
-function FeedDetails ({ className = '', onReset, onClear, outcome: { from, output, when } }: Props): React.ReactElement<Props> | null {
+function FeedDetails ({ className = '', onReset, outcome: { from, output, when } }: Props): React.ReactElement<Props> | null {
     const { t } = useTranslation();
     const [countPost, setCountPost] = useState(0);
     const [postToEndorse, setPostToEndorse] = useState(['','','','']);
     const [isEndorse, setEndorse] =useState(false);
     const [isReply, setReply] = useState(false);
     const [isPost, setPost] = useState(false);
-    const [isShowEndorsers, toggleShowEndorsers] = useToggle(false);
     const [isShowMsgID, toggleShowMsgID] = useToggle(false);
     const [isShowBlockedAccounts, toggleShowBlockedAccounts] = useToggle(false);
-    const zeroMessageId: string = '0x0000000000000000000000000000000000000000000000000000000000000000'
-    const objOutput: string = stringify(output);
-    const _Obj = JSON.parse(objOutput);
-    const feedDetail: FeedDetail = Object.create(_Obj);
+    //const zeroMessageId: string = '0x0000000000000000000000000000000000000000000000000000000000000000'
+    const feedDetail: FeedDetail = Object.create(JSON.parse(stringify(output)));
     const withHttp = (url: string) => url.replace(/^(?:(.*:)?\/\/)?(.*)/i, (match, schemma, nonSchemmaUrl) => schemma ? match : `http://${nonSchemmaUrl}`);
-
+    function t_strong(_str: string): JSX.Element{return(<><strong>{t(_str)}</strong></>)}
+    
 function blockAccount(_acct: string): boolean {
   const _blocked: boolean = ((feedDetail.ok.blocked.length>0 ? feedDetail.ok.blocked : []).find(_blk => _blk === _acct))
    ? true : false
@@ -123,7 +122,7 @@ const _makeReply = useCallback(
 function ShowFeed(): JSX.Element {
       setCountPost(0)
       try {
-        const maxIndex: number = feedDetail.ok.maxfeed>0 ? feedDetail.ok.maxfeed: 10;
+        const maxIndex: number = feedDetail.ok.maxfeed>0 ? feedDetail.ok.maxfeed: DEFAULT_FEED_INDEX;
         return(
           <div>
           {onReset && (<>{_reset()}</>)}
@@ -131,11 +130,6 @@ function ShowFeed(): JSX.Element {
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell>
-                <Button
-                  icon='times'
-                  label={t('Close')}
-                  onClick={onClear}
-                />
                 <Button
                   icon={'plus'}
                   label={t('Post')}
@@ -151,12 +145,6 @@ function ShowFeed(): JSX.Element {
                   <Grid columns={5} divided>
                     <Grid.Row>
                       <Grid.Column>
-                        <Toggle
-                          className=''
-                          label={<> <Badge icon='check' color={isShowEndorsers? 'blue': 'gray'}/> {t('Show Endorsers ')} </>}
-                          onChange={()=> <>{toggleShowEndorsers()}{_reset()}</>}
-                          value={isShowEndorsers}
-                        />
                         <Toggle
                           className=''
                           label={<> <Badge icon='copy' color={isShowMsgID? 'orange': 'gray'}/> {t('Show Message IDs ')} </>}
@@ -191,8 +179,10 @@ function ShowFeed(): JSX.Element {
                 {feedDetail.ok.myfeed.length>0 && feedDetail.ok.myfeed
                     // filter out duplicates
                     .filter((value, index, array) => index == array.findIndex(item => item.messageId == value.messageId))
+                    // filter out zero message Ids
+                    .filter(a => a.messageId != ZERO_MSG_ID)
                     // filter out all replies
-                    .filter(_subFeed => _subFeed.replyTo === zeroMessageId)
+                    .filter(_subFeed => _subFeed.replyTo === ZERO_MSG_ID)
                     // sort into descending order based on timestamp
                     .sort((a, b) => b.timestamp - a.timestamp)
                     // sort message replys below original messages
@@ -204,7 +194,7 @@ function ShowFeed(): JSX.Element {
                     <>
                     <h3> 
                         {postHeader(_feed.username, _feed.fromAcct, _feed.endorserCount, _feed.timestamp)}
-                        {(_feed.fromAcct===from || _feed.endorsers.includes(from))? (<>
+                        {_feed.fromAcct===from? (<>
                                 <Badge icon='thumbs-up' color='gray'/>
                               </>) : (<>
                                 <Badge 
@@ -222,19 +212,9 @@ function ShowFeed(): JSX.Element {
                                   }}/>                              
                               </>)}
                      </h3>
-                     {isShowEndorsers && _feed.endorserCount > 0 && (
-                    <>
-                    <List divided inverted >
-                      {_feed.endorserCount >0 && _feed.endorsers.map((_acct, i: number) => 
-                        <List.Item key={_acct}> 
-                          {endorserBadge(_acct, i)}
-                        </List.Item>)}
-                    </List>     
-                    </>
-                    )}
                     {isShowMsgID && 
                       (<>    
-                      {(_feed.replyTo != zeroMessageId)
+                      {(_feed.replyTo != ZERO_MSG_ID)
                       ? (<>{msgIndexer('reply to: ', _feed.replyTo)}
                            {msgIndexer('message Id: ', _feed.messageId)}</>) 
                       : (<>{msgIndexer('message Id: ', _feed.messageId)}</>)
@@ -268,11 +248,12 @@ function ShowFeed(): JSX.Element {
                     
                     <br /><br />
                     {_feed.replyCount>0 && <>
+                      {/* {ShowReplies(_feed.messageId, feedDetail.ok.blocked, isShowMsgID)} */}
                     <Expander 
                     className='replymessage'
                     isOpen={false}
                     summary={<Label color='orange' circular> {'Replies: '}{_feed.replyCount}</Label>}>
-                    {ShowReplies(_feed.messageId)}
+                    {ShowReplies(_feed.messageId, feedDetail.ok.blocked, isShowMsgID)}
                     </Expander>  
                     </>}
                    
@@ -295,55 +276,15 @@ function ShowFeed(): JSX.Element {
     }
 }
 
-function ShowReplies(replyMessageId: string): JSX.Element {
+function ShowReplies(replyMessageId: string, acctBlocked: string[], isShowMsgID: boolean): JSX.Element {
 try {
     return(
       <>
-                 {feedDetail.ok.myfeed.length>0 && feedDetail.ok.myfeed
-                    // filter out duplicates
-                    .filter((value, index, array) => index == array.findIndex(item => item.messageId == value.messageId))
-                    // filter out all blocked accts
-                    //.filter(_blkFeed => feedDetail.ok.blocked.map(_blkd => _blkFeed.fromAcct != _blkd)) 
-                    // filter out all replies
-                    .filter(_subFeed => _subFeed.replyTo === replyMessageId)
-                    // sort into descending order based on timestamp
-                    .sort((a, b) => b.timestamp - a.timestamp)
-                    // sort message replys below original messages
-                    .sort((a, b) => (a.messageId === b.replyTo)? -1 : 1)
-                    //.sort((a, b) => (a.replyTo === b.replyTo)? 1 : -1)
-                    .map((_replyFeed) =>
-                      <>
-                      {!blockAccount(_replyFeed.fromAcct) && (<>
-                        <Table.Row>
-                            <Table.Cell>
-                              <strong>{t('Reply ')}</strong>
-                              {replyHeader(_replyFeed.username, _replyFeed.fromAcct, _replyFeed.timestamp)}
-                                  <br />
-                                  {isShowMsgID && 
-                                  (<>    
-                                  {(_replyFeed.replyTo != zeroMessageId)
-                                  ? (<>{msgIndexer('reply to: ', _replyFeed.replyTo)}
-                                      {msgIndexer('message Id: ', _replyFeed.messageId)}</>) 
-                                  : (<>{msgIndexer('message Id: ', _replyFeed.messageId)}</>)
-                                  }
-                                  <br />
-                                    </>)} 
-                                  <br />      
-                              {renderLink(_replyFeed.link)}
-                              {(_replyFeed.link != '0x') ? (
-                              <>
-                              {hextoHuman(_replyFeed.message)}{' '}
-                              {linker(_replyFeed.link2)}
-                              </>) : (
-                            <>{hextoHuman(_replyFeed.message)}
-                          {' '}</>
-                          )}
-                        <br /> 
-                        </Table.Cell>
-                      </Table.Row>  
-                      </>)}
-                      </>
-                    )}                          
+        <CallGetReplies
+            messageId={replyMessageId}
+            acctBlocked={acctBlocked}
+            isShowMsgID={isShowMsgID}
+        />
       </>)
 } catch(e) {
   console.log(e);
@@ -358,8 +299,9 @@ try {
   return (
     <StyledDiv className={className}>
     <Card>
-      <AccountHeader fromAcct={from} timeDate={when} callFrom={3}/>
+      <AccountHeader fromAcct={from} timeDate={when} callFrom={200}/>
       <ShowFeed />
+
       {!isPost && !isReply && isEndorse && postToEndorse[0] && (
         <CallEndorse
         isPost={true}
@@ -382,7 +324,7 @@ try {
       {isPost && !isReply && !isEndorse && (
         <CallPost
         isPost={true}
-        messageId={zeroMessageId}
+        messageId={ZERO_MSG_ID}
         username={''}
         fromAcct={''}
         postMessage={''}

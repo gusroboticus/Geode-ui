@@ -38,6 +38,8 @@ function CallEndorse ({ className = '', isPost, messageId, fromAcct, username, p
                         fromAcct={fromAcct}
                         username={username}
                         postMessage={postMessage}   
+                        isShowMsgID={false}
+                        acctBlocked={[]}
                     />                       
               </>) : (<>
                 <ContractsModal
@@ -48,6 +50,8 @@ function CallEndorse ({ className = '', isPost, messageId, fromAcct, username, p
                         fromAcct={fromAcct}
                         username={username}
                         postMessage={postMessage}   
+                        isShowMsgID={false}
+                        acctBlocked={[]}
                     />                              
               </>)}
         </div>

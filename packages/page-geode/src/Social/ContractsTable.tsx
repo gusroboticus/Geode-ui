@@ -8,7 +8,7 @@ import type { SignedBlockExtended } from '@polkadot/api-derive/types';
 import type { ContractLink } from '../shared/types.js';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Card, Button, Table } from '@polkadot/react-components';
+import { Badge, Card, Button, Table } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
@@ -18,6 +18,7 @@ import CallCard from './CallCard.js';
 import Contract from '../shared/Contract.js';
 import { getContractForAddress } from '../shared/util.js';
 import CallModal from './CallModal.js';
+import { accountIdentity } from './SocialUtil.js';
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * uncomment for test configuration - - - - >  *
@@ -58,8 +59,9 @@ function ContractsTable ({  contracts: keyringContracts, initMessageIndex, messa
   const [isCallOpen, setIsCallOpen] = useState(true);
   const [contractLinks, setContractLinks] = useState<Record<string, ContractLink[]>>({});
   
-  const isTableOpen: boolean = false;
+  //const isTableOpen: boolean = false;
   const [isLoadContract, toggleIsLoad] = useToggle();
+  const [isTableOpen, toggleTable] = useToggle();
   // set to true to test contracts functionality
   const isTest: boolean = false;
   // set default after contract load to chain
@@ -148,7 +150,17 @@ function ContractsTable ({  contracts: keyringContracts, initMessageIndex, messa
       )}
       {isTest && contract && (
         <Card>
-          {'Contract Test Code Here!'}
+            {'(1) Geode Social Contract Address: '}{accountIdentity(contractAddress)}<br />
+            {'(2) Is Geode Social Contract Loaded?: '}
+            {(contract)?
+              <Badge color='green' icon='thumbs-up'/> : 
+              <Badge color='red' icon='x' />}<br /><br />
+            <Button
+              icon={(isTableOpen) ? 'minus' : 'plus'}
+              label={t('View Contracts')}
+              onClick={toggleTable} 
+            />
+            <br />
         </Card>)}
 
       {isTableOpen && <Table
@@ -168,7 +180,7 @@ function ContractsTable ({  contracts: keyringContracts, initMessageIndex, messa
 
       {isCallOpen && contract 
                   && messageIndex!=0 
-                  && messageIndex!=2 && messageIndex!=3 
+                  && messageIndex!=2 //&& messageIndex!=3 
                   && (
         <CallCard
           contract={contract}
@@ -178,7 +190,7 @@ function ContractsTable ({  contracts: keyringContracts, initMessageIndex, messa
         />
       )}
       {isCallOpen && contract 
-                  && (messageIndex ===0 || messageIndex===2 || messageIndex===3) 
+                  && (messageIndex ===0 || messageIndex===2) 
                   && (
         <CallModal
          contract={contract}

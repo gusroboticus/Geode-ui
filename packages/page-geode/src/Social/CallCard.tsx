@@ -13,6 +13,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { styled, Expander, Badge, Card, Button, Dropdown, InputAddress, InputBalance, Toggle, TxButton } from '@polkadot/react-components';
 import { useAccountId, useApi, useDebounce, useFormField, useToggle } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
+import { Label } from 'semantic-ui-react';
 import { BN, BN_ONE, BN_ZERO } from '@polkadot/util';
 
 import { InputMegaGas, Params } from '../shared/index.js';
@@ -21,12 +22,8 @@ import useWeight from '../useWeight.js';
 
 import FeedDetails from './FeedDetails.js';
 import PaidFeedDetails from './PaidFeedDetails.js';
-import StatDetails from './StatDetails.js';
 import SearchDetails from './SearchDetails.js';
-import KeywordDetails from './KeywordDetails.js';
-import AccountFollowDetails from './AccountFollowDetails.js'
-//import AccountFollowerDetails from './AccountFollowerDetails.js'
-//import AccountBlockedDetails from './AccountBlockedDetails.js'
+import AccountFollowDetails from './AccountFollowDetails.js';
 
 import { getCallMessageOptions } from '../shared/util.js';
 import JSONhelp from '../shared/geode_social_help.json';
@@ -35,6 +32,10 @@ import JSONTitle from '../shared/geode_social_card_titles.json';
 import JSONTier1Help from '../shared/geode_social_tier1_help.json';
 import JSONTier2Help from '../shared/geode_social_tier2_help.json';
 
+import { MAX_USERNAMES, MAX_SETTINGS_INTERESTS, MAX_NUMBER, MAX_PAID_MESSAGES, MAX_LINKS, MAX_NUM_PAYMENT, MAX_TARGET_INTERESTS } from './SocialConst.js';
+import ReplyDetails from './ReplyDetails.js';
+import { idToShort, geodeToZeo } from './SocialUtil.js';
+
 interface Props {
   className?: string;
   contract: ContractPromise;
@@ -42,11 +43,15 @@ interface Props {
   onCallResult?: (messageIndex: number, result?: ContractCallOutcome | void) => void;
   onChangeMessage: (messageIndex: number) => void;
   onClose: () => void;
+  messageId: string;
+  acctBlocked: string[];
+  isShowMsgID: boolean;
+
 }
 
 const MAX_CALL_WEIGHT = new BN(5_000_000_000_000).isub(BN_ONE);
 
-function CallCard ({ className = '', contract, messageIndex, onCallResult, onChangeMessage, onClose }: Props): React.ReactElement<Props> | null {
+function CallCard ({ className = '', contract, messageId, acctBlocked, isShowMsgID, messageIndex, onCallResult, onChangeMessage, onClose }: Props): React.ReactElement<Props> | null {
   //todo: code for unused params:
   console.log(JSON.stringify(className));
 
@@ -65,7 +70,10 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
   const dbValue = useDebounce(value);
   const dbParams = useDebounce(params);
   const [isCalled, toggleIsCalled] = useToggle(false);
-  
+  function t_strong(_str: string): JSX.Element{return(<><strong>{t(_str)}</strong></>)}
+
+  const [_price, setPrice] = useState<string>('');
+
   const isTest: boolean = false;
   
   useEffect((): void => {
@@ -155,10 +163,10 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
 
   const isValid = !!(accountId && weight.isValid && isValueValid);
   const isViaRpc = (isViaCall || (!message.isMutating && !message.isPayable));   
-  const isClosed = (isCalled && ( messageIndex === 9 || messageIndex === 14 || 
+  const isClosed = (isCalled && ( messageIndex===1  || messageIndex === 9 || messageIndex === 14 || 
                                   messageIndex===10 || messageIndex===11 || 
                                   messageIndex===13 || messageIndex===16 ||
-                                  messageIndex===15 ));
+                                  messageIndex===15 || messageIndex===18 || messageIndex===4));
   const _help: string[] = JSONhelp;
   const _note: string[] = JSONnote;
   const _title: string[] = JSONTitle;
@@ -168,12 +176,16 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
   
   return (
     <Card >
+
+      {/*dont show header for these messageIds*/}
+      {messageIndex!=18 && (<>
         <h2>
         <Badge icon='info' color={'blue'} /> 
         <strong>{t(' Geode Social ')}</strong>
         {t(_title[messageIndex])}
         </h2>
-        <Expander 
+        {!isClosed && (<>
+          <Expander 
             className='viewInfo'
             isOpen={false}
             summary={<strong>{t('Instructions: ')}</strong>}>
@@ -183,8 +195,12 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
             {t(_tierOne[messageIndex])}<br />
             <Badge color='blue' icon='info'/>
             {t(_tierTwo[messageIndex])}
+        </Expander>       
+        </>)}      
+      
+      </>)}
 
-        </Expander>
+
         {isTest && (
           <InputAddress
           isDisabled
@@ -197,6 +213,16 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
         </>
         {!isClosed && (
         <>
+        {messageIndex===18? <>
+      <InputAddress
+        defaultValue={accountId}
+        label={t('Get Replies for account')}
+        onChange={setAccountId}
+        type='account'
+        value={accountId}
+      />
+          
+        </>: <>
         <InputAddress
           defaultValue={accountId}
           label={t('account to use')}
@@ -210,6 +236,8 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
           type='account'
           value={accountId}
         />
+        </>}
+
         </>
         )}  
       
@@ -230,10 +258,12 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
             )}
             
             {!isClosed && messageIndex!=1 && 
+                          messageIndex!=3 &&
+                          messageIndex!=10 &&
                           messageIndex!=8 && 
                           messageIndex!=13 && 
-                          messageIndex!=29 && 
-                          messageIndex!=31 && (<>
+                          messageIndex!=18 &&
+                           (<>
               <Params
               onChange={setParams}
               params={
@@ -247,49 +277,67 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
           </>
         )}
 
-      {!isClosed && (messageIndex===29 || messageIndex===31) && (<>
-        <strong>{t('Account Public Key: ')}</strong><br />
-        {params[0] = accountId}<br />
+      {!isClosed && messageIndex===18 && (<>
+        {t_strong('Reply MessageId: ')}
+        {idToShort(params[0] = messageId)}<br />
+        {() => setParams([...params])}
       </>)}
 
-
-      {messageIndex===8 && (<>
-        {t('Username: ')}<br />
+      {!isClosed && messageIndex===10 && (<>
+    <br />
+        {t_strong('IMPORTANT: If you endorse your own paid ad you will withdraw all the remaining amount from that Ad. ')}<br /><br />
+        {t('💰 Endorsing a Paid Ad pays you to view the Ad. ')}<br /><br />
+        {t_strong('Enter the Interest Word for the Paid Ads you wish to View: ')}{t( '(Max Character length is ')}{MAX_TARGET_INTERESTS}{')'} <br />
         <Input label={''} type="text"
         value={params[0]}
         onChange={(e) => {
-          params[0] = e.target.value;
+          params[0] = e.target.value.slice(0,MAX_TARGET_INTERESTS);
           setParams([...params]);
         }}
       />
-        {t('My Interests: ')}<br />
+    </>)}
+
+      {messageIndex===8 && (<>
+       
+        {t_strong('Username: ')}{t( '(Max Character length is ')}{MAX_USERNAMES}{')'} <br />
+        <Input label={''} type="text"
+        value={params[0]}
+        onChange={(e) => {
+          params[0] = e.target.value.slice(0,MAX_USERNAMES);
+          setParams([...params]);
+        }}
+      />
+        {t_strong('My Interests: ')}{t( '(Max Character length is ')}{MAX_SETTINGS_INTERESTS}{')'}<br />
         <Input label={''} type="text"
         value={params[1]}
         onChange={(e) => {
-          params[1] = e.target.value;
+          params[1] = e.target.value.slice(0,MAX_SETTINGS_INTERESTS);
           setParams([...params]);
         }}
       />
-        {t('Number of Posts to Show in my Feed: ')}<br />
+        {t_strong('Number of Posts to Show in my Feed: ')}<br />
         <Input label={''} type="text"
         value={params[2]}
         onChange={(e) => {
-          params[2] = e.target.value;
+          params[2] = e.target.value.slice(0,MAX_NUMBER);
           setParams([...params]);
         }}
       />
-        {t('Number of Paid Posts to Show in my Paid Feed: ')}<br />
+        {t_strong('Number of Paid Posts to Show in my Paid Feed: ')}<br />
         <Input label={''} type="text"
         value={params[3]}
         onChange={(e) => {
-          params[3] = e.target.value;
+          params[3] = e.target.value.slice(0,MAX_NUMBER);
           setParams([...params]);
         }}
       />
     </>)}
 
-    {!isClosed && messageIndex===13 && (<>
-        {t('Keyword(s) to Search: ')}<br />
+    {messageIndex===3 && (<>
+    <br />
+        {t_strong('IMPORTANT: If you endorse your own paid ad you will withdraw all the remaining amount from that Ad. ')}<br /><br />
+        {t('💰 Endorsing a Paid Ad pays you to view the Ad. ')}<br /><br />
+        {t('Enter the Message Id for the Paid Message you wish to endorse: ')}<br />
         <Input label={''} type="text"
         value={params[0]}
         onChange={(e) => {
@@ -298,30 +346,29 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
         }}
       />
     </>)}
-
 
     {messageIndex===1 && (<>
-        {t('Paid Post Message: ')}<br />
+        {t('Paid Post Message: ')}{t( '(Max Character length is ')}{MAX_PAID_MESSAGES}{')'} <br />
         <Input label={''} type="text"
         value={params[0]}
         onChange={(e) => {
-          params[0] = e.target.value;
+          params[0] = e.target.value.slice(0,MAX_PAID_MESSAGES);
           setParams([...params]);
         }}
       />
-        {t('Photo or YouTube Link: ')}<br />
+        {t('Photo or YouTube Link: ')}{t( '(Max Character length is ')}{MAX_LINKS}{')'}<br />
         <Input label={''} type="text"
         value={params[1]}
         onChange={(e) => {
-          params[1] = e.target.value;
+          params[1] = e.target.value.slice(0,MAX_LINKS);
           setParams([...params]);
         }}
       />
-        {t('Website or Document Link: ')}<br />
+        {t('Website or Document Link: ')}{t( '(Max Character length is ')}{MAX_LINKS}{')'}<br />
         <Input label={''} type="text"
         value={params[2]}
         onChange={(e) => {
-          params[2] = e.target.value;
+          params[2] = e.target.value.slice(0,MAX_LINKS);
           setParams([...params]);
         }}
         />
@@ -329,23 +376,24 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
         <Input label={''} type="text"
         value={params[3]}
         onChange={(e) => {
-          params[3] = e.target.value;
+          params[3] = e.target.value.slice(0,MAX_NUMBER);
           setParams([...params]);
         }}
         />
         {t('Payment per Endorser: ')}<br />
-        <Input label={''} type="text"
-        value={params[4]}
+        <Input label={_price.length>0? <>{params[4]=geodeToZeo(_price)}{' zeo'}</>: params[4]=''} 
+        type="text"
+        value={_price}
         onChange={(e) => {
-          params[4] = e.target.value;
+          setPrice(e.target.value.slice(0,MAX_NUM_PAYMENT));
           setParams([...params]);
         }}
         />
-        {t('Target Interests: ')}<br />
+        {t('Target Interests: ')}{t( '(Max Character length is ')}{MAX_TARGET_INTERESTS}{')'}<br />
         <Input label={''} type="text"
         value={params[5]}
         onChange={(e) => {
-          params[5] = e.target.value;
+          params[5] = e.target.value.slice(0,MAX_TARGET_INTERESTS);
           setParams([...params]);
         }}
         />
@@ -395,12 +443,16 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
         <Card>
         {isViaRpc
           ? ( <>
-              <Button
-              icon='sign-in-alt'
-              isDisabled={!isValid}
-              label={t('View')}
-              onClick={_onSubmitRpc} 
-              />
+                {messageIndex===18? <>
+                <Label circular color='orange' onClick={_onSubmitRpc}>Get Replies</Label>
+                </>: <>
+                <Button
+                    icon='sign-in-alt'
+                    isDisabled={!isValid}
+                    label={t('View')}
+                    onClick={_onSubmitRpc} 
+                />                
+                </>}
               </>
             ) : (
             <TxButton
@@ -457,33 +509,7 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
             ))}
             </div>
         )}
-        {outcomes.length > 0 && messageIndex===13 && (
-            <div>
-            {outcomes.map((outcome, index): React.ReactNode => (
-              <>
-              <KeywordDetails
-                key={`outcome-${index}`}
-                onClear={_onClearOutcome(index)}
-                outcome={outcome}
-              />
-              </>
-            ))}
-            </div>
-        )}
-        {outcomes.length > 0 && messageIndex===14 && (
-            <div>
-            {outcomes.map((outcome, index): React.ReactNode => (
-              <>
-              <StatDetails
-                key={`outcome-${index}`}
-                onClear={_onClearOutcome(index)}
-                outcome={outcome}
-              />
-              </>
-            ))}
-            </div>
-        )}
-        {outcomes.length > 0 && messageIndex===16 && (
+        {outcomes.length > 0 && messageIndex===15 && (
             <div>
             {outcomes.map((outcome, index): React.ReactNode => (
               <>
@@ -496,6 +522,21 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
             ))}
             </div>
         )}     
+        {outcomes.length > 0 && messageIndex===18 && (
+            <div>
+            {outcomes.map((outcome, index): React.ReactNode => (
+              <>
+              <ReplyDetails
+                key={`outcome-${index}`}
+                outcome={outcome}
+                messageId={messageId}
+                acctBlocked={acctBlocked}
+                isShowMsgID={isShowMsgID}
+              />
+              </>
+            ))}
+            </div>
+        )}  
         </Card>
   );
 }

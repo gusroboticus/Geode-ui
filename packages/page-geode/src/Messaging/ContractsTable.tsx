@@ -9,7 +9,7 @@ import type { ContractLink } from '../shared/types.js';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import { Badge, InputAddress, Card, Button, Table } from '@polkadot/react-components';
+import { Badge, Card, Button, Table } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
@@ -20,6 +20,7 @@ import CallModal from './CallModal.js';
 import CallSubCard from './CallSubCard.js';
 import Contract from '../shared/Contract.js';
 import { getContractForAddress } from '../shared/util.js';
+import { accountIdentity } from './MsgUtil.js';
 
 // * * * * * * * * * * * * * * * * * * * * * * * *
 // * uncomment for test configuration - - - - >  *
@@ -65,7 +66,7 @@ function ContractsTable ({ contracts: keyringContracts, initMessageIndex }: Prop
   const contractAddress: string = (JSONContractAddress[3])? JSONContractAddress[3] :'5Gun25WYTUoEE2YUHGH4bnbV3V314u8Gwkn2cTsaE8ALXNAv';
 
   const headerRef = useRef<[string?, string?, number?][]>([
-    [t('Add claims for Geode Private Messaging'), 'start'],
+    [t('Geode Private Messaging'), 'start'],
     [undefined, undefined, 3],
     [t('status'), 'start'],
     []
@@ -146,42 +147,11 @@ function ContractsTable ({ contracts: keyringContracts, initMessageIndex }: Prop
       )}
       {isTest && contract && (
         <Card>
-            {'(1) Default Geode Private Messaging Contract Address: '}{contractAddress}{' | '}
-            {(contractAddress)?
-            <Badge color='green' icon='thumbs-up'/> : 
-            <Badge color='red' icon='x' />}<br />
-            <InputAddress
-              //help={t('A deployed contract that has either been deployed or attached. The address and ABI are used to construct the parameters.')}
-              label={t('contract to use')}
-              type='contract'
-              value={contractAddress}          
-            />
-            {'(2) Set Contract Address: '}{contract.address.toString()}{' | '}
-            {(contract.address)?
-            <Badge color='green' icon='thumbs-up'/> : 
-            <Badge color='red' icon='x' />}<br />
-            <InputAddress
-              //help={t('A deployed contract that has either been deployed or attached. The address and ABI are used to construct the parameters.')}
-              label={t('contract to use')}
-              type='contract'
-              value={contract.address}
-            />
-            {'(3) Is API Loaded?: '}
-            {(api)?
-              <Badge color='green' icon='thumbs-up'/> : 
-              <Badge color='red' icon='x' />}<br />
-            {'API size: '}{JSON.stringify(api).length}<br /><br />
-            {'(4) Is Geode Private Messaging Contract Loaded?: '}
+            {'(1) Geode Private Messaging Contract Address: '}{accountIdentity(contractAddress)}<br />
+            {'(2) Is Geode Private Messaging Contract Loaded?: '}
             {(contract)?
               <Badge color='green' icon='thumbs-up'/> : 
-              <Badge color='red' icon='x' />}<br />
-            {'Profile contract size: '}{JSON.stringify(contract).length}<br />
-            {'Contract Index: '}{contractIndex}<br /><br />
-            {'(5) All Contracts Loaded?: '}
-            {(contracts)?
-              <Badge color='green' icon='thumbs-up'/> : 
-              <Badge color='red' icon='x' />}<br />
-            {'Profile contract size: '}{JSON.stringify(contracts).length}<br /><br />
+              <Badge color='red' icon='x' />}<br /><br />
             <Button
               icon={(isTableOpen) ? 'minus' : 'plus'}
               label={t('View Contracts')}

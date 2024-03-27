@@ -5,20 +5,16 @@ import React from 'react';
 import { useContracts } from '../useContracts.js';
 import { useCodes } from '../useCodes.js';
 import { styled } from '@polkadot/react-components';
-//import { Card } from '@polkadot/react-components';
 import ContractsModal from './ContractsModal.js';
 
 interface Props {
   className?: string;
-  onClear?: () => void;
   messageId: string;
-  fromAcct?: string;
-  username?: string;
-  postMessage: string;
-
+  acctBlocked: string[];
+  isShowMsgID: boolean;
 }
 
-function CallReply ({ className = '', messageId,fromAcct,username, postMessage }: Props): React.ReactElement<Props> | null {
+function CallGetReplies ({ className = '', isShowMsgID, acctBlocked, messageId }: Props): React.ReactElement<Props> | null {
     const { allContracts } = useContracts();
     const { allCodes, codeTrigger } = useCodes();
 
@@ -32,13 +28,13 @@ function CallReply ({ className = '', messageId,fromAcct,username, postMessage }
             <ContractsModal
               contracts={allContracts}
               updated={codeTrigger}
-              initMessageIndex={12}
+              initMessageIndex={18}
               messageId={messageId}
-              fromAcct={fromAcct}
-              username={username}
-              postMessage={postMessage}   
-              acctBlocked={[]}
-              isShowMsgID={false}
+              fromAcct={''}
+              username={''}
+              postMessage={''}   
+              acctBlocked={acctBlocked}
+              isShowMsgID={isShowMsgID}
             />                
         </div>
     )
@@ -61,6 +57,6 @@ const StyledDiv = styled.div`
   }
 `;
 
-export default React.memo(CallReply);
+export default React.memo(CallGetReplies);
 
 

@@ -266,7 +266,6 @@ function CallModal ({ className = '', messageId, toAcct,
             {t('⚠️ NOTE: The value must be great than or equal to the Total Fee requested by the recipiant.')}<br />
             {'(5) '}{t('Click Submit button to sign and submit this transaction')}
             <br /><br />
-            {t('⚠️ NOTE: This will send a message to all Accounts in the Paid List.')}
           </>)}
           {messageIndex===39 && (<>
           <h2><strong>{t('Private Messaging - Pay Out your Paid Messages ')}</strong></h2><br />
