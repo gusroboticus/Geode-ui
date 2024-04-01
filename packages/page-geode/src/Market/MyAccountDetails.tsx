@@ -6,18 +6,15 @@ import React, { useState, useCallback } from 'react';
 import { useTranslation } from '../shared/translate.js';
 import type { CallResult } from './types.js';
 import { stringify, hexToString, isHex } from '@polkadot/util';
-import { styled, Toggle, Expander, Button, Card } from '@polkadot/react-components';
-//import { AccountName, LabelHelp, IdentityIcon } from '@polkadot/react-components';
+import { styled, Toggle, Expander, Card } from '@polkadot/react-components';
 import { Grid, Divider, Item, Message, Table, Label, Image } from 'semantic-ui-react'
-//import CopyInline from '../shared/CopyInline.js';
 import AccountHeader from '../shared/AccountHeader.js';
 import CallSendMessage from './CallSendMessage.js';
 import { useToggle } from '@polkadot/react-hooks';
-//import { idNumberShort, photoLink, t_strong, numBadge, withCopy, withHelp, accountInfo, dateCheck, checkHttp, boolToHuman, hexToHuman, microToGeode, hextoPhoto, numCheck, rateCheck, numToPercent } from './marketutil.js';
-import { idNumberShort, photoLink, t_strong, numBadge, withCopy, withHelp, accountInfo, dateCheck } from './marketutil.js';
-import { checkHttp, boolToHuman, hexToHuman, microToGeode } from './marketutil.js';
-import { hextoPhoto, numCheck, rateCheck, numToPercent } from './marketutil.js';
-
+import { idNumberShort, photoLink, numBadge, withHelp, accountInfo, dateCheck } from './marketutil.js';
+import { messageText, checkHttp, hexToHuman, microToGeode } from './marketutil.js';
+import { timeStampToDate, hextoPhoto, numCheck, rateCheck } from './marketutil.js';
+import { RATING, numToStatus, numToProblem, numToResolution } from './marketConst.js';
 
 interface Props {
     className?: string;
@@ -36,15 +33,6 @@ interface Props {
     timestamp: number
   }
 
-  type Review = {
-    reviewId: string,
-    accountId: string,
-    reviewer: string,
-    rating: number,
-    review: string,
-    timestamp: number
-  }
-
   type Seller = {
     sellerAccount: string,
     sellerName: string,
@@ -56,8 +44,8 @@ interface Props {
     externalLink: string,
     reviewAverage: number,
     reviewCount: number,
-    reviews: Review[],
     totalOrders: number,
+    awaiting: number,
     totalDelivered: number,
     totalDamaged: number,
     totalWrong: number,
@@ -73,7 +61,6 @@ interface Props {
     memberSince: number,
     reviewAverage: number,
     reviewCount: number,
-    reviews: Review[],
     totalCarts: number,
     totalOrders: number,
     totalDelivered: number,
@@ -110,55 +97,6 @@ interface Props {
     zenoTotal: number
   }
 
-  type Products = {
-    productId: string,
-    digital: boolean,
-    title: string,
-    price: number,
-    brand: string,
-    category: string,
-    sellerAccount: string,
-    sellerName: string,
-    description: string,
-    reviewAverage: number,
-    reviewCount: number,
-    reviews: Review[],
-    inventory: number,
-    photoOrYoutubeLink1: string,
-    photoOrYoutubeLink2: string,
-    photoOrYoutubeLink3: string,
-    moreInfoLink: string,
-    deliveryInfo: string,
-    productLocation: string,
-    digitalFileUrl: string,
-    zenoPercent: number,
-    zenoBuyers: string[]
-  }
-
-  type Services = {
-    serviceId: string,
-    online: boolean,
-    title: string,
-    price: number,
-    category: string,
-    sellerAccount: string,
-    sellerName: string,
-    description: string,
-    reviewAverage: number,
-    reviewCount: number,
-    reviews: Review[],
-    inventory: number,
-    photoOrYoutubeLink1: string,
-    photoOrYoutubeLink2: string,
-    photoOrYoutubeLink3: string,
-    bookingLink: string,
-    deliveryInfo: string,
-    serviceLocation: string,
-    digitalFileUrl: string,
-    zenoPercent: number,
-    zenoBuyers: string[]
-  }
-
   type Download = {
     productId: string,
     title: string,
@@ -171,24 +109,8 @@ interface Props {
     fileUrl: string
   }
 
-  type ProductList = {
-    owner: string,
-    listId: string,
-    listName: string,
-    items: Products[]
-  }
-
-  type ServiceList = {
-    owner: string,
-    listId: string,
-    listName: string,
-    items: Services[]
-  }
-
   type AccountObj = {
     buyer: Buyer,
-    productLists: ProductList[],
-    serviceLists: ServiceList[],
     bookmarkedStores: Seller[],
     digitalDownloads: Download[],
     orders: Orders[]
@@ -198,16 +120,8 @@ interface Props {
   ok: AccountObj
   }
   
-function MyAccountDetails ({ className = '', onClear, outcome: { from, output, when } }: Props): React.ReactElement<Props> | null {
-// todo: code for allCodes:
-//  console.log(JSON.stringify(className));
-// other props:
-// isAccount,
-// message,
-// params
-// result
+function MyAccountDetails ({ className = '', outcome: { from, output, when } }: Props): React.ReactElement<Props> | null {
 
-//    const defaultImage: string ='https://react.semantic-ui.com/images/wireframe/image.png';
     const { t } = useTranslation();
 
     const objOutput: string = stringify(output);
@@ -215,59 +129,24 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
     const profileDetail: ProfileDetail = Object.create(_Obj);
 
     const [count, setCount] = useState(0);
-    const [isShowReviews, toggleShowReviews] = useToggle(true);
-    const [isShowProductLists, toggleShowProductLists] = useToggle(true);
-    const [isShowServiceLists, toggleShowServiceLists] = useToggle(true);
     const [isShowBookmarks, toggleShowBookmarks] = useToggle(true);
     const [isShowDownloads, toggleShowDownloads] = useToggle(true);
     const [isShowItems, toggleShowItems] = useToggle(true);
 
     const [isUpdate, setUpdate] = useState(false);
-    const [isRemoveProductItem, setRemoveProductItem] = useState(false);
-    const [isRemoveServiceItem, setRemoveServiceItem] = useState(false);
     const [isCheckout, setCheckout] = useState(false);
     const [_username, setUsername] = useState('');
     const [_messageId, setMessageId] = useState('');
-    const [isRemoveProductList, setRemoveProductList] = useState(false);
-    const [isRemoveServiceList, setRemoveServiceList] = useState(false);
     const [isRateItem, setRateItem] = useState(false);
     const [isMessage, setMessage] = useState(false);
     const [isDamaged, setDamaged] = useState(false);
     const [isWrong, setWrong] = useState(false);
     const [isNotReceived, setNotReceived] = useState(false);
     const [isRemoveBookmark, setRemoveBookmark] = useState(false);
-
-//    const hexToHuman = (_hexIn: string) => (isHex(_hexIn)? t(hexToString(_hexIn).trim()): '');
-
-    //const withHttp = (url: string) => url.replace(/^(?:(.*:)?\/\/)?(.*)/i, (match, schemma, nonSchemmaUrl) => schemma ? match : `http://${nonSchemmaUrl}`);
-    // const hextoPhoto = (_url: string) => (isHex(_url) ? checkHttp(hexToString(_url).trim()) : defaultImage);
-    //const acctToShort = (_acct: string) => (_acct.length>7 ? _acct.slice(0,7)+'...' : _acct);
-    // const microToGeode = (_num: number) => (_num>-1 ? _num/1000000000000: 0);
-    // const boolToHuman = (_bool: boolean) => (_bool? 'Yes': 'No');
-    // const rateCheck = (_num: number) => ((_num>0 && _num<6)? _num: 1);
-    // const dateCheck = (_num: number) => (_num>0? timeStampToDate(_num): t('No Date'));
-    // const numToPercent = (_num: number) => ((_num>-1 && _num<=100)? _num.toString(): '0')+ ' %';
-    const rating: string[] = ['','⭐️','⭐️⭐️','⭐️⭐️⭐️','⭐️⭐️⭐️⭐️','⭐️⭐️⭐️⭐️⭐️'];
-    // const numCheck = (_num: number) => (_num>-1 ? _num: 0);
-
-    const numToStatus: string[] = 
-    ['Awaiting seller confirmation','Shipped','Delivered','Complete', 'Problem',
-     'Refused','','','','',
-     '','','','',''];
-
-     const numToProblem: string[] = 
-     ['None','Damaged','Wrong Item','Did not receive',
-      '','','','','',
-      '','','','',''];
-
-    const numToResolution: string[] =
-    ['None','Refunded','Replaced','Resolution denied','',''];
-
+    function t_strong(_str: string): JSX.Element{return(<><strong>{t(_str)}</strong></>)}
 
     const _reset = useCallback(
       () => {setUpdate(false);
-             setRemoveProductItem(false);
-             setRemoveServiceItem(false);
              setCheckout(false);
              setRateItem(false);
              setMessage(false);
@@ -275,16 +154,12 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
              setWrong(false);
              setNotReceived(false);
              setRemoveBookmark(false);
-             setRemoveProductList(false);
-             setRemoveServiceList(false);
             },
       []
     )
 
     const _makeRateItemUpdate = useCallback(
       () => { setUpdate(false);
-              setRemoveProductItem(false);
-              setRemoveServiceItem(false);
               setCheckout(false);
               setRateItem(true);
               setMessage(false);
@@ -292,16 +167,12 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
               setWrong(false);
               setNotReceived(false);
               setRemoveBookmark(false);
-              setRemoveProductList(false);
-              setRemoveServiceList(false);
              },
       []
     )
 
     const _makeMessageUpdate = useCallback(
       () => { setUpdate(false);
-              setRemoveProductItem(false);
-              setRemoveServiceItem(false);
               setCheckout(false);
               setRateItem(false);
               setMessage(true);
@@ -309,16 +180,12 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
               setWrong(false);
               setNotReceived(false);
               setRemoveBookmark(false);
-              setRemoveProductList(false);
-              setRemoveServiceList(false);
              },
       []
     )
 
     const _makeDamagedUpdate = useCallback(
       () => { setUpdate(false);
-              setRemoveProductItem(false);
-              setRemoveServiceItem(false);
               setCheckout(false);
               setRateItem(false);
               setMessage(false);
@@ -326,16 +193,12 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
               setWrong(false);
               setNotReceived(false);
               setRemoveBookmark(false);
-              setRemoveProductList(false);
-              setRemoveServiceList(false);
              },
       []
     )
 
     const _makeWrongUpdate = useCallback(
       () => { setUpdate(false);
-              setRemoveProductItem(false);
-              setRemoveServiceItem(false);
               setCheckout(false);
               setRateItem(false);
               setMessage(false);
@@ -343,16 +206,12 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
               setWrong(true);
               setNotReceived(false);
               setRemoveBookmark(false);
-              setRemoveProductList(false);
-              setRemoveServiceList(false);
              },
       []
     )
 
     const _makeNotReceivedUpdate = useCallback(
       () => { setUpdate(false);
-              setRemoveProductItem(false);
-              setRemoveServiceItem(false);
               setCheckout(false);
               setRateItem(false);
               setMessage(false);
@@ -360,67 +219,13 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
               setWrong(false);
               setNotReceived(true);
               setRemoveBookmark(false);
-              setRemoveProductList(false);
-              setRemoveServiceList(false);
              },
       []
     )
 
-    const _makeAddToCartUpdate = useCallback(
-      () => { setUpdate(false);
-              setRemoveProductItem(false);
-              setRemoveServiceItem(false);
-              setCheckout(true);
-              setRateItem(false);
-              setMessage(false);
-              setDamaged(false);
-              setWrong(false);
-              setNotReceived(false);
-              setRemoveBookmark(false);
-              setRemoveProductList(false);
-              setRemoveServiceList(false);
-             },
-      []
-    )
-
-    const _makeRemoveProductItemUpdate = useCallback(
-      () => { setUpdate(false);
-              setRemoveProductItem(true);
-              setRemoveServiceItem(false);
-              setCheckout(false);
-              setRateItem(false);
-              setMessage(false);
-              setDamaged(false);
-              setWrong(false);
-              setNotReceived(false);
-              setRemoveBookmark(false);
-              setRemoveProductList(false);
-              setRemoveServiceList(false);
-             },
-      []
-    )
-
-    const _makeRemoveServiceItemUpdate = useCallback(
-      () => { setUpdate(false);
-              setRemoveProductItem(false);
-              setRemoveServiceItem(true);
-              setCheckout(false);
-              setRateItem(false);
-              setMessage(false);
-              setDamaged(false);
-              setWrong(false);
-              setNotReceived(false);
-              setRemoveBookmark(false);
-              setRemoveProductList(false);
-              setRemoveServiceList(false);
-             },
-      []
-    )
 
     const _makeAccountUpdate = useCallback(
         () => { setUpdate(true);
-                setRemoveProductItem(false);
-                setRemoveServiceItem(false);
                 setCheckout(false);
                 setRateItem(false);
                 setMessage(false);
@@ -428,16 +233,12 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
                 setWrong(false);
                 setNotReceived(false);
                 setRemoveBookmark(false);
-                setRemoveProductList(false);
-                setRemoveServiceList(false);
                  },
         []
       )
 
       const _makeRemoveBookmarkUpdate = useCallback(
         () => { setUpdate(false);
-                setRemoveProductItem(false);
-                setRemoveServiceItem(false);
                 setCheckout(false);
                 setRateItem(false);
                 setMessage(false);
@@ -445,58 +246,9 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
                 setWrong(false);
                 setNotReceived(false);
                 setRemoveBookmark(true);
-                setRemoveProductList(false);
-                setRemoveServiceList(false);
                  },
         []
       )
-
-      const _makeRemoveProductListUpdate = useCallback(
-        () => { setUpdate(false);
-                setRemoveProductItem(false);
-                setRemoveServiceItem(false);
-                setCheckout(false);
-                setRateItem(false);
-                setMessage(false);
-                setDamaged(false);
-                setWrong(false);
-                setNotReceived(false);
-                setRemoveBookmark(false);
-                setRemoveProductList(true);
-                setRemoveServiceList(false);
-                 },
-        []
-      )
-
-      const _makeRemoveServiceListUpdate = useCallback(
-        () => { setUpdate(false);
-                setRemoveProductItem(false);
-                setRemoveServiceItem(false);
-                setCheckout(false);
-                setRateItem(false);
-                setMessage(false);
-                setDamaged(false);
-                setWrong(false);
-                setNotReceived(false);
-                setRemoveBookmark(false);
-                setRemoveProductList(false);
-                setRemoveServiceList(true);
-                 },
-        []
-      )
-
-    // function t_strong(_str: string): JSX.Element{return(<><strong>{t(_str)}</strong></>)}
-
-    // function photoLink(_url: string, _title: string): JSX.Element {
-    //     return(<>
-    //     {_url.length>2 &&
-    //               <Label as='a' color='orange' circular
-    //               href={isHex(_url) ? checkHttp(hexToString(_url).trim()) : ''} 
-    //               target="_blank" 
-    //               rel="noopener noreferrer">{_title}</Label> 
-    //               }
-    //     </>)
-    // }
 
     function showPhoto(_url: string): JSX.Element {
       return(<>
@@ -533,59 +285,6 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
         <br /></>
       )
     }
-
-  // function accountInfo(_acct: string): JSX.Element {
-  //     return(<>
-  //         <IdentityIcon value={_acct}/>{' | '}
-  //         <AccountName value={_acct} withSidebar={true}/>{' | '}
-  //         {acctToShort(_acct)}{' '}
-  //         <CopyInline value={_acct} label={''}/>
-  //     </>)
-  // }
-
-  //function idNumberShort(_id: string): JSX.Element {return(<>{acctToShort(_id)}{' '}<CopyInline value={_id} label={''}/></>)}
-  //function withCopy(_str: string): JSX.Element {return(<>{_str}{' '}<CopyInline value={_str} label={''}/></>)}
-  //function withHelp(_str: string, _help: string): JSX.Element {return(<><LabelHelp help={t(_help)} />{' '}{t(_str)}</>)}
-  //function numBadge(_num: number): JSX.Element {return(<><Label circular size='small' color='blue'>{numCheck(_num)}</Label></>)}
-
-  function messageText(_msg: string, _bfrom: boolean, _url: string): JSX.Element {
-    return(<>
-    {_bfrom? <>
-             <Label circular size='small' color='blue' pointing='left'>{hexToHuman(_msg)}</Label>{photoLink(_url, 'Link')}</>:
-             <>
-             {photoLink(_url, 'Link')}<Label circular size='small' color='grey' pointing='right'>{hexToHuman(_msg)}</Label>
-             </>
-    }
-    </>)
-  }
-
-  function timeStampToDate(tstamp: number): JSX.Element {
-        try {
-         const event = new Date(tstamp);
-         return (
-              <><i>{event.toDateString()}{' '}
-                   {event.toLocaleTimeString()}{' '}</i></>
-          )
-        } catch(error) {
-         console.error(error)
-         return(
-             <><i>{t('No Date')}</i></>
-         )
-        }
-     }
-  
-    function ListAccount(): JSX.Element {
-      return(
-          <div>
-            <Table>
-              <Table.Row>
-              <Table.Cell>
-              <Button icon='times' label={t('Close')} onClick={onClear}/>
-              </Table.Cell>
-              </Table.Row>
-            </Table>
-          </div>
-      )}
       
   function ShowDigitalDownLoads(): JSX.Element {
     return(<>
@@ -634,8 +333,8 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
 
   function ShowMyOrders(): JSX.Element {
     return(<>
-                  <h2><strong><i>{withHelp('My Orders: ', 'List of all your ordered Items.')}</i></strong>
-                  {numBadge(profileDetail.ok.orders.length)}</h2>
+                  <h3><strong><i>{withHelp('My Orders: ', 'List of all your ordered Items.')}</i></strong>
+                  {numBadge(profileDetail.ok.orders.length)}</h3>
                   {profileDetail.ok.orders.length>0? <>
                   <Toggle className='items-toggle'
                             label={<strong>{t('Show Ordered Items: ')}</strong>}
@@ -787,7 +486,7 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
                                   </Item.Header>
                                   <Item.Meta>
                                   <h3>{t_strong('Account ID: ')}{accountInfo(_store.sellerAccount)}</h3>
-                                  {t_strong('Seller Rating: ')}{rating[rateCheck(_store.reviewAverage)]}<br />
+                                  {t_strong('Seller Rating: ')}{RATING[rateCheck(_store.reviewAverage)]}<br />
                                   {t_strong('Number of Reviews: ')}{numBadge(_store.reviewCount)}<br />
                                   {t_strong('Member since: ')}{dateCheck(_store.memberSince)}<br />
                                   </Item.Meta>
@@ -796,259 +495,12 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
                                   {t_strong('Location: ')}{hexToHuman(_store.sellerLocation)}<br />
                                   </Item.Description>
                                   <Item.Extra>
-                                  {_store.reviews.length>0 && <>
-                                    <Expander 
-                                    className='seller-Reviews'
-                                    isOpen={false}
-                                    summary={<Label size={'small'} color='orange' circular> {t('Reviews: ')}</Label>}>
-                                      {_store.reviews.length>0 && 
-                                      _store.reviews.map((_review, index: number)=> <>
-                                          {index+1}{'. '}{dateCheck(_review.timestamp)}{accountInfo(_review.reviewer)}{' | '}{hexToHuman(_review.review)}{' '}{rating[rateCheck(_review.rating)]}<br />
-                                      </>)}
-                                    </Expander>                                  
-                                  </>}
                                   </Item.Extra>
                               </Item.Content>
                       </Item>
                       </Item.Group>
                   </Message>
                   </>)}</>}</>: t('No Booked Marked Stores.')}
-    </>)
-  }
-
-  function ShowProductList(): JSX.Element {
-    return(<>
-                  <h2><strong><i>{withHelp('Products Lists: ', 'Product Lists, use the copy button to add to this List.')}</i></strong>
-                  {numBadge(profileDetail.ok.productLists.length)}</h2>
-                  {profileDetail.ok.productLists.length>0? <>
-                    <Toggle className='product-list-toggle'
-                            label={<strong>{t('Show Lists: ')}</strong>}
-                            onChange={()=> {<>
-                                           {toggleShowProductLists()}
-                                           {_reset()}
-                                           </>}}
-                            value={isShowProductLists}
-                    />
-                  {isShowProductLists && <>
-                  {profileDetail.ok.productLists.length>0 && profileDetail.ok.productLists.map((_list)=> <>
-                      <h2><strong>{withCopy(hexToHuman(_list.listName))}</strong>{numBadge(_list.items.length)}
-                      <Label as='a' color='orange' circular 
-                                    onClick={()=>{<>
-                                      {setMessageId(_list.listId)}
-                                      {setUsername(_list.listName)}
-                                      {setCount(count + 1)}
-                                      {_makeRemoveProductListUpdate()}</>}}
-                      >{t('Delete List')}</Label></h2>
-                  {_list.items.length>0 && 
-                      _list.items.map((_product)=> <>                      
-                  <Message>
-                      <Item.Group>
-                      <Item>
-                      <Item.Image as='a' size='tiny' 
-                                  src={hextoPhoto(_product.photoOrYoutubeLink1)} 
-                                  rounded 
-                                  href={isHex(_product.photoOrYoutubeLink1) ? checkHttp(hexToString(_product.photoOrYoutubeLink1).trim()) : ''} 
-                                  target="_blank" 
-                                  rel="noopener noreferrer"
-                                /> 
-                      <Item.Content>
-                                  <Item.Header as='a'>{hexToHuman(_product.title)}{' '}
-                                  <Label as='a' color='orange' circular size='small'
-                                         onClick={()=>{<>
-                                            {setMessageId(_product.productId)}
-                                            {setUsername(_product.title)}
-                                            {setCount(count + 1)}
-                                            {_makeAddToCartUpdate()}</>}}
-                                      >{t('Add to Cart')}</Label>
-                                  <Label  as='a' circular color='orange' size='small'
-                                          onClick={()=>{<>
-                                            {setMessageId(_product.productId)}
-                                            {setUsername(_list.listId)}
-                                            {setCount(count + 1)}
-                                            {_makeRemoveProductItemUpdate()}</>}}
-                                  >{t('Remove Item')}</Label>
-                                  {photoLink(_product.moreInfoLink, 'More Info')}
-                                  </Item.Header>
-                                  <Item.Meta>
-                                    <h3>{t_strong('Description: ')}{hexToHuman(_product.description)}</h3>
-                                  </Item.Meta>
-                                  <Item.Description>
-                                  {t_strong('Price: ')}{microToGeode(_product.price)}{' Geode'}<br />
-                                  {t_strong('Rating:')}{rating[rateCheck(_product.reviewAverage)]}<br />
-                                  {t_strong('Number of Reviews: ')}{numBadge(_product.reviewCount)}<br />
-                                  {t_strong('Product ID: ')}{idNumberShort(_product.productId)}<br />
-                                  {_product.reviews.length>0 && <>
-                                    <Expander 
-                                    className='productReviews'
-                                    isOpen={false}
-                                    summary={<Label size={'small'} color='orange' circular> {t('Reviews: ')}</Label>}>
-                                      {_product.reviews.length>0 && 
-                                      _product.reviews.map((_review, index: number)=> <>
-                                          {index+1}{'. '}{dateCheck(_review.timestamp)}{accountInfo(_review.reviewer)}{' | '}{hexToHuman(_review.review)}{' '}{rating[rateCheck(_review.rating)]}<br />
-                                      </>)}
-                                    </Expander>                                  
-                                  </>}
-                                  </Item.Description>
-                                  <Item.Extra>
-                                  <Expander 
-                                    className='productReviews'
-                                    isOpen={false}
-                                    summary={<Label size={'small'} color='orange' circular> {t('Details: ')}</Label>}>
-                                    <Grid columns={2} divided>
-                                        <Grid.Column>
-                                        {t_strong('Seller Account: ')}{accountInfo(_product.sellerAccount)}<br />
-                                        {t_strong('Seller Name: ')}{hexToHuman(_product.sellerName)}<br />
-                                        {t_strong('Location: ')}{hexToHuman(_product.productLocation)}<br />
-                                        {t_strong('Brand: ')}{hexToHuman(_product.brand)}<br />
-                                        {t_strong('Category: ')}{hexToHuman(_product.category)}<br />
-                                        {t_strong('Inventory: ')}{_product.inventory}<br />
-                                        {t_strong('Delivery Info: ')}{hexToHuman(_product.deliveryInfo)}<br />
-                                        {t_strong('Zeno Percent: ')}{numToPercent(_product.zenoPercent)}<br />
-                                        {t_strong('Number of Zeno Buyers: ')}{_product.zenoBuyers.length}<br />
-                                        {t_strong('Digital Product: ')}{boolToHuman(_product.digital)}<br />
-                                        {_product.digital && <>
-                                          {t_strong('File Url: ')}{' '}{ photoLink(_product.digitalFileUrl, 'Link')}<br />
-                                        </>}
-                                        </Grid.Column>
-                                        <Grid.Column>
-                                        {renderLink(_product.photoOrYoutubeLink1)}<br />
-                                        {renderLink(_product.photoOrYoutubeLink2)}<br />
-                                        {renderLink(_product.photoOrYoutubeLink3)}<br />
-                                        </Grid.Column>
-                                    </Grid>
-                                  </Expander>
-                                  </Item.Extra>
-                              </Item.Content>
-                      </Item>
-                      </Item.Group>
-                  </Message>
-                  </>)}
-                  </>)}</>}
-                  </>: t('No Product Lists.')}    
-    </>)
-  }
-
-  function ShowServiceList(): JSX.Element {
-    return(<>
-                  <h2><strong><i>{withHelp('Service Lists: ', 'Service Lists, use the copy button to add to this List.')}</i></strong>
-                  {numBadge(profileDetail.ok.serviceLists.length)}</h2>
-                  {profileDetail.ok.serviceLists.length>0? <>
-                    <Toggle className='service-list-toggle'
-                            label={<strong>{t('Show Lists: ')}</strong>}
-                            onChange={()=> {<>{toggleShowServiceLists()}{_reset()}</>}}
-                            value={isShowServiceLists}
-                    />
-                  {isShowServiceLists && <>
-                    {profileDetail.ok.serviceLists.length>0 && profileDetail.ok.serviceLists.map((_list)=> <>
-                      <h2><strong>{withCopy(hexToHuman(_list.listName))}</strong>{numBadge(_list.items.length)}
-                      <Label as='a' color='orange' circular 
-                                    onClick={()=>{<>
-                                      {setMessageId(_list.listId)}
-                                      {setUsername(_list.listName)}
-                                      {setCount(count + 1)}
-                                      {_makeRemoveServiceListUpdate()}</>}}
-                      >{t('Delete List')}</Label></h2>
-                  {_list.items.length>0 && 
-                      _list.items.map((_service)=> <>
-                  <Message>
-                      <Item.Group>
-                      <Item>
-                      <Item.Image as='a' size='tiny' 
-                                  src={hextoPhoto(_service.photoOrYoutubeLink1)} 
-                                  rounded 
-                                  href={isHex(_service.photoOrYoutubeLink1) ? checkHttp(hexToString(_service.photoOrYoutubeLink1).trim()) : ''} 
-                                  target="_blank" 
-                                  rel="noopener noreferrer"
-                                /> 
-                      <Item.Content>
-                                  <Item.Header as='a'>{hexToHuman(_service.title)}{' '}
-                                  <Label as='a' color='orange' circular size='small'
-                                         onClick={()=>{<>
-                                            {setMessageId(_service.serviceId)}
-                                            {setUsername(_service.title)}
-                                            {setCount(count + 1)}
-                                            {_makeAddToCartUpdate()}</>}}
-                                      >{t('Add to Cart')}</Label>
-                                  <Label  as='a' circular color='orange' size='small'
-                                          onClick={()=>{<>
-                                            {setMessageId(_service.serviceId)}
-                                            {setUsername(_list.listId)}
-                                            {setCount(count + 1)}
-                                            {_makeRemoveServiceItemUpdate()}</>}}
-                                  >{t('Remove Item')}</Label>
-                                  {photoLink(_service.bookingLink, 'Booking Link')}
-                                  </Item.Header>
-                                  <Item.Meta>
-                                      <h3>{t_strong('Description: ')}{hexToHuman(_service.description)}</h3>
-                                  </Item.Meta>
-                                  <Item.Description>
-                                  {t_strong('Price: ')}{microToGeode(_service.price)}{' Geode'}<br />
-                                  {t_strong('Rating:')}{rating[rateCheck(_service.reviewAverage)]}<br />
-                                  {t_strong('Number of Reviews: ')}{numBadge(_service.reviewCount)}<br />
-                                  {t_strong('Product ID: ')}{idNumberShort(_service.serviceId)}<br />
-                                  {_service.reviews.length>0 && <>
-                                    <Expander 
-                                    className='serviceReviews'
-                                    isOpen={false}
-                                    summary={<Label size={'small'} color='orange' circular> {t('Reviews: ')}</Label>}>
-                                      {_service.reviews.length>0 && 
-                                      _service.reviews.map((_review, index: number)=> <>
-                                          {index+1}{'. '}{dateCheck(_review.timestamp)}{accountInfo(_review.reviewer)}{' | '}{hexToHuman(_review.review)}{' '}{rating[rateCheck(_review.rating)]}<br />
-                                      </>)}
-                                    </Expander>                                  
-                                  </>}
-                                  </Item.Description>
-                                  <Item.Extra>
-                                  <Expander 
-                                    className='serviceReviews'
-                                    isOpen={false}
-                                    summary={<Label size={'small'} color='orange' circular> {t('Details: ')}</Label>}>
-                                    <Grid columns={2} divided>
-                                        <Grid.Column>
-                                        {t_strong('Seller Account: ')}{accountInfo(_service.sellerAccount)}<br />
-                                        {t_strong('Seller Name: ')}{hexToHuman(_service.sellerName)}<br />
-                                        {t_strong('Location: ')}{hexToHuman(_service.serviceLocation)}<br />
-                                        {t_strong('Online: ')}{boolToHuman(_service.online)}<br />
-                                        {t_strong('Inventory: ')}{_service.inventory}<br />
-                                        {t_strong('Zeno Percent: ')}{numToPercent(_service.zenoPercent)}<br />
-                                        {t_strong('Number of Zeno Buyers:')}{_service.zenoBuyers.length}
-                                        </Grid.Column>
-                                        <Grid.Column>
-                                        {renderLink(_service.photoOrYoutubeLink1)}<br />
-                                        {renderLink(_service.photoOrYoutubeLink2)}<br />
-                                        {renderLink(_service.photoOrYoutubeLink3)}<br />
-                                        </Grid.Column>
-                                    </Grid>
-                                  </Expander>
-                                  </Item.Extra>
-                              </Item.Content>
-                      </Item>
-                      </Item.Group>
-                  </Message>
-                  </>)}
-                  </>)}</>}                
-                  </>: t('No Service Lists.')}    
-    </>)
-  }
-
-  function ShowReviews(): JSX.Element {
-    return(<>
-                  <h2><strong><i>{withHelp('Buyer Reviews from Sellers: ', 'Buyer Reviews for this Account.')}</i></strong>
-              {numBadge(profileDetail.ok.buyer.reviews.length)}<br />
-              </h2>
-              {profileDetail.ok.buyer.reviews.length>0 && <>
-                <Toggle className='show-review-toggle'
-                        label={<strong>{t('Show Reviews: ')}</strong>}
-                        onChange={()=> {<>{toggleShowReviews()}{_reset()}</>}}
-                        value={isShowReviews}
-                />
-              {isShowReviews && <>
-                    {profileDetail.ok.buyer.reviews.length>0 && 
-                        profileDetail.ok.buyer.reviews.map((_review, index: number) => <>
-                              {index+1}{'. '}{dateCheck(_review.timestamp)}{accountInfo(_review.reviewer)}{' | '}{hexToHuman(_review.review)}{' '}{rating[rateCheck(_review.rating)]}<br />
-                        </>)
-                    }
-              </>}</>}
     </>)
   }
 
@@ -1062,8 +514,8 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
               <Table.HeaderCell>
                 <Grid columns={2} divided>
                   <Grid.Column>
-                  <h2><strong>{withHelp('ACCOUNT: ','This is your user Account. Check your account details, reviews from sellers, product and service lists, and ordered items here.')}</strong>
-                  <Label  as='a' color='orange' size='large'
+                  <h3><strong>{withHelp('Buyer: ','This is your user Account. Check your account details, reviews from sellers, product and service lists, and ordered items here.')}</strong>
+                  <Label  as='a' circular color='orange' size='small'
                         onClick={()=>{<>
                             {setMessageId(profileDetail.ok.buyer.buyerAccount)}
                             {setUsername(profileDetail.ok.buyer.buyerName)}
@@ -1075,9 +527,9 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
                     {t_strong('Account ID: ')}{accountInfo(profileDetail.ok.buyer.buyerAccount)}<br />
                     {t_strong('Location: ')}{hexToHuman(profileDetail.ok.buyer.buyerLocation)}<br />
                     {t_strong('Member since: ')}{dateCheck(profileDetail.ok.buyer.memberSince)}<br />
-                    {t_strong('Buyer Rating: ')}{rating[rateCheck(profileDetail.ok.buyer.reviewAverage)]}<br />
+                    {t_strong('Buyer Rating: ')}{RATING[rateCheck(profileDetail.ok.buyer.reviewAverage)]}<br />
                     {t_strong('Number of Reviews: ')}{numBadge(profileDetail.ok.buyer.reviewCount)}<br />
-                </h2>
+                </h3>
                   </Grid.Column>
                   <Grid.Column>
                   <h3>
@@ -1101,12 +553,6 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
               <Divider />
               {ShowBookmarks()}
               <Divider />
-              {ShowProductList()}
-              <Divider />
-              {ShowServiceList()}
-              <Divider />
-              {ShowReviews()}
-              <Divider />
               </Table.Cell>
         </Table>
         </div>   
@@ -1128,28 +574,12 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
     <AccountHeader 
             fromAcct={from} 
             timeDate={when} 
-            callFrom={99}/>
-      <ListAccount />
+            callFrom={404}/>
+
       <ShowProfile />
       {isUpdate && (<>
         <CallSendMessage
-                callIndex={13}
-                messageId={_messageId}
-                username={_username}
-                onReset={() => _reset()}
-            />      
-        </>)}
-        {isRemoveProductItem && (<>
-        <CallSendMessage
-                callIndex={14}
-                messageId={_messageId}
-                username={_username}
-                onReset={() => _reset()}
-            />      
-        </>)}
-        {isRemoveServiceItem && (<>
-        <CallSendMessage
-                callIndex={15}
+                callIndex={11}
                 messageId={_messageId}
                 username={_username}
                 onReset={() => _reset()}
@@ -1165,7 +595,7 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
         </>)}
         {isRateItem && (<>
         <CallSendMessage
-                callIndex={7}
+                callIndex={6}
                 messageId={_messageId}
                 username={_username}
                 onReset={() => _reset()}
@@ -1173,7 +603,7 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
         </>)}
         {isDamaged && (<>
         <CallSendMessage
-                callIndex={9}
+                callIndex={7}
                 messageId={_messageId}
                 username={_username}
                 onReset={() => _reset()}
@@ -1181,7 +611,7 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
         </>)}
         {isWrong && (<>
         <CallSendMessage
-                callIndex={10}
+                callIndex={8}
                 messageId={_messageId}
                 username={_username}
                 onReset={() => _reset()}
@@ -1189,7 +619,7 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
         </>)}
         {isNotReceived && (<>
         <CallSendMessage
-                callIndex={11}
+                callIndex={9}
                 messageId={_messageId}
                 username={_username}
                 onReset={() => _reset()}
@@ -1198,23 +628,7 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
 
         {isMessage && (<>
         <CallSendMessage
-                callIndex={12}
-                messageId={_messageId}
-                username={_username}
-                onReset={() => _reset()}
-            />      
-        </>)}
-        {isRemoveProductList && (<>
-        <CallSendMessage
-                callIndex={16}
-                messageId={_messageId}
-                username={_username}
-                onReset={() => _reset()}
-            />      
-        </>)}
-        {isRemoveServiceList && (<>
-        <CallSendMessage
-                callIndex={17}
+                callIndex={10}
                 messageId={_messageId}
                 username={_username}
                 onReset={() => _reset()}
@@ -1223,7 +637,7 @@ function MyAccountDetails ({ className = '', onClear, outcome: { from, output, w
 
         {isRemoveBookmark && (<>
         <CallSendMessage
-                callIndex={39}
+                callIndex={2}
                 messageId={_messageId}
                 username={_username}
                 onReset={() => _reset()}

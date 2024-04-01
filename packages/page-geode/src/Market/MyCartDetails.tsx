@@ -6,13 +6,11 @@ import React, { useState, useCallback } from 'react';
 import { useTranslation } from '../shared/translate.js';
 import type { CallResult } from './types.js';
 import { stringify, hexToString, isHex } from '@polkadot/util';
-import { styled, Expander, Button, LabelHelp, Card } from '@polkadot/react-components';
-//import { AccountName, IdentityIcon } from '@polkadot/react-components';
+import { styled, Expander, LabelHelp, Card } from '@polkadot/react-components';
 import { Grid, Divider, Item, Message, Table, Label, Image } from 'semantic-ui-react'
-//import CopyInline from '../shared/CopyInline.js';
 import AccountHeader from '../shared/AccountHeader.js';
 import CallSendMessage from './CallSendMessage.js';
-import { photoLink, t_strong, numBadge, withCopy, accountInfo } from './marketutil.js';
+import { photoLink, numBadge, withCopy, accountInfo } from './marketutil.js';
 import { acctToShort, checkHttp, boolToHuman, hexToHuman, microToGeode } from './marketutil.js';
 import { hextoPhoto, numToPercent } from './marketutil.js';
 
@@ -68,21 +66,9 @@ interface Props {
   ok: CartObj
   }
   
-function MyCartDetails ({ className = '', onClear, outcome: { from, output, when } }: Props): React.ReactElement<Props> | null {
-// todo: code for allCodes:
-//  console.log(JSON.stringify(className));
-// other props:
-// isAccount,
-// message,
-// params
-// result
-
-//    const defaultImage: string ='https://react.semantic-ui.com/images/wireframe/image.png';
+function MyCartDetails ({ className = '', outcome: { from, output, when } }: Props): React.ReactElement<Props> | null {
     const { t } = useTranslation();
-
-    const objOutput: string = stringify(output);
-    const _Obj = JSON.parse(objOutput);
-    const profileDetail: ProfileDetail = Object.create(_Obj);
+    const profileDetail: ProfileDetail = Object.create(JSON.parse(stringify(output)));
 
     const [count, setCount] = useState(0);
     const [isUpdateQty, setUpdateQty] = useState(false);
@@ -90,14 +76,7 @@ function MyCartDetails ({ className = '', onClear, outcome: { from, output, when
     const [isCheckout, setCheckout] = useState(false);
     const [_username, setUsername] = useState('');
     const [_messageId, setMessageId] = useState('');
-
-    // const checkHttp = (url: string) => url.replace(/^(?:(.*:)?\/\/)?(.*)/i, (match, schemma, nonSchemmaUrl) => schemma ? match : `http://${nonSchemmaUrl}`);
-    // const hextoPhoto = (_url: string) => (isHex(_url) ? checkHttp(hexToString(_url).trim()) : defaultImage);
-    // const acctToShort = (_acct: string) => (_acct.length>7 ? _acct.slice(0,7)+'...' : _acct);
-    // const microToGeode = (_num: number) => (_num>-1 ? _num/1000000000000: 0);
-    // const boolToHuman = (_bool: boolean) => (_bool? 'Yes': 'No');
-    // const numToPercent = (_num: number) => ((_num>-1 && _num<=100)? _num.toString(): '0')+ ' %';
-    // const numCheck = (_num: number) => (_num>-1 ? _num: 0);
+    function t_strong(_str: string): JSX.Element{return(<><strong>{t(_str)}</strong></>)}
 
     const _reset = useCallback(
       () => {setUpdateQty(false);
@@ -130,21 +109,6 @@ function MyCartDetails ({ className = '', onClear, outcome: { from, output, when
               },
         []
       )
-  
-    // function t_strong(_str: string): JSX.Element{return(<><strong>{t(_str)}</strong></>)}
-    // function hexToHuman(_hexIn: string): string {return((isHex(_hexIn))? t(hexToString(_hexIn).trim()): '')}
-    // function withCopy(_str: string): JSX.Element {return(<>{_str}{' '}<CopyInline value={_str} label={''}/></>)}
-
-    // function photoLink(_url: string, _title: string): JSX.Element {
-    //     return(<>
-    //     {_url.length>2 &&
-    //               <Label as='a' color='orange' circular
-    //               href={isHex(_url) ? checkHttp(hexToString(_url).trim()) : ''} 
-    //               target="_blank" 
-    //               rel="noopener noreferrer">{_title}</Label> 
-    //               }
-    //     </>)
-    // }
 
     function showPhoto(_url: string): JSX.Element {
       return(<>
@@ -181,36 +145,6 @@ function MyCartDetails ({ className = '', onClear, outcome: { from, output, when
         <br /></>
       )
     }
-    
-  //   function numBadge(_num: number): JSX.Element {
-  //     return(<>
-  //       <Label circular size='small' color='blue'>
-  //         {numCheck(_num)}
-  //       </Label>
-  //     </>)
-  //   }
-  
-  //   function accountInfo(_acct: string): JSX.Element {
-  //     return(<>
-  //         <IdentityIcon value={_acct}/>{' | '}
-  //         <AccountName value={_acct} withSidebar={true}/>{' | '}
-  //         {acctToShort(_acct)}{' '}
-  //         <CopyInline value={_acct} label={''}/>
-  //     </>)
-  // }
-
-    function ListAccount(): JSX.Element {
-      return(
-          <div>
-            <Table>
-              <Table.Row>
-              <Table.Cell>
-              <Button icon='times' label={t('Close')} onClick={onClear}/>
-              </Table.Cell>
-              </Table.Row>
-            </Table>
-          </div>
-      )}
       
   function ShowProduct(_product: any): JSX.Element {
         return(<>
@@ -357,7 +291,7 @@ function MyCartDetails ({ className = '', onClear, outcome: { from, output, when
             <Table.Header>
               <Table.Row>
               <Table.HeaderCell>
-                <h2><strong>{t('Buyer: ')}</strong>{accountInfo(profileDetail.ok.buyer)}<br /><br />
+                <h3>{t_strong('Buyer: ')}{accountInfo(profileDetail.ok.buyer)}<br /><br />
                 <Label  as='a' 
                         color='orange' 
                         size='large'
@@ -367,11 +301,13 @@ function MyCartDetails ({ className = '', onClear, outcome: { from, output, when
                             {setCount(count + 1)}
                             {_makeCheckoutUpdate()}</>}}
                         >{t('Checkout')}</Label><br /><br />
-                    <strong>{t('Total Amount in Cart: ')}</strong>{microToGeode(profileDetail.ok.cartTotal)}{t(' Geode')}
-                    {t(' <--- Enter this value in the Total Amount in Cart input when checking out.')}<br /><br />
+                    {t_strong('Total Amount in Cart: ')}<u>{microToGeode(profileDetail.ok.cartTotal)}</u>{t(' Geode')}
+                    
+                    {' '}{' '}{t_strong(' <--- Enter this value in the Total Amount in Cart input when checking out.')}
+                    <br /><br />
                     <strong>{t('Number of Items: ')}</strong>
                     <Label  color='blue' circular size='large'>{profileDetail.ok.totalItems}</Label>
-                </h2>
+                </h3>
               </Table.HeaderCell>
               </Table.Row>
             </Table.Header>
@@ -410,18 +346,9 @@ function MyCartDetails ({ className = '', onClear, outcome: { from, output, when
     <AccountHeader 
             fromAcct={from} 
             timeDate={when} 
-            callFrom={99}/>
-      <ListAccount />
+            callFrom={405}/>
       <ShowProfile />
       {isUpdateQty && (<>
-        <CallSendMessage
-                callIndex={5}
-                messageId={_messageId}
-                username={_username}
-                onReset={() => _reset()}
-            />      
-        </>)}
-        {isRemoveItem && (<>
         <CallSendMessage
                 callIndex={4}
                 messageId={_messageId}
@@ -429,9 +356,17 @@ function MyCartDetails ({ className = '', onClear, outcome: { from, output, when
                 onReset={() => _reset()}
             />      
         </>)}
+        {isRemoveItem && (<>
+        <CallSendMessage
+                callIndex={3}
+                messageId={_messageId}
+                username={_username}
+                onReset={() => _reset()}
+            />      
+        </>)}
         {isCheckout && (<>
         <CallSendMessage
-                callIndex={6}
+                callIndex={5}
                 messageId={_messageId}
                 username={_username}
                 onReset={() => _reset()}

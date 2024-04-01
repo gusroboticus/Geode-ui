@@ -1,20 +1,16 @@
 // Copyright 2017-2023 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React from 'react';
-//import styled from 'styled-components';
+import React, { useState } from 'react';
 import { styled, Card, Button, Table } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 import { useTranslation } from '../shared/translate.js';
 import { useCodes } from '../useCodes.js';
 import { useContracts } from '../useContracts.js';
 import ContractsTable from './ContractsTable.js';
-//import { Button, styled } from '@polkadot/react-components';
-// todo - here can't resolve !!!
-//import ContractsTable from './ContractsTable.jsx';
+import { Label } from 'semantic-ui-react'
 import Summary from './MarketSummary.js';
-
-
+import { refTitle } from './marketConst.js';
 
 interface Props {
     className?: string;
@@ -33,16 +29,14 @@ export default function Market ({ className = 'market_index' }: Props): React.Re
     const [isUpdateSet, toggleUpdateSet] = useToggle();
     const [isAddProduct, toggleAddProduct] = useToggle();
     const [isAddService, toggleAddService] = useToggle();
+    const [isSellerOrders, toggleSellerOrders] = useToggle();
 
-    const refTitle: string[] = 
-    [' Find Geode Market Products (Click again to close) ', 
-     ' Find Geode Market Services. (Click again to close) ', 
-     ' List of My Orders (Click again to close). ',
-     ' List My Account. (Click again to close) ',
-     ' View My Cart (Click again to close). ',
-     ' Manage Your Seller Account (Click again to close).',
-     ' Find Geode Market Sellers (Click again to close).',
-     ' Go to a Sellers Store (Click again to close).'];
+    const [isSellerAwaiting, setSellerAwaiting] = useState(false);
+    const [isSellerShipped, setSellerShipped] = useState(false);
+    const [isSellerDelivered, setSellerDelivered] = useState(false);
+    const [isSellerResolved, setSellerResolved] = useState(false);
+    const [isSellerProblem, setSellerProblem] = useState(false);
+    const [isSellerRefused, setSellerRefused] = useState(false);
     const { allCodes, codeTrigger } = useCodes();
     const { allContracts } = useContracts();
     // todo
@@ -63,7 +57,7 @@ export default function Market ({ className = 'market_index' }: Props): React.Re
                    && !isMyAccount && !isMyCart 
                    && !isSellerAcct && !isFindProducts && (
         <><Button
-                icon={(isGotoStore) ? 'minus' : 'plus'}
+                icon={(isGotoStore) ? 'minus' : 'unlock'}
                 label={t('Go to Store')}
                 onClick={toggleGotoStore}>
           </Button>
@@ -74,7 +68,7 @@ export default function Market ({ className = 'market_index' }: Props): React.Re
                    && !isMyAccount && !isMyCart 
                    && !isSellerAcct && !isGotoStore && (
         <><Button
-                icon={(isFindProducts) ? 'minus' : 'plus'}
+                icon={(isFindProducts) ? 'minus' : 'wrench'}
                 label={t('Find Products')}
                 onClick={toggleFindProducts}>
           </Button>
@@ -85,7 +79,7 @@ export default function Market ({ className = 'market_index' }: Props): React.Re
                    && !isSellerAcct && !isGotoStore && (
           <>
               <Button
-                icon={(isFindServices) ? 'minus' : 'plus'}
+                icon={(isFindServices) ? 'minus' : 'people-arrows'}
                 label={t('Find Services')}
                 onClick={toggleFindServices}>
               </Button>    
@@ -96,7 +90,7 @@ export default function Market ({ className = 'market_index' }: Props): React.Re
                    && !isSellerAcct && !isGotoStore && (
           <>
               <Button
-                icon={(isFindStore) ? 'minus' : 'plus'}
+                icon={(isFindStore) ? 'minus' : 'file'}
                 label={t('Find Stores')}
                 onClick={toggleFindStore}>
               </Button>    
@@ -108,7 +102,7 @@ export default function Market ({ className = 'market_index' }: Props): React.Re
                    && !isSellerAcct && !isGotoStore && (
           <>
           <Button
-            icon={(isMyAccount) ? 'minus' : 'plus'}
+            icon={(isMyAccount) ? 'minus' : 'user'}
             label={t('My Account')}
             onClick={toggleMyAccount}>
           </Button>    
@@ -119,7 +113,7 @@ export default function Market ({ className = 'market_index' }: Props): React.Re
                    && !isSellerAcct && !isGotoStore && (
           <>
           <Button
-            icon={(isMyCart) ? 'minus' : 'plus'}
+            icon={(isMyCart) ? 'minus' : 'shopping-basket'}
             label={t('My Cart')}
             onClick={toggleMyCart}>
           </Button>    
@@ -130,9 +124,9 @@ export default function Market ({ className = 'market_index' }: Props): React.Re
                    && !isMyCart && !isGotoStore && (
           <>
           <Button
-            icon={(isSellerAcct) ? 'minus' : 'plus'}
+            icon={(isSellerAcct) ? 'minus' : 'building'}
             label={t('Seller Account')}
-            isDisabled={isUpdateSet || isAddProduct || isAddService}
+            isDisabled={isUpdateSet || isAddProduct || isAddService || isSellerOrders}
             onClick={toggleSellerAcct}>
           </Button>    
           </>
@@ -154,7 +148,7 @@ export default function Market ({ className = 'market_index' }: Props): React.Re
               <Button
                 icon={(isUpdateSet) ? 'minus' : 'plus'}
                 label={t('Update Settings')}
-                isDisabled={isAddProduct || isAddService}
+                isDisabled={isAddProduct || isAddService || isSellerOrders}
                 onClick={toggleUpdateSet}>
               </Button>    
             </>
@@ -162,7 +156,7 @@ export default function Market ({ className = 'market_index' }: Props): React.Re
               <Button
                 icon={(isAddProduct) ? 'minus' : 'plus'}
                 label={t('Add Product')}
-                isDisabled={isUpdateSet || isAddService}
+                isDisabled={isUpdateSet || isAddService || isSellerOrders}
                 onClick={toggleAddProduct}>
               </Button>    
             </>
@@ -170,9 +164,37 @@ export default function Market ({ className = 'market_index' }: Props): React.Re
               <Button
                 icon={(isAddService) ? 'minus' : 'plus'}
                 label={t('Add Service')}
-                isDisabled={isUpdateSet || isAddProduct}
+                isDisabled={isUpdateSet || isAddProduct || isSellerOrders}
                 onClick={toggleAddService}>
               </Button>    
+            </>
+            <>
+              <Button
+                icon={(isSellerOrders) ? 'minus' : 'plus'}
+                label={t('Seller Orders')}
+                isDisabled={isUpdateSet || isAddService || isAddProduct }
+                onClick={()=> {<>{toggleSellerOrders()}
+                                 {setSellerAwaiting(false)}
+                                 {setSellerShipped(false)}
+                                 {setSellerDelivered(false)}
+                                 {setSellerResolved(false)}
+                                 {setSellerProblem(false)}
+                                 {setSellerRefused(false)}</>}}>
+              </Button>    
+            </>
+          </Card>
+        </>
+        )}
+        {isSellerOrders && isSellerAcct && (
+        <>
+          <Card>
+            <>
+            <Label as='a' circular color={isSellerAwaiting? 'blue': 'orange'} onClick={()=> <>{isSellerAwaiting? setSellerAwaiting(false): setSellerAwaiting(true)}</>}>Awaiting</Label>
+            <Label as='a' circular color={isSellerShipped? 'blue': 'orange'} onClick={()=> <>{isSellerShipped? setSellerShipped(false): setSellerShipped(true)}</>}>Shipped</Label>
+            <Label as='a' circular color={isSellerDelivered? 'blue': 'orange'} onClick={()=> <>{isSellerDelivered? setSellerDelivered(false): setSellerDelivered(true)}</>}>Delivered</Label>
+            <Label as='a' circular color={isSellerResolved? 'blue': 'orange'} onClick={()=> <>{isSellerResolved? setSellerResolved(false): setSellerResolved(true)}</>}>Resolved</Label>
+            <Label as='a' circular color={isSellerProblem? 'blue': 'orange'} onClick={()=> <>{isSellerProblem? setSellerProblem(false): setSellerProblem(true)}</>}>Problem</Label>
+            <Label as='a' circular color={isSellerRefused? 'blue': 'orange'} onClick={()=> <>{isSellerRefused? setSellerRefused(false): setSellerRefused(true)}</>}>Refused</Label>
             </>
           </Card>
         </>
@@ -182,65 +204,101 @@ export default function Market ({ className = 'market_index' }: Props): React.Re
           <ContractsTable
             contracts={allContracts}
             updated={codeTrigger}
-            initMessageIndex={30}
+            initMessageIndex={26}
         />)}
         {isFindServices && (
           <ContractsTable
             contracts={allContracts}
             updated={codeTrigger}
-            initMessageIndex={31}
+            initMessageIndex={27}
         />)}
         {isFindStore && (
           <ContractsTable
             contracts={allContracts}
             updated={codeTrigger}
-            initMessageIndex={32}
+            initMessageIndex={28}
         />)}
 
         {isUpdateSet && (
           <ContractsTable
             contracts={allContracts}
             updated={codeTrigger}
-            initMessageIndex={18}
+            initMessageIndex={12}
         />)}
         {isMyAccount && (
           <ContractsTable
             contracts={allContracts}
             updated={codeTrigger}
-            initMessageIndex={34}
+            initMessageIndex={30}
         />)}
 
         {isAddProduct && (
           <ContractsTable
             contracts={allContracts}
             updated={codeTrigger}
-            initMessageIndex={26}
+            initMessageIndex={20}
         />)}
         {isAddService && (
           <ContractsTable
             contracts={allContracts}
             updated={codeTrigger}
-            initMessageIndex={28}
+            initMessageIndex={22}
         />)}
         {isMyCart && (
           <ContractsTable
           contracts={allContracts}
           updated={codeTrigger}
-          initMessageIndex={35}
+          initMessageIndex={31}
         />)}
         {isGotoStore && (
           <ContractsTable
           contracts={allContracts}
           updated={codeTrigger}
-          initMessageIndex={36}
+          initMessageIndex={32}
         />)}
-        {isSellerAcct && (
+
+        {isSellerAwaiting && (
+          <ContractsTable
+            contracts={allContracts}
+            updated={codeTrigger}
+            initMessageIndex={34}
+        />)}
+        {isSellerShipped && (
+          <ContractsTable
+            contracts={allContracts}
+            updated={codeTrigger}
+            initMessageIndex={35}
+        />)}
+        {isSellerDelivered && (
+          <ContractsTable
+            contracts={allContracts}
+            updated={codeTrigger}
+            initMessageIndex={36}
+        />)}
+        {isSellerResolved && (
           <ContractsTable
             contracts={allContracts}
             updated={codeTrigger}
             initMessageIndex={37}
         />)}
-
+        {isSellerProblem && (
+          <ContractsTable
+            contracts={allContracts}
+            updated={codeTrigger}
+            initMessageIndex={38}
+        />)}
+        {isSellerRefused && (
+          <ContractsTable
+            contracts={allContracts}
+            updated={codeTrigger}
+            initMessageIndex={39}
+        />)}
+        {isSellerAcct && (
+          <ContractsTable
+            contracts={allContracts}
+            updated={codeTrigger}
+            initMessageIndex={33}
+        />)}
     </div>
     </StyledDiv>
   );

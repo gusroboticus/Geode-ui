@@ -11,7 +11,7 @@ import type { CallResult } from '../shared/types.js';
 
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { Expander, LabelHelp, Badge, Card, Button, Dropdown, InputAddress, InputBalance, Toggle, TxButton } from '@polkadot/react-components';
+import { styled, Expander, LabelHelp, Badge, Card, Button, Dropdown, InputAddress, InputBalance, Toggle, TxButton } from '@polkadot/react-components';
 import { useAccountId, useApi, useDebounce, useFormField, useToggle } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { BN, BN_ONE, BN_ZERO } from '@polkadot/util';
@@ -21,6 +21,12 @@ import Params from '../shared/Params.js';
 import { useTranslation } from '../shared/translate.js';
 import useWeight from '../useWeight.js';
 
+import { TITLE, MAX_PRODUCT_TITLE, MAX_PRODUCT_BRAND, MAX_PRODUCT_CATEGORY, MAX_SELLER_NAME, MAX_PRODUCT_DESCRIPTION, MAX_PHOTO_LINK } from './marketConst.js'
+import { MAX_MORE_INFO_LINK, MAX_DELIVERY_INFO, MAX_PRODUCT_LOCATION, MAX_DIGITAL_FILE_URL, MAX_SERVICE_TITLE } from './marketConst.js'
+import { MAX_SERVICE_CATEGORY, MAX_SERVICE_DESCRIPTION, MAX_BOOKING_LINK, MAX_SERVICE_LOCATION } from './marketConst.js'
+import { MAX_SEARCH, MAX_STORE_DESCRIPTION, MAX_SELLER_LOCATION, MAX_BANNER_URL, MAX_YOUTUBE_URL, MAX_EXTERNAL_LINK } from './marketConst.js'
+import { INST_TITLE, INST_SUB_TITLE, INSTRUCTION, INST_NOTE } from './marketInstructions.js';
+
 import { getCallMessageOptions } from '../shared/util.js';
 import SellerDetails from './SellerDetails.js';
 import MyCartDetails from './MyCartDetails.js';
@@ -29,6 +35,7 @@ import SearchByServiceDetails from './SearchByServiceDetails.js';
 import SearchByStoreDetails from './SearchByStoreDetails.js';
 import MyAccountDetails from './MyAccountDetails.js';
 import GotoStoreDetails from './GotoStoreDetails.js';
+import SellerAwaitingDetails from './SellerAwaitingDetails.js';
 
 interface Props {
   className?: string;
@@ -81,6 +88,7 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
   const [_delivery, setDelivery] = useState<string>('');
   const [_zeno, setZeno] = useState<string>('');
   const [_isHide, toggleIsHide] = useToggle(false);
+  function t_strong(_str: string): JSX.Element{return(<><strong>{t(_str)}</strong></>)}
 
   const isTest: boolean = false;
 
@@ -170,10 +178,10 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
 
   const isValid = !!(accountId && weight.isValid && isValueValid);
   const isViaRpc = (isViaCall || (!message.isMutating && !message.isPayable));      
-  const isClosed = (isCalled && (messageIndex===26 || messageIndex===27 || 
+  const isClosed = (isCalled && (messageIndex===20 || messageIndex===26 || messageIndex===27 || 
                                  messageIndex===28 || messageIndex===29 ||
                                  messageIndex===30 || messageIndex===31 ||
-                                 messageIndex===32 || 
+                                 messageIndex===32 || messageIndex===33 ||
                                  messageIndex===34 || messageIndex===35 ||
                                  messageIndex===36 || messageIndex===37 ||
                                  messageIndex===38 || messageIndex===39));
@@ -183,95 +191,24 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
     <Card >
         <h2>
         <Badge icon='info' color={'blue'} />   
-        <strong>{t(' Geode Market ')}{' '}</strong>
+        {t_strong(' Geode Market ')}{' '}{' - '}{t(TITLE[messageIndex])}
         </h2>
-        <Expander 
+        {!isClosed && (<>
+          <Expander 
             className='viewInfo'
             isOpen={false}
             summary={<strong>{t('Instructions: ')}</strong>}>
-              {messageIndex===35 && (<>
-                <h2><strong>{t('Market - My Cart')}</strong></h2><br />
-                <strong>{t('Instructions for using My Cart: ')}</strong><br />
-                {'(1) '}{t('Select the Account to use for this transaction. ')}<br /> 
-                {'(2) '}{t('Click View ')}<br />
-                <br />
-              </>)}
-
-              {messageIndex===37 && (<>
-                <h2><strong>{t('Market - Seller Account')}</strong></h2><br />
-                <strong>{t('Instructions for Market Seller Account: ')}</strong><br />
-                {'(1) '}{t('Select the Account to use for this transaction. ')}<br /> 
-                {'(2) '}{t('Click View ')}<br />
-                {t('NOTE: ')}{t('Use the UPDATE button to change Product or Service details.')}
-                <br />
-              </>)}
-              {messageIndex===36 && (<>
-                <h2><strong>{t('Market - Go To a Seller Account')}</strong></h2><br />
-                <strong>{t('Instructions for Go To a Seller Account: ')}</strong><br />
-                {'(1) '}{t('Select the Account to use for this transaction. ')}<br /> 
-                {'(2) '}{t('Select the Account of the Store owner. ')}<br />
-                {'(3) '}{t('Click View ')}<br />
-                <br />
-              </>)}
-              {messageIndex===34 && (<>
-                <h2><strong>{t('Market - My Buyer Account')}</strong></h2><br />
-                <strong>{t('Instructions for Getting Your Buyer Account: ')}</strong><br />
-                {'(1) '}{t('Select the Account to use for this transaction. ')}<br /> 
-                {'(2) '}{t('Click View ')}<br />
-                <br />
-              </>)}
-              {messageIndex===32 && (<>
-                <h2><strong>{t('Market - Find Stores')}</strong></h2><br />
-                <strong>{t('Instructions for Finding Stores: ')}</strong><br />
-                {'(1) '}{t('Select the Account to use for this transaction. ')}<br /> 
-                {'(2) '}{t('Enter a Search Keyword for the Stores to find or leave blank to return all available stores. ')}<br /> 
-                {'(3) '}{t('Click View ')}<br />
-                <br />
-              </>)}
-              {messageIndex===31 && (<>
-                <h2><strong>{t('Market - Find Services')}</strong></h2><br />
-                <strong>{t('Instructions for finding Services: ')}</strong><br />
-                {'(1) '}{t('Select the Account to use for this transaction. ')}<br /> 
-                {'(2) '}{t('Enter a service name to search.')}<br />
-                {'(3) '}{t('Click View ')}<br />
-                <br />
-              </>)}
-              {messageIndex===30 && (<>
-                <h2><strong>{t('Market - Find Products')}</strong></h2><br />
-                <strong>{t('Instructions for finding Products: ')}</strong><br />
-                {'(1) '}{t('Select the Account to use for this transaction. ')}<br /> 
-                {'(2) '}{t('Enter a product name to search.')}<br />
-                {'(3) '}{t('Click View ')}<br />
-                <br />
-              </>)}
-              {messageIndex===28 && (<>
-                <h2><strong>{t('Market - Add a New Service')}</strong></h2><br />
-                <strong>{t('Instructions for Adding a New Service: ')}</strong><br />
-                {'(1) '}{t('Select the Account to use for this transaction.')}<br /> 
-                {'(2) '}{t('Fill in your service details.')}<br />
-                {'(3) '}{t('Click submit to add the new service.')}<br />
-              </>)}
-              {messageIndex===26 && (<>
-                <h2><strong>{t('Market - Add a New Product')}</strong></h2><br />
-                <strong>{t('Instructions for Adding a Product: ')}</strong><br />
-                {'(1) '}{t('Select the Account to use for this transaction.')}<br /> 
-                {'(2) '}{t('Fill in your product details.')}<br />
-                {'(3) '}{t('Click submit to add the new product.')}<br />
-                <br />
-              </>)}
-              {messageIndex===18 && (<>
-                <strong>{t('Instructions for Updating Seller Account Information: ')}</strong><br />
-                {'(1) '}{t('Select the Account to use for this transaction.')}<br />
-                {'(2) '}{t('Enter a Name for the Account.')}<br /> 
-                {'(3) '}{t('Enter the Physical Location of the Seller.')}<br /> 
-                {'(4) '}{t('Add a description of your Products and/or Services. ')}<br />            
-                {'(5) '}{t('Add an Image Link/URL for your Products and/or Services. ')}<br />            
-                {'(6) '}{t('Add a YouTube Video for your offerings or business. ')}<br />            
-                {'(7) '}{t('Add an additional link for further information. ')}<br />            
-                <br /><br />
-                {t('⚠️ Please Note: Click Submit to execute this transaction. ')}
+            {(messageIndex>-1 && messageIndex<42) && (<>
+                <h2>{t_strong(INST_TITLE[messageIndex])}</h2><br />
+                    {t_strong(INST_SUB_TITLE[messageIndex])}<br />
+                    {t(INSTRUCTION[messageIndex])}<br /><br />
+                    {t(INST_NOTE[messageIndex])}
               </>)}
         </Expander>
+      
+      
+      </>)}
+
         <br />
         {isTest && (
           <InputAddress
@@ -313,8 +250,8 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
             />              
             </>
             )}
-            {messageIndex!=18 && 
-             messageIndex!=26 && messageIndex!=28 && !isClosed && (<>             
+            {messageIndex!=12 && messageIndex!=20 && messageIndex!=22 && 
+             messageIndex!=26 && messageIndex!=27 && messageIndex!=28 && !isClosed && (<>             
               <Params
               onChange={setParams}
               params={
@@ -325,8 +262,56 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
               registry={contract.abi.registry}
             />
             </>)}
+            {!isClosed && (messageIndex===26 || messageIndex===27 || messageIndex===28 ) && (<>
+              <br /><br />
+              <LabelHelp help={t('Enter Your Search Word (You can enter three to help refine your searches)')}/>{' '}          
+              {t_strong('Enter a Search Word: (Leave blank if you want to search All )')}{t('(Max Character length is ')}{MAX_SEARCH}{')'}
+              <Input 
+                  label={_title.length>0? params[0]=_title: params[0]=''}
+                  type="text"
+                  value={_title}
+                  onChange={(e) => {
+                    setTitle(e.target.value.slice(0,MAX_SEARCH));
+                    setParams([...params]);
+                  }}
+              ><input />
+              <Label color={params[1]? 'blue': 'grey'}>
+                    {params[0]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
+              </Input>
 
-            {messageIndex===28 && (<>
+              <LabelHelp help={t('Enter a Second Search Word')}/>{' '}          
+              {t_strong('Second Search Word: (optional) ')}{t('(Max Character length is ')}{MAX_SEARCH}{')'}
+              <Input 
+                  label={_category.length>0? params[1]=_category: params[1]=''}
+                  type="text"
+                  value={_category}
+                  onChange={(e) => {
+                    setCategory(e.target.value.slice(0,MAX_SEARCH));
+                    setParams([...params]);
+                  }}
+              ><input />
+              <Label color={params[1]? 'blue': 'grey'}>
+                    {params[1]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
+              </Input>
+
+              <LabelHelp help={t('Enter a Third Search Word')}/>{' '}          
+              {t_strong('Third Search Word: (optional) ')}{t('(Max Character length is ')}{MAX_SEARCH}{')'}
+              <Input 
+                  label={_description.length>0? params[2]=_description: params[2]=''}
+                  type="text"
+                  value={_description}
+                  onChange={(e) => {
+                    setDescription(e.target.value.slice(0,MAX_SEARCH));
+                    setParams([...params]);
+                  }}
+              ><input />
+              <Label color={params[2]? 'blue': 'grey'}>
+                    {params[2]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
+              </Input>
+              <br /><br />
+            </>)}
+
+            {messageIndex===22 && (<>
               <br /><br />
               <LabelHelp help={t('Select Yes/No as a Online Service.')}/> {' '}         
               <strong>{t('Online Service (Yes/No): ')}</strong>
@@ -343,13 +328,13 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
               />
               <br /><br />
               <LabelHelp help={t('Add a service Title.')}/>{' '}          
-              <strong>{t('Title: ')}</strong>
+              {t_strong('Title: ')}{t('(Max Character length is ')}{MAX_SERVICE_TITLE}{')'}
               <Input 
                   label={_title.length>0? params[1]=_title: params[1]=''}
                   type="text"
                   value={_title}
                   onChange={(e) => {
-                    setTitle(e.target.value);
+                    setTitle(e.target.value.slice(0,MAX_SERVICE_TITLE));
                     setParams([...params]);
                   }}
               ><input />
@@ -373,13 +358,13 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
               </Input>
 
               <LabelHelp help={t('Enter the Service Categrory.')}/>{' '}          
-              <strong>{t('Category: ')}</strong>
+              {t_strong('Category: ')}{t('(Max Character length is ')}{MAX_SERVICE_CATEGORY}{')'}
               <Input 
                   label={_category.length>0? params[3]=_category: params[3]=''}
                   type="text"
                   value={_category}
                   onChange={(e) => {
-                    setCategory(e.target.value);
+                    setCategory(e.target.value.slice(0,MAX_SERVICE_CATEGORY));
                     setParams([...params]);
                   }}
               ><input />
@@ -388,13 +373,13 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
               </Input>
 
               <LabelHelp help={t('Enter a Service Description')}/>{' '}          
-              <strong>{t('Description: ')}</strong>
+              {t_strong('Description: ')}{t('(Max Character length is ')}{MAX_SERVICE_DESCRIPTION}{')'}
               <Input 
                   label={_description.length>0? params[4]=_description: params[4]=''}
                   type="text"
                   value={_description}
                   onChange={(e) => {
-                    setDescription(e.target.value);
+                    setDescription(e.target.value.slice(0,MAX_SERVICE_DESCRIPTION));
                     setParams([...params]);
                   }}
               ><input />
@@ -418,13 +403,13 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
               </Input>
 
               <LabelHelp help={t('Enter a Photo or YouTube link.')}/>{' '}          
-              <strong>{t('Photo or YouTube Link: ')}</strong>
+              {t_strong('Photo or YouTube Link: ')}{t('(Max Character length is ')}{MAX_PHOTO_LINK}{')'}
               <Input 
                   label={_photo1.length>0? params[6]=_photo1: params[6]=''}
                   type="text"
                   value={_photo1}
                   onChange={(e) => {
-                    setPhoto1(e.target.value);
+                    setPhoto1(e.target.value.slice(0,MAX_PHOTO_LINK));
                     setParams([...params]);
                   }}
               ><input />
@@ -433,13 +418,13 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
               </Input>
 
               <LabelHelp help={t('Enter a Photo or YouTube link.')}/>{' '}          
-              <strong>{t('Photo or YouTube Link: ')}</strong>
+              {t_strong('Photo or YouTube Link: ')}{t('(Max Character length is ')}{MAX_PHOTO_LINK}{')'}
               <Input 
                   label={_photo2.length>0? params[7]=_photo2: params[7]=''}
                   type="text"
                   value={_photo2}
                   onChange={(e) => {
-                    setPhoto2(e.target.value);
+                    setPhoto2(e.target.value.slice(0,MAX_PHOTO_LINK));
                     setParams([...params]);
                   }}
               ><input />
@@ -448,13 +433,13 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
               </Input>
 
               <LabelHelp help={t('Enter a Photo or YouTube link.')}/>{' '}          
-              <strong>{t('Photo or YouTube Link: ')}</strong>
+              {t_strong('Photo or YouTube Link: ')}{t('(Max Character length is ')}{MAX_PHOTO_LINK}{')'}
               <Input 
                   label={_photo3.length>0? params[8]=_photo3: params[8]=''}
                   type="text"
                   value={_photo3}
                   onChange={(e) => {
-                    setPhoto3(e.target.value);
+                    setPhoto3(e.target.value.slice(0,MAX_PHOTO_LINK));
                     setParams([...params]);
                   }}
               ><input />
@@ -463,13 +448,13 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
               </Input>
 
               <LabelHelp help={t('Enter a Booking Link.')}/>{' '}          
-              <strong>{t('Booking Link: ')}</strong>
+             {t_strong('Booking Link: ')}{t('(Max Character length is ')}{MAX_BOOKING_LINK}{')'}
               <Input 
                   label={_externalLink.length>0? params[9]=_externalLink: params[9]=''}
                   type="text"
                   value={_externalLink}
                   onChange={(e) => {
-                    setExternalLink(e.target.value);
+                    setExternalLink(e.target.value.slice(0,MAX_BOOKING_LINK));
                     setParams([...params]);
                   }}
               ><input />
@@ -478,13 +463,13 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
               </Input>
 
               <LabelHelp help={t('Enter Service Location.')}/>{' '}          
-              <strong>{t('Service Location: ')}</strong>
+              {t_strong('Service Location: ')}{t('(Max Character length is ')}{MAX_SERVICE_LOCATION}{')'}
               <Input 
                   label={_location.length>0? params[10]=_location: params[10]=''}
                   type="text"
                   value={_location}
                   onChange={(e) => {
-                    setLocation(e.target.value);
+                    setLocation(e.target.value.slice(0,MAX_SERVICE_LOCATION));
                     setParams([...params]);
                   }}
               ><input />
@@ -510,7 +495,7 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
               <br /><br />
             </>)}
 
-            {messageIndex===26 && (<>
+            {messageIndex===20 && (<>
               <br /><br />
               <LabelHelp help={t('Select Yes/No as a Digital Product.')}/> {' '}         
               <strong>{t('Digital Product (Yes/No): ')}</strong>
@@ -527,13 +512,13 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
               />
               <br /><br />
               <LabelHelp help={t('Add a product Title.')}/>{' '}          
-              <strong>{t('Title: ')}</strong>
+              {t_strong('Title: ')}{t('(Max Character length is ')}{MAX_PRODUCT_TITLE}{')'}
               <Input 
                   label={_title.length>0? params[1]=_title: params[1]=''}
                   type="text"
                   value={_title}
                   onChange={(e) => {
-                    setTitle(e.target.value);
+                    setTitle(e.target.value.slice(0,MAX_PRODUCT_TITLE));
                     setParams([...params]);
                   }}
               ><input />
@@ -557,13 +542,13 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
               </Input>
 
               <LabelHelp help={t('Enter a Product Brand.')}/>{' '}          
-              <strong>{t('Brand: ')}</strong>
+              {t_strong('Brand: ')}{t('(Max Character length is ')}{MAX_PRODUCT_BRAND}{')'}
               <Input 
                   label={_brand.length>0? params[3]=_brand: params[3]=''}
                   type="text"
                   value={_brand}
                   onChange={(e) => {
-                    setBrand(e.target.value);
+                    setBrand(e.target.value.slice(0,MAX_PRODUCT_BRAND));
                     setParams([...params]);
                   }}
               ><input />
@@ -572,13 +557,13 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
               </Input>
 
               <LabelHelp help={t('Enter a the Product Categrory.')}/>{' '}          
-              <strong>{t('Category: ')}</strong>
+              {t_strong('Category: ')}{t('(Max Character length is ')}{MAX_PRODUCT_CATEGORY}{')'}
               <Input 
                   label={_category.length>0? params[4]=_category: params[4]=''}
                   type="text"
                   value={_category}
                   onChange={(e) => {
-                    setCategory(e.target.value);
+                    setCategory(e.target.value.slice(0,MAX_PRODUCT_CATEGORY));
                     setParams([...params]);
                   }}
               ><input />
@@ -587,13 +572,13 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
               </Input>
 
               <LabelHelp help={t('Enter a Product Description')}/>{' '}          
-              <strong>{t('Description: ')}</strong>
+              {t_strong('Description: ')}{t('(Max Character length is ')}{MAX_PRODUCT_DESCRIPTION}{')'}
               <Input 
                   label={_description.length>0? params[5]=_description: params[5]=''}
                   type="text"
                   value={_description}
                   onChange={(e) => {
-                    setDescription(e.target.value);
+                    setDescription(e.target.value.slice(0,MAX_PRODUCT_DESCRIPTION));
                     setParams([...params]);
                   }}
               ><input />
@@ -617,13 +602,13 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
               </Input>
 
               <LabelHelp help={t('Enter a Photo or YouTube link.')}/>{' '}          
-              <strong>{t('Photo or YouTube Link: ')}</strong>
+              {t_strong('Photo or YouTube Link: ')}{t('(Max Character length is ')}{MAX_PHOTO_LINK}{')'}
               <Input 
                   label={_photo1.length>0? params[7]=_photo1: params[7]=''}
                   type="text"
                   value={_photo1}
                   onChange={(e) => {
-                    setPhoto1(e.target.value);
+                    setPhoto1(e.target.value.slice(0,MAX_PHOTO_LINK));
                     setParams([...params]);
                   }}
               ><input />
@@ -632,13 +617,13 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
               </Input>
 
               <LabelHelp help={t('Enter a Photo or YouTube link.')}/>{' '}          
-              <strong>{t('Photo or YouTube Link: ')}</strong>
+              {t_strong('Photo or YouTube Link: ')}{t('(Max Character length is ')}{MAX_YOUTUBE_URL}{')'}
               <Input 
                   label={_photo2.length>0? params[8]=_photo2: params[8]=''}
                   type="text"
                   value={_photo2}
                   onChange={(e) => {
-                    setPhoto2(e.target.value);
+                    setPhoto2(e.target.value.slice(0,MAX_YOUTUBE_URL));
                     setParams([...params]);
                   }}
               ><input />
@@ -647,13 +632,13 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
               </Input>
 
               <LabelHelp help={t('Enter a Photo or YouTube link.')}/>{' '}          
-              <strong>{t('Photo or YouTube Link: ')}</strong>
+              {t_strong('Photo or YouTube Link: ')}{t('(Max Character length is ')}{MAX_YOUTUBE_URL}{')'}
               <Input 
                   label={_photo3.length>0? params[9]=_photo3: params[9]=''}
                   type="text"
                   value={_photo3}
                   onChange={(e) => {
-                    setPhoto3(e.target.value);
+                    setPhoto3(e.target.value.slice(0,MAX_YOUTUBE_URL));
                     setParams([...params]);
                   }}
               ><input />
@@ -662,13 +647,13 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
               </Input>
 
               <LabelHelp help={t('Enter a link to further information.')}/>{' '}          
-              <strong>{t('Further Information Link: ')}</strong>
+              {t_strong('Further Information Link: ')}{t('(Max Character length is ')}{MAX_MORE_INFO_LINK}{')'}
               <Input 
                   label={_externalLink.length>0? params[10]=_externalLink: params[10]=''}
                   type="text"
                   value={_externalLink}
                   onChange={(e) => {
-                    setExternalLink(e.target.value);
+                    setExternalLink(e.target.value.slice(0,MAX_MORE_INFO_LINK));
                     setParams([...params]);
                   }}
               ><input />
@@ -677,13 +662,13 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
               </Input>
 
               <LabelHelp help={t('Enter information for delivery.')}/>{' '}          
-              <strong>{t('Delivery Information: ')}</strong>
+              {t_strong('Delivery Information: ')}{t('(Max Character length is ')}{MAX_DELIVERY_INFO}{')'}
               <Input 
                   label={_delivery.length>0? params[11]=_delivery: params[11]=''}
                   type="text"
                   value={_delivery}
                   onChange={(e) => {
-                    setDelivery(e.target.value);
+                    setDelivery(e.target.value.slice(0,MAX_DELIVERY_INFO));
                     setParams([...params]);
                   }}
               ><input />
@@ -692,13 +677,13 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
               </Input>
 
               <LabelHelp help={t('Enter Product Location.')}/>{' '}          
-              <strong>{t('Product Location: ')}</strong>
+              {t_strong('Product Location: ')}{t('(Max Character length is ')}{MAX_PRODUCT_LOCATION}{')'}
               <Input 
                   label={_location.length>0? params[12]=_location: params[12]=''}
                   type="text"
                   value={_location}
                   onChange={(e) => {
-                    setLocation(e.target.value);
+                    setLocation(e.target.value.slice(0,MAX_PRODUCT_LOCATION));
                     setParams([...params]);
                   }}
               ><input />
@@ -707,13 +692,13 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
               </Input>
 
               <LabelHelp help={t('Enter Digital File URL.')}/>{' '}          
-              <strong>{t('Digital File URL: ')}</strong>
+              {t_strong('Digital File URL: ')}{t('(Max Character length is ')}{MAX_DIGITAL_FILE_URL}{')'}
               <Input 
                   label={_bannerUrl.length>0? params[13]=_bannerUrl: params[13]=''}
                   type="text"
                   value={_bannerUrl}
                   onChange={(e) => {
-                    setBannerUrl(e.target.value);
+                    setBannerUrl(e.target.value.slice(0,MAX_DIGITAL_FILE_URL));
                     setParams([...params]);
                   }}
               ><input />
@@ -739,15 +724,15 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
               <br /><br />
             </>)}
 
-            {messageIndex===18 && (<>
+            {messageIndex===12 && (<>
               <LabelHelp help={t('Update Your Seller Name.')}/>{' '}          
-              <strong>{t('Seller Name: ')}</strong>
+              {t_strong('Seller Name: ')}{t('(Max Character length is ')}{MAX_SELLER_NAME}{')'}
               <Input 
                   label={_username.length>0? params[0]=_username: params[0]=''}
                   type="text"
                   value={_username}
                   onChange={(e) => {
-                    setUsername(e.target.value);
+                    setUsername(e.target.value.slice(0,MAX_SELLER_NAME));
                     setParams([...params]);
                   }}
               ><input />
@@ -756,13 +741,13 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
               </Input>
 
               <LabelHelp help={t('Enter Seller Location.')}/>{' '}          
-              <strong>{t('Seller Location: ')}</strong>
+              {t_strong('Seller Location: ')}{t('(Max Character length is ')}{MAX_SELLER_LOCATION}{')'}
               <Input 
                   label={_location.length>0? params[1]=_location: params[1]=''}
                   type="text"
                   value={_location}
                   onChange={(e) => {
-                    setLocation(e.target.value);
+                    setLocation(e.target.value.slice(0,MAX_SELLER_LOCATION));
                     setParams([...params]);
                   }}
               ><input />
@@ -771,13 +756,13 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
               </Input>
 
               <LabelHelp help={t('Enter a Description.')}/>{' '}          
-              <strong>{t('Description: ')}</strong>
+              {t_strong('Description: ')}{t('(Max Character length is ')}{MAX_STORE_DESCRIPTION}{')'}
               <Input 
                   label={_description.length>0? params[2]=_description: params[2]=''}
                   type="text"
                   value={_description}
                   onChange={(e) => {
-                    setDescription(e.target.value);
+                    setDescription(e.target.value.slice(0,MAX_STORE_DESCRIPTION));
                     setParams([...params]);
                   }}
               ><input />
@@ -786,13 +771,13 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
               </Input>
 
               <LabelHelp help={t('Enter a Banner URL.')}/>{' '}          
-              <strong>{t('Banner URL: ')}</strong>
+              {t_strong('Banner URL: ')}{t('(Max Character length is ')}{MAX_BANNER_URL}{')'}
               <Input 
                   label={_bannerUrl.length>0? params[3]=_bannerUrl: params[3]=''}
                   type="text"
                   value={_bannerUrl}
                   onChange={(e) => {
-                    setBannerUrl(e.target.value);
+                    setBannerUrl(e.target.value.slice(0,MAX_BANNER_URL));
                     setParams([...params]);
                   }}
               ><input />
@@ -801,13 +786,13 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
               </Input>
 
               <LabelHelp help={t('Enter a YouTube URL.')}/>{' '}          
-              <strong>{t('YouTube URL: ')}</strong>
+              {t_strong('YouTube URL: ')}{t('(Max Character length is ')}{MAX_YOUTUBE_URL}{')'}
               <Input 
                   label={_youtubeUrl.length>0? params[4]=_youtubeUrl: params[4]=''}
                   type="text"
                   value={_youtubeUrl}
                   onChange={(e) => {
-                    setYoutubeUrl(e.target.value);
+                    setYoutubeUrl(e.target.value.slice(0,MAX_YOUTUBE_URL));
                     setParams([...params]);
                   }}
               ><input />
@@ -816,13 +801,13 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
               </Input>
 
               <LabelHelp help={t('Enter a link for further information.')}/>{' '}          
-              <strong>{t('Further Information Link: ')}</strong>
+              {t_strong('Further Information Link: ')}{t('(Max Character length is ')}{MAX_EXTERNAL_LINK}{')'}
               <Input 
                   label={_externalLink.length>0? params[5]=_externalLink: params[5]=''}
                   type="text"
                   value={_externalLink}
                   onChange={(e) => {
-                    setExternalLink(e.target.value);
+                    setExternalLink(e.target.value.slice(0,MAX_EXTERNAL_LINK));
                     setParams([...params]);
                   }}
               ><input />
@@ -860,7 +845,7 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
               refTIme: MAX_CALL_WEIGHT
             })
           }
-          help={t('The maximum amount of gas to use for this contract call. If the call requires more, it will fail.')}
+          //help={t('The maximum amount of gas to use for this contract call. If the call requires more, it will fail.')}
           isCall={!message.isMutating}
           weight={weight}
         />
@@ -902,7 +887,7 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
         </>
         )}
 
-        {outcomes.length > 0 && messageIndex===30 && (
+        {outcomes.length > 0 && messageIndex===26 && (
             <div>
             {outcomes.map((outcome, index): React.ReactNode => (
               <SearchByProductDetails
@@ -914,7 +899,7 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
             </div>
         )}
 
-        {outcomes.length > 0 && messageIndex===31 && (
+        {outcomes.length > 0 && messageIndex===27 && (
             <div>
             {outcomes.map((outcome, index): React.ReactNode => (
               <SearchByServiceDetails
@@ -926,7 +911,7 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
             </div>
         )}
 
-        {outcomes.length > 0 && messageIndex===32 && (
+        {outcomes.length > 0 && messageIndex===28 && (
             <div>
             {outcomes.map((outcome, index): React.ReactNode => (
               <SearchByStoreDetails
@@ -938,19 +923,22 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
             </div>
         )}
 
-        {outcomes.length > 0 && messageIndex===34 && (
+        {outcomes.length > 0 && (messageIndex===34 || messageIndex===35 ||
+                                 messageIndex===36  || messageIndex===37 ||
+                                 messageIndex===38  || messageIndex===39 ) && (
             <div>
             {outcomes.map((outcome, index): React.ReactNode => (
-              <MyAccountDetails
+              <SellerAwaitingDetails
                 key={`outcome-${index}`}
                 onClear={_onClearOutcome(index)}
                 outcome={outcome}
+                messageIndex={messageIndex}
               />
             ))}
             </div>
         )}
 
-        {outcomes.length > 0 && messageIndex===35 && (
+        {outcomes.length > 0 && messageIndex===31 && (
             <div>
             {outcomes.map((outcome, index): React.ReactNode => (
               <MyCartDetails
@@ -962,7 +950,7 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
             </div>
         )}
 
-        {outcomes.length > 0 && messageIndex===36 && (
+        {outcomes.length > 0 && messageIndex===32 && (
             <div>
             {outcomes.map((outcome, index): React.ReactNode => (
               <GotoStoreDetails
@@ -974,7 +962,7 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
             </div>
         )}
 
-        {outcomes.length > 0 && messageIndex===37 && (
+        {outcomes.length > 0 && messageIndex===33 && (
             <div>
             {outcomes.map((outcome, index): React.ReactNode => (
               <SellerDetails
@@ -985,22 +973,34 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
             ))}
             </div>
         )}
+
+        {outcomes.length > 0 && messageIndex===30 && (
+            <div>
+            {outcomes.map((outcome, index): React.ReactNode => (
+              <MyAccountDetails
+                key={`outcome-${index}`}
+                onClear={_onClearOutcome(index)}
+                outcome={outcome}
+              />
+            ))}
+            </div>
+        )}
+        {/* {expose(messageIndex, 12)} */}
+
         </Card>
   );
 }
 
-export default React.memo(CallCard);
-//   .rpc-toggle {
-//     margin-top: 1rem;
-//     display: flex;
-//     justify-content: flex-end;
-//   }
-//   .clear-all {
-//     float: right;
-//   }
-//   .outcomes {
-//     margin-top: 1rem;
-//   }
-// `);
-
-
+export default React.memo(styled(CallCard)`
+  .rpc-toggle {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .clear-all {
+    float: right;
+  }
+  .outcomes {
+    margin-top: 1rem;
+  }
+`);

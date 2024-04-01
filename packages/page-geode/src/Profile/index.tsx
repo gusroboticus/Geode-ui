@@ -42,7 +42,7 @@ export default function Profile ({ className = '' }: Props): React.ReactElement 
             <Card>
         {!isByKeyword && !isByAccount && !isLookUp && !isSearch && (
         <><Button
-                icon={(isNew) ? 'minus' : 'plus'}
+                icon={(isNew) ? 'minus' : 'people-group'}
                 label={t('Create Your Profile')}
                 onClick={toggleNew}>
           </Button>
@@ -51,7 +51,7 @@ export default function Profile ({ className = '' }: Props): React.ReactElement 
         {!isByKeyword && !isByAccount && !isNew && !isSearch && (
           <>
               <Button
-                icon={(isLookUp) ? 'minus' : 'plus'}
+                icon={(isLookUp) ? 'minus' : 'user'}
                 label={t('Account Lookup')}
                 onClick={toggleLookUp}>
               </Button>    
@@ -60,7 +60,7 @@ export default function Profile ({ className = '' }: Props): React.ReactElement 
         {!isByKeyword && !isByAccount && !isNew && !isLookUp && (
           <>
           <Button
-            icon={(isSearch) ? 'minus' : 'plus'}
+            icon={(isSearch) ? 'minus' : 'magnifying-glass'}
             label={t('Search')}
             onClick={toggleSearch}>
           </Button>    

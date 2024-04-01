@@ -36,7 +36,7 @@ console.log(allCodes);
       <Card>
         {!isResumeOpen && !isSearch && (
         <><Button
-                icon={(isClaimOpen) ? 'minus' : 'plus'}
+                icon={(isClaimOpen) ? 'minus' : 'cogs'}
                 label={t('Make a claim')}
                 onClick={toggleClaim}>
           </Button></>
@@ -44,7 +44,7 @@ console.log(allCodes);
         {!isClaimOpen && !isSearch && (
           <>
               <Button
-                icon={(isResumeOpen) ? 'minus' : 'plus'}
+                icon={(isResumeOpen) ? 'minus' : 'people-group'}
                 label={t('Get Resumes')}
                 onClick={toggleResume}>
               </Button>    
@@ -53,7 +53,7 @@ console.log(allCodes);
         {!isClaimOpen && !isResumeOpen && (
           <>
           <Button
-            icon={(isSearch) ? 'minus' : 'plus'}
+            icon={(isSearch) ? 'minus' : 'magnifying-glass'}
             label={t('Search')}
             onClick={toggleSearch}>
           </Button>    

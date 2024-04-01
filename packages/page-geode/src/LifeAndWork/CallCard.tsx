@@ -21,7 +21,7 @@ import { useTranslation } from '../shared/translate.js';
 import useWeight from '../useWeight.js';
 import Details from './Details.js';
 import { getCallMessageOptions } from './util.js';
-import { t_strong } from './LifeWorkUtil.js';
+//import { t_strong } from './LifeWorkUtil.js';
 
 import { Dropdown as MyDropDown } from 'semantic-ui-react'
 
@@ -60,6 +60,7 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
   const dbValue = useDebounce(value);
   const dbParams = useDebounce(params);
   const isTest: boolean =false;
+  function t_strong(_str: string): JSX.Element{return(<><strong>{t(_str)}</strong></>)}
   const options = [
     { key: 'workhistory', text: 'work history', value: 1 },
     { key: 'education', text: 'education', value: 2 },

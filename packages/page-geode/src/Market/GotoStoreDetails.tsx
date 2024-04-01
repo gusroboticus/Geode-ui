@@ -5,30 +5,25 @@
 import React, { useState, useCallback } from 'react';
 import { useTranslation } from '../shared/translate.js';
 import type { CallResult } from './types.js';
-import { stringify, hexToString, isHex } from '@polkadot/util';
-import { styled, Expander, Button, Card } from '@polkadot/react-components';
-//import { AccountName, LabelHelp, IdentityIcon } from '@polkadot/react-components';
-import { Grid, Divider, Message, Item, Table, Label, Image } from 'semantic-ui-react'
-//import CopyInline from '../shared/CopyInline.js';
+import { stringify } from '@polkadot/util';
+import { styled, Card, Expander } from '@polkadot/react-components';
 import AccountHeader from '../shared/AccountHeader.js';
+import { Message, Item, Image, Grid, Divider, Table, Label } from 'semantic-ui-react'
+import { withHelp } from './marketutil.js';
+import { hexToString, isHex } from '@polkadot/util';
 import CallSendMessage from './CallSendMessage.js';
-import { photoLink, t_strong, numBadge, withCopy, withHelp, accountInfo, dateCheck, checkHttp, boolToHuman, hexToHuman, microToGeode, hextoPhoto, acctToShort, numCheck, rateCheck, numToPercent } from './marketutil.js';
-import JSONprohibited from '../shared/geode_prohibited.json';
+import { hextoPhoto, rateCheck, checkEmptySeller } from './marketutil.js';
+import { photoLink, numBadge,  accountInfo, dateCheck } from './marketutil.js';
+import { checkHttp, hexToHuman } from './marketutil.js';
+import { withCopy, boolToHuman, microToGeode, acctToShort, numCheck, numToPercent } from './marketutil.js';
+import { RATING } from './marketConst.js';
 
 interface Props {
     className?: string;
     onClear?: () => void;
     isAccount?: boolean;
     outcome: CallResult;
-  }
-  
-  type Review = {
-    reviewId: string,
-    accountId: string,
-    reviewer: string,
-    rating: number,
-    review: string,
-    timestamp: number
+    onReset?: () => void;
   }
 
   type Seller = {
@@ -42,8 +37,8 @@ interface Props {
     externalLink: string,
     reviewAverage: number,
     reviewCount: number,
-    reviews: Review[],
     totalOrders: number,
+    awaiting: number
     totalDelivered: number,
     totalDamaged: number,
     totalWrong: number,
@@ -64,7 +59,6 @@ interface Props {
     description: string,
     reviewAverage: number,
     reviewCount: number,
-    reviews: Review[],
     inventory: number,
     photoOrYoutubeLink1: string,
     photoOrYoutubeLink2: string,
@@ -87,7 +81,6 @@ interface Props {
     description: string,
     reviewAverage: number,
     reviewCount: number,
-    reviews: Review[],
     inventory: number,
     photoOrYoutubeLink1: string,
     photoOrYoutubeLink2: string,
@@ -108,140 +101,78 @@ interface Props {
   ok: SellerObj
   }
   
-function GotoStoreDetails ({ className = '', onClear, outcome: { from, output, when } }: Props): React.ReactElement<Props> | null {
-// todo: code for allCodes:
-// console.log(JSON.stringify(className));
-// other props:
-// isAccount,
-// message,
-// params
-// result
-    //const defaultImage: string ='https://react.semantic-ui.com/images/wireframe/image.png';
+function GotoStoreDetails ({ className = '', outcome: { output, from, when  } }: Props): React.ReactElement<Props> | null {
     const { t } = useTranslation();
-    const searchWords: string[] = JSONprohibited;
-
-    const objOutput: string = stringify(output);
-    const _Obj = JSON.parse(objOutput);
-    const profileDetail: ProfileDetail = Object.create(_Obj);
-
-    //const withHttp = (url: string) => url.replace(/^(?:(.*:)?\/\/)?(.*)/i, (match, schemma, nonSchemmaUrl) => schemma ? match : `http://${nonSchemmaUrl}`);
-    //const boolToHuman = (_bool: boolean) => (_bool? 'Yes': 'No');
-    //const hextoHuman = (_hexIn: string) => (isHex(_hexIn)? t(hexToString(_hexIn).trim()): '');
-    //const hextoPhoto = (_url: string) => (isHex(_url) ? checkHttp(hexToString(_url).trim()) : defaultImage);
-    // const acctToShort = (_acct: string) => (_acct.length>7 ? _acct.slice(0,7)+'...' : _acct);
-    //const microToGeode = (_num: number) => (_num>-1 ? _num/1000000000000: 0);
-    //const numCheck = (_num: number) => (_num>-1 ? _num: 0);
-    //const rateCheck = (_num: number) => ((_num>0 && _num<6)? _num: 1);
-    // const dateCheck = (_num: number) => (_num>0? timeStampToDate(_num): t('No Date'));
-    //const numToPercent = (_num: number) => ((_num>-1 && _num<=100)? _num.toString(): '0')+ ' %';
-    const rating: string[] = ['','⭐️','⭐️⭐️','⭐️⭐️⭐️','⭐️⭐️⭐️⭐️','⭐️⭐️⭐️⭐️⭐️'];
-
+    const profileDetail: ProfileDetail = Object.create(JSON.parse(stringify(output)));
+    const [_filter, setFilter] = useState('none'); // all // digital // physical // in_stock // 
+    const [_sort, setSort] = useState('none');
+    function t_strong(_str: string): JSX.Element{return(<><strong>{t(_str)}</strong></>)}
     const [_username, setUsername] = useState('');
     const [_messageId, setMessageId] = useState('');
     const [count, setCount] = useState(0);
+    const [isBookmark, setBookmark] = useState(false);
     const [isAddToCart, setAddToCart] = useState(false);
-    const [isAddProductToList, setAddProductToList] = useState(false);
-    const [isAddServiceToList, setAddServiceToList] = useState(false);
-
-    const [_filter, setFilter] = useState('none'); // all // digital // physical // in_stock // 
-    const [_sort, setSort] = useState('none');
-
+   
     const _reset = useCallback(
-        () => {setAddToCart(false);
-               setAddProductToList(false);
-               setAddServiceToList(false);
-              },
-        []
-      )
-  
-      const _makeAddToCartUpdate = useCallback(
-        () => {setAddToCart(true);
-               setAddProductToList(false);
-               setAddServiceToList(false);
-              },
-        []
-      )
-  
-      const _makeAddProductToListUpdate = useCallback(
-        () => {setAddToCart(false);
-               setAddProductToList(true);
-               setAddServiceToList(false);
-              },
-        []
-      )
+      () => { setAddToCart(false);
+              setBookmark(false);
+            },
+      []
+    )
 
-      const _makeAddServiceToListUpdate = useCallback(
-        () => {setAddToCart(false);
-               setAddProductToList(false);
-               setAddServiceToList(true);
-              },
-        []
-      )
-  
-    function autoCorrect(arr: string[], str: string): JSX.Element {
-        arr.forEach(w => str = str.replaceAll(w, '****'));
-        arr.forEach(w => str = str.replaceAll(w.charAt(0).toUpperCase() + w.slice(1), '****'));
-        arr.forEach(w => str = str.replaceAll(w.charAt(0) + w.slice(1).toUpperCase, '****'));        
-        arr.forEach(w => str = str.replaceAll(w.toUpperCase(), '****'));
-        return (
-        <>{t(str)}</>)
-    }
+    const _makeBookmark = useCallback(
+      () => { setAddToCart(false);
+              setBookmark(true);
+            },
+      []
+    )
 
-    // function accountInfo(_acct: string): JSX.Element {
-    //     return(<>
-    //         <IdentityIcon value={_acct}/>
-    //         <AccountName value={_acct} withSidebar={true}/>{' | '}
-    //         {acctToShort(_acct)}{' '}
-    //         <CopyInline value={_acct} label={''}/>
-    //     </>)
-    // }
-    
-    // function photoLink(_url: string, _title: string): JSX.Element {
-    //     return(<>
-    //     {_url.length>2 &&
-    //               <Label as='a' color='orange' circular
-    //               href={isHex(_url) ? checkHttp(hexToString(_url).trim()) : ''} 
-    //               target="_blank" 
-    //               rel="noopener noreferrer">{_title}</Label> 
-    //               }
-    //     </>)
-    // }
+    const _makeAddToCartUpdate = useCallback(
+      () => { setAddToCart(true);
+              setBookmark(false);
+              
+            },
+      []
+    )
+
 
     function showPhoto(_url: string): JSX.Element {
-       return(<>
-       {_url.length>2 && 
-       <> 
-         <Image as='a' 
-                   size='tiny' 
-                   width={150}
-                   height={150}
-                   src={hextoPhoto(_url)} 
-                   rounded 
-                   href={isHex(_url) ? checkHttp(hexToString(_url).trim()) : ''} 
-                   target="_blank" 
-                   rel="noopener noreferrer"
-       />      
-       </>}
-       </>)
-     } 
+      return(<>
+      {_url.length>2 && 
+      <> 
+        <Image as='a' 
+                  size='tiny' 
+                  width={150}
+                  height={150}
+                  src={hextoPhoto(_url)} 
+                  rounded 
+                  href={isHex(_url) ? checkHttp(hexToString(_url).trim()) : ''} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+      />      
+      </>}
+      </>)
+    } 
 
-    function renderLink(_link: string): JSX.Element {
-      const ilink: string = isHex(_link)? checkHttp(hexToString(_link).trim()): '0x';
-      const videoLink: string = (ilink.includes('embed')) ? ilink 
-          : ilink.includes('youtu.be') ? ('https://www.youtube.com/embed/' + ilink.slice(17))
-              : ('https://www.youtube.com/embed/' + ilink.slice(32));
-      return(
-        <>
-        {ilink.trim() != 'http://' ? (<>
-          {(ilink).includes('youtu')? (
-          <iframe width="150" height="100" src={videoLink +'?autoplay=0&mute=1'}> 
-          </iframe>) : (
-          showPhoto(_link)
-          )}    
-        </>) : <>{''}</>}
-        <br /></>
-      )
-    }
+   function renderLink(_link: string): JSX.Element {
+     const ilink: string = isHex(_link)? checkHttp(hexToString(_link).trim()): '0x';
+     const videoLink: string = (ilink.includes('embed')) ? ilink 
+         : ilink.includes('youtu.be') ? ('https://www.youtube.com/embed/' + ilink.slice(17))
+             : ('https://www.youtube.com/embed/' + ilink.slice(32));
+     return(
+       <>
+       {ilink.trim() != 'http://' ? (<>
+         {(ilink).includes('youtu')? (
+         <iframe width="150" height="100" src={videoLink +'?autoplay=0&mute=1'}> 
+         </iframe>) : (
+         showPhoto(_link)
+         )}    
+       </>) : <>{''}</>}
+       <br /></>
+     )
+   }
+
+  
 
     function SortMenu(_productBool: boolean): JSX.Element {
       const _menu: string[] = _productBool? 
@@ -267,67 +198,70 @@ function GotoStoreDetails ({ className = '', onClear, outcome: { from, output, w
       </>)
     }
 
-    // function numBadge(_num: number): JSX.Element {
-    //   return(<>
-    //     <Label circular size='small' color='blue'>
-    //       {numCheck(_num)}
-    //     </Label>
-    //   </>)
-    // }
-
-    // function t_strong(_str: string): JSX.Element{
-    //   return(<><strong>{t(_str)}</strong></>)
-    // }
-
-    // function timeStampToDate(tstamp: number): JSX.Element {
-    //     try {
-    //      const event = new Date(tstamp);
-    //      return (
-    //           <><i>{event.toDateString()}{' '}
-    //                {event.toLocaleTimeString()}{' '}</i></>
-    //       )
-    //     } catch(error) {
-    //      console.error(error)
-    //      return(
-    //          <><i>{t('No Date')}</i></>
-    //      )
-    //     }
-    //  }
-
-    //  function withCopy(_str: string): JSX.Element {
-    //     return(<>
-    //     {_str}{' '}
-    //     <CopyInline value={_str} label={''}/>
-    //     </>)
-    // }
-  
-    // function withHelp(_str: string, _help: string): JSX.Element {
-    //     return(<>
-    //     <LabelHelp help={t(_help)} />
-    //     {' '}{t(_str)}
-    //     </>)
-    // }
-  
-    function ListAccount(): JSX.Element {
-      return(
+    function ShowStoreFront(_seller: Seller): JSX.Element {
+      const isEmpty: boolean = (isHex(_seller.sellerName) && hexToString(_seller.sellerName)!='');
+      try {
+        return(
           <div>
-            <Table>
-              <Table.Row>
-              <Table.Cell>
-              <Button
-                  icon='times'
-                  label={t('Close')}
-                  onClick={onClear}
-                />
-              </Table.Cell>
-              </Table.Row>
-            </Table>
-          </div>
-      )}
+              <Grid columns={2} divided>
+                <Grid.Row>
+                <Grid.Column>
+                <h2><strong>
+                    <i>{t('Seller: ')}</i></strong>{' '}
+                    {checkEmptySeller(_seller.sellerName)}
+                </h2><h3>
+                   {isEmpty && <>
+                    {renderLink(_seller.bannerUrl)}
+                    <br />
+                    {photoLink(_seller.youtubeUrl,'YouTube')}
+                    {photoLink(_seller.externalLink, 'More Info')}   
+                    <Label as='a' circular color='orange' 
+                    onClick={()=>{<>
+                      {setMessageId(_seller.sellerAccount)}
+                      {setUsername(_seller.sellerAccount)}
+                      {setCount(count + 1)}
+                      {_makeBookmark()}</>}}
+                    >{'Bookmark Store'}</Label>
+                       
+                    <br />              
+                    {t_strong('Account ID: ')}{accountInfo(_seller.sellerAccount)}<br />
+                    {t_strong('Seller Rating: ')}{RATING[rateCheck(_seller.reviewAverage)]}<br />
+                    {t_strong('Number of Reviews: ')}{numBadge(_seller.reviewCount)}<br />
+                    {t_strong('Store Description: ')}{hexToHuman(_seller.storeDescription)}<br />
+                    {t_strong('Member since: ')}{dateCheck(_seller.memberSince)}<br />
+                    {t_strong('Location: ')}{hexToHuman(_seller.sellerLocation)}<br />
+                    </>}
+                    </h3>
+                </Grid.Column>
+                <Grid.Column>
+                <h3>
+                    {t('Total Orders: ')}{_seller.totalOrders}<br />
+                    {t('Total Awaiting Delivery: ')}{_seller.awaiting}<br />
+                    {t('Total Delivered: ')}{_seller.totalDelivered}<br />
+                    {t('Total Damaged: ')}{_seller.totalDamaged}<br />
+                    {t('Total Not Received: ')}{_seller.totalNotReceived}<br />
+                    {t('Total Refused: ')}{_seller.totalRefused}<br />
+                    {t('Total Resolved: ')}{_seller.totalResolved}<br />
+                    {t('Total Wrong: ')}{_seller.totalWrong}<br />                
+                </h3>
+                </Grid.Column>
+                </Grid.Row>
+                </Grid>
+      </div>   
+      )
+    } catch(e) {
+      console.log(e);
+      return(
+        <div>
+          <Card>{t('No Seller Data')}</Card>
+        </div>
+      )
+    }
+}
 
-function ShowProduct(_product: any): JSX.Element {
+function ShowProduct(_product: Products): JSX.Element {
   return(<>
-                  <Message>
+                 <Message>
                     <Item.Group>
                     <Item>
                     <Item.Image as='a' size='tiny' 
@@ -339,24 +273,18 @@ function ShowProduct(_product: any): JSX.Element {
                     /> 
                     <Item.Content>
                                 <Item.Header as='a'>{hexToHuman(_product.title)+' '}
+                                
                                 <Label as='a' 
                                        color='orange' 
                                        circular 
                                        onClick={()=>{<>
-                                               {setMessageId(_product.productId)}
                                                {setUsername(_product.title)}
+                                               {setMessageId(_product.productId)}
                                                {setCount(count + 1)}
                                                {_makeAddToCartUpdate()}</>}}
+                                               
                                 >{'Add to Cart'}</Label>
-                                <Label as='a' 
-                                       color='orange' 
-                                       circular 
-                                       onClick={()=>{<>
-                                               {setMessageId(_product.productId)}
-                                               {setUsername(_product.title)}
-                                               {setCount(count + 1)}
-                                               {_makeAddProductToListUpdate()}</>}}
-                                >{'Add to List'}</Label>
+                          
                                 {photoLink(_product.moreInfoLink, 'More Info')}
                                 </Item.Header>
                                 <Item.Meta>
@@ -365,19 +293,9 @@ function ShowProduct(_product: any): JSX.Element {
                                 <Item.Description>
                                   {t_strong('Price: ')}{microToGeode(_product.price)}{' Geode'}<br />
                                   {t_strong('Inventory: ')}{_product.inventory}<br />
-                                  {t_strong('Product Rating: ')}{rating[rateCheck(_product.reviewAverage)]}<br />
+                                  {t_strong('Product Rating: ')}{RATING[rateCheck(_product.reviewAverage)]}<br />
                                   {t_strong('Number of Reviews: ')}{numBadge(_product.reviewCount)}<br />
                                   <strong>{withCopy('Product ID: ')}</strong>{acctToShort(_product.productId)}<br />
-                                  {_product.reviews.length>0 && <>
-                                    <Expander className='productReviews' isOpen={false}
-                                    summary={<Label size={'small'} color='orange' circular> {t('Reviews: ')}</Label>}>
-                                    <strong>{t('Reviews: ')}</strong><br />
-                                      {_product.reviews.length>0 && 
-                                      _product.reviews.map((_review: any, index: number)=> <>
-                                          {index+1}{'. '}{dateCheck(_review.timestamp)}{accountInfo(_review.reviewer)}{' | '}{hexToHuman(_review.review)}{' '}{rating[rateCheck(_review.rating)]}<br />
-                                      </>)}
-                                    </Expander>                                  
-                                  </>}
                                 </Item.Description>
                                 <Item.Extra>
                                 <Expander 
@@ -407,87 +325,70 @@ function ShowProduct(_product: any): JSX.Element {
                             </Item.Content>
                     </Item>
                     </Item.Group>
-                </Message>
+                    </Message>
   </>)
 }
 
-function ShowService(_service: any): JSX.Element {
-    return(<>
-                    <Message>
-                    <Item.Group>
-                    <Item>
-                    <Item.Image as='a' size='tiny' 
-                                src={hextoPhoto(_service.photoOrYoutubeLink1)} 
-                                rounded 
-                                href={isHex(_service.photoOrYoutubeLink1) ? checkHttp(hexToString(_service.photoOrYoutubeLink1).trim()) : ''} 
-                                target="_blank" 
-                                rel="noopener noreferrer"
-                    /> 
-                    <Item.Content>
-                                <Item.Header as='a'>{hexToHuman(_service.title)+' '}
-                                <Label as='a' 
-                                       color='orange' 
-                                       circular 
-                                       onClick={()=>{<>
-                                               {setMessageId(_service.serviceId)}
-                                               {setUsername(_service.title)}
-                                               {setCount(count + 1)}
-                                               {_makeAddToCartUpdate()}</>}}
-                                >{'Add to Cart'}</Label>
-                                <Label as='a' 
-                                       color='orange' 
-                                       circular 
-                                       onClick={()=>{<>
-                                               {setMessageId(_service.serviceId)}
-                                               {setUsername(_service.title)}
-                                               {setCount(count + 1)}
-                                               {_makeAddServiceToListUpdate()}</>}}
-                                >{'Add to List'}</Label>
-                                {_service.bookingLink.length>2 && photoLink(_service.bookingLink, 'Book')}
-                                </Item.Header>
-                                <Item.Meta><h3><strong>{t('Description: ')}{hexToHuman(_service.description)}</strong></h3></Item.Meta>
-                                <Item.Description>
-                                    {t_strong('Price: ')}{microToGeode(_service.price)}{' Geode'}<br />
-                                    {t_strong('Inventory: ')}{_service.inventory}<br />
-                                    {t_strong('Location: ')}{hexToHuman(_service.serviceLocation)}<br />
-                                    {t_strong('Service Rating: ')}{rating[rateCheck(_service.reviewAverage)]}<br />
-                                    {t_strong('Number of Reviews: ')}{numBadge(_service.reviewCount)}<br />
-                                    <strong>{withCopy('Service ID: ')}</strong>{acctToShort(_service.serviceId)}<br />
-                                    {_service.reviews.length>0 && <>
-                                      <Expander   className='productReviews' isOpen={false}
-                                                summary={<Label size={'small'} color='orange' circular> {t('Reviews: ')}</Label>}>
-                                            <strong>{t('Reviews: ')}</strong><br />
-                                            {_service.reviews.length>0 && _service.reviews.map((_review: any, index: number)=> <>
-                                                {index+1}{'. '}{dateCheck(_review.timestamp)}{accountInfo(_review.reviewer)}{' | '}{hexToHuman(_review.review)}{' '}{rating[rateCheck(_review.rating)]}<br />
-                                      </>)}
-                                    </Expander>                                    
-                                    </>}
-                                </Item.Description>
-                                <Item.Extra>
-                                <Expander className='details-service' isOpen={false}
-                                    summary={<Label size={'small'} color='orange' circular> {t('Details: ')}</Label>}>
-                                    <Grid columns={2} divided>
-                                        <Grid.Column>
-                                        {t_strong('Seller Account: ')}{accountInfo(_service.sellerAccount)}<br />
-                                        {t_strong('Seller Name: ')}{hexToHuman(_service.sellerName)}<br />
-                                        {t_strong('Category: ')}{hexToHuman(_service.category)}<br />
-                                        {t_strong('Online: ')}{boolToHuman(_service.online)}<br />
-                                        {t_strong('Zeno Percentage: ')}{numToPercent(_service.zenoPercent)}<br />
-                                        {t_strong('Number of Zeno Accounts: ')}{numCheck(_service.zenoBuyers.length)}<br />
-                                        </Grid.Column>
-                                        <Grid.Column>
-                                        {renderLink(_service.photoOrYoutubeLink1)}
-                                        {renderLink(_service.photoOrYoutubeLink2)}
-                                        {renderLink(_service.photoOrYoutubeLink3)}
-                                        </Grid.Column>
-                                    </Grid>                                    
-                                </Expander>
-                                </Item.Extra>
-                            </Item.Content>
-                    </Item>
-                    </Item.Group>
-                </Message>
-    </>)
+function ShowService(_service: Services): JSX.Element {
+  return(<>
+            <Message>
+                  <Item.Group>
+                  <Item>
+                  <Item.Image as='a' size='tiny' 
+                              src={hextoPhoto(_service.photoOrYoutubeLink1)} 
+                              rounded 
+                              href={isHex(_service.photoOrYoutubeLink1) ? checkHttp(hexToString(_service.photoOrYoutubeLink1).trim()) : ''} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                  /> 
+                  <Item.Content>
+                              <Item.Header as='a'>{hexToHuman(_service.title)+' '}
+                              <Label as='a' 
+                                     color='orange' 
+                                     circular 
+                                     onClick={()=>{<>
+                                             {setMessageId(_service.serviceId)}
+                                             {setUsername(_service.title)}
+                                             {setCount(count + 1)}
+                                             {_makeAddToCartUpdate()}</>}}
+                              >{'Add to Cart'}</Label>
+                             
+                              {_service.bookingLink.length>2 && photoLink(_service.bookingLink, 'Book')}
+                              </Item.Header>
+                              <Item.Meta><h3><strong>{t('Description: ')}{hexToHuman(_service.description)}</strong></h3></Item.Meta>
+                              <Item.Description>
+                                  {t_strong('Price: ')}{microToGeode(_service.price)}{' Geode'}<br />
+                                  {t_strong('Inventory: ')}{_service.inventory}<br />
+                                  {t_strong('Location: ')}{hexToHuman(_service.serviceLocation)}<br />
+                                  {t_strong('Service Rating: ')}{RATING[rateCheck(_service.reviewAverage)]}<br />
+                                  {t_strong('Number of Reviews: ')}{numBadge(_service.reviewCount)}<br />
+                                  <strong>{withCopy('Service ID: ')}</strong>{acctToShort(_service.serviceId)}<br />
+                              </Item.Description>
+                              <Item.Extra>
+                              <Expander className='details-service' isOpen={false}
+                                  summary={<Label size={'small'} color='orange' circular> {t('Details: ')}</Label>}>
+                                  <Grid columns={2} divided>
+                                      <Grid.Column>
+                                      {t_strong('Seller Account: ')}{accountInfo(_service.sellerAccount)}<br />
+                                      {t_strong('Seller Name: ')}{hexToHuman(_service.sellerName)}<br />
+                                      {t_strong('Category: ')}{hexToHuman(_service.category)}<br />
+                                      {t_strong('Online: ')}{boolToHuman(_service.online)}<br />
+                                      {t_strong('Zeno Percentage: ')}{numToPercent(_service.zenoPercent)}<br />
+                                      {t_strong('Number of Zeno Accounts: ')}{numCheck(_service.zenoBuyers.length)}<br />
+                                      </Grid.Column>
+                                      <Grid.Column>
+                                      {renderLink(_service.photoOrYoutubeLink1)}
+                                      {renderLink(_service.photoOrYoutubeLink2)}
+                                      {renderLink(_service.photoOrYoutubeLink3)}
+                                      </Grid.Column>
+                                  </Grid>                                    
+                              </Expander>
+                              </Item.Extra>
+                          </Item.Content>
+                  </Item>
+                  </Item.Group>
+                  </Message>
+  </>)
 }
 
 function ShowProfile(): JSX.Element {
@@ -498,58 +399,7 @@ function ShowProfile(): JSX.Element {
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>
-              <Grid columns={2} divided>
-                <Grid.Row>
-                <Grid.Column>
-                <h2><strong>
-                    <i>{withHelp(' ', 'Store Details, Products and Services')}</i></strong>
-                    {profileDetail.ok.owner.sellerName.length>2? <>
-                      <strong>{ isHex(profileDetail.ok.owner.sellerName) ? 
-                                autoCorrect(searchWords, hexToString(profileDetail.ok.owner.sellerName)) 
-                                : ' '}</strong><br />
-                    </>: t('No Store Name.')}
-                    {profileDetail.ok.owner.bannerUrl.length>0 && renderLink(profileDetail.ok.owner.bannerUrl)}
-                    <br />
-                    {photoLink(profileDetail.ok.owner.youtubeUrl,'YouTube')}
-                    {photoLink(profileDetail.ok.owner.externalLink, 'More Info')}      
-                    <br />              
-                    {t_strong('Account ID: ')}{accountInfo(profileDetail.ok.owner.sellerAccount)}<br />
-                    {t_strong('Seller Rating: ')}{rating[rateCheck(profileDetail.ok.owner.reviewAverage)]}<br />
-                    {t_strong('Number of Reviews: ')}{numBadge(profileDetail.ok.owner.reviewCount)}<br />
-                    {t_strong('Member since: ')}{dateCheck(profileDetail.ok.owner.memberSince)}<br />
-                    {t_strong('Location: ')}{hexToHuman(profileDetail.ok.owner.sellerLocation)}<br />
-                    {t_strong('Store Description: ')}{hexToHuman(profileDetail.ok.owner.storeDescription)}
-                    <br />
-                    {profileDetail.ok.owner.reviews.length>0 && <>
-                      <Expander 
-                      className='sellerReviews'
-                      isOpen={false}
-                      summary={<Label size={'small'} color='orange' circular> {t('Seller Reviews: ')}</Label>}>
-                      <strong>{t('Seller Reviews: ')}</strong><br />
-                      {profileDetail.ok.owner.reviews.length>0 && 
-                          profileDetail.ok.owner.reviews.map((_review, index: number) => <>
-                                {index+1}{'. '}{dateCheck(_review.timestamp)}{accountInfo(_review.reviewer)}{' | '}{hexToHuman(_review.review)}{' '}{rating[rateCheck(_review.rating)]}<br />                          
-                          </>)
-                      }
-                    </Expander>
-                    <br />                    
-                    </>}
-                    </h2>
-                </Grid.Column>
-                <Grid.Column>
-                <h2>
-                    {t('Reviews from Buyers: ')}{profileDetail.ok.owner.reviews.length}<br />
-                    {t('Total Orders: ')}{profileDetail.ok.owner.totalOrders}<br />
-                    {t('Total Delivered: ')}{profileDetail.ok.owner.totalDelivered}<br />
-                    {t('Total Damaged: ')}{profileDetail.ok.owner.totalDamaged}<br />
-                    {t('Total Not Received: ')}{profileDetail.ok.owner.totalNotReceived}<br />
-                    {t('Total Refused: ')}{profileDetail.ok.owner.totalRefused}<br />
-                    {t('Total Resolved: ')}{profileDetail.ok.owner.totalResolved}<br />
-                    {t('Total Wrong: ')}{profileDetail.ok.owner.totalWrong}<br />                
-                </h2>
-                </Grid.Column>
-                </Grid.Row>
-                </Grid>
+              {ShowStoreFront(profileDetail.ok.owner)}
               </Table.HeaderCell>
             </Table.Row>
           </Table.Header>
@@ -566,7 +416,7 @@ function ShowProfile(): JSX.Element {
                 (_filter==='physical' && _obj.digital===false)) 
                 .sort((a, b) => a.price - b.price)               
                 .map((_product)=> <>{ShowProduct(_product)}
-              </>)} 
+                </>)} 
               </>: 
               _sort==='rating'? <>
               {profileDetail.ok.products.length>0 && profileDetail.ok.products  
@@ -630,7 +480,7 @@ function ShowProfile(): JSX.Element {
       console.log(e);
       return(
         <div>
-          <Card>{t('No Seller Data')}</Card>
+          <Card>{t('No Seller Data. Check the account of the seller you wish to view.')}</Card>
         </div>
       )
     }
@@ -643,18 +493,9 @@ function ShowProfile(): JSX.Element {
     <AccountHeader 
             fromAcct={from} 
             timeDate={when} 
-            callFrom={99}/>
-      <ListAccount />
+            callFrom={400}/>
       <ShowProfile />
-      {isAddToCart && (<>
-        <CallSendMessage
-                callIndex={0}
-                messageId={_messageId}
-                username={_username}
-                onReset={() => _reset()}
-            />      
-        </>)}
-        {isAddProductToList && (<>
+      {isBookmark && (<>
         <CallSendMessage
                 callIndex={1}
                 messageId={_messageId}
@@ -662,15 +503,14 @@ function ShowProfile(): JSX.Element {
                 onReset={() => _reset()}
             />      
         </>)}
-        {isAddServiceToList && (<>
+        {isAddToCart && (<>
         <CallSendMessage
-                callIndex={2}
+                callIndex={0}
                 messageId={_messageId}
                 username={_username}
                 onReset={() => _reset()}
             />      
         </>)}
-
     </Card>
     </StyledDiv>
   );

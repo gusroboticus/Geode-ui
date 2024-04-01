@@ -45,7 +45,7 @@ function CallSendMessage ({ className = '',  messageId, toAcct, username, callIn
             callIndex===12 || callIndex===13 ||
             callIndex===14 || callIndex===15 ||
             callIndex===16 || callIndex===17 ||
-            callIndex===20 ||
+            callIndex===18 || callIndex===20 ||
             callIndex===19 || callIndex===21 ||
             callIndex===22 || callIndex===23 ||
             callIndex===24 || callIndex===25 ||

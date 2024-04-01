@@ -62,7 +62,7 @@ export function dateCheck (_num: number): JSX.Element {
 
 export function accountInfo(_acct: string): JSX.Element {
     return(<>
-        <IdentityIcon value={_acct}/>
+        <IdentityIcon value={_acct} size={20}/>
         <AccountName value={_acct} withSidebar={true}/>{' | '}
         {acctToShort(_acct)}{' '}
         <CopyInline value={_acct} label={''}/>
@@ -115,3 +115,71 @@ export function idNumberShort(_id: string): JSX.Element {
             <CopyInline value={_id} label={''}/>
         </>)
 }
+
+export function timeStampToDate(tstamp: number): JSX.Element {
+    const { t } = useTranslation();
+    const noTime: string = t('No date available.');
+    try {
+     const event = new Date(tstamp);
+     return (
+          tstamp!=0?
+          <><i> {event.toDateString()}{' '}
+                {event.toLocaleTimeString()}{' '}</i></>:
+          <><i> {noTime}</i></>
+      )
+    } catch(error) {
+     console.error(error)
+     return(
+         <><i>{t('No Date')}</i></>
+     )
+    }
+ }
+
+ export function messageText(_msg: string, _bfrom: boolean, _url: string): JSX.Element {
+    return(<>
+    {_bfrom? <>
+             <Label circular size='small' color='blue' pointing='left'>{hexToHuman(_msg)}</Label>{photoLink(_url, 'Link')}</>:
+             <>
+             {photoLink(_url, 'Link')}<Label circular size='small' color='grey' pointing='right'>{hexToHuman(_msg)}</Label>
+             </>
+    }
+    </>)
+  }
+
+  export function autoCorrect(arr: string[], str: string): JSX.Element {
+    const { t } = useTranslation();
+    arr.forEach(w => str = str.replaceAll(w, '****'));
+    arr.forEach(w => str = str.replaceAll(w.charAt(0).toUpperCase() + w.slice(1), '****'));
+    arr.forEach(w => str = str.replaceAll(w.charAt(0) + w.slice(1).toUpperCase, '****'));        
+    arr.forEach(w => str = str.replaceAll(w.toUpperCase(), '****'));
+    return (
+    <>{t(str)}</>)
+}
+
+export function expose(_try: number, _want: number): JSX.Element {
+    return(<>
+    {t_strong('TEST ONLY: ')}
+    {'Remove from Final Code:: '}<br />
+    {'Message Index is '}
+    {_try===_want ? <>{t_strong('Correct!')}</>:<>{t_strong('Incorrect!!')}</>}<br />
+    {'Value: '}{_try}
+    </>)
+
+}
+
+export function checkEmptySeller(_sellerName: string): JSX.Element {
+    const { t } = useTranslation();
+    const NO_ACCOUNT: string = t('A Seller Account for this user has not been created. Go to Update Settings to create a Store Front.');
+    return(
+        <>
+            {(isHex(_sellerName) && hexToString(_sellerName)!='') ? 
+                  <>
+                  <strong>{hexToString(_sellerName)}</strong>
+                  </>: 
+                  <>
+                      <br />{' ⚠️ '}{NO_ACCOUNT}<br />
+                  </>}
+        </>
+    )
+  }
+

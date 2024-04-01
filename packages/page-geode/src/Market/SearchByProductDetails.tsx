@@ -6,29 +6,20 @@ import React, { useState, useCallback } from 'react';
 import { useTranslation } from '../shared/translate.js';
 import type { CallResult } from './types.js';
 import { stringify, hexToString, isHex } from '@polkadot/util';
-import { styled, Expander, Button, Card } from '@polkadot/react-components';
-import { Grid, Divider, Item, Message, Table, Label, Image } from 'semantic-ui-react'
-//import CopyInline from '../shared/CopyInline.js';
+import { styled, Expander, Card } from '@polkadot/react-components';
+import { Message, Grid, Divider, Item, Table, Label, Image } from 'semantic-ui-react'
 import AccountHeader from '../shared/AccountHeader.js';
 import CallSendMessage from './CallSendMessage.js';
-import { photoLink, t_strong, numBadge, withCopy, withHelp, accountInfo, dateCheck } from './marketutil.js';
+import { photoLink, t_strong, numBadge, withCopy, withHelp, accountInfo } from './marketutil.js';
 import { acctToShort, checkHttp, boolToHuman, hexToHuman, microToGeode } from './marketutil.js';
 import { hextoPhoto, numCheck, rateCheck, numToPercent } from './marketutil.js';
+import { RATING } from './marketConst.js';
 
 interface Props {
     className?: string;
     onClear?: () => void;
     isAccount?: boolean;
     outcome: CallResult;
-  }
-  
-  type Review = {
-    reviewId: string,
-    accountId: string,
-    reviewer: string,
-    rating: number,
-    review: string,
-    timestamp: number
   }
 
   type Products = {
@@ -43,7 +34,6 @@ interface Props {
     description: string,
     reviewAverage: number,
     reviewCount: number,
-    reviews: Review[],
     inventory: number,
     photoOrYoutubeLink1: string,
     photoOrYoutubeLink2: string,
@@ -54,7 +44,6 @@ interface Props {
     zenoPercent: number,
     zenoBuyers: string[]
   }
-
   type ProductObj = {
     search: string,
     products: Products[],
@@ -64,98 +53,29 @@ interface Props {
     ok: ProductObj
   }
   
-function SearchByProductDetails ({  className = '', onClear,  
-                                    outcome: { from, output, when } }: Props): React.ReactElement<Props> | null {
-    //todo: code for unused params or remove!:
-    // console.log(JSON.stringify(className));
-    // console.log(JSON.stringify(isAccount));
-    // console.log(JSON.stringify(message));
-    // console.log(JSON.stringify(params));
-    // console.log(JSON.stringify(result));
-
-//    const defaultImage: string ='https://react.semantic-ui.com/images/wireframe/image.png';
+function SearchByProductDetails ({  className = '', onClear,  outcome: { from, output, when } }: Props): React.ReactElement<Props> | null {
     const { t } = useTranslation();
     const objOutput: string = stringify(output);
     const _Obj = JSON.parse(objOutput);
     const profileDetail: ProfileDetail = Object.create(_Obj);
-
     const [count, setCount] = useState(0);
     const [isAddToCart, setAddToCart] = useState(false);
-    const [isAddToList, setAddToList] = useState(false);
     const [_username, setUsername] = useState('');
     const [_messageId, setMessageId] = useState('');
     const [_filter, setFilter] = useState('none'); // all // digital // physical // in_stock // 
     const [_sort, setSort] = useState('none');
 
-//    const withHttp = (url: string) => url.replace(/^(?:(.*:)?\/\/)?(.*)/i, (match, schemma, nonSchemmaUrl) => schemma ? match : `http://${nonSchemmaUrl}`);
-    // const hextoPhoto = (_url: string) => (isHex(_url) ? withHttp(hexToString(_url).trim()) : defaultImage);
-    // const acctToShort = (_acct: string) => (_acct.length>7 ? _acct.slice(0,7)+'...' : _acct);
-    // const microToGeode = (_num: number) => (_num>-1 ? _num/1000000000000: 0);
-    // const boolToHuman = (_bool: boolean) => (_bool? 'Yes': 'No');
-    // const numCheck = (_num: number) => (_num>-1 ? _num: 0);
-    // const rateCheck = (_num: number) => ((_num>0 && _num<6)? _num: 1);
-    // const dateCheck = (_num: number) => (_num>0? timeStampToDate(_num): t('No Date'));
-    const rating: string[] = ['','⭐️','⭐️⭐️','⭐️⭐️⭐️','⭐️⭐️⭐️⭐️','⭐️⭐️⭐️⭐️⭐️'];
-//    const numToPercent = (_num: number) => ((_num>-1 && _num<=100)? _num.toString(): '0')+ ' %';
-
     const _reset = useCallback(
       () => {setAddToCart(false);
-             setAddToList(false);
             },
       []
     )
 
     const _makeAddToCartUpdate = useCallback(
       () => {setAddToCart(true);
-             setAddToList(false);
             },
       []
     )
-
-    const _makeAddToListUpdate = useCallback(
-      () => {setAddToCart(false);
-             setAddToList(true);
-            },
-      []
-    )
-
-    // function hexToHuman(_hexIn: string): string {
-    //     return((isHex(_hexIn))? t(hexToString(_hexIn).trim()): '')
-    //   }
-
-    // function numBadge(_num: number): JSX.Element {
-    //     return(<>
-    //       <Label circular size='small' color='blue'>
-    //         {numCheck(_num)}
-    //       </Label>
-    //     </>)
-    //   }
-  
-    // function timeStampToDate(tstamp: number): JSX.Element {
-    //     try {
-    //      const event = new Date(tstamp);
-    //      return (
-    //           <><i>{event.toDateString()}{' '}
-    //                {event.toLocaleTimeString()}{' '}</i></>
-    //       )
-    //     } catch(error) {
-    //      console.error(error)
-    //      return(
-    //          <><i>{t('No Date')}</i></>
-    //      )
-    //     }
-    //  }
-
-    // function photoLink(_url: string, _title: string): JSX.Element {
-    //     return(<>
-    //     {_url.length>2 &&
-    //               <Label as='a' color='orange' circular
-    //               href={isHex(_url) ? withHttp(hexToString(_url).trim()) : ''} 
-    //               target="_blank" 
-    //               rel="noopener noreferrer">{_title}</Label> 
-    //               }
-    //     </>)
-    // }
 
     function showPhoto(_url: string): JSX.Element {
       return(<>
@@ -190,16 +110,6 @@ function SearchByProductDetails ({  className = '', onClear,
         <br /></>
       )
     }
-    
-  // function t_strong(_str: string): JSX.Element{return(<><strong>{t(_str)}</strong></>)}
-  // function withCopy(_str: string): JSX.Element {return(<>{_str}{' '}<CopyInline value={_str} label={''}/></>)}
-
-  // function withHelp(_str: string, _help: string): JSX.Element {
-  //     return(<>
-  //     <LabelHelp help={t(_help)} />
-  //     {' '}{t(_str)}
-  //     </>)
-  // }
 
   function SortMenu(_productBool: boolean): JSX.Element {
     const _menu: string[] = _productBool? 
@@ -224,36 +134,10 @@ function SearchByProductDetails ({  className = '', onClear,
                   {_filter==='in_stock'? <u>{t(_menu[6])}</u>: <>{t(_menu[6])}</>}</Label>
     </>)
   }
-
-  // function accountInfo(_acct: string): JSX.Element {
-  //     return(<>
-  //         <IdentityIcon value={_acct}/>
-  //         <AccountName value={_acct} withSidebar={true}/>
-  //         {acctToShort(_acct)}{' '}
-  //         <CopyInline value={_acct} label={''}/>
-  //     </>)
-  // }
-  
-  function ListAccount(): JSX.Element {
-      return(
-          <div>
-            <Table>
-              <Table.Row>
-              <Table.Cell>
-              <Button
-                  icon='times'
-                  label={t('Close')}
-                  onClick={onClear}
-                />
-              </Table.Cell>
-              </Table.Row>
-            </Table>
-          </div>
-      )}
       
-  function ShowProduct(_product: any): JSX.Element {
+function ShowProduct(_product: Products): JSX.Element {
         return(<>
-                        <Message>
+                       <Message>
                           <Item.Group>
                           <Item>
                           <Item.Image as='a' size='tiny' 
@@ -265,22 +149,18 @@ function SearchByProductDetails ({  className = '', onClear,
                           /> 
                           <Item.Content>
                                       <Item.Header as='a'>{hexToHuman(_product.title)+' '}
-                                      <Label as='a' color='orange' circular 
-                                             onClick={()=>{<>
-                                                     {setMessageId(_product.productId)}
-                                                     {setUsername(_product.title)}
-                                                     {setCount(count + 1)}
-                                                     {_makeAddToCartUpdate()}</>}}
-                                      >{t('Add to Cart')}</Label>
+                                      
                                       <Label as='a' 
                                              color='orange' 
                                              circular 
                                              onClick={()=>{<>
-                                                     {setMessageId(_product.productId)}
                                                      {setUsername(_product.title)}
+                                                     {setMessageId(_product.productId)}
                                                      {setCount(count + 1)}
-                                                     {_makeAddToListUpdate()}</>}}
-                                      >{t('Add to List')}</Label>
+                                                     {_makeAddToCartUpdate()}</>}}
+                                                     
+                                      >{'Add to Cart'}</Label>
+                                
                                       {photoLink(_product.moreInfoLink, 'More Info')}
                                       </Item.Header>
                                       <Item.Meta>
@@ -289,19 +169,9 @@ function SearchByProductDetails ({  className = '', onClear,
                                       <Item.Description>
                                         {t_strong('Price: ')}{microToGeode(_product.price)}{' Geode'}<br />
                                         {t_strong('Inventory: ')}{_product.inventory}<br />
-                                        {t_strong('Product Rating: ')}{rating[rateCheck(_product.reviewAverage)]}<br />
+                                        {t_strong('Product Rating: ')}{RATING[rateCheck(_product.reviewAverage)]}<br />
                                         {t_strong('Number of Reviews: ')}{numBadge(_product.reviewCount)}<br />
                                         <strong>{withCopy('Product ID: ')}</strong>{acctToShort(_product.productId)}<br />
-                                        {_product.reviews.length>0 && <>
-                                          <Expander className='productReviews' isOpen={false}
-                                          summary={<Label size={'small'} color='orange' circular> {t('Reviews: ')}</Label>}>
-                                          <strong>{t('Reviews: ')}</strong><br />
-                                            {_product.reviews.length>0 && 
-                                            _product.reviews.map((_review: any, index: number)=> <>
-                                                {index+1}{'. '}{dateCheck(_review.timestamp)}{accountInfo(_review.reviewer)}{' | '}{hexToHuman(_review.review)}{' '}{rating[rateCheck(_review.rating)]}<br />
-                                            </>)}
-                                          </Expander>                                  
-                                        </>}
                                       </Item.Description>
                                       <Item.Extra>
                                       <Expander 
@@ -331,9 +201,9 @@ function SearchByProductDetails ({  className = '', onClear,
                                   </Item.Content>
                           </Item>
                           </Item.Group>
-                      </Message>
+                          </Message>
         </>)
-      }
+}
       
   function ShowProfile(): JSX.Element {
           try {
@@ -345,9 +215,13 @@ function SearchByProductDetails ({  className = '', onClear,
                 </Table.Row>
               </Table.Header>
                 <Table.Cell verticalAlign='top'>
-                <h2>{t_strong('Results for Keyword Search: ')}
-                        {profileDetail.ok.search.length>2? '"' + hexToHuman(profileDetail.ok.search) + '"': t('All Products')}</h2>
-                        {profileDetail.ok.products.length>0 && <>
+                <h2>
+                {t_strong('Results for Keyword Search: ')}
+                {profileDetail.ok.search[0].length>2? <>{' '} {hexToHuman(profileDetail.ok.search[0])}
+                                                     {' '}{hexToHuman(profileDetail.ok.search[1])}
+                                                     {' '}{hexToHuman(profileDetail.ok.search[2])}</> : t('All Products')}</h2>
+                        
+                {profileDetail.ok.products.length>0 && <>
                 <h2><strong><i>{withHelp('Products: ', ' Products currently being offered by this store. ')}</i></strong>                
                 {SortMenu(true)}</h2>
 
@@ -390,7 +264,7 @@ function SearchByProductDetails ({  className = '', onClear,
         console.log(e);
         return(
           <div>
-            <Card>{t('No Product Data')}</Card>
+            <Card>{t('WARNING: Your Search is too Broad. Try adding additional keywords for your search.')}</Card>
           </div>
         )
       }
@@ -402,20 +276,11 @@ function SearchByProductDetails ({  className = '', onClear,
     <AccountHeader 
             fromAcct={from} 
             timeDate={when} 
-            callFrom={99}/>
-      <ListAccount />
+            callFrom={401}/>
       <ShowProfile />
       {isAddToCart && (<>
         <CallSendMessage
                 callIndex={0}
-                messageId={_messageId}
-                username={_username}
-                onReset={() => _reset()}
-            />      
-        </>)}
-        {isAddToList && (<>
-        <CallSendMessage
-                callIndex={1}
                 messageId={_messageId}
                 username={_username}
                 onReset={() => _reset()}

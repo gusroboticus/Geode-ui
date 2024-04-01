@@ -35,6 +35,7 @@ export interface Props {
   toAcct?: string;
   messageId: string;
   username?: string;
+  onReset?: () => void;
 }
 
 interface Indexes {
@@ -167,7 +168,8 @@ function ContractsModal ({ contracts: keyringContracts, initMessageIndex, toAcct
         messageIndex===12 || messageIndex===13 ||
         messageIndex===14 || messageIndex===15 ||
         messageIndex===16 || messageIndex===17 ||
-        messageIndex===19 || messageIndex===20 ||
+        messageIndex===18 || messageIndex===19 || 
+        messageIndex===20 ||
         messageIndex===21 ||
         messageIndex===22 || messageIndex===23 ||
         messageIndex===24 || messageIndex===25 ||

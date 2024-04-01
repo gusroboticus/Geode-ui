@@ -19,6 +19,19 @@ import { useTranslation } from '../shared/translate.js';
 import useWeight from '../useWeight.js';
 import { getCallMessageOptions } from './util.js';
 
+import { MAX_PRODUCT_TITLE, MAX_PRODUCT_BRAND, MAX_PRODUCT_CATEGORY, MAX_SELLER_NAME, MAX_PRODUCT_DESCRIPTION, MAX_PHOTO_LINK } from './marketConst.js'
+import { MAX_MORE_INFO_LINK, MAX_DELIVERY_INFO, MAX_PRODUCT_LOCATION, MAX_DIGITAL_FILE_URL, MAX_ZENO_BUYERS, MAX_SERVICE_TITLE } from './marketConst.js'
+import { MAX_SERVICE_CATEGORY, MAX_SERVICE_DESCRIPTION, MAX_BOOKING_LINK, MAX_SERVICE_LOCATION, MAX_MESSAGE, MAX_MEDIA_URL } from './marketConst.js'
+import { MAX_PRODUCT_LIST_NAME, MAX_PRODUCT_LIST_ITEMS, MAX_SERVICE_LIST_NAME, MAX_SERVICE_LIST_ITEMS, MAX_BUYER_NAME, MAX_BUYER_LOCATION } from './marketConst.js'
+import { MAX_STORE_DESCRIPTION, MAX_SELLER_LOCATION, MAX_BANNER_URL, MAX_YOUTUBE_URL, MAX_EXTERNAL_LINK, MAX_REVIEW } from './marketConst.js'
+import { MAX_UNPAID_CART_TITLE, MAX_UNPAID_CART_BRAND, MAX_IMAGE, MAX_ITEM_NAME, MAX_DELIVERY_TO_ADDR, MAX_TRACKING_INFO } from './marketConst.js'
+import { MAX_LIST_NAME, MAX_SEARCH, MAX_DL_TITLE, MAX_DL_BRAND, MAX_DL_SELLER_NAME, MAX_DL_DESCRIPTION, MAX_DL_PHOTO, MAX_DL_MORE_INFO, MAX_DL_FILE_URL} from './marketConst.js'
+import { refModalHeader } from './marketConst.js';
+import { INST_TITLE, INST_SUB_TITLE, INSTRUCTION, INST_NOTE } from './marketInstructions.js';
+
+import { boolToHuman } from './marketutil.js';
+
+
 interface Props {
   className?: string;
   messageId: string;
@@ -30,6 +43,7 @@ interface Props {
   onCallResult?: (messageIndex: number, result?: ContractCallOutcome | void) => void;
   onChangeMessage: (messageIndex: number) => void;
   onClose: () => void;
+  //onOpen: () => void;
 }
 
 const MAX_CALL_WEIGHT = new BN(5_000_000_000_000).isub(BN_ONE);
@@ -50,8 +64,10 @@ function CallModal ({ className = '', messageId, toAcct, username, contract, mes
   const [params, setParams] = useState<unknown[]>([]);
   const [recipientValue, setRecipientValue] = useAccountId(toAcct);
 
+  const [_messageId, setMessageId] = useState('');
+
   const [messageValue, setMessageValue] = useState<string>('');
-  const [titleValue, setTitleValue] = useState<string>('');
+  //const [titleValue, setTitleValue] = useState<string>('');
   const [priceValue, setPriceValue] = useState<string>('');
   const [brandValue, setBrandValue] = useState<string>('');
   const [categoryValue, setCategoryValue] = useState<string>('');
@@ -67,8 +83,9 @@ function CallModal ({ className = '', messageId, toAcct, username, contract, mes
   const [_isHide, toggleIsHide] = useToggle(false);
   const [_isDelivered, toggleIsDelivered] = useToggle(false);
 
-  const [isViaCall, toggleViaCall] = useToggle();
 
+  const [isViaCall, toggleViaCall] = useToggle();
+  
   const paramToString = (_string: string|undefined) => _string? _string : '';
   const hexToHuman =(_string: string|undefined) => isHex(_string)? hexToString(_string): '';
   const boolToString = (_bool: boolean) => _bool? 'Yes': 'No';
@@ -76,14 +93,6 @@ function CallModal ({ className = '', messageId, toAcct, username, contract, mes
   const weight = useWeight();
   const dbValue = useDebounce(value);
   const dbParams = useDebounce(params);
-  const refHeader: string[] = 
-  ['Add an Item to Your Cart','Add a Product to a List','Add a Service to a List','Bookmark a Store','Remove Item from Cart.',
-   'Update Item Quantity','Check out of Cart','Rate This Item','Rate the Seller','Report Problem Item Damaged',
-   'Report Problem Wrong Item','Report Problem Item Not Received','Message Seller','Update Buyer Account','Remove a Product from a List',
-   'Remove a Service from a List','Delete a Product List','Delete a Service List','','Update Tracking Information', 
-   'Refuse an Order','Issue Refund','Issue Replacement','Deny Resolution Request','Message the Buyer', 
-   'Rate a Buyer','','Update a Product Details','','Update a Service Details',
-   '','','','','','','','','','Remove a Store Bookmark','spare'];
   // NOTE!:
   // for test set to true
   const isShow: boolean = false;
@@ -144,252 +153,34 @@ function CallModal ({ className = '', messageId, toAcct, username, contract, mes
       });
   }, [api, accountId, contract, message, dbParams, dbValue, weight.isWeightV2]);
   const isValid = !!(accountId && weight.isValid && isValueValid);
+  const isOpen: boolean = true;
 
   return (
     <>
+    {isOpen && <>
+    
     <Modal
       className={[className || '', 'app--contracts-Modal'].join(' ')}
       header={(messageIndex!== null)? 
-              t('Geode - ' + refHeader[messageIndex]):
+              t('Geode - ' + refModalHeader[messageIndex]):
               t('Geode')}
       onClose={onClose}
+      
     >
       <Modal.Content>
       <Expander 
          className='paramsExpander'
          isOpen={false}
          summary={'Instructions: '}>
-        {messageIndex===0 && (<>
-          <h2><strong>{t('Market - Add an Item to Your Cart')}</strong></h2><br />
-            <strong>{t('Instructions for Adding an Item to Your Cart: ')}</strong><br />
-            {'(1) '}{t('Select the From Account')}<br /> 
-            {'(2) '}{t('Enter the Quantity to Order.')}<br />
-            {'(3) '}{t('Click Submit button to sign and submit this transaction')}
-            <br /><br />
-          </>)}
-          {messageIndex===1 && (<>
-          <h2><strong>{t('Market - Add a Product to a List')}</strong></h2><br />
-            <strong>{t('Instructions for Adding a Product to a List: ')}</strong><br />
-            {'(1) '}{t('Select the From Account')}<br /> 
-            {'(2) '}{t('Enter the name of the List.')}<br />
-            {'(3) '}{t('Click Submit button to sign and submit this transaction')}
-            <br /><br />
-          </>)}
-          {messageIndex===2 && (<>
-          <h2><strong>{t('Market - Add a Service to a List')}</strong></h2><br />
-            <strong>{t('Instructions for Adding a Service to a List: ')}</strong><br />
-            {'(1) '}{t('Select the From Account')}<br /> 
-            {'(2) '}{t('Enter the name of the List.')}<br />
-            {'(3) '}{t('Click Submit button to sign and submit this transaction')}
-            <br /><br />
-          </>)}
-          {messageIndex===3 && (<>
-          <h2><strong>{t('Market - Bookmark this Store')}</strong></h2><br />
-            <strong>{t('Instructions for bookmarking a store: ')}</strong><br />
-            {'(1) '}{t('Select the From Account')}<br /> 
-            {'(2) '}{t('Select the Account of the Store')}<br />
-            {'(3) '}{t('Click Submit button to sign and submit this transaction')}
-            <br /><br />
-          </>)}
-          {messageIndex===4 && (<>
-          <h2><strong>{t('Market - Remove Item from Cart')}</strong></h2><br />
-            <strong>{t('Instructions for Removing an Item from Cart: ')}</strong><br />
-            {'(1) '}{t('Select the From Account')}<br /> 
-            {'(2) '}{t('Click Submit button to sign and submit this transaction')}
-            <br /><br />
-          </>)}
-          {messageIndex===5 && (<>
-          <h2><strong>{t('Market - Update Item Quantity')}</strong></h2><br />
-            <strong>{t('Instructions for Updating an Item Quantity: ')}</strong><br />
-            {'(1) '}{t('Select the From Account')}<br /> 
-            {'(2) '}{t('Enter the new quantity.')}<br />
-            {'(3) '}{t('Click Submit button to sign and submit this transaction')}
-            <br /><br />
-          </>)}
-          {messageIndex===6 && (<>
-          <h2><strong>{t('Market - Cart Checkout')}</strong></h2><br />
-            <strong>{t('Instructions for Checking out of Cart: ')}</strong><br />
-            {'(1) '}{t('Select the From Account.')}<br /> 
-            {'(2) '}{t('Enter the Address of the Item Delivery.')}<br /> 
-            {'(3) '}{t('Enter the Total Amount to be Paid to the Seller.')}<br /> 
-            {'(4) '}{t('Click Submit button to sign and submit this transaction')}
-            <br /><br />
-            {t('NOTE: If you enter less than the total amount in your cart the transaction will be rejected.')}<br /><br />
-          </>)}
-          {messageIndex===7 && (<>
-          <h2><strong>{t('Market - Rate this Item: ')}</strong></h2><br />
-            <strong>{t('Instructions for Rating an Item: ')}</strong><br />
-            {'(1) '}{t('Select the From Account.')}<br /> 
-            {'(2) '}{t('Enter a Rating (1 to 5 Stars).')}<br /> 
-            {'(3) '}{t('Enter comments on the product or service.')}<br /> 
-            {'(4) '}{t('Click Submit button to sign and submit this transaction')}
-            <br /><br />
-          </>)}
-          {messageIndex===8 && (<>
-          <h2><strong>{t('Market - Rate this Seller: ')}</strong></h2><br />
-            <strong>{t('Instructions for Rating a Seller: ')}</strong><br />
-            {'(1) '}{t('Select the From Account.')}<br /> 
-            {'(2) '}{t('Select Account of Seller')}<br />
-            {'(3) '}{t('Enter a Rating (1 to 5 Stars).')}<br /> 
-            {'(4) '}{t('Enter comments on the product or service.')}<br /> 
-            {'(5) '}{t('Click Submit button to sign and submit this transaction')}
-            <br /><br />
-          </>)}
-          {messageIndex===9 && (<>
-          <h2><strong>{t('Market - Report Problem, Item Damaged: ')}</strong></h2><br />
-            <strong>{t('Instructions for Reporting a Damaged Item: ')}</strong><br />
-            {'(1) '}{t('Select the From Account.')}<br /> 
-            {'(2) '}{t('Enter a photo or YouTube URL for the damaged item.')}<br /> 
-            {'(3) '}{t('Enter description of the problem.')}<br /> 
-            {'(4) '}{t('Click Submit button to sign and submit this transaction')}
-            <br /><br />
-          </>)}
-          {messageIndex===10 && (<>
-          <h2><strong>{t('Market - Report Problem, Wrong Item Received: ')}</strong></h2><br />
-            <strong>{t('Instructions for Reporting a Wrong Item Received: ')}</strong><br />
-            {'(1) '}{t('Select the From Account.')}<br /> 
-            {'(2) '}{t('Enter a photo or YouTube URL for the wrong item.')}<br /> 
-            {'(3) '}{t('Enter description of the problem.')}<br /> 
-            {'(4) '}{t('Click Submit button to sign and submit this transaction')}
-            <br /><br />
-          </>)}
-          {messageIndex===11 && (<>
-          <h2><strong>{t('Market - Report Problem, Item Not Received: ')}</strong></h2><br />
-            <strong>{t('Instructions for Reporting a Item Not Received: ')}</strong><br />
-            {'(1) '}{t('Select the From Account.')}<br /> 
-            {'(2) '}{t('Enter a photo or YouTube URL if applicable.')}<br /> 
-            {'(3) '}{t('Enter description of the problem.')}<br /> 
-            {'(4) '}{t('Click Submit button to sign and submit this transaction')}
-            <br /><br />
-          </>)}
-          {messageIndex===12 && (<>
-          <h2><strong>{t('Market - Send a Message to the Seller: ')}</strong></h2><br />
-            <strong>{t('Instructions for Sending a Message to the Seller: ')}</strong><br />
-            {'(1) '}{t('Select the From Account.')}<br /> 
-            {'(2) '}{t('Enter a link to a Photo.')}<br />
-            {'(3) '}{t('Enter a Message to the Seller.')}<br /> 
-            {'(4) '}{t('Click Submit button to sign and submit this transaction')}
-            <br /><br />
-          </>)}
-          {messageIndex===13 && (<>
-          <h2><strong>{t('Market - Update Buyer Account: ')}</strong></h2><br />
-            <strong>{t('Instructions for Buyer Account: ')}</strong><br />
-            {'(1) '}{t('Select the From Account.')}<br /> 
-            {'(2) '}{t('Enter a Buyer Name.')}<br />
-            {'(3) '}{t('Enter a Location.')}<br /> 
-            {'(4) '}{t('Click Submit button to sign and submit this transaction')}
-            <br /><br />
-          </>)}
-          {messageIndex===14 && (<>
-          <h2><strong>{t('Market - Remove an Item from a Product List: ')}</strong></h2><br />
-            <strong>{t('Instructions to remove an Item from a Product List: ')}</strong><br />
-            {'(1) '}{t('Select the From Account.')}<br /> 
-            {'(2) '}{t('Click Submit button to sign and submit this transaction')}
-            <br /><br />
-          </>)}
-          {messageIndex===15 && (<>
-          <h2><strong>{t('Market - Remove an Item from a Service List: ')}</strong></h2><br />
-            <strong>{t('Instructions to remove an Item from a Service List: ')}</strong><br />
-            {'(1) '}{t('Select the From Account.')}<br /> 
-            {'(2) '}{t('Click Submit button to sign and submit this transaction')}
-            <br /><br />
-          </>)}
-          {messageIndex===16 && (<>
-          <h2><strong>{t('Market - Delete Product List: ')}</strong></h2><br />
-            <strong>{t('Instructions to delete a Product List: ')}</strong><br />
-            {'(1) '}{t('Select the From Account.')}<br /> 
-            {'(2) '}{t('Click Submit button to sign and submit this transaction')}
-            <br /><br />
-          </>)}
-          {messageIndex===17 && (<>
-          <h2><strong>{t('Market - Delete a Service List: ')}</strong></h2><br />
-            <strong>{t('Instructions to delete a Service List: ')}</strong><br />
-            {'(1) '}{t('Select the From Account.')}<br /> 
-            {'(2) '}{t('Click Submit button to sign and submit this transaction')}
-            <br /><br />
-          </>)}
-          {messageIndex===19 && (<>
-          <h2><strong>{t('Market - Update Tracking Information: ')}</strong></h2><br />
-            <strong>{t('Instructions for Updating Tracking Information: ')}</strong><br />
-            {'(1) '}{t('Select the From Account.')}<br /> 
-            {'(2) '}{t('Enter a Tracking Information.')}<br />
-            {'(3) '}{t('Click Shipped Yes/No.')}<br /> 
-            {'(4) '}{t('Click Delivered Yes/No.')}<br /> 
-            {'(5) '}{t('Click Submit button to sign and submit this transaction')}
-            <br /><br />
-          </>)}
-          {messageIndex===20 && (<>
-          <h2><strong>{t('Market - Refuse an Order: ')}</strong></h2><br />
-            <strong>{t('Instructions for Refusing an Item Order: ')}</strong><br />
-            {'(1) '}{t('Select the From Account.')}<br /> 
-            {'(2) '}{t('Click Submit button to sign and submit this transaction')}
-            <br /><br />
-          </>)}
-          {messageIndex===21 && (<>
-          <h2><strong>{t('Market - Seller Issue a Refund: ')}</strong></h2><br />
-            <strong>{t('Instructions for Seller to Issue a Refund: ')}</strong><br />
-            {'(1) '}{t('Select the From Account.')}<br /> 
-            {'(2) '}{t('Click Submit button to sign and submit this transaction')}
-            <br /><br />
-          </>)}
-          {messageIndex===22 && (<>
-          <h2><strong>{t('Market - Seller Issue a Replacement: ')}</strong></h2><br />
-            <strong>{t('Instructions for Seller to Issue a Replacement: ')}</strong><br />
-            {'(1) '}{t('Select the From Account.')}<br /> 
-            {'(2) '}{t('Update Tracking Information.')}<br /> 
-            {'(2) '}{t('Click Submit button to sign and submit this transaction')}
-            <br /><br />
-          </>)}
-          {messageIndex===23 && (<>
-          <h2><strong>{t('Market - Deny Resolution Request: ')}</strong></h2><br />
-            <strong>{t('Instructions for Seller to deny a resolution request: ')}</strong><br />
-            {'(1) '}{t('Select the From Account.')}<br /> 
-            {'(2) '}{t('Click Submit button to sign and submit this transaction')}
-            <br /><br />
-          </>)}
-          {messageIndex===24 && (<>
-          <h2><strong>{t('Market - Message the Buyer: ')}</strong></h2><br />
-            <strong>{t('Instructions for Messaging the Buyer: ')}</strong><br />
-            {'(1) '}{t('Select the From Account.')}<br /> 
-            {'(2) '}{t('Enter a Photo or Youtube URL.')}<br /> 
-            {'(3) '}{t('Enter a message to the Buyer.')}<br /> 
-            {'(4) '}{t('Click Submit button to sign and submit this transaction')}
-            <br /><br />
-          </>)}
-          {messageIndex===25 && (<>
-          <h2><strong>{t('Market - Rate a Buyer: ')}</strong></h2><br />
-            <strong>{t('Instructions for Reviewing a Buyer: ')}</strong><br />
-            {'(1) '}{t('Select the From Account.')}<br /> 
-            {'(2) '}{t('Select the Account for the Buyer to Rate.')}<br /> 
-            {'(3) '}{t('Enter a Rating of (1 to 5) Stars.')}<br /> 
-            {'(4) '}{t('Enter a text rating or leave blank.')}<br /> 
-            {'(5) '}{t('Click Submit button to sign and submit this transaction')}
-            <br /><br />
-          </>)}
-          {messageIndex===27 && (<>
-          <h2><strong>{t('Market - Update a Product Details')}</strong></h2><br />
-            <strong>{t('Instructions: ')}</strong><br />
-            {'(1) '}{t('Select the Account to use (call from account)')}<br /> 
-            {'(2) '}{t('Click Submit button to sign and submit this transaction')}
-            <br /><br />
-          </>)}
-          {messageIndex===29 && (<>
-          <h2><strong>{t('Market - Update a Service Details')}</strong></h2><br />
-            <strong>{t('Instructions: ')}</strong><br />
-            {'(1) '}{t('Select the Account to use (call from account)')}<br /> 
-            {'(2) '}{t('Click Submit button to sign and submit this transaction')}
-            <br /><br />
-          </>)}
-          {messageIndex===39 && (<>
-          <h2>{t_strong('Market - Remove Store Bookmark')}</h2><br />
-            <strong>{t('Instructions for removing a bookmark to a store: ')}</strong><br />
-            {'(1) '}{t('Select the From Account')}<br /> 
-            {'(2) '}{t('Select the Account of the Store')}<br />
-            {'(3) '}{t('Click Submit button to sign and submit this transaction')}
-            <br /><br />
-          </>)}
+            {(messageIndex>-1 && messageIndex<42) && (<>
+                <h2>{t_strong(INST_TITLE[messageIndex])}</h2><br />
+                    {t_strong(INST_SUB_TITLE[messageIndex])}<br />
+                    {t(INSTRUCTION[messageIndex])}<br /><br />
+                    {t(INST_NOTE[messageIndex])}
+              </>)}
 
         </Expander>
+        
         <br />
         {isShow && (<>
           <InputAddress
@@ -399,7 +190,6 @@ function CallModal ({ className = '', messageId, toAcct, username, contract, mes
           value={contract.address}
         />        
         </>)}
-
         <InputAddress
           defaultValue={accountId}
           label={t('call from account')}
@@ -430,51 +220,36 @@ function CallModal ({ className = '', messageId, toAcct, username, contract, mes
               registry={contract.abi.registry}
             />    
             </>)}  
-
-            {messageIndex===39 && (<>
-              <h2><strong>{withHelp('Remove Store Bookmark: ', 'Remove a Bookmark store account.')}{hexToHuman(username)}</strong><br /><br /></h2>
-              <strong>{withHelp('Store Account: ', 'Select the store Account.')}</strong>{' '}
-              {params[0] = recipientValue}<br />
-              <InputAddress
-                defaultValue={messageId}
-                label={t('Store Account')}
-                labelExtra={
-                <Available
-                    label={t('transferrable')}
-                    params={recipientValue}
-                />}
-                onChange={setRecipientValue}
-                type='account'
-                value={recipientValue}
-              />
-        </>)}                  
-
-            {messageIndex===29 && <>
-                <h2>
-              <LabelHelp help={t('Service to Update.')}/>{' '}          
-                <strong>{t('Update a Sevice: ')}{hexToHuman(username)}</strong><br /><br />
-                <strong>{t('Service Id: ')}</strong>{' '}
+            {messageIndex===25 && <>
+                <LabelHelp help={t('Delete this Service from Your Store.')}/>{' '}          
+                {t_strong('Delete a Service: ')}{hexToHuman(username)}<br /><br />
+                <LabelHelp help={t('This is the Service ID')}/>{' '}   
+                {t_strong('Service Id: ')}{' '}
                 {params[0] = messageId}<br />                  
-              </h2>
               <br /><br />
-              <LabelHelp help={t('Enter your Updated Service Title.')}/>{' '}          
-              <strong>{t(' Service Title: ')}</strong>
-              <Input 
-                label={titleValue? params[1]=titleValue: params[1]=''}
-                type="text"
-                value={titleValue}
-                onChange={(e) => {
-                  setTitleValue(e.target.value);
-                  setParams([...params]);
-                }}
-              ><input />
-              <Label color={params[1]? 'blue': 'grey'}>
-                    {params[1]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
-              </Input>
+            </>}
+
+            {messageIndex===24 && <>
+                <LabelHelp help={t('Delete this Product from Your Store.')}/>{' '}          
+                {t_strong('Delete a Product: ')}{hexToHuman(username)}<br /><br />
+                <LabelHelp help={t('This is the Product ID')}/>{' '}  
+                {t_strong('Product Id: ')}{' '}
+                {params[0] = messageId}<br />                  
+              <br /><br />
+            </>}
+
+            {messageIndex===23 && <>
+                
+              <LabelHelp help={t('Service to Update.')}/>{' '}          
+                {t_strong('Update a Sevice: ')}{hexToHuman(username)}<br /><br />
+                {t_strong('Service Id: ')}{' '}
+                {params[0] = messageId}<br />                  
+              
+              <br /><br />
               <LabelHelp help={t('Enter the price of the service.')}/>{' '}          
               <strong>{t(' Service Price: ')}</strong>
               <Input 
-                label={priceValue? params[2]=geodeToZeo(priceValue): params[2]=''}
+                label={priceValue? params[1]=geodeToZeo(priceValue): params[1]=''}
                 type="text"
                 value={priceValue}
                 onChange={(e) => {
@@ -482,27 +257,27 @@ function CallModal ({ className = '', messageId, toAcct, username, contract, mes
                   setParams([...params]);
                 }}
               ><input />
-              <Label color={params[2]? 'blue': 'grey'}>
-                    {params[2]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
+              <Label color={params[1]? 'blue': 'grey'}>
+                    {params[1]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
               </Input>
               <LabelHelp help={t('Enter the category of the service.')}/>{' '}          
-              <strong>{t(' Service Catagory: ')}</strong>
+              {t_strong(' Service Catagory: ')}{t('(Max Character length is ')}{MAX_SERVICE_CATEGORY}{')'}
               <Input 
-                label={categoryValue? params[3]=categoryValue: params[3]=''}
+                label={categoryValue? params[2]=categoryValue: params[2]=''}
                 type="text"
                 value={categoryValue}
                 onChange={(e) => {
-                  setCategoryValue(e.target.value);
+                  setCategoryValue(e.target.value.slice(0,MAX_SERVICE_CATEGORY));
                   setParams([...params]);
                 }}
               ><input />
-              <Label color={params[3]? 'blue': 'grey'}>
-                    {params[3]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
+              <Label color={params[2]? 'blue': 'grey'}>
+                    {params[2]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
               </Input>
               <LabelHelp help={t('Enter a the service description.')}/> {' '}         
-              <strong>{t(' Service Description: ')}</strong>
+              {t_strong(' Service Description: ')}{t('(Max Character length is ')}{MAX_SERVICE_DESCRIPTION}{')'}
               <Input 
-                label={descriptionValue? params[4]=descriptionValue: params[4]=''}
+                label={descriptionValue? params[3]=descriptionValue: params[3]=''}
                 type="text"
                 value={descriptionValue}
                 onChange={(e) => {
@@ -510,11 +285,159 @@ function CallModal ({ className = '', messageId, toAcct, username, contract, mes
                   setParams([...params]);
                 }}
               ><input />
-              <Label color={params[4]? 'blue': 'grey'}>
-                    {params[4]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
+              <Label color={params[3]? 'blue': 'grey'}>
+                    {params[3]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
               </Input>
               <LabelHelp help={t('Enter the number of services in inventory.')}/> {' '}         
               <strong>{t(' Service Inventory: ')}</strong>
+              <Input 
+                label={inventoryValue? params[4]=inventoryValue: params[4]=''}
+                type="text"
+                value={inventoryValue}
+                onChange={(e) => {
+                  setInventoryValue(e.target.value);
+                  setParams([...params]);
+                }}
+              ><input />
+              <Label color={params[4]? 'blue': 'grey'}>
+                    {params[4]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
+              </Input>
+              <LabelHelp help={t('Enter a photo or YouTube link.')}/> {' '}         
+              {t_strong('Photo or YouTube Link: ')}{t('(Max Character length is ')}{MAX_PHOTO_LINK}{')'}
+              <Input 
+                label={photo1Value? params[5]=photo1Value: params[5]=''}
+                type="text"
+                value={photo1Value}
+                onChange={(e) => {
+                  setPhoto1Value(e.target.value.slice(0,MAX_PHOTO_LINK));
+                  setParams([...params]);
+                }}
+              ><input />
+              <Label color={params[5]? 'blue': 'grey'}>
+                    {params[5]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
+              </Input>
+              <LabelHelp help={t('Enter a photo or YouTube link.')}/> {' '}         
+              {t_strong('Photo or YouTube Link: ')}{t('(Max Character length is ')}{MAX_PHOTO_LINK}{')'}
+              <Input 
+                label={photo2Value? params[6]=photo2Value: params[6]=''}
+                type="text"
+                value={photo2Value}
+                onChange={(e) => {
+                  setPhoto2Value(e.target.value.slice(0,MAX_PHOTO_LINK));
+                  setParams([...params]);
+                }}
+              ><input />
+              <Label color={params[6]? 'blue': 'grey'}>
+                    {params[6]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
+              </Input>
+              <LabelHelp help={t('Enter a photo or YouTube link.')}/> {' '}         
+              {t_strong('Photo or YouTube Link: ')}{t('(Max Character length is ')}{MAX_PHOTO_LINK}{')'}
+              <Input 
+                label={photo3Value? params[7]=photo3Value: params[7]=''}
+                type="text"
+                value={photo3Value}
+                onChange={(e) => {
+                  setPhoto3Value(e.target.value.slice(0,MAX_PHOTO_LINK));
+                  setParams([...params]);
+                }}
+              ><input />
+              <Label color={params[7]? 'blue': 'grey'}>
+                    {params[7]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
+              </Input>
+              <LabelHelp help={t('Enter a link for booking information.')}/> {' '}         
+              {t_strong('Booking Link: ')}{t('(Max Character length is ')}{MAX_BOOKING_LINK}{')'}
+              <Input 
+                label={moreInfoValue? params[8]=moreInfoValue: params[8]=''}
+                type="text"
+                value={moreInfoValue}
+                onChange={(e) => {
+                  setMoreInfoValue(e.target.value.slice(0,MAX_BOOKING_LINK));
+                  setParams([...params]);
+                }}
+              ><input />
+              <Label color={params[8]? 'blue': 'grey'}>
+                    {params[8]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
+              </Input>
+              <LabelHelp help={t('Enter the service location.')}/> {' '}         
+              {t_strong('Service Location: ')}{t('(Max Character length is ')}{MAX_SERVICE_LOCATION}{')'}
+              <Input 
+                label={locationValue? params[9]=locationValue: params[9]=''}
+                type="text"
+                value={locationValue}
+                onChange={(e) => {
+                  setLocationValue(e.target.value.slice(0,MAX_SERVICE_LOCATION));
+                  setParams([...params]);
+                }}
+              ><input />
+              <Label color={params[9]? 'blue': 'grey'}>
+                    {params[9]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
+              </Input>
+            </>}
+
+            {messageIndex===21 && <>
+              <LabelHelp help={t('Product to Update.')}/>{' '}          
+                <strong>{t('Update a Product: ')}{hexToHuman(username)}</strong><br /><br />
+                <strong>{t('Product Id: ')}</strong>{' '}
+                {params[0] = messageId}<br />                  
+              <br /><br />
+              <LabelHelp help={t('Enter the price of the product.')}/>{' '}          
+              <strong>{t(' Product Price: ')}</strong>
+              <Input 
+                label={priceValue? params[1]=geodeToZeo(priceValue): params[1]=''}
+                type="text"
+                value={priceValue}
+                onChange={(e) => {
+                  setPriceValue(e.target.value);
+                  setParams([...params]);
+                }}
+              ><input />
+              <Label color={params[1]? 'blue': 'grey'}>
+                    {params[1]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
+              </Input>
+              <LabelHelp help={t('Enter the brand of the product.')}/>{' '}          
+              {t_strong(' Product Brand: ')}{t('(Max Character length is ')}{MAX_PRODUCT_BRAND}{')'}
+              <Input 
+                label={brandValue? params[2]=brandValue: params[2]=''}
+                type="text"
+                value={brandValue}
+                onChange={(e) => {
+                  setBrandValue(e.target.value.slice(0,MAX_PRODUCT_BRAND));
+                  setParams([...params]);
+                }}
+              ><input />
+              <Label color={params[2]? 'blue': 'grey'}>
+                    {params[2]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
+              </Input>
+              <LabelHelp help={t('Enter the category of the product.')}/>{' '}          
+              {t_strong('Category: ')}{t('(Max Character length is ')}{MAX_PRODUCT_CATEGORY}{')'}
+              <Input 
+                label={categoryValue? params[3]=categoryValue: params[3]=''}
+                type="text"
+                value={categoryValue}
+                onChange={(e) => {
+                  setCategoryValue(e.target.value.slice(0,MAX_PRODUCT_CATEGORY));
+                  setParams([...params]);
+                }}
+              ><input />
+              <Label color={params[3]? 'blue': 'grey'}>
+                    {params[3]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
+              </Input>
+              <LabelHelp help={t('Enter a the product description.')}/> {' '}         
+              {t_strong('Description: ')}{t('(Max Character length is ')}{MAX_PRODUCT_DESCRIPTION}{')'}
+              <Input 
+                label={descriptionValue? params[4]=descriptionValue: params[4]=''}
+                type="text"
+                value={descriptionValue}
+                onChange={(e) => {
+                  setDescriptionValue(e.target.value.slice(0,MAX_PRODUCT_DESCRIPTION));
+                  setParams([...params]);
+                }}
+              ><input />
+              <Label color={params[4]? 'blue': 'grey'}>
+                    {params[4]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
+              </Input>
+              <LabelHelp help={t('Enter the number of products in inventory.')}/> {' '}         
+              <strong>{t(' Product Inventory: ')}</strong>
               <Input 
                 label={inventoryValue? params[5]=inventoryValue: params[5]=''}
                 type="text"
@@ -528,13 +451,13 @@ function CallModal ({ className = '', messageId, toAcct, username, contract, mes
                     {params[5]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
               </Input>
               <LabelHelp help={t('Enter a photo or YouTube link.')}/> {' '}         
-              <strong>{t(' Photo or YouTube Link: ')}</strong>
+              {t_strong('Photo or YouTube Link: ')}{t('(Max Character length is ')}{MAX_PHOTO_LINK}{')'}
               <Input 
                 label={photo1Value? params[6]=photo1Value: params[6]=''}
                 type="text"
                 value={photo1Value}
                 onChange={(e) => {
-                  setPhoto1Value(e.target.value);
+                  setPhoto1Value(e.target.value.slice(0,MAX_PHOTO_LINK));
                   setParams([...params]);
                 }}
               ><input />
@@ -542,13 +465,13 @@ function CallModal ({ className = '', messageId, toAcct, username, contract, mes
                     {params[6]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
               </Input>
               <LabelHelp help={t('Enter a photo or YouTube link.')}/> {' '}         
-              <strong>{t(' Photo or YouTube Link: ')}</strong>
+              {t_strong('Photo or YouTube Link: ')}{t('(Max Character length is ')}{MAX_PHOTO_LINK}{')'}
               <Input 
                 label={photo2Value? params[7]=photo2Value: params[7]=''}
                 type="text"
                 value={photo2Value}
                 onChange={(e) => {
-                  setPhoto2Value(e.target.value);
+                  setPhoto2Value(e.target.value.slice(0,MAX_PHOTO_LINK));
                   setParams([...params]);
                 }}
               ><input />
@@ -556,250 +479,81 @@ function CallModal ({ className = '', messageId, toAcct, username, contract, mes
                     {params[7]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
               </Input>
               <LabelHelp help={t('Enter a photo or YouTube link.')}/> {' '}         
-              <strong>{t(' Photo or YouTube Link: ')}</strong>
+              {t_strong('Photo or YouTube Link: ')}{t('(Max Character length is ')}{MAX_PHOTO_LINK}{')'}
               <Input 
                 label={photo3Value? params[8]=photo3Value: params[8]=''}
                 type="text"
                 value={photo3Value}
                 onChange={(e) => {
-                  setPhoto3Value(e.target.value);
+                  setPhoto3Value(e.target.value.slice(0,MAX_PHOTO_LINK));
                   setParams([...params]);
                 }}
               ><input />
               <Label color={params[8]? 'blue': 'grey'}>
                     {params[8]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
               </Input>
-              <LabelHelp help={t('Enter a link for booking information.')}/> {' '}         
-              <strong>{t(' Booking Information Link: ')}</strong>
+              <LabelHelp help={t('Enter a link to further product information.')}/> {' '}         
+              {t_strong('Further Information Link: ')}{t('(Max Character length is ')}{MAX_MORE_INFO_LINK}{')'}
               <Input 
                 label={moreInfoValue? params[9]=moreInfoValue: params[9]=''}
                 type="text"
                 value={moreInfoValue}
                 onChange={(e) => {
-                  setMoreInfoValue(e.target.value);
+                  setMoreInfoValue(e.target.value.slice(0,MAX_MORE_INFO_LINK));
                   setParams([...params]);
                 }}
               ><input />
               <Label color={params[9]? 'blue': 'grey'}>
                     {params[9]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
-              </Input>
-              <LabelHelp help={t('Enter the service location.')}/> {' '}         
-              <strong>{t(' Service location: ')}</strong>
-              <Input 
-                label={locationValue? params[10]=locationValue: params[10]=''}
-                type="text"
-                value={locationValue}
-                onChange={(e) => {
-                  setLocationValue(e.target.value);
-                  setParams([...params]);
-                }}
-              ><input />
-              <Label color={params[10]? 'blue': 'grey'}>
-                    {params[10]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
-              </Input>
-            </>}
-
-            {messageIndex===27 && <>
-              <h2>
-              <LabelHelp help={t('Product to Update.')}/>{' '}          
-                <strong>{t('Update a Product: ')}{hexToHuman(username)}</strong><br /><br />
-                <strong>{t('Product Id: ')}</strong>{' '}
-                {params[0] = messageId}<br />                  
-              </h2>
-              <br /><br />
-              <LabelHelp help={t('Enter your Updated Product Title.')}/>{' '}          
-              <strong>{t(' Product Title: ')}</strong>
-              <Input 
-                label={titleValue? params[1]=titleValue: params[1]=''}
-                type="text"
-                value={titleValue}
-                onChange={(e) => {
-                  setTitleValue(e.target.value);
-                  setParams([...params]);
-                }}
-              ><input />
-              <Label color={params[1]? 'blue': 'grey'}>
-                    {params[1]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
-              </Input>
-              <LabelHelp help={t('Enter the price of the product.')}/>{' '}          
-              <strong>{t(' Product Price: ')}</strong>
-              <Input 
-                label={priceValue? params[2]=geodeToZeo(priceValue): params[2]=''}
-                type="text"
-                value={priceValue}
-                onChange={(e) => {
-                  setPriceValue(e.target.value);
-                  setParams([...params]);
-                }}
-              ><input />
-              <Label color={params[2]? 'blue': 'grey'}>
-                    {params[2]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
-              </Input>
-              <LabelHelp help={t('Enter the brand of the product.')}/>{' '}          
-              <strong>{t(' Product Brand: ')}</strong>
-              <Input 
-                label={brandValue? params[3]=brandValue: params[3]=''}
-                type="text"
-                value={brandValue}
-                onChange={(e) => {
-                  setBrandValue(e.target.value);
-                  setParams([...params]);
-                }}
-              ><input />
-              <Label color={params[3]? 'blue': 'grey'}>
-                    {params[3]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
-              </Input>
-              <LabelHelp help={t('Enter the category of the product.')}/>{' '}          
-              <strong>{t(' Product Catagory: ')}</strong>
-              <Input 
-                label={categoryValue? params[4]=categoryValue: params[4]=''}
-                type="text"
-                value={categoryValue}
-                onChange={(e) => {
-                  setCategoryValue(e.target.value);
-                  setParams([...params]);
-                }}
-              ><input />
-              <Label color={params[4]? 'blue': 'grey'}>
-                    {params[4]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
-              </Input>
-              <LabelHelp help={t('Enter a the product description.')}/> {' '}         
-              <strong>{t(' Product Description: ')}</strong>
-              <Input 
-                label={descriptionValue? params[5]=descriptionValue: params[5]=''}
-                type="text"
-                value={descriptionValue}
-                onChange={(e) => {
-                  setDescriptionValue(e.target.value);
-                  setParams([...params]);
-                }}
-              ><input />
-              <Label color={params[5]? 'blue': 'grey'}>
-                    {params[5]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
-              </Input>
-              <LabelHelp help={t('Enter the number of products in inventory.')}/> {' '}         
-              <strong>{t(' Product Inventory: ')}</strong>
-              <Input 
-                label={inventoryValue? params[6]=inventoryValue: params[6]=''}
-                type="text"
-                value={inventoryValue}
-                onChange={(e) => {
-                  setInventoryValue(e.target.value);
-                  setParams([...params]);
-                }}
-              ><input />
-              <Label color={params[6]? 'blue': 'grey'}>
-                    {params[6]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
-              </Input>
-              <LabelHelp help={t('Enter a photo or YouTube link.')}/> {' '}         
-              <strong>{t(' Photo or YouTube Link: ')}</strong>
-              <Input 
-                label={photo1Value? params[7]=photo1Value: params[7]=''}
-                type="text"
-                value={photo1Value}
-                onChange={(e) => {
-                  setPhoto1Value(e.target.value);
-                  setParams([...params]);
-                }}
-              ><input />
-              <Label color={params[7]? 'blue': 'grey'}>
-                    {params[7]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
-              </Input>
-              <LabelHelp help={t('Enter a photo or YouTube link.')}/> {' '}         
-              <strong>{t(' Photo or YouTube Link: ')}</strong>
-              <Input 
-                label={photo2Value? params[8]=photo2Value: params[8]=''}
-                type="text"
-                value={photo2Value}
-                onChange={(e) => {
-                  setPhoto2Value(e.target.value);
-                  setParams([...params]);
-                }}
-              ><input />
-              <Label color={params[8]? 'blue': 'grey'}>
-                    {params[8]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
-              </Input>
-              <LabelHelp help={t('Enter a photo or YouTube link.')}/> {' '}         
-              <strong>{t(' Photo or YouTube Link: ')}</strong>
-              <Input 
-                label={photo3Value? params[9]=photo3Value: params[9]=''}
-                type="text"
-                value={photo3Value}
-                onChange={(e) => {
-                  setPhoto3Value(e.target.value);
-                  setParams([...params]);
-                }}
-              ><input />
-              <Label color={params[9]? 'blue': 'grey'}>
-                    {params[9]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
-              </Input>
-              <LabelHelp help={t('Enter a link to further product information.')}/> {' '}         
-              <strong>{t(' Link to further product information: ')}</strong>
-              <Input 
-                label={moreInfoValue? params[10]=moreInfoValue: params[10]=''}
-                type="text"
-                value={moreInfoValue}
-                onChange={(e) => {
-                  setMoreInfoValue(e.target.value);
-                  setParams([...params]);
-                }}
-              ><input />
-              <Label color={params[10]? 'blue': 'grey'}>
-                    {params[10]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
               </Input>
               <LabelHelp help={t('Enter the product delivery information if applicable.')}/> {' '}         
-              <strong>{t(' Product delivery information: ')}</strong>
+              {t_strong('Delivery Information: ')}{t('(Max Character length is ')}{MAX_DELIVERY_INFO}{')'}
               <Input 
-                label={deliveryInfoValue? params[11]=deliveryInfoValue: params[11]=''}
+                label={deliveryInfoValue? params[10]=deliveryInfoValue: params[10]=''}
                 type="text"
                 value={deliveryInfoValue}
                 onChange={(e) => {
-                  setDeliveryInfoValue(e.target.value);
+                  setDeliveryInfoValue(e.target.value.slice(0,MAX_DELIVERY_INFO));
+                  setParams([...params]);
+                }}
+              ><input />
+              <Label color={params[10]? 'blue': 'grey'}>
+                    {params[10]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
+              </Input>
+              <LabelHelp help={t('Enter the location of the product if applicable.')}/> {' '}         
+              {t_strong('Product Location: ')}{t('(Max Character length is ')}{MAX_PRODUCT_LOCATION}{')'}
+              <Input 
+                label={locationValue? params[11]=locationValue: params[11]=''}
+                type="text"
+                value={locationValue}
+                onChange={(e) => {
+                  setLocationValue(e.target.value.slice(0,MAX_PRODUCT_LOCATION));
                   setParams([...params]);
                 }}
               ><input />
               <Label color={params[11]? 'blue': 'grey'}>
                     {params[11]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
               </Input>
-              <LabelHelp help={t('Enter the location of the product if applicable.')}/> {' '}         
-              <strong>{t(' Product location: ')}</strong>
-              <Input 
-                label={locationValue? params[12]=locationValue: params[12]=''}
-                type="text"
-                value={locationValue}
-                onChange={(e) => {
-                  setLocationValue(e.target.value);
-                  setParams([...params]);
-                }}
-              ><input />
-              <Label color={params[12]? 'blue': 'grey'}>
-                    {params[12]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
-              </Input>
               <LabelHelp help={t('Select Yes/No to Make this product Digital.')}/> {' '}         
               <strong>{t('Product Digital (Yes/No): ')}</strong>
               <br /><br />
               <Toggle
                 className='booleantoggle'
-                label={<strong>{t(boolToString(params[13] = _isHide))}</strong>}
+                label={<strong>{t(boolToString(params[12] = _isHide))}</strong>}
                 onChange={() => {
                   toggleIsHide()
-                  params[13] = !_isHide;
+                  params[12] = !_isHide;
                   setParams([...params]);
                 }}
                 value={_isHide}
               />
             </>}
 
-            {messageIndex===25 && (<>
-              <h2>
-              <LabelHelp help={t('Rate a Buyer.')}/>{' '}          
-                <strong>{t('Rate a Buyer: ')}{hexToHuman(username)}</strong><br /><br />
-                <LabelHelp help={t('Account of the Buyer.')}/>{' '}
-                <strong>{t('Buyer Account: ')}</strong>{messageId}<br />
-                <br />                  
-              </h2>
+            {messageIndex===19 && (<>
+              <LabelHelp help={t('Order ID')}/>{' '}                    
+              {t_strong('Order Id: ')}{params[3]=messageId}<br /><br />
               <LabelHelp help={t('Select Buyer Account to Rate.')}/>{' '}          
-              <strong>{t('Buyer Account to Rate: ')}</strong>{' '}
+              {t_strong('Buyer Account to Rate: ')}{' '}
               {params[0] = recipientValue}<br />
               <InputAddress
                 defaultValue={paramToString(toAcct)}
@@ -813,6 +567,8 @@ function CallModal ({ className = '', messageId, toAcct, username, contract, mes
                 type='account'
                 value={recipientValue}
               />
+
+
               <LabelHelp help={t('Enter a Buyer Review Rating 1-5 Stars.')}/> {' '}         
               <strong>{t(' Buyer Rating 1-5 Stars: ')}</strong>
               <Input 
@@ -820,7 +576,7 @@ function CallModal ({ className = '', messageId, toAcct, username, contract, mes
                 type="text"
                 value={locationValue}
                 onChange={(e) => {
-                  setLocationValue(e.target.value);
+                  setLocationValue(e.target.value.slice(0,1));
                   setParams([...params]);
                 }}
               ><input />
@@ -828,14 +584,15 @@ function CallModal ({ className = '', messageId, toAcct, username, contract, mes
                     {params[1]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
               </Input>
               <br />
+
               <LabelHelp help={t('Enter a Review.')}/> {' '}         
-              <strong>{t(' Enter a Review: ')}</strong>
+              {t_strong(' Enter a Review: ')}{t('(Max Character length is ')}{MAX_REVIEW}{')'}
               <Input 
-                label={moreInfoValue? params[2]=moreInfoValue: params[1]=''}
+                label={moreInfoValue? params[2]=moreInfoValue: params[2]=''}
                 type="text"
                 value={moreInfoValue}
                 onChange={(e) => {
-                  setMoreInfoValue(e.target.value);
+                  setMoreInfoValue(e.target.value.slice(0,MAX_REVIEW));
                   setParams([...params]);
                 }}
               ><input />
@@ -843,22 +600,23 @@ function CallModal ({ className = '', messageId, toAcct, username, contract, mes
                     {params[2]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
               </Input>
               <br />
-            </>)}       
-            {messageIndex===24 && (<>
-              <h2>
-              <LabelHelp help={t('Send a message to the Buyer.')}/>{' '}          
-                <strong>{t('Send Message for this Item: ')}{hexToHuman(username)}</strong><br /><br />
-                <strong>{t('Order ID: ')}</strong>{params[0]=messageId}<br />
+            </>)}     
+              
+                
+            {messageIndex===18 && (<>
+                <LabelHelp help={t('Send a message to the Buyer.')}/>{' '}          
+                {t_strong('Send Message for this Item: ')}{hexToHuman(username)}<br /><br />
+                <LabelHelp help={t('Order Id for this message.')}/>{' '} 
+                {t_strong('Order ID: ')}{params[0]=messageId}<br />
                 <br />                  
-              </h2>
               <LabelHelp help={t('Enter a photo or YouTube URL.')}/> {' '}         
-              <strong>{t(' Photo or YouTube URL: ')}</strong>
+              {t_strong(' Photo or YouTube URL: ')}{t('(Max Character length is ')}{MAX_PHOTO_LINK}{')'}
               <Input 
                 label={locationValue? params[1]=locationValue: params[1]=''}
                 type="text"
                 value={locationValue}
                 onChange={(e) => {
-                  setLocationValue(e.target.value);
+                  setLocationValue(e.target.value.slice(0,MAX_PHOTO_LINK));
                   setParams([...params]);
                 }}
               ><input />
@@ -867,13 +625,13 @@ function CallModal ({ className = '', messageId, toAcct, username, contract, mes
               </Input>
               <br />
               <LabelHelp help={t('Enter message.')}/> {' '}         
-              <strong>{t(' Message: ')}</strong>
+              {t_strong(' Message: ')}{t('(Max Character length is ')}{MAX_MESSAGE}{')'}
               <Input 
                 label={moreInfoValue? params[2]=moreInfoValue: params[2]=''}
                 type="text"
                 value={moreInfoValue}
                 onChange={(e) => {
-                  setMoreInfoValue(e.target.value);
+                  setMoreInfoValue(e.target.value.slice(0,MAX_MESSAGE));
                   setParams([...params]);
                 }}
               ><input />
@@ -883,30 +641,28 @@ function CallModal ({ className = '', messageId, toAcct, username, contract, mes
 
 
             </>)}       
-            {messageIndex===23 && (<>
-              <h2>
-              <LabelHelp help={t('Seller to deny a resolution request.')}/>{' '}          
-                <strong>{t('Item to Deny Resolution Request: ')}{hexToHuman(username)}</strong><br /><br />
-                <strong>{t('Order ID: ')}</strong>{params[0]=messageId}<br />
+            {messageIndex===17 && (<>          
+                <LabelHelp help={t('Seller to deny a resolution request.')}/>{' '}          
+                {t_strong('Item to Deny Resolution Request: ')}{hexToHuman(username)}<br /><br />
+                <LabelHelp help={t('Order ID for Item.')}/>{' '}       
+                {t_strong('Order ID: ')}{params[0]=messageId}<br />
                 <br />                  
-              </h2>
             </>)}       
 
-            {messageIndex===22 && (<>
-              <h2>
-              <LabelHelp help={t('Seller Issue a Replacement.')}/>{' '}          
-                <strong>{t('Item to Issue a Replacement: ')}{hexToHuman(username)}</strong><br /><br />
-                <strong>{t('Order ID: ')}</strong>{params[0]=messageId}<br />
+            {messageIndex===16 && (<>
+                <LabelHelp help={t('Seller Issue a Replacement.')}/>{' '}          
+                {t_strong('Item to Issue a Replacement: ')}{hexToHuman(username)}<br /><br />
+                <LabelHelp help={t('Order ID for Item.')}/>{' '}   
+                {t_strong('Order ID: ')}{params[0]=messageId}<br />
                 <br />                  
-              </h2>
               <LabelHelp help={t('Enter a new Tracking Update.')}/> {' '}         
-              <strong>{t(' Tracking Update: ')}</strong>
+              {t_strong(' Tracking Update: ')}{t('(Max Character length is ')}{MAX_TRACKING_INFO}{')'}
               <Input 
                 label={locationValue? params[1]=locationValue: params[1]=''}
                 type="text"
                 value={locationValue}
                 onChange={(e) => {
-                  setLocationValue(e.target.value);
+                  setLocationValue(e.target.value.slice(0,MAX_TRACKING_INFO));
                   setParams([...params]);
                 }}
               ><input />
@@ -916,40 +672,37 @@ function CallModal ({ className = '', messageId, toAcct, username, contract, mes
               <br />
             </>)}       
 
-            {messageIndex===21 && (<>
-              <h2>
+            {messageIndex===15 && (<>
               <LabelHelp help={t('Seller Issue a Refund.')}/>{' '}          
-                <strong>{t('Item to Issue a Refund: ')}{hexToHuman(username)}</strong><br /><br />
-                <strong>{t('Order ID: ')}</strong>{params[0]=messageId}<br />
+                {t_strong('Item to Issue a Refund: ')}{hexToHuman(username)}<br /><br />
+                <LabelHelp help={t('Order ID for Item.')}/>{' '} 
+                {t_strong('Order ID: ')}{params[0]=messageId}<br />
                 <br />                  
-              </h2>
             </>)}       
 
-            {messageIndex===20 && (<>
-              <h2>
+            {messageIndex===14 && (<>
               <LabelHelp help={t('Refuse an Order.')}/>{' '}          
                 <strong>{t('Item to Refuse Order: ')}{hexToHuman(username)}</strong><br /><br />
+                <LabelHelp help={t('Order ID for Item.')}/>{' '} 
                 <strong>{t('Order ID: ')}</strong>{params[0]=messageId}<br />
                 <br />                  
-              </h2>
             </>)}       
 
-            {messageIndex===19 && (<>
-              <h2>
+            {messageIndex===13 && (<>
               <LabelHelp help={t('Update Tracking Information.')}/>{' '}          
                 <strong>{t('Update Tracking Information: ')}{hexToHuman(username)}</strong><br /><br />
+                <LabelHelp help={t('Order ID for Item.')}/>{' '} 
                 <strong>{t('Order ID: ')}</strong>{params[0]=messageId}<br />
                 <br />                  
-              </h2>
 
               <LabelHelp help={t('Enter a new Tracking Update.')}/> {' '}         
-              <strong>{t(' Tracking Update: ')}</strong>
+              {t_strong(' Tracking Update: ')}{t('(Max Character length is ')}{MAX_TRACKING_INFO}{')'}
               <Input 
                 label={locationValue? params[1]=locationValue: params[1]=''}
                 type="text"
                 value={locationValue}
                 onChange={(e) => {
-                  setLocationValue(e.target.value);
+                  setLocationValue(e.target.value.slice(0,MAX_TRACKING_INFO));
                   setParams([...params]);
                 }}
               ><input />
@@ -986,63 +739,37 @@ function CallModal ({ className = '', messageId, toAcct, username, contract, mes
               />
       </>)}       
 
-      {(messageIndex===17 || messageIndex===16) && (<>
-              <h2>
-                <strong>{withHelp('Delete List: ', 'Remove List.')}</strong><br /><br />
-                <strong>{t('List ID: ')}</strong>{params[0]=messageId}<br /><br />
-                <strong>{t('List Name: ')}</strong>{hexToHuman(username)}<br />
-                <br />                  
-              </h2>
-      </>)}       
-
-      {messageIndex===14 && (<>
-              <h2>
-                <strong>{withHelp('Remove Product from Your List: ', 'Remove Product from Your List.')}</strong><br /><br />
-                <strong>{t('Product ID: ')}</strong>{params[0]=messageId}<br /><br />
-                <strong>{t('List ID: ')}</strong>{params[1]=username}<br /><br />
-                <br />                  
-              </h2>
-      </>)}       
-
-      {messageIndex===15 && (<>
-              <h2>
-                <strong>{withHelp('Remove Service Item from Your List: ', 'Remove Item from Your List.')}</strong><br /><br />
-                <strong>{t('Service ID: ')}</strong>{params[0]=messageId}<br /><br />
-                <strong>{t('List ID: ')}</strong>{params[1]=username}<br /><br />
-                <br />                  
-              </h2>
-      </>)}       
-
-            {messageIndex===13 && (<>
-              <h2>
+            {messageIndex===11 && (<>
+              
               <LabelHelp help={t('Update Buyer Account.')}/>{' '}          
-                <strong>{t('Update Buyer Account: ')}{hexToHuman(username)}</strong><br /><br />
-                <strong>{t('Account ID: ')}</strong>{messageId}<br />
-                <br />                  
-              </h2>
-
+                {t_strong('Update Buyer Account: ')}{hexToHuman(username)}
+                <br /><br />
+                <LabelHelp help={t('Update Buyer Account.')}/>{' '} 
+                {t_strong('Account ID: ')}{messageId}
+                <br /><br />                   
               <LabelHelp help={t('Enter a new Buyer Name.')}/> {' '}         
-              <strong>{t(' Buyer Name: ')}</strong>
+                {t_strong(' Buyer Name: ')}{t('(Max Character length is ')}{MAX_BUYER_NAME}{')'}
               <Input 
                 label={locationValue? params[0]=locationValue: params[0]=''}
                 type="text"
                 value={locationValue}
                 onChange={(e) => {
-                  setLocationValue(e.target.value);
+                  setLocationValue(e.target.value.slice(0,MAX_BUYER_NAME));
                   setParams([...params]);
                 }}
               ><input />
               <Label color={params[0]? 'blue': 'grey'}>
                     {params[0]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
               </Input>
+              
               <LabelHelp help={t('Enter your Location.')}/> {' '}         
-              <strong>{t(' Location: ')}</strong>
+              {t_strong(' Location: ')}{t('(Max Character length is ')}{MAX_BUYER_LOCATION}{')'}
               <Input 
                 label={moreInfoValue? params[1]=moreInfoValue: params[1]=''}
                 type="text"
                 value={moreInfoValue}
                 onChange={(e) => {
-                  setMoreInfoValue(e.target.value);
+                  setMoreInfoValue(e.target.value.slice(0,MAX_BUYER_LOCATION));
                   setParams([...params]);
                 }}
               ><input />
@@ -1051,36 +778,40 @@ function CallModal ({ className = '', messageId, toAcct, username, contract, mes
               </Input>
       </>)}       
 
-            {messageIndex===12 && (<>
-              <h2>
+            {messageIndex===10 && (<>
+             
               <LabelHelp help={t('Message the Seller.')}/>{' '}          
-                <strong>{t('Send a Message for Item: ')}{hexToHuman(username)}</strong><br /><br />
-                <strong>{t('Item Id: ')}</strong>{' '}
-                {params[0] = messageId}<br />                  
-              </h2>
+              {t_strong('Send a Message for Item: ')}{hexToHuman(username)}
+              <br /><br />
+
+                <LabelHelp help={t('Enter a Photo Link.')}/> {' '}   
+              {t_strong('Item Id: ')}{' '}{params[0] = messageId}<br />                  
+              <br /><br />
 
               <LabelHelp help={t('Enter a Photo Link.')}/> {' '}         
-              <strong>{t(' Photo Link: ')}</strong>
+              {t_strong(' Photo Link: ')}{t('(Max Character length is ')}{MAX_PHOTO_LINK}{')'}
               <Input 
                 label={locationValue? params[1]=locationValue: params[1]=''}
                 type="text"
                 value={locationValue}
                 onChange={(e) => {
-                  setLocationValue(e.target.value);
+                  setLocationValue(e.target.value.slice(0,MAX_PHOTO_LINK));
                   setParams([...params]);
                 }}
               ><input />
               <Label color={params[1]? 'blue': 'grey'}>
                     {params[1]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
               </Input>
+              <br /><br />
+
               <LabelHelp help={t('Enter a message.')}/> {' '}         
-              <strong>{t(' Message: ')}</strong>
+              {t_strong(' Message: ')}{t('(Max Character length is ')}{MAX_MESSAGE}{')'}
               <Input 
                 label={moreInfoValue? params[2]=moreInfoValue: params[2]=''}
                 type="text"
                 value={moreInfoValue}
                 onChange={(e) => {
-                  setMoreInfoValue(e.target.value);
+                  setMoreInfoValue(e.target.value.slice(0,MAX_MESSAGE));
                   setParams([...params]);
                 }}
               ><input />
@@ -1089,35 +820,37 @@ function CallModal ({ className = '', messageId, toAcct, username, contract, mes
               </Input>
       </>)}       
 
-      {(messageIndex===9 || messageIndex===10 || messageIndex===11) && (<>
-              <h2>
+      {(messageIndex===7 || messageIndex===8 || messageIndex===9) && (<>
+              
               <LabelHelp help={t('Report a Problem.')}/>{' '}          
-                <strong>{t('Item Name: ')}{hexToHuman(username)}</strong><br /><br />
-                <strong>{t('Order ID: ')}</strong>{params[0]=messageId}<br />
-                <br />                  
-              </h2>
+                {t_strong('Item Name: ')}{hexToHuman(username)}
+                <br /><br />
+              <LabelHelp help={t('Order ID')}/>{' '}  
+                {t_strong('Order ID: ')}{params[0]=messageId}                
+                <br /><br />
               <LabelHelp help={t('Enter a Photo or YouTube URL.')}/> {' '}         
-              <strong>{t(' Photo or YouTube URL: ')}</strong>
+              {t_strong(' Photo or YouTube URL: ')}{t('(Max Character length is ')}{MAX_PHOTO_LINK}{')'}
               <Input 
                 label={locationValue? params[1]=locationValue: params[1]=''}
                 type="text"
                 value={locationValue}
                 onChange={(e) => {
-                  setLocationValue(e.target.value);
+                  setLocationValue(e.target.value.slice(0,MAX_PHOTO_LINK));
                   setParams([...params]);
                 }}
               ><input />
               <Label color={params[1]? 'blue': 'grey'}>
                     {params[1]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
               </Input>
+              <br /><br />
               <LabelHelp help={t('Enter a comment about the problem.')}/> {' '}         
-              <strong>{t(' Problem Comment: ')}</strong>
+              {t_strong(' Problem Comment: ')}{t('(Max Character length is ')}{MAX_MESSAGE}{')'}
               <Input 
                 label={moreInfoValue? params[2]=moreInfoValue: params[2]=''}
                 type="text"
                 value={moreInfoValue}
                 onChange={(e) => {
-                  setMoreInfoValue(e.target.value);
+                  setMoreInfoValue(e.target.value.slice(0,MAX_MESSAGE));
                   setParams([...params]);
                 }}
               ><input />
@@ -1127,83 +860,36 @@ function CallModal ({ className = '', messageId, toAcct, username, contract, mes
 
             </>)}       
 
-            {messageIndex===8 && (<>
-              <LabelHelp help={t('Select the Sellers Account.')}/>{' '}          
-              <strong>{t('Seller Account: ')}</strong>{' '}
-              {params[0] = recipientValue}<br />
-              <InputAddress
-                defaultValue={paramToString(toAcct)}
-                label={t('Seller Account')}
-                labelExtra={
-                <Available
-                    label={t('transferrable')}
-                    params={recipientValue}
-                />}
-                onChange={setRecipientValue}
-                type='account'
-                value={recipientValue}
-              />
-              <LabelHelp help={t('Enter a Item Rating (1 to 5 Stars).')}/> {' '}         
-              <strong>{t(' Seller Rating (1 to 5 Stars): ')}</strong>
-              <Input 
-                label={locationValue? params[1]=locationValue: params[1]=''}
-                type="text"
-                value={locationValue}
-                onChange={(e) => {
-                  setLocationValue(e.target.value);
-                  setParams([...params]);
-                }}
-              ><input />
-              <Label color={params[1]? 'blue': 'grey'}>
-                    {params[1]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
-              </Input>
-              <LabelHelp help={t('Enter a comment.')}/> {' '}         
-              <strong>{t(' Comment: ')}</strong>
-              <Input 
-                label={moreInfoValue? params[2]=moreInfoValue: params[2]=''}
-                type="text"
-                value={moreInfoValue}
-                onChange={(e) => {
-                  setMoreInfoValue(e.target.value);
-                  setParams([...params]);
-                }}
-              ><input />
-              <Label color={params[2]? 'blue': 'grey'}>
-                    {params[2]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
-              </Input>
-      </>)}       
-
-
-            {messageIndex===7 && (<>
-              <h2>
+            {messageIndex===6 && (<>
+              
               <LabelHelp help={t('Item Rating.')}/>{' '}          
-                <strong>{t('Rate a Product or Service: ')}{hexToHuman(username)}</strong><br /><br />
-                <strong>{t('Item Id: ')}</strong>{' '}
-                {params[0] = messageId}<br />                  
-              </h2>
-
+                {t_strong('Rate a Product or Service: ')}{hexToHuman(username)}
+                <br /><br />
+                <strong>{t('Item Id: ')}</strong>{' '}{params[0] = messageId}<br />                  
+                <br /><br />
               <LabelHelp help={t('Enter a Item Rating (1 to 5 Stars).')}/> {' '}         
-              <strong>{t(' Product or Service Rating (1 to 5 Stars): ')}</strong>
+              {t_strong(' Product or Service Rating (1 to 5 Stars): ')}
               <Input 
                 label={locationValue? params[1]=locationValue: params[1]=''}
                 type="text"
                 value={locationValue}
                 onChange={(e) => {
-                  setLocationValue(e.target.value);
+                  setLocationValue(e.target.value.slice(0,1));
                   setParams([...params]);
                 }}
               ><input />
               <Label color={params[1]? 'blue': 'grey'}>
                     {params[1]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
               </Input>
+              <br /><br />
               <LabelHelp help={t('Enter a comment.')}/> {' '}         
-              <strong>{t(' Comment: ')}</strong>
+              {t_strong(' Comment: ')}{t('(Max Character length is ')}{MAX_REVIEW}{')'}
               <Input 
                 label={moreInfoValue? params[2]=moreInfoValue: params[2]=''}
                 type="text"
                 value={moreInfoValue}
                 onChange={(e) => {
-                  setMoreInfoValue(e.target.value);
+                  setMoreInfoValue(e.target.value.slice(0,MAX_REVIEW));
                   setParams([...params]);
                 }}
               ><input />
@@ -1213,15 +899,15 @@ function CallModal ({ className = '', messageId, toAcct, username, contract, mes
       </>)}       
 
 
-      {messageIndex===6 && (<>
+      {messageIndex===5 && (<>
               <LabelHelp help={t('Enter the delivery address of the Items in your Cart.')}/> {' '}         
-              <strong>{t(' Delivery Address: ')}</strong>
+              {t_strong(' Delivery Address: ')}{t('(Max Character length is ')}{MAX_DELIVERY_TO_ADDR}{')'}
               <Input 
                 label={locationValue? params[0]=locationValue: params[0]=''}
                 type="text"
                 value={locationValue}
                 onChange={(e) => {
-                  setLocationValue(e.target.value);
+                  setLocationValue(e.target.value.slice(0,MAX_DELIVERY_TO_ADDR));
                   setParams([...params]);
                 }}
               ><input />
@@ -1230,21 +916,20 @@ function CallModal ({ className = '', messageId, toAcct, username, contract, mes
               </Input>
              
               <LabelHelp help={t('Enter the Total Price Amount of Items in Your Cart.')}/> {' '}         
-              <strong>{t(' Total Amount in Cart: ')}</strong>
+              {t_strong(' Total Amount in Cart: ')}
       </>)}       
 
-      {messageIndex===5 && (<>
-          <h2>
+      {messageIndex===4 && (<>
+          
               <LabelHelp help={t('Update Item Quantity.')}/>{' '}          
-              <strong>{t('Item Name: ')}{hexToHuman(username)}</strong><br /><br />
+              {t_strong('Item Name: ')}{hexToHuman(username)}
+              <br /><br />
               <LabelHelp help={t('This is the Item Id.')}/>{' '}          
-              <strong>{t('Item Id: ')}</strong>{' '}
-              {params[0] = messageId}
-          </h2>
-          <h2>
-          <LabelHelp help={t('Enter a the number of items to Order.')}/>{' '}          
-          <strong>{t('Quantity: ')}</strong></h2>
-          <Input 
+              {t_strong('Item Id: ')}{' '}{params[0] = messageId}
+              <br /><br />
+              <LabelHelp help={t('Enter a the number of items to Order.')}/>{' '}          
+              {t_strong('Quantity: ')}
+              <Input 
                 label={messageValue? params[1]=messageValue: params[1]=''}
                 type="text"
                 value={messageValue}
@@ -1258,20 +943,17 @@ function CallModal ({ className = '', messageId, toAcct, username, contract, mes
               </Input>       
         </>)}                  
 
-        {messageIndex===4 && (<>
-          <h2>
+        {messageIndex===3 && (<>
               <LabelHelp help={t('Remove Item from Cart.')}/>{' '}          
-              <strong>{t('Item Name: ')}{hexToHuman(username)}</strong><br /><br />
+              {t_strong('Item Name: ')}{hexToHuman(username)}
+              <br /><br />
               <LabelHelp help={t('This is the Item Id.')}/>{' '}          
-              <strong>{t('Item Id: ')}</strong>{' '}
-              {params[0] = messageId}
-          </h2>
+              {t_strong('Item Id: ')}{' '}{params[0] = messageId}
         </>)}                  
 
-        {messageIndex===3 && (<>
-          <h2>
-              <strong>{withHelp('Bookmark Store: ', 'Bookmark a store account.')}{hexToHuman(username)}</strong><br /><br />
-          </h2>
+        {messageIndex===2 && (<>
+              <strong>{withHelp('Remove Store Bookmark: ', 'Remove a Bookmark store account.')}{hexToHuman(username)}</strong>
+              <br /><br />
               <strong>{withHelp('Store Account: ', 'Select the store Account.')}</strong>{' '}
               {params[0] = recipientValue}<br />
               <InputAddress
@@ -1288,67 +970,34 @@ function CallModal ({ className = '', messageId, toAcct, username, contract, mes
               />
         </>)}                  
 
-        {messageIndex===2 && (<>
-          <h2>
-              <LabelHelp help={t('Add a Service to a List.')}/>{' '}          
-              <strong>{t('Service Name: ')}{hexToHuman(username)}</strong><br /><br />
-              <LabelHelp help={t('This is the Product Id.')}/>{' '}          
-              <strong>{t('Service Id: ')}</strong>{' '}
-              {params[0] = messageId}
-          </h2>
-          <h2>
-          <LabelHelp help={t('Enter a the name of the List.')}/>{' '}          
-          <strong>{t('List Name: ')}</strong></h2>
-          <Input 
-                label={messageValue? params[1]=messageValue: params[1]=''}
-                type="text"
-                value={messageValue}
-                onChange={(e) => {
-                  setMessageValue(e.target.value);
-                  setParams([...params]);
-                }}
-              ><input />
-              <Label color={params[1]? 'blue': 'grey'}>
-                    {params[1]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
-              </Input>       
-        </>)}                  
-
         {messageIndex===1 && (<>
-          <h2>
-              <LabelHelp help={t('Add a Product to a List.')}/>{' '}          
-              <strong>{t('Product Name: ')}{hexToHuman(username)}</strong><br /><br />
-              <LabelHelp help={t('This is the Product Id.')}/>{' '}          
-              <strong>{t('Product Id: ')}</strong>{' '}
-              {params[0] = messageId}
-          </h2>
-          <h2>
-          <LabelHelp help={t('Enter a the name of the List.')}/>{' '}          
-          <strong>{t('List Name: ')}</strong></h2>
-          <Input 
-                label={messageValue? params[1]=messageValue: params[1]=''}
-                type="text"
-                value={messageValue}
-                onChange={(e) => {
-                  setMessageValue(e.target.value);
-                  setParams([...params]);
-                }}
-              ><input />
-              <Label color={params[1]? 'blue': 'grey'}>
-                    {params[1]? <>{t('OK')}</>:<>{t('Enter Value')}</>}</Label>
-              </Input>       
+          
+              <strong>{withHelp('Bookmark Store: ', 'Bookmark a store account.')}{hexToHuman(username)}</strong><br /><br />
+              <strong>{withHelp('Store Account: ', 'Select the store Account.')}</strong>{' '}
+              {params[0] = recipientValue}<br />
+              <InputAddress
+                defaultValue={messageId}
+                label={t('Store Account')}
+                labelExtra={
+                <Available
+                    label={t('transferrable')}
+                    params={recipientValue}
+                />}
+                onChange={setRecipientValue}
+                type='account'
+                value={recipientValue}
+              />
         </>)}                  
 
+ 
       {messageIndex===0 && (<>
-          <h2>
               <LabelHelp help={t('Add Item to Your Cart.')}/>{' '}          
               <strong>{t('Item Name: ')}{hexToHuman(username)}</strong><br /><br />
               <LabelHelp help={t('This is the Item Id.')}/>{' '}          
               <strong>{t('Item Id: ')}</strong>{' '}
-              {params[0] = messageId}
-          </h2>
-          <h2>
+              {params[0] = messageId}<br /><br />
           <LabelHelp help={t('Enter a the number of items to Order.')}/>{' '}          
-          <strong>{t('Quantity: ')}</strong></h2>
+          <strong>{t('Quantity: ')}</strong>
           <Input 
                 label={messageValue? params[1]=messageValue: params[1]=''}
                 type="text"
@@ -1386,7 +1035,7 @@ function CallModal ({ className = '', messageId, toAcct, username, contract, mes
               refTIme: MAX_CALL_WEIGHT
             })
           }
-          help={t('The maximum amount of gas to use for this contract call. If the call requires more, it will fail.')}
+          //help={t('The maximum amount of gas to use for this contract call. If the call requires more, it will fail.')}
           isCall={!message.isMutating}
           weight={weight}
         />          
@@ -1412,6 +1061,7 @@ function CallModal ({ className = '', messageId, toAcct, username, contract, mes
         />
       </Modal.Actions>
     </Modal>
+    </>}
   </>);
 }
 

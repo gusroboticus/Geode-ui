@@ -304,6 +304,56 @@ function ListAccount(): JSX.Element {
                 {' 🔘 '}{t('Clear your Paid Message Inbox')}
                 <br />
                 </>)}
+                {callFrom===400 && (<>
+                <br /><br />
+                {t_strong(' 🛒 You can do the following here:')}<br />
+                {' 🔘 '}{t('Review a Seller Store Front')}<br />
+                {' 🔘 '}{t('Find Products and Sevices available from this seller')}<br />
+                {' 🔘 '}{t('Add Products and services to your Cart.')}<br />
+                {' 🔘 '}{t('Bookmark a store')}
+                <br />
+                </>)}
+                {callFrom===401 && (<>
+                <br /><br />
+                {t_strong(' 🛒 You can do the following here:')}<br />
+                {' 🔘 '}{t('View search results for Products')}<br />
+                {' 🔘 '}{t('review product details')}<br />
+                {' 🔘 '}{t('Add Products to your Cart.')}<br />
+                <br />
+                </>)}
+                {callFrom===402 && (<>
+                <br /><br />
+                {t_strong(' 🛒 You can do the following here:')}<br />
+                {' 🔘 '}{t('View search results for Services')}<br />
+                {' 🔘 '}{t('review Services details')}<br />
+                {' 🔘 '}{t('Add Services to your Cart.')}<br />
+                <br />
+                </>)}
+                {callFrom===403 && (<>
+                <br /><br />
+                {t_strong(' 🛒 You can do the following here:')}<br />
+                {' 🔘 '}{t('View search results for Store Fronts')}<br />
+                {' 🔘 '}{t('review store details')}<br />
+                {' 🔘 '}{t('bookmark a store')}<br />
+                <br />
+                </>)}
+                {callFrom===404 && (<>
+                <br /><br />
+                {t_strong(' 🛒 You can do the following here:')}<br />
+                {' 🔘 '}{t('View your buyer account')}<br />
+                {' 🔘 '}{t('get your digital download')}<br />
+                {' 🔘 '}{t('view and manage your orders')}<br />
+                {' 🔘 '}{t('see your bookmarked stores')}<br />
+                <br />
+                </>)}
+                {callFrom===405 && (<>
+                <br /><br />
+                {t_strong(' 🛒 You can do the following here:')}<br />
+                {' 🔘 '}{t('check out of your cart')}<br />
+                {' 🔘 '}{t('change the quantity of items in your cart')}<br />
+                {' 🔘 '}{t('remove items in your cart')}<br />
+                <br />
+                </>)}
               </>
               
             )}
