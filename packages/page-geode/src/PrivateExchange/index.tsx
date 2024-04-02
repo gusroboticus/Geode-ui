@@ -49,7 +49,7 @@ export default function Reporting ({ className = '' }: Props): React.ReactElemen
           <Card>
             {!isViewMyListings && (
             <><Button
-                    icon={(isViewAllListings) ? 'minus' : 'plus'}
+                    icon={(isViewAllListings) ? 'minus' : 'magnifying-glass'}
                     label={t('Browse Listings')}
                     onClick={toggleViewAllListings}>
               </Button>
@@ -58,7 +58,7 @@ export default function Reporting ({ className = '' }: Props): React.ReactElemen
             {!isViewAllListings && (
               <>
                   <Button
-                    icon={(isViewMyListings) ? 'minus' : 'plus'}
+                    icon={(isViewMyListings) ? 'minus' : 'user'}
                     label={t('View My Listings')}
                     onClick={toggleViewMyListings}>
                   </Button>    

@@ -64,7 +64,7 @@ console.log(allCodes);
             <Card>
             {!isPaidFeed && !isSettings && !isAccountSearch && !isAccountFollow &&(
             <><Button
-                icon={(isYourFeed) ? 'minus' : 'plus'}
+                icon={(isYourFeed) ? 'minus' : 'user'}
                 label={t('Your Feed')}
                 onClick={toggleYourFeed}>
               </Button>
@@ -72,7 +72,7 @@ console.log(allCodes);
           )}
             {!isYourFeed && !isSettings && !isAccountSearch && !isAccountFollow &&(
             <><Button
-              icon={(isPaidFeed) ? 'minus' : 'plus'}
+              icon={(isPaidFeed) ? 'minus' : 'coins'}
               label={t('Paid Feed')}
               onClick={togglePaidFeed}>
             </Button>
@@ -81,7 +81,7 @@ console.log(allCodes);
 
             {!isPaidFeed && !isYourFeed && !isSettings && !isAccountFollow &&(
             <><Button
-                icon={(isAccountSearch) ? 'minus' : 'plus'}
+                icon={(isAccountSearch) ? 'minus' : 'magnifying-glass'}
                 label={t('Account Lookup')}
                 onClick={toggleAccountSearch}>
             </Button>
@@ -89,7 +89,7 @@ console.log(allCodes);
             )}
             {!isPaidFeed && !isYourFeed && !isUpdate && !isFollow && !isUnFollow && !isBlock && !isUnBlock && !isAccountSearch && !isAccountFollow &&(
             <><Button
-                icon={(isSettings) ? 'minus' : 'plus'}
+                icon={(isSettings) ? 'minus' : 'wrench'}
                 label={t('Settings')}
                 onClick={toggleSettings}>
             </Button>
@@ -97,7 +97,7 @@ console.log(allCodes);
             )}  
             {!isYourFeed && !isSettings && !isAccountSearch && !isPaidFeed && (
             <><Button
-                icon={(isAccountFollow) ? 'minus' : 'plus'}
+                icon={(isAccountFollow) ? 'minus' : 'people-group'}
                 label={t('Following')}
                 onClick={toggleAccountFollow}>
             </Button>

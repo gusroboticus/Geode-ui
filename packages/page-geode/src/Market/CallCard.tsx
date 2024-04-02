@@ -24,7 +24,7 @@ import useWeight from '../useWeight.js';
 import { TITLE, MAX_PRODUCT_TITLE, MAX_PRODUCT_BRAND, MAX_PRODUCT_CATEGORY, MAX_SELLER_NAME, MAX_PRODUCT_DESCRIPTION, MAX_PHOTO_LINK } from './marketConst.js'
 import { MAX_MORE_INFO_LINK, MAX_DELIVERY_INFO, MAX_PRODUCT_LOCATION, MAX_DIGITAL_FILE_URL, MAX_SERVICE_TITLE } from './marketConst.js'
 import { MAX_SERVICE_CATEGORY, MAX_SERVICE_DESCRIPTION, MAX_BOOKING_LINK, MAX_SERVICE_LOCATION } from './marketConst.js'
-import { MAX_SEARCH, MAX_STORE_DESCRIPTION, MAX_SELLER_LOCATION, MAX_BANNER_URL, MAX_YOUTUBE_URL, MAX_EXTERNAL_LINK } from './marketConst.js'
+import { MAX_SEARCH, MAX_STORE_DESCRIPTION, MAX_SELLER_LOCATION, MAX_BANNER_URL, MAX_YOUTUBE_URL, MAX_EXTERNAL_LINK, ADDINFO } from './marketConst.js'
 import { INST_TITLE, INST_SUB_TITLE, INSTRUCTION, INST_NOTE } from './marketInstructions.js';
 
 import { getCallMessageOptions } from '../shared/util.js';
@@ -817,6 +817,7 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
 
               <br /><br />
             </>)}
+            {ADDINFO[messageIndex].length>0? <>{t(ADDINFO[messageIndex])}<br /><br /></>: ''}
           </>
         )}
 

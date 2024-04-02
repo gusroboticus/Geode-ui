@@ -307,6 +307,8 @@ function MyCartDetails ({ className = '', outcome: { from, output, when } }: Pro
                     <br /><br />
                     <strong>{t('Number of Items: ')}</strong>
                     <Label  color='blue' circular size='large'>{profileDetail.ok.totalItems}</Label>
+                    <br /><br />
+                    {t_strong('⚠️ IMPORTANT! ')}{' '}{' If you change the quanty or remove items from your cart remember to reload this page before checking out. 🛒 '}
                 </h3>
               </Table.HeaderCell>
               </Table.Row>

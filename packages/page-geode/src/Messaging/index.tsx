@@ -68,7 +68,7 @@ export default function Messaging ({ className = '' }: Props): React.ReactElemen
 
         {deployApp && !isLists && !isGroups && !isAllowedAccount && !isPaidInBox && !isUpdate && (
         <><Button
-                icon={(isInBox) ? 'minus' : 'plus'}
+                icon={(isInBox) ? 'minus' : 'envelope-open-text'}
                 label={t('Inbox')}
                 isDisabled={isMyInbox || isKeyword || isAcct  }
                 onClick={toggleInBox}>
@@ -78,7 +78,7 @@ export default function Messaging ({ className = '' }: Props): React.ReactElemen
         {deployApp && !isLists && !isGroups && !isAllowedAccount && !isInBox && !isUpdate && (
           <>
               <Button
-                icon={(isPaidInBox) ? 'minus' : 'plus'}
+                icon={(isPaidInBox) ? 'minus' : 'coins'}
                 label={t('PAID Inbox')}
                 onClick={togglePaidInBox}>
               </Button>    
@@ -87,7 +87,7 @@ export default function Messaging ({ className = '' }: Props): React.ReactElemen
         {deployApp && !isLists && !isGroups && !isAllowedAccount && !isInBox && !isPaidInBox && (
           <>
           <Button
-            icon={(isUpdate) ? 'minus' : 'plus'}
+            icon={(isUpdate) ? 'minus' : 'cogs'}
             label={t('Settings')}
             isDisabled={isUpdateUpdate || isShowUpdate}
             onClick={toggleUpdate}>
@@ -97,7 +97,7 @@ export default function Messaging ({ className = '' }: Props): React.ReactElemen
         {deployApp && !isLists && !isUpdate && !isGroups && !isInBox && !isPaidInBox && (
           <>
           <Button
-            icon={(isAllowedAccount) ? 'minus' : 'plus'}
+            icon={(isAllowedAccount) ? 'minus' : 'people-arrows'}
             label={t('Allowed Accounts')}
             onClick={toggleAllowedAccount}>
           </Button>    
@@ -107,7 +107,7 @@ export default function Messaging ({ className = '' }: Props): React.ReactElemen
         {deployApp && !isLists && !isUpdate && !isAllowedAccount && !isInBox && !isPaidInBox && (
           <>
           <Button
-            icon={(isGroups) ? 'minus' : 'plus'}
+            icon={(isGroups) ? 'minus' : 'users'}
             label={t('Groups')}
             isDisabled={isMyGroup || isFindGroups || isJoinGroups || isLeaveGroups}
             onClick={toggleGroups}>
@@ -118,7 +118,7 @@ export default function Messaging ({ className = '' }: Props): React.ReactElemen
         {deployApp && !isUpdate && !isGroups && !isAllowedAccount && !isInBox && !isPaidInBox && (
           <>
           <Button
-            icon={(isLists) ? 'minus' : 'plus'}
+            icon={(isLists) ? 'minus' : 'file'}
             label={t('Lists')}
             isDisabled={isMyLists || isMyPaidLists || isSubLists || isFindLists || isFindAccts || isGetStats}
             onClick={toggleLists}>
@@ -135,13 +135,13 @@ export default function Messaging ({ className = '' }: Props): React.ReactElemen
         {isUpdate && (<>
         <Card>
         <Button
-            icon={(isShowUpdate) ? 'minus' : 'plus'}
+            icon={(isShowUpdate) ? 'minus' : 'cogs'}
             label={t('Show Settings')}
             isDisabled={isUpdateUpdate}
             onClick={toggleShowUpdate}>
           </Button>    
           <Button
-            icon={(isUpdateUpdate) ? 'minus' : 'plus'}
+            icon={(isUpdateUpdate) ? 'minus' : 'address-card'}
             label={t('Update Settings')}
             isDisabled={isShowUpdate}
             onClick={toggleUpdateUpdate}>
@@ -152,19 +152,19 @@ export default function Messaging ({ className = '' }: Props): React.ReactElemen
         {isInBox && (<>
         <Card>
           <Button
-            icon={(isMyInbox) ? 'minus' : 'plus'}
+            icon={(isMyInbox) ? 'minus' : 'envelope-open-text'}
             label={t('My Inbox')}
             isDisabled={isKeyword || isAcct  }
             onClick={toggleMyInBox}>
           </Button>    
           <Button
-            icon={(isKeyword) ? 'minus' : 'plus'}
+            icon={(isKeyword) ? 'minus' : 'users'}
             label={t('My Groups')}
             isDisabled={isMyInbox || isAcct }
             onClick={toggleKeyword}>
           </Button>    
           <Button
-            icon={(isAcct) ? 'minus' : 'plus'}
+            icon={(isAcct) ? 'minus' : 'file'}
             label={t('My Lists')}
             isDisabled={isMyInbox || isKeyword }
             onClick={toggleAcct}>
@@ -176,19 +176,19 @@ export default function Messaging ({ className = '' }: Props): React.ReactElemen
         {isLists && (<>
         <Card>
           <Button
-            icon={(isMyLists) ? 'minus' : 'plus'}
+            icon={(isMyLists) ? 'minus' : 'list-check'}
             label={t('My Lists')}
             isDisabled={isMyPaidLists || isSubLists || isFindLists || isFindAccts || isGetStats}
             onClick={toggleMyLists}>
           </Button>    
           <Button
-            icon={(isSubLists) ? 'minus' : 'plus'}
+            icon={(isSubLists) ? 'minus' : 'signature'}
             label={t('Subscribed Lists')}
             isDisabled={isMyLists || isMyPaidLists || isFindLists || isFindAccts || isGetStats}
             onClick={toggleSubLists}>
           </Button>    
           <Button
-            icon={(isFindLists) ? 'minus' : 'plus'}
+            icon={(isFindLists) ? 'minus' : 'magnifying-glass'}
             label={t('Find Lists')}
             isDisabled={isMyLists || isMyPaidLists || isSubLists || isFindAccts || isGetStats}
             onClick={toggleFindLists}>
@@ -205,25 +205,25 @@ export default function Messaging ({ className = '' }: Props): React.ReactElemen
         {isGroups && (<>
         <Card>
           <Button
-            icon={(isMyGroup) ? 'minus' : 'plus'}
+            icon={(isMyGroup) ? 'minus' : 'users'}
             label={t('My Groups')}
             isDisabled={isFindGroups || isLeaveGroups || isJoinGroups  }
             onClick={toggleMyGroup}>
           </Button>    
           <Button
-            icon={(isFindGroups) ? 'minus' : 'plus'}
+            icon={(isFindGroups) ? 'minus' : 'magnifying-glass'}
             label={t('Find Groups')}
             isDisabled={isMyGroup || isLeaveGroups || isJoinGroups }
             onClick={toggleFindGroups}>
           </Button>    
           <Button
-            icon={(isJoinGroups) ? 'minus' : 'plus'}
+            icon={(isJoinGroups) ? 'minus' : 'people-arrows'}
             label={t('Join a Group')}
             isDisabled={isMyGroup || isFindGroups || isLeaveGroups}
             onClick={toggleJoinGroups}>
           </Button>       
           <Button
-            icon={(isLeaveGroups) ? 'minus' : 'plus'}
+            icon={(isLeaveGroups) ? 'minus' : 'hand-spock'}
             label={t('Leave a Group')}
             isDisabled={isMyGroup || isFindGroups || isJoinGroups }
             onClick={toggleLeaveGroups}>

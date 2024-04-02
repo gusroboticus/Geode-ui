@@ -42,7 +42,7 @@ export default function Profile ({ className = '' }: Props): React.ReactElement 
             <Card>
         {!isByKeyword && !isByAccount && !isLookUp && !isSearch && (
         <><Button
-                icon={(isNew) ? 'minus' : 'people-group'}
+                icon={(isNew) ? 'minus' : 'address-card'}
                 label={t('Create Your Profile')}
                 onClick={toggleNew}>
           </Button>

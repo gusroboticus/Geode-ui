@@ -113,7 +113,7 @@ export default function Market ({ className = 'market_index' }: Props): React.Re
                    && !isSellerAcct && !isGotoStore && (
           <>
           <Button
-            icon={(isMyCart) ? 'minus' : 'shopping-basket'}
+            icon={(isMyCart) ? 'minus' : 'shopping-cart'}
             label={t('My Cart')}
             onClick={toggleMyCart}>
           </Button>    
@@ -146,7 +146,7 @@ export default function Market ({ className = 'market_index' }: Props): React.Re
           <Card>
             <>
               <Button
-                icon={(isUpdateSet) ? 'minus' : 'plus'}
+                icon={(isUpdateSet) ? 'minus' : 'cogs'}
                 label={t('Update Settings')}
                 isDisabled={isAddProduct || isAddService || isSellerOrders}
                 onClick={toggleUpdateSet}>
@@ -154,7 +154,7 @@ export default function Market ({ className = 'market_index' }: Props): React.Re
             </>
             <>
               <Button
-                icon={(isAddProduct) ? 'minus' : 'plus'}
+                icon={(isAddProduct) ? 'minus' : 'microchip'}
                 label={t('Add Product')}
                 isDisabled={isUpdateSet || isAddService || isSellerOrders}
                 onClick={toggleAddProduct}>
@@ -162,7 +162,7 @@ export default function Market ({ className = 'market_index' }: Props): React.Re
             </>
             <>
               <Button
-                icon={(isAddService) ? 'minus' : 'plus'}
+                icon={(isAddService) ? 'minus' : 'shopping-basket'}
                 label={t('Add Service')}
                 isDisabled={isUpdateSet || isAddProduct || isSellerOrders}
                 onClick={toggleAddService}>
@@ -170,7 +170,7 @@ export default function Market ({ className = 'market_index' }: Props): React.Re
             </>
             <>
               <Button
-                icon={(isSellerOrders) ? 'minus' : 'plus'}
+                icon={(isSellerOrders) ? 'minus' : 'people-arrows'}
                 label={t('Seller Orders')}
                 isDisabled={isUpdateSet || isAddService || isAddProduct }
                 onClick={()=> {<>{toggleSellerOrders()}

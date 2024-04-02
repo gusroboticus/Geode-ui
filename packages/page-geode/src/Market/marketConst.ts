@@ -74,12 +74,9 @@ export const numToResolution: string[] =
 ['None','Refunded','Replaced','Resolution denied','',''];
 
 export const TITLE: string[] = 
-['Add Item To Cart','Bookmark A Store',
-'Remove A Store Bookmark','Remove Item From Cart',
-'Update Cart Item Quantity','Checkout Cart',
-'Rate A Product or Service','Report Problem Damaged',
-'Report Problem Wrong Item','Report Problem Not Received',
-'Message The Seller','Update Buyer Account Settings',
+['Add Item To Cart','Bookmark A Store','Remove A Store Bookmark','Remove Item From Cart',
+'Update Cart Item Quantity','Checkout Cart','Rate A Product or Service','Report Problem Damaged',
+'Report Problem Wrong Item','Report Problem Not Received','Message The Seller','Update Buyer Account Settings',
 'Update Seller Account Settings','Update Order Tracking ID',
 'Refuse an Order','Issue Refund','Issue Replacement',
 'Deny Resolution Request','Update Settings','Rate a Buyer',
@@ -141,6 +138,16 @@ export const refTitle: string[] =
  ' Orders Resolved ',
  ' Orders with Problems ',
  ' Orders Refused'];
+
+ export const ADDINFO: string[] =
+ ['','','','','',
+ '','','','','',
+ '','','NOTE: Click Update Settings menu button to close this form','','',
+ '','','','','',
+ 'NOTE: Click Add a Product menu button to close this form','','NOTE: Click Add a Sevice menu button to close this form','','',
+ '','','','','',
+ '','','','','',
+ '','','','',''];
 
 
 
