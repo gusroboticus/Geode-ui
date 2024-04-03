@@ -33,7 +33,7 @@ export const prodRelayGeode: EndpointOption = {
   //teleport: getTeleports(prodParasGeodeCommon),
   text: 'Geode Main Net',
   ui: {
-    color: '#e6007a',
+    //color: '#e6007a',
     identityIcon: 'polkadot',
     logo: chainsGeodePNG
   }
