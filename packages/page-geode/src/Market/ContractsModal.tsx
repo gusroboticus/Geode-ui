@@ -1,6 +1,6 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
-import { Container } from 'semantic-ui-react'
+//import { Container } from 'semantic-ui-react'
 
 import type { ApiPromise } from '@polkadot/api';
 import type { ContractPromise } from '@polkadot/api-contract';
@@ -16,7 +16,7 @@ import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../shared/translate.js';
 import ContractAdd from './Add.js';
-import CallCard from './CallCard.js';
+//import CallCard from './CallCard.js';
 import CallModal from './CallModal.js';
 import Contract from '../shared/Contract.js';
 import { getContractForAddress } from '../shared/util.js';
@@ -187,7 +187,7 @@ function ContractsModal ({ contracts: keyringContracts, initMessageIndex, toAcct
         onClose={_toggleCall}
       />
       )}
-      {(messageIndex===99) && isCallOpen && contract &&(
+      {/* {(messageIndex===99) && isCallOpen && contract &&(
         <Container>
             <CallCard 
                 contract={contract}
@@ -196,7 +196,7 @@ function ContractsModal ({ contracts: keyringContracts, initMessageIndex, toAcct
                 onClose={_toggleCall}
           />
       </Container>
-      )}
+      )} */}
     </>
   );
 }

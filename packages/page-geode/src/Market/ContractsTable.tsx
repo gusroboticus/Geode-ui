@@ -9,7 +9,7 @@ import type { ContractLink } from './types.js';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { Badge, InputAddress, Card, Button, Table } from '@polkadot/react-components';
+import { Card, Button, Table } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
@@ -51,8 +51,9 @@ function ContractsTable ({ contracts: keyringContracts, initMessageIndex }: Prop
   const [{ contractIndex, messageIndex, onCallResult }, setIndexes] = useState<Indexes>({ contractIndex: _initContractIndex, messageIndex: _initIndex });
   const [isCallOpen, setIsCallOpen] = useState(true);
   const [contractLinks, setContractLinks] = useState<Record<string, ContractLink[]>>({});
-  
-  const [isTableOpen, toggleTable] = useToggle();
+  console.log(contractIndex);
+  //const [isTableOpen, toggleTable] = useToggle();
+  const isTableOpen = false;
   const [isLoadContract, toggleIsLoad] = useToggle();
   // set to true to test contracts functionality
   const isTest: boolean = false;
