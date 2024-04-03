@@ -95,8 +95,8 @@ export const TITLE: string[] =
 export const refTitle: string[] = 
 [' Find Geode Market Products (Click again to close) ', 
  ' Find Geode Market Services. (Click again to close) ', 
- ' List of My Orders (Click again to close). ',
- ' List My Account. (Click again to close) ',
+ ' Show My Orders (Click again to close). ',
+ ' Show My Buyer Account. (Click again to close) ',
  ' View My Cart (Click again to close). ',
  ' Manage Your Seller Account (Click again to close).',
  ' Find Geode Market Sellers (Click again to close).',

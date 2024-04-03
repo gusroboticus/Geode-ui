@@ -37,7 +37,7 @@ const _help = [" Register your claims of expertise, work history, education/trai
 " Watch the short 8 min video on how to create an account. ",
 " Just click Watch Video to start.  ",
 " Buy and sell cryptocurrencies privately among the community. No escrow. List what you are selling and what you want for it. Message to finalized the deal and then handle transactions offline.  ",
-" Create and manage referral programs using GEODE tokens as a reward. The referral program creator seeds the contract with a pot of reward money and determines every aspect of the rewards for up to two levels of referral rewards.  ",
+" Use the Geode Faucet app to get a little coin to get you started on Geode dApps! Check your eligibility, then get some coin. 💰💰 ",
 " Artists: link your songs and podcasts and get paid directly from your fans at rates FAR above centralized platforms. Fans: pay your favorite musicians and podcasters DIRECTLY as you enjoy your favorite playlists, podcasts and more! No more middleman. Just direct fan connections and real earning for artists. ",
 ];
 
@@ -168,7 +168,7 @@ const LinkContainer = () => {
         </Image> 
       </Grid.Column>
       <Grid.Column verticalAlign={'top'} textAlign={'left'} width={5}>
-        <h2><strong>{t('Referrals')}</strong></h2>
+        <h2><strong>{t('Faucet')}</strong></h2>
         {_help[14]}
       </Grid.Column>
       </Grid.Row>

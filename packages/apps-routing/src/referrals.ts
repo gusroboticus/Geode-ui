@@ -32,6 +32,6 @@ export default function create (t: TFunction): Route {
     group: 'geode',
     icon: 'compress',
     name: 'referrals',
-    text: t('nav.referrals', 'Referrals', { ns: 'apps-routing' })
+    text: t('nav.referrals', 'Faucet', { ns: 'apps-routing' })
   };
 }

@@ -133,7 +133,7 @@ function ShowProfile(): JSX.Element {
                 <Grid.Column>
                 <h3>
                     {t('Total Orders: ')}{_seller.totalOrders}<br />
-                    {t('Total Awaiting Delivery: ')}{_seller.awaiting}<br />
+                    {t('Total Awaiting: ')}{_seller.awaiting}<br />
                     {t('Total Delivered: ')}{_seller.totalDelivered}<br />
                     {t('Total Damaged: ')}{_seller.totalDamaged}<br />
                     {t('Total Not Received: ')}{_seller.totalNotReceived}<br />

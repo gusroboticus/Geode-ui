@@ -17,19 +17,13 @@ interface Props {
   
 export default function Referrals ({ className = '' }: Props): React.ReactElement {
     const { t } = useTranslation();
-    const [isBrowse, toggleBrowse] = useToggle();
     const [isMyPrograms, toggleMyPrograms] = useToggle();
-    const [isMyReferrals, toggleMyReferrals] = useToggle();
-    const refTitle: string[] = 
-    [' Browse Available Referral Programs (Click again to close) ', 
-     ' Create and Manage Your Referral Programs (Click again to close) ', 
-     ' Review your current Referral Program Activity (Click again to close) '];
     const { allCodes, codeTrigger } = useCodes();
     const { allContracts } = useContracts();
     // todo
     console.log(allCodes);
 
-    const deployApp: boolean = true;
+    const deployApp: boolean = false;
     
   return (
     <StyledDiv className={className}>
@@ -38,58 +32,28 @@ export default function Referrals ({ className = '' }: Props): React.ReactElemen
             <Summary />
             <Card>
         {!deployApp && (<><strong>{'Coming Soon!'}</strong></>)}
-        {deployApp && (
-        <>
-          <Button
-                icon={(isBrowse) ? 'minus' : 'plus'}
-                label={t('Browse')}
-                onClick={toggleBrowse}
-                isDisabled={(isMyReferrals || isMyPrograms)}>
-          </Button>
-          </>
-        )}
+       
         {deployApp &&  (
           <>
               <Button
                 icon={(isMyPrograms) ? 'minus' : 'plus'}
-                label={t('My Programs')}
+                label={t('Get Started')}
                 onClick={toggleMyPrograms}
-                isDisabled={(isBrowse || isMyReferrals)}>
+              >
               </Button>    
           </>
         )}
-        {deployApp &&  (
-          <>
-          <Button
-            icon={(isMyReferrals) ? 'minus' : 'plus'}
-            label={t('My Referrals & Payouts')}
-            onClick={toggleMyReferrals}
-            isDisabled={(isBrowse || isMyPrograms)}>
-          </Button>    
-          </>
-        )}
-        {isBrowse && (<>{refTitle[0]}</>)}
-        {isMyPrograms && (<>{refTitle[1]}</>)}
-        {isMyReferrals && (<>{refTitle[2]}</>)}
+ 
+        {isMyPrograms && <>{' '}</>}
+      
         </Card>                     
         </Table>
-        {isBrowse && (
-          <ContractsTable
-            contracts={allContracts}
-            updated={codeTrigger}
-            initMessageIndex={9}
-        />)}
+
         {isMyPrograms && (
           <ContractsTable
             contracts={allContracts}
             updated={codeTrigger}
-            initMessageIndex={10}
-        />)}
-        {isMyReferrals && (
-          <ContractsTable
-            contracts={allContracts}
-            updated={codeTrigger}
-            initMessageIndex={11}
+            initMessageIndex={2}
         />)}
 
     </div>

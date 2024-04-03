@@ -19,14 +19,14 @@ import ContractAdd from './Add.js';
 import Contract from '../shared/Contract.js';
 
 import CallCard from './CallCard.js';
-import CallSubCard from './CallSubCard.js';
-import CallModal from './CallModal.js';
+//import CallSubCard from './CallSubCard.js';
+//import CallModal from './CallModal.js';
 import { getContractForAddress } from '../shared/util.js';
 
 // uncomment for test configuration - - - - >
-// import JSONContractAddress from '../shared/geode_contracts_test.json';
+import JSONContractAddress from '../shared/geode_contracts_test.json';
 // uncomment for production chain - - - - >
-import JSONContractAddress from '../shared/geode_contracts.json';
+//import JSONContractAddress from '../shared/geode_contracts.json';
 
 export interface Props {
   contracts: string[];
@@ -141,7 +141,7 @@ function ContractsTable ({ contracts: keyringContracts, initMessageIndex, progra
     <>
       { !contract && (
         <Card>
-          {t('Load Geode Referral Contract')}
+          {t('Load Geode Faucet Contract')}
           <Button
             icon={(isLoadContract) ? 'plus' : 'sign-in-alt'}
             label={t('Load')}
@@ -176,43 +176,11 @@ function ContractsTable ({ contracts: keyringContracts, initMessageIndex, progra
       </Table>}
 
       {isCallOpen && contract && 
-      (messageIndex===0 || messageIndex===1 || 
-       messageIndex===3 || messageIndex===4 || 
-       messageIndex===5 || messageIndex===6) && (
-        <CallModal
-          programID={programID}
-          title={title}
-          description={description}
-          moreInfoLink={moreInfoLink}
-          photo={photo}
-          firstLevelReward={firstLevelReward}
-          secondLevelReward={secondLevelReward}
-          maximumReward={maximumReward}
-          ownerApprovedRequired={ownerApprovedRequired}
-          payInMinimum={payInMinimum}
-          contract={contract}
-          messageIndex={messageIndex}
-          onCallResult={onCallResult}
-          onChangeMessage={_setMessageIndex}
-          onClose={_toggleCall}
-        />
-      )}
-
-      {isCallOpen && contract && 
-      (messageIndex===9 || messageIndex===10 || messageIndex===11) && (
+      (messageIndex===2 || messageIndex===3) && (
         <CallCard
           contract={contract}
           messageIndex={messageIndex}
           onCallResult={onCallResult}
-          onChangeMessage={_setMessageIndex}
-        />
-      )}
-      {isCallOpen && contract && 
-      messageIndex===2 && (
-        <CallSubCard
-          contract={contract}
-          messageIndex={messageIndex}
-          //onCallResult={onCallResult}
           onChangeMessage={_setMessageIndex}
         />
       )}

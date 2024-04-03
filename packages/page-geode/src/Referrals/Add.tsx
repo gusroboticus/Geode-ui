@@ -15,7 +15,7 @@ import { useTranslation } from '../translate.js';
 import useAbi from '../useAbi.js';
 import ValidateAddr from '../shared/ValidateAddr.js';
 
-import JSONgeodeReferrals from './geode_referrals.json';
+import JSONgeodeReferrals from './geode_faucet.json';
 
 interface Props {
   defaultAddress: string;
@@ -24,7 +24,7 @@ interface Props {
 
 function Add ({ defaultAddress, onClose }: Props): React.ReactElement {
   const { t } = useTranslation();
-  const _contractName: string = 'Geode Referrals';
+  const _contractName: string = 'Geode Faucet';
   const { api } = useApi();
   const [address, setAddress] = useState<string | null>(defaultAddress);
   const [isAddressValid, setIsAddressValid] = useState(false);
@@ -109,7 +109,7 @@ function Add ({ defaultAddress, onClose }: Props): React.ReactElement {
   
   return (
     <Modal
-      header={t('Load the Geode Referrals Contract to your local browser: (just Click Load!)')}
+      header={t('Load the Geode Faucet Contract to your local browser: (just Click Load!)')}
       onClose={onClose}
     >
       <Modal.Content>

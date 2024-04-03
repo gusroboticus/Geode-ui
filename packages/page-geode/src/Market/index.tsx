@@ -25,6 +25,7 @@ export default function Market ({ className = 'market_index' }: Props): React.Re
     const [isMyAccount, toggleMyAccount]=useToggle();
     const [isMyCart, toggleMyCart] = useToggle();
     const [isSellerAcct, toggleSellerAcct] = useToggle();
+    const [isGotoSellerAcct, toggleGotoSellerAcct] = useToggle();
 
     const [isUpdateSet, toggleUpdateSet] = useToggle();
     const [isAddProduct, toggleAddProduct] = useToggle();
@@ -126,7 +127,7 @@ export default function Market ({ className = 'market_index' }: Props): React.Re
           <Button
             icon={(isSellerAcct) ? 'minus' : 'building'}
             label={t('Seller Account')}
-            isDisabled={isUpdateSet || isAddProduct || isAddService || isSellerOrders}
+            isDisabled={isUpdateSet || isAddProduct || isAddService || isSellerOrders || isGotoSellerAcct}
             onClick={toggleSellerAcct}>
           </Button>    
           </>
@@ -146,9 +147,17 @@ export default function Market ({ className = 'market_index' }: Props): React.Re
           <Card>
             <>
               <Button
+                icon={(isGotoSellerAcct) ? 'minus' : 'user'}
+                label={t('My Seller Account')}
+                isDisabled={isAddProduct || isAddService || isSellerOrders || isUpdateSet}
+                onClick={toggleGotoSellerAcct}>
+              </Button>    
+            </>
+            <>
+              <Button
                 icon={(isUpdateSet) ? 'minus' : 'cogs'}
                 label={t('Update Settings')}
-                isDisabled={isAddProduct || isAddService || isSellerOrders}
+                isDisabled={isAddProduct || isAddService || isSellerOrders || isGotoSellerAcct}
                 onClick={toggleUpdateSet}>
               </Button>    
             </>
@@ -156,7 +165,7 @@ export default function Market ({ className = 'market_index' }: Props): React.Re
               <Button
                 icon={(isAddProduct) ? 'minus' : 'microchip'}
                 label={t('Add Product')}
-                isDisabled={isUpdateSet || isAddService || isSellerOrders}
+                isDisabled={isUpdateSet || isAddService || isSellerOrders || isGotoSellerAcct}
                 onClick={toggleAddProduct}>
               </Button>    
             </>
@@ -164,7 +173,7 @@ export default function Market ({ className = 'market_index' }: Props): React.Re
               <Button
                 icon={(isAddService) ? 'minus' : 'shopping-basket'}
                 label={t('Add Service')}
-                isDisabled={isUpdateSet || isAddProduct || isSellerOrders}
+                isDisabled={isUpdateSet || isAddProduct || isSellerOrders || isGotoSellerAcct}
                 onClick={toggleAddService}>
               </Button>    
             </>
@@ -172,7 +181,7 @@ export default function Market ({ className = 'market_index' }: Props): React.Re
               <Button
                 icon={(isSellerOrders) ? 'minus' : 'people-arrows'}
                 label={t('Seller Orders')}
-                isDisabled={isUpdateSet || isAddService || isAddProduct }
+                isDisabled={isUpdateSet || isAddService || isAddProduct || isGotoSellerAcct}
                 onClick={()=> {<>{toggleSellerOrders()}
                                  {setSellerAwaiting(false)}
                                  {setSellerShipped(false)}
@@ -189,12 +198,60 @@ export default function Market ({ className = 'market_index' }: Props): React.Re
         <>
           <Card>
             <>
-            <Label as='a' circular color={isSellerAwaiting? 'blue': 'orange'} onClick={()=> <>{isSellerAwaiting? setSellerAwaiting(false): setSellerAwaiting(true)}</>}>Awaiting</Label>
-            <Label as='a' circular color={isSellerShipped? 'blue': 'orange'} onClick={()=> <>{isSellerShipped? setSellerShipped(false): setSellerShipped(true)}</>}>Shipped</Label>
-            <Label as='a' circular color={isSellerDelivered? 'blue': 'orange'} onClick={()=> <>{isSellerDelivered? setSellerDelivered(false): setSellerDelivered(true)}</>}>Delivered</Label>
-            <Label as='a' circular color={isSellerResolved? 'blue': 'orange'} onClick={()=> <>{isSellerResolved? setSellerResolved(false): setSellerResolved(true)}</>}>Resolved</Label>
-            <Label as='a' circular color={isSellerProblem? 'blue': 'orange'} onClick={()=> <>{isSellerProblem? setSellerProblem(false): setSellerProblem(true)}</>}>Problem</Label>
-            <Label as='a' circular color={isSellerRefused? 'blue': 'orange'} onClick={()=> <>{isSellerRefused? setSellerRefused(false): setSellerRefused(true)}</>}>Refused</Label>
+            <Label  as='a' circular color={isSellerAwaiting? 'blue': 'orange'} 
+                    onClick={()=> <>{isSellerAwaiting? setSellerAwaiting(false): 
+                                  <>{setSellerAwaiting(true)}
+                                    {setSellerShipped(false)}
+                                    {setSellerDelivered(false)}  
+                                    {setSellerResolved(false)}
+                                    {setSellerProblem(false)}
+                                    {setSellerRefused(false)} </>
+                            }</>}>Awaiting</Label>
+            <Label as='a' circular color={isSellerShipped? 'blue': 'orange'} 
+                    onClick={()=> <>{isSellerShipped? setSellerShipped(false):
+                                  <>{setSellerShipped(true)}
+                                    {setSellerAwaiting(false)}
+                                    {setSellerDelivered(false)}  
+                                    {setSellerResolved(false)}
+                                    {setSellerProblem(false)}
+                                    {setSellerRefused(false)} </>
+                            }</>}>Shipped</Label>
+            <Label as='a' circular color={isSellerDelivered? 'blue': 'orange'} 
+                    onClick={()=> <>{isSellerDelivered? setSellerDelivered(false): 
+                                  <>{setSellerAwaiting(false)}
+                                    {setSellerShipped(false)}
+                                    {setSellerDelivered(true)}  
+                                    {setSellerResolved(false)}
+                                    {setSellerProblem(false)}
+                                    {setSellerRefused(false)} </>
+                            }</>}>Delivered</Label>
+            <Label as='a' circular color={isSellerResolved? 'blue': 'orange'} 
+                    onClick={()=> <>{isSellerResolved? setSellerResolved(false): 
+                                  <>{setSellerAwaiting(false)}
+                                    {setSellerShipped(false)}
+                                    {setSellerDelivered(false)}  
+                                    {setSellerResolved(true)}
+                                    {setSellerProblem(false)}
+                                    {setSellerRefused(false)} </>
+                            }</>}>Resolved</Label>
+            <Label as='a' circular color={isSellerProblem? 'blue': 'orange'} 
+                    onClick={()=> <>{isSellerProblem? setSellerProblem(false): 
+                                  <>{setSellerAwaiting(false)}
+                                    {setSellerShipped(false)}
+                                    {setSellerDelivered(false)}  
+                                    {setSellerResolved(false)}
+                                    {setSellerProblem(true)}
+                                    {setSellerRefused(false)} </>
+                            }</>}>Problem</Label>
+            <Label as='a' circular color={isSellerRefused? 'blue': 'orange'} 
+                    onClick={()=> <>{isSellerRefused? setSellerRefused(false): 
+                                  <>{setSellerAwaiting(false)}
+                                    {setSellerShipped(false)}
+                                    {setSellerDelivered(false)}  
+                                    {setSellerResolved(false)}
+                                    {setSellerProblem(false)}
+                                    {setSellerRefused(true)} </>
+                            }</>}>Refused</Label>
             </>
           </Card>
         </>
@@ -293,7 +350,7 @@ export default function Market ({ className = 'market_index' }: Props): React.Re
             updated={codeTrigger}
             initMessageIndex={39}
         />)}
-        {isSellerAcct && (
+        {isGotoSellerAcct && (
           <ContractsTable
             contracts={allContracts}
             updated={codeTrigger}

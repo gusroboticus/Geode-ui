@@ -1,6 +1,6 @@
 {
   "source": {
-    "hash": "0x87d15ed94aa3b37309afcf760f43189f678da6b1a324057ee8e4ce6722505490",
+    "hash": "0x1886c0f55a89b4a81ff70bd23823c21cf39252cd965172e02fbde3cd5c7a8a4c",
     "language": "ink! 5.0.0",
     "compiler": "rustc 1.76.0",
     "build_info": {
@@ -73,7 +73,7 @@
         "type": 13
       },
       "maxEventTopics": 4,
-      "staticBufferSize": 840000,
+      "staticBufferSize": 835000,
       "timestamp": {
         "displayName": [
           "Timestamp"

@@ -43,11 +43,7 @@ function Summary (): React.ReactElement {
       </CardSummary> 
     </SummaryBox>
     <Card> 
-            <Badge icon={'info'} color={'blue'}/> 
-              <strong> {t('Info for Life and Work: ')} </strong>
-                {info[0]+info[1]}            
-              <br /><br />
-
+    <Badge icon={'info'} color={'blue'}/>{t(info[0])}{' '}{info[1]}<br /><br />
             <Grid columns={4} divided>
               <Grid.Row>
                 <Grid.Column>

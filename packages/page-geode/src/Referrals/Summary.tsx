@@ -3,59 +3,23 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import { Toggle, Badge, Card, CardSummary, SummaryBox, AccountName, LabelHelp, IdentityIcon } from '@polkadot/react-components';
+import { Badge, Card, CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useTranslation } from '../shared/translate.js';
 import JSONinfo from '../shared/geode_referrals_info.json';
-import { useToggle } from '@polkadot/react-hooks';
-
 
 function Summary (): React.ReactElement {
   const { t } = useTranslation();
   const info: string[] = JSONinfo;
-  const [isShowMore, toggleShowMore] = useToggle(false)
-
-  function showAccount(str: string): JSX.Element { 
-   try{
-    return(  <>
-      {str.length>0 && (<>
-        <IdentityIcon value={str} />
-        {' ('}<AccountName value={str} withSidebar={true}/>{') '}
-      </>)}
-      </>
-      )
-   } catch(e) {
-    console.log(e);
-    return(<>
-    {t('No accounts to show')}
-    </>)
-   }
-  }
 
     return (
     <div>
     <SummaryBox>        
       <CardSummary label={''}>
-        {t('Geode Referrals')} 
+        {t('Geode Faucet')} 
       </CardSummary> 
     </SummaryBox>
     <Card> 
-    <Badge icon={'info'} color={'blue'}/> 
-      <strong> {t('Info for Referrals')} </strong>
-        {': '}{t(info[0]+info[1])}       
-      <br /><br />
-
-    <Toggle
-            className=''
-            label={t('Recommended Accounts ')}
-            onChange={toggleShowMore}
-            value={isShowMore}
-          />
-      {isShowMore && (<>
-        <LabelHelp help={t('Click on the Icon or Open the Side Car for Copying the Account Address.')} />
-        {' '}{t(info[2])}{' '}
-        {' '}{showAccount(info[3])}
-        {' '}{showAccount(info[4])}
-      </>)}    
+    <Badge icon={'info'} color={'blue'}/>{t(info[0])}{' '}{info[1]}
     </Card>
     </div>
   );

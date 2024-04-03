@@ -52,7 +52,7 @@ function GeodeApp ({ basePath, className = '' }: Props): React.ReactElement<Prop
     },
     {
       name: 'referrals',
-      text: t('Referrals')
+      text: t('Faucet')
     },
     {
       name: 'privateexchange',

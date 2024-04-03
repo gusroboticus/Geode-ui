@@ -7,13 +7,11 @@ import React from 'react';
 import { Badge, Card, CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useTranslation } from '../shared/translate.js';
 import JSONinfo from '../shared/geode_private_exchange_info.json';
-import { useToggle } from '@polkadot/react-hooks';
 
 
 function Summary (): React.ReactElement {
   const { t } = useTranslation();
   const info: string[] = JSONinfo;
-  const [isShowInfo, toggleShowInfo] = useToggle(true)
   
     return (
     <div>
@@ -23,14 +21,7 @@ function Summary (): React.ReactElement {
       </CardSummary> 
     </SummaryBox>
     <Card> 
-    <Badge
-      icon={'info'}
-           color={(isShowInfo) ? 'blue' : 'gray'}
-           onClick={toggleShowInfo}/> 
-      <strong> {t('Sell commodity coins of any kind. List your coin for sale, and let the community know how they can buy it. ')} </strong>
-      {isShowInfo && (<>
-        {': '}{t(info[0])}       
-      </>)}      
+    <Badge icon={'info'} color={'blue'}/>{t(info[0])}{' '}{info[1]}<br /><br />
     </Card>
     </div>
   );

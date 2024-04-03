@@ -10,7 +10,7 @@ import type { WeightV2 } from '@polkadot/types/interfaces';
 import type { CallResult } from '../shared/types.js';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { styled, Expander, Badge, Card, Button, Dropdown, InputAddress, InputBalance, Toggle, TxButton } from '@polkadot/react-components';
+import { styled, Badge, Card, Button, Dropdown, InputAddress, InputBalance, Toggle, TxButton } from '@polkadot/react-components';
 import { useAccountId, useApi, useDebounce, useFormField, useToggle } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { BN, BN_ONE, BN_ZERO } from '@polkadot/util';
@@ -20,11 +20,11 @@ import Params from '../shared/Params.js';
 import { useTranslation } from '../shared/translate.js';
 import useWeight from '../useWeight.js';
 
-import MyProgramsDetail from './MyProgramsDetail.js';
-import BrowseDetail from './BrowseDetail.js';
 import MyActivityDetail from './MyActivityDetail.js';
 
 import { getCallMessageOptions } from '../shared/util.js';
+import JSONInterest from '../shared/geode_social_interest.json'
+import axios from "axios";
 
 interface Props {
   className?: string;
@@ -55,8 +55,23 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
   const dbValue = useDebounce(value);
   const dbParams = useDebounce(params);
   const [isCalled, toggleIsCalled] = useToggle(false);
+  function t_strong(_str: string): JSX.Element{return(<><strong>{t(_str)}</strong></>)}
+  const _myInterest: string[] = JSONInterest;
   
   const isTest: boolean = false;
+
+  const JSONaxios: string = 'https://api.ipify.org/?format=json';
+  const [ip, setIP] = useState("");
+
+  const getData = async () => {
+      const res = await axios.get(JSONaxios);
+      console.log(res.data);
+      setIP(res.data.ip);
+    };
+  
+    useEffect(() => {
+      getData();
+    }, []);
   
   useEffect((): void => {
     setEstimatedWeight(null);
@@ -145,43 +160,12 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
 
   const isValid = !!(accountId && weight.isValid && isValueValid);
   const isViaRpc = (isViaCall || (!message.isMutating && !message.isPayable));   
-  const isClosed = (isCalled && (messageIndex === 9 || messageIndex === 14 || messageIndex===10 || messageIndex===11 || messageIndex===13));
+  const isClosed = (isCalled && (messageIndex === 2 ));
   
   
   return (
     <Card >
-        <h2>
-        <Badge icon='info' color={'blue'} /> 
-        <strong>{t(' Geode Referral Programs ')}</strong>
-        {messageIndex===9 && (<>{t(' - Browse Programs')}</>)}
-        {messageIndex===10 && (<>{t(' - My Programs')}</>)}
-        {messageIndex===11 && (<>{t(' - My Activity (Referrals & Payouts)')}</>)}
-        
-        </h2>
-        <Expander 
-            className='viewInfo'
-            isOpen={false}
-            summary={<strong>{t('Instructions: ')}</strong>}>
-              {t('(1) Select the Account to Use')}<br />
-            {messageIndex===9 && (<>
-              {t('(2) Click View to Show the Available Programs. ')}<br />              
-              {t('(3) Browse the Programs Available. ')}<br />          
-              {t('(4) Click the Claim button to submit a Claim. ')}
-            </>)}
-            {messageIndex===10 && (<>
-              {t('(2) Click View to Show your Programs. ')}<br />                       
-              {t('(3) Fund - Add funding to a Program. ')}<br />
-              {t('(4) Update - Change/Update program details. ')}<br />
-              {t('(5) Deactivate - Deactivate a Program. ')}<br />
-              {t('(6) Reactivate - Reactivate a Program. ')}
-            </>)}
-            {messageIndex===11 && (<>
-              {t('(2) Click View to Show the Available Programs. ')}<br />              
-              {t('(3) Browse the Programs Available. ')}<br />          
-              {t('(4) Click the Claim button to submit a Claim. ')}
-            </>)}
-
-        </Expander>
+ 
         {isTest && (
           <InputAddress
           //help={t('A deployed contract that has either been deployed or attached. The address and ABI are used to construct the parameters.')}
@@ -195,10 +179,12 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
         </>
         {!isClosed && (
         <>
+        {messageIndex===2 && <><Badge color='blue' icon='1'/>{t_strong('Select the Account You Created')}</>}
+        {messageIndex===3 && <><Badge color='blue' icon='1'/>{t_strong('Select the Destination Account of your Coin')}</>}
         <InputAddress
           defaultValue={accountId}
           //help={t('Specify the user account to use for this contract call. And fees will be deducted from this account.')}
-          label={t('account to use')}
+          label={t('enter account')}
           labelExtra={
             <Available
               label={t('transferrable')}
@@ -220,7 +206,7 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
               defaultValue={messageIndex}
               //help={t('The message to send to this contract. Parameters are adjusted based on the ABI provided.')}
               isError={message === null}
-              label={t('Referral')}
+              label={t('Faucet')}
               onChange={onChangeMessage}
               options={getCallMessageOptions(contract)}
               value={messageIndex}
@@ -229,7 +215,7 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
             </>
             )}
             
-            {!isClosed && (<>
+            {!isClosed && messageIndex!=2 && messageIndex!=3 && (<>
               <Params
               onChange={setParams}
               params={
@@ -242,6 +228,14 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
             </>)}
           </>
         )}
+
+        {!isClosed && (messageIndex===2 || messageIndex===3) && (<>
+              <br />
+              <Badge color='blue' icon='2'/>{t_strong('Your Ip Address: ')}{params[0]=ip}
+              <br /><br />
+              <Badge color='blue' icon='3'/>{t_strong('Your Interest Words: ')}{_myInterest[17]}{_myInterest[23]}
+              <br />
+            </>)}
 
         {message.isPayable && (
           <InputBalance
@@ -289,12 +283,13 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
               <Button
               icon='sign-in-alt'
               isDisabled={!isValid}
-              label={t('View')}
+              label={messageIndex===2? t('Check Eligibility'): t('View')}
               onClick={_onSubmitRpc} 
               />
               </>
             ) : (
             <TxButton
+              isUnsigned={false}
               accountId={accountId}
               extrinsic={execTx}
               icon='sign-in-alt'
@@ -307,36 +302,8 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
         </Card>    
         </>
         )}
-        {outcomes.length > 0 && messageIndex===9 &&  (
-            <div>
-            {outcomes.map((outcome, index): React.ReactNode => (
-              <>
-              <BrowseDetail
-                key={`outcome-${index}`}
-                onClear={_onClearOutcome(index)}
-                outcome={outcome}
-                onClose={isCalled}
-              />
-              </>
-            ))}
-            </div>
-        )}        
 
-        {outcomes.length > 0 && messageIndex===10 &&  (
-            <div>
-            {outcomes.map((outcome, index): React.ReactNode => (
-              <>
-              <MyProgramsDetail
-                key={`outcome-${index}`}
-                onClear={_onClearOutcome(index)}
-                outcome={outcome}
-                onClose={isCalled}
-              />
-              </>
-            ))}
-            </div>
-        )}        
-        {outcomes.length > 0 && messageIndex===11 &&  (
+        {outcomes.length > 0 && messageIndex===2 &&  (
             <div>
             {outcomes.map((outcome, index): React.ReactNode => (
               <>
