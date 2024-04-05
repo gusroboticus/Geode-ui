@@ -23,7 +23,7 @@ export default function Referrals ({ className = '' }: Props): React.ReactElemen
     // todo
     console.log(allCodes);
 
-    const deployApp: boolean = false;
+    const deployApp: boolean = true;
     
   return (
     <StyledDiv className={className}>

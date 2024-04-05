@@ -57,7 +57,7 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
   const [isCalled, toggleIsCalled] = useToggle(false);
   function t_strong(_str: string): JSX.Element{return(<><strong>{t(_str)}</strong></>)}
   const _myInterest: string[] = JSONInterest;
-  
+  const _gropoAcct: string = '5GBergDSz1krMFjomVbaVHnGrPtqvpmiyTQPSj8rs6FTUVNa';
   const isTest: boolean = false;
 
   const JSONaxios: string = 'https://api.ipify.org/?format=json';
@@ -183,9 +183,11 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
         {messageIndex===3 && <><Badge color='blue' icon='1'/>{t_strong('Select the Destination Account of your Coin')}</>}
         <InputAddress
           defaultValue={accountId}
+          //hideAddress={messageIndex===2? false: true}
           //help={t('Specify the user account to use for this contract call. And fees will be deducted from this account.')}
           label={t('enter account')}
           labelExtra={
+            messageIndex===2 && 
             <Available
               label={t('transferrable')}
               params={accountId}
@@ -290,7 +292,7 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
             ) : (
             <TxButton
               isUnsigned={false}
-              accountId={accountId}
+              accountId={messageIndex===2? accountId: _gropoAcct}
               extrinsic={execTx}
               icon='sign-in-alt'
               isDisabled={!isValid || !execTx}

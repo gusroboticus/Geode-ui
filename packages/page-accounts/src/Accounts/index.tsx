@@ -37,6 +37,7 @@ interface Balances {
 interface Props {
   className?: string;
   onStatusChange: (status: ActionStatus) => void;
+  acctRestricted?: string;
 }
 
 interface SortControls {
@@ -87,7 +88,7 @@ function groupAccounts (accounts: SortedAccount[]): Record<GroupName, string[]> 
   return ret;
 }
 
-function Overview ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
+function Overview ({ className = '', acctRestricted, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api, isElectron } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();

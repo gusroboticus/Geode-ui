@@ -21,6 +21,7 @@ import { styled } from '../styled.js';
 import Toggle from '../Toggle.js';
 import { useTranslation } from '../translate.js';
 import TxButton from '../TxButton.js';
+import { RESTRICTED_PUBLIC_KEY } from './transferConst.js';
 
 interface Props {
   className?: string;
@@ -46,6 +47,11 @@ async function checkPhishing (_senderId: string | null, recipientId: string | nu
   ];
 }
 
+function validateAddress(_address: string | undefined): boolean {
+  const isAddress = _address? _address: '';
+  return(isAddress.length===48? true: false);
+}
+
 function Transfer ({ className = '', onClose, recipientId: propRecipientId, senderId: propSenderId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -59,6 +65,10 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
   const [[, recipientPhish], setPhishing] = useState<[string | null, string | null]>([null, null]);
   const balances = useCall<DeriveBalancesAll>(api.derive.balances?.all, [propSenderId || senderId]);
   const accountInfo = useCall<AccountInfoWithProviders | AccountInfoWithRefCount>(api.query.system.account, [propSenderId || senderId]);
+  const isRestrictedSender = validateAddress(RESTRICTED_PUBLIC_KEY.find((_publicKey) => _publicKey === senderId))? true: false;
+  const isRestrictedProp = validateAddress(RESTRICTED_PUBLIC_KEY.find((_publicKey) => _publicKey === propSenderId))? true: false;
+
+  
 
   useEffect((): void => {
     const fromId = propSenderId || senderId;
@@ -202,7 +212,9 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
         </div>
       </Modal.Content>
       <Modal.Actions>
-        <TxButton
+      {(isRestrictedProp || isRestrictedSender)? <><strong>{t('WARNING! ')}</strong>{t('The send from account is a restricted.')}
+      </>: <>
+      <TxButton
           accountId={propSenderId || senderId}
           icon='paper-plane'
           isDisabled={
@@ -227,6 +239,8 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                 : api.tx.balances?.transferAllowDeath || api.tx.balances?.transfer
           }
         />
+      </>}
+
       </Modal.Actions>
     </StyledModal>
   );
