@@ -212,7 +212,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
         </div>
       </Modal.Content>
       <Modal.Actions>
-      {(isRestrictedProp || isRestrictedSender)? <><strong>{t('WARNING! ')}</strong>{t('The send from account is a restricted.')}
+      {(isRestrictedProp || isRestrictedSender)? <><strong>{t('WARNING! ')}</strong>{t('The send from account is restricted.')}
       </>: <>
       <TxButton
           accountId={propSenderId || senderId}
