@@ -12,10 +12,12 @@ import { Message } from 'semantic-ui-react';
 interface Props {
   className?: string;
   callIndex: number;
+  callAccount: string;
+  payAccount: string;
   onReset?: () => void;
 }
 
-function CallSendMessage ({ className = '', callIndex }: Props): React.ReactElement<Props> | null {
+function CallSendMessage ({ className = '', callAccount, payAccount, callIndex }: Props): React.ReactElement<Props> | null {
     const { allContracts } = useContracts();
     const { allCodes, codeTrigger } = useCodes();
 
@@ -24,17 +26,17 @@ function CallSendMessage ({ className = '', callIndex }: Props): React.ReactElem
 
     function SendMessage(): JSX.Element {
     return(
-        <Card>
-         
-                  <Message floating>
+        <div>
+                 
                     <ContractsTable
                     contracts={allContracts}
                     updated={codeTrigger}
                     initMessageIndex={callIndex}
+                    callAccount={callAccount}
+                    payAccount={payAccount}
                   />
-                  </Message>
-               
-        </Card>
+                 
+        </div>
     )
 }
 

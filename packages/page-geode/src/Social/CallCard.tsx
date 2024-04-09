@@ -35,6 +35,7 @@ import JSONTier2Help from '../shared/geode_social_tier2_help.json';
 import { MAX_USERNAMES, MAX_SETTINGS_INTERESTS, MAX_NUMBER, MAX_PAID_MESSAGES, MAX_LINKS, MAX_NUM_PAYMENT, MAX_TARGET_INTERESTS } from './SocialConst.js';
 import ReplyDetails from './ReplyDetails.js';
 import { idToShort, geodeToZeo } from './SocialUtil.js';
+import { RESTRICTED_PUBLIC_KEY, is_FAUCET_ON } from '@polkadot/react-components/modals/transferConst.js';
 
 interface Props {
   className?: string;
@@ -70,6 +71,7 @@ function CallCard ({ className = '', contract, messageId, acctBlocked, isShowMsg
   const dbValue = useDebounce(value);
   const dbParams = useDebounce(params);
   const [isCalled, toggleIsCalled] = useToggle(false);
+  const isPasswordDisabled = (RESTRICTED_PUBLIC_KEY.find((_publicKey: string) => _publicKey === accountId))? true: false;
   function t_strong(_str: string): JSX.Element{return(<><strong>{t(_str)}</strong></>)}
 
   const [_price, setPrice] = useState<string>('');
@@ -444,7 +446,7 @@ function CallCard ({ className = '', contract, messageId, acctBlocked, isShowMsg
         {isViaRpc
           ? ( <>
                 {messageIndex===18? <>
-                <Label circular color='orange' onClick={_onSubmitRpc}>Get Replies</Label>
+                <Label as='a' circular color='orange' onClick={_onSubmitRpc}>Get Replies</Label>
                 </>: <>
                 <Button
                     icon='sign-in-alt'
@@ -455,14 +457,18 @@ function CallCard ({ className = '', contract, messageId, acctBlocked, isShowMsg
                 </>}
               </>
             ) : (
-            <TxButton
-              accountId={accountId}
-              extrinsic={execTx}
-              icon='sign-in-alt'
-              isDisabled={!isValid || !execTx}
-              label={t('Submit')}
-              onStart={onClose}
-            />
+              <>{(is_FAUCET_ON && isPasswordDisabled)? <>
+                {'⭕'}{t(' RESTRICTED ACCOUNT') }</>:
+              <>
+                <TxButton
+                  accountId={accountId}
+                  extrinsic={execTx}
+                  icon='sign-in-alt'
+                  isDisabled={!isValid || !execTx}
+                  label={t('Submit')}
+                  onStart={onClose}
+                />
+            </>}</>
           )
         }      
         </Card>    

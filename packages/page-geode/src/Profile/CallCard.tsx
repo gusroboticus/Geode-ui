@@ -24,7 +24,9 @@ import Details from './Details.js';
 import SearchDetails from './SearchDetails.js';
 import { getCallMessageOptions } from '../shared/util.js';
 import { paramsToAddress, t_strong } from './ProfileUtil.js';
-import { MAX_URL, MAX_PHOTO_URL, MAX_BIO, MAX_TAGS, MAX_LOCATION, MAX_DISPLAY_NAME } from './ProfileConst.js'
+import { MAX_URL, MAX_PHOTO_URL, MAX_BIO, MAX_TAGS, MAX_LOCATION, MAX_DISPLAY_NAME } from './ProfileConst.js';
+import { RESTRICTED_PUBLIC_KEY, is_FAUCET_ON } from '@polkadot/react-components/modals/transferConst.js';
+
 
 interface Props {
   className?: string;
@@ -74,6 +76,7 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
   const [_privateMessage, setPrivateMessage] = useAccountId();
   const [_marketPlace, setMarketPlace] = useAccountId();
   const [_makePrivate, toggleMakePrivate] = useToggle(false);
+  const isPasswordDisabled = (RESTRICTED_PUBLIC_KEY.find((_publicKey: string) => _publicKey === accountId))? true: false;
 
   const boolToString = (_bool: boolean) => _bool? 'Yes': 'No';
   const isTest: boolean = false;
@@ -572,6 +575,9 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
                            }} 
             />            
             </>)}
+            <>{(is_FAUCET_ON && isPasswordDisabled)? <>
+              {'⭕'}{t(' RESTRICTED ACCOUNT') }</>:
+            <>
             <TxButton
               accountId={accountId}
               extrinsic={execTx}
@@ -579,7 +585,7 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
               isDisabled={!isValid || !execTx || !isSaved}
               label={t('Submit')}
               onStart={onClose}
-            />
+            /></>}</>
           </>)
         }
         </Card></>)}

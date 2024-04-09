@@ -76,12 +76,12 @@ function MyPaidInBoxDetails ({  className = '', outcome: { from, output, when } 
               <Table.Row>
               <Table.Cell>
               <Button
-                  icon={isPaidMessage? 'minus': 'plus'}
+                  icon={'envelope-open-text'}
                   label={t(' Send a Paid Message')}
                   onClick={()=> {<>{_makePaidMessage()}</>}}
                 />
               <Button
-                  icon={isPaidMessage? 'minus': 'plus'}
+                  icon={'coins'}
                   label={t(' Pay & Clear My Inbox')}
                   onClick={()=> {<>{_makePayClear()}</>}}
                 />

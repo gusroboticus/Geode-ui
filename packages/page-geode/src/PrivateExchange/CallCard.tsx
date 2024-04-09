@@ -24,6 +24,7 @@ import ViewAllListings from './ViewAllListings.js';
 import ViewMyListings from './ViewMyListings.js';
 import { getCallMessageOptions } from './util.js';
 import { MAX_LISTINGS, MAX_OFFER_COIN, MAX_ASK_COIN, MAX_PAIR, MAX_METHOD, MAX_COUNTRY, MAX_CITY } from './ExchangeConst.js'
+import { RESTRICTED_PUBLIC_KEY, is_FAUCET_ON } from '@polkadot/react-components/modals/transferConst.js';
 
 interface Props {
   className?: string;
@@ -63,6 +64,7 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
   const [formMethod, setFormMethod] = useState<string>('');
   const [formCountry, setFormCountry] = useState<string>('');
   const [formCity, setFormCity] = useState<string>('');
+  const isPasswordDisabled = (RESTRICTED_PUBLIC_KEY.find((_publicKey: string) => _publicKey === accountId))? true: false;
 
   const isTest: boolean = false;
   //const isTestData: boolean = false; //takes out code elements we only see for test
@@ -368,6 +370,9 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
                           setParams([...params]);
                       }} 
             />
+            <>{(is_FAUCET_ON && isPasswordDisabled)? <>
+              {'⭕'}{t(' RESTRICTED ACCOUNT') }</>:
+            <>
             <TxButton
               accountId={accountId}
               extrinsic={execTx}
@@ -375,7 +380,7 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
               isDisabled={!isValid || !execTx || !isSaved}
               label={t('Submit')}
               onStart={onClose}
-            />
+            /></>}</>
             </div>
           )
         }

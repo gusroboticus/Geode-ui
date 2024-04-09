@@ -16,6 +16,7 @@ import { BN, BN_ONE, BN_ZERO } from '@polkadot/util';
 import { MAX_MESSAGE, MAX_FILE_URL, MAX_USERNAME, MAX_INTERESTS, MAX_GROUP_NAME, MAX_GROUP_DESCRIPTION } from './MsgConst.js'
 import { MAX_LIST_NAME, MAX_LIST_DESCRIPTION } from './MsgConst.js'
 import { booltoPublic, GeodeToZeo } from './MsgUtil.js';
+import { RESTRICTED_PUBLIC_KEY, is_FAUCET_ON } from '@polkadot/react-components/modals/transferConst.js';
 
 import InputMegaGas from '../shared/InputMegaGas.js';
 import Params from '../shared/Params.js';
@@ -72,6 +73,7 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
   const [_feeBalance, setFeeBalance] = useState<string>('');
   const [_fileURL, setFileURL] = useState<string>('');
   const [_isHide, toggleIsHide] = useToggle(false);
+  const isPasswordDisabled = (RESTRICTED_PUBLIC_KEY.find((_publicKey: string) => _publicKey === accountId))? true: false;
 
   const isTest: boolean = false;
   //const isTestData: boolean = false; //takes out code elements we only see for test
@@ -602,14 +604,17 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
               />
               </>
             ) : (
-            <TxButton
-              accountId={accountId}
-              extrinsic={execTx}
-              icon='sign-in-alt'
-              isDisabled={!isValid || !execTx}
-              label={t('Submit')}
-              onStart={onClose}
-            />
+              <>{(is_FAUCET_ON && isPasswordDisabled)? <>
+                {'⭕'}{t(' RESTRICTED ACCOUNT') }</>:
+              <>
+                  <TxButton
+                    accountId={accountId}
+                    extrinsic={execTx}
+                    icon='sign-in-alt'
+                    isDisabled={!isValid || !execTx}
+                    label={t('Submit')}
+                    onStart={onClose}
+            /></>}</>
           )
         }      
         </Card>    

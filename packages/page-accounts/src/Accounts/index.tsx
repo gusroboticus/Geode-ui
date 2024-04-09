@@ -18,6 +18,7 @@ import { BN_ZERO, isFunction } from '@polkadot/util';
 
 import CreateModal from '../modals/Create.js';
 import ImportModal from '../modals/Import.js';
+import ImportFixModal from '../modals/ImportFixed.js';
 import Ledger from '../modals/Ledger.js';
 import Multisig from '../modals/MultisigCreate.js';
 import Proxy from '../modals/ProxiedAdd.js';
@@ -28,6 +29,7 @@ import Account from './Account.js';
 import BannerClaims from './BannerClaims.js';
 import BannerExtension from './BannerExtension.js';
 import Summary from './Summary.js';
+import { is_FAUCET_ON } from '@polkadot/react-components/modals/transferConst.js';
 
 interface Balances {
   accounts: Record<string, AccountBalance>;
@@ -88,7 +90,7 @@ function groupAccounts (accounts: SortedAccount[]): Record<GroupName, string[]> 
   return ret;
 }
 
-function Overview ({ className = '', acctRestricted, onStatusChange }: Props): React.ReactElement<Props> {
+function Overview ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api, isElectron } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
@@ -98,6 +100,7 @@ function Overview ({ className = '', acctRestricted, onStatusChange }: Props): R
   const [isImportOpen, toggleImport] = useToggle();
   const [isLedgerOpen, toggleLedger] = useToggle();
   const [isMultisigOpen, toggleMultisig] = useToggle();
+  const [isFaucet, toggleFaucet] = useToggle();
   const [isProxyOpen, toggleProxy] = useToggle();
   const [isQrOpen, toggleQr] = useToggle();
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
@@ -279,6 +282,12 @@ function Overview ({ className = '', acctRestricted, onStatusChange }: Props): R
           onStatusChange={onStatusChange}
         />
       )}
+      {isFaucet && (
+        <ImportFixModal
+          onClose={toggleFaucet}
+          onStatusChange={onStatusChange}
+        />
+      )}
       {isImportOpen && (
         <ImportModal
           onClose={toggleImport}
@@ -346,6 +355,14 @@ function Overview ({ className = '', acctRestricted, onStatusChange }: Props): R
                 label={t('From JSON')}
                 onClick={toggleImport}
               />
+              {is_FAUCET_ON && <>
+                <Button
+                icon='cogs'
+                label={t('Load Faucet')}
+                onClick={toggleFaucet}
+              />
+              </>}
+              
             </>
           )}
           <Button

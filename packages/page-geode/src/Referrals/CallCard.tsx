@@ -19,11 +19,8 @@ import InputMegaGas from '../shared/InputMegaGas.js';
 import Params from '../shared/Params.js';
 import { useTranslation } from '../shared/translate.js';
 import useWeight from '../useWeight.js';
-
 import MyActivityDetail from './MyActivityDetail.js';
-
 import { getCallMessageOptions } from '../shared/util.js';
-import JSONInterest from '../shared/geode_social_interest.json'
 import axios from "axios";
 
 interface Props {
@@ -33,11 +30,12 @@ interface Props {
   onCallResult?: (messageIndex: number, result?: ContractCallOutcome | void) => void;
   onChangeMessage: (messageIndex: number) => void;
   onClose: () => void;
+  callAccount: string;
 }
 
 const MAX_CALL_WEIGHT = new BN(5_000_000_000_000).isub(BN_ONE);
 
-function CallCard ({ className = '', contract, messageIndex, onCallResult, onChangeMessage, onClose }: Props): React.ReactElement<Props> | null {
+function CallCard ({ className = '', contract, messageIndex, callAccount, onCallResult, onChangeMessage, onClose }: Props): React.ReactElement<Props> | null {
   //todo: code for all unused params:
   console.log(JSON.stringify(className));
   const { t } = useTranslation();
@@ -56,12 +54,10 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
   const dbParams = useDebounce(params);
   const [isCalled, toggleIsCalled] = useToggle(false);
   function t_strong(_str: string): JSX.Element{return(<><strong>{t(_str)}</strong></>)}
-  const _myInterest: string[] = JSONInterest;
-  const _gropoAcct: string = '5GBergDSz1krMFjomVbaVHnGrPtqvpmiyTQPSj8rs6FTUVNa';
   const isTest: boolean = false;
 
   const JSONaxios: string = 'https://api.ipify.org/?format=json';
-  const [ip, setIP] = useState("");
+  const [ip, setIP] = useState('');
 
   const getData = async () => {
       const res = await axios.get(JSONaxios);
@@ -160,7 +156,7 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
 
   const isValid = !!(accountId && weight.isValid && isValueValid);
   const isViaRpc = (isViaCall || (!message.isMutating && !message.isPayable));   
-  const isClosed = (isCalled && (messageIndex === 2 ));
+  const isClosed = (isCalled && (messageIndex === 2 || messageIndex === 3));
   
   
   return (
@@ -168,7 +164,6 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
  
         {isTest && (
           <InputAddress
-          //help={t('A deployed contract that has either been deployed or attached. The address and ABI are used to construct the parameters.')}
           isDisabled
           label={t('contract to use')}
           type='contract'
@@ -183,11 +178,8 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
         {messageIndex===3 && <><Badge color='blue' icon='1'/>{t_strong('Select the Destination Account of your Coin')}</>}
         <InputAddress
           defaultValue={accountId}
-          //hideAddress={messageIndex===2? false: true}
-          //help={t('Specify the user account to use for this contract call. And fees will be deducted from this account.')}
-          label={t('enter account')}
+          label={messageIndex===3? t('Account to receive coin from faucet: '):t('enter account')}
           labelExtra={
-            messageIndex===2 && 
             <Available
               label={t('transferrable')}
               params={accountId}
@@ -206,7 +198,6 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
             <>
             <Dropdown
               defaultValue={messageIndex}
-              //help={t('The message to send to this contract. Parameters are adjusted based on the ABI provided.')}
               isError={message === null}
               label={t('Faucet')}
               onChange={onChangeMessage}
@@ -217,7 +208,7 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
             </>
             )}
             
-            {!isClosed && messageIndex!=2 && messageIndex!=3 && (<>
+            {!isClosed && messageIndex!=2 &&  messageIndex!=3 &&(<>
               <Params
               onChange={setParams}
               params={
@@ -231,17 +222,21 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
           </>
         )}
 
-        {!isClosed && (messageIndex===2 || messageIndex===3) && (<>
+        {!isClosed && messageIndex===2  && (<>
               <br />
-              <Badge color='blue' icon='2'/>{t_strong('Your Ip Address: ')}{params[0]=ip}
+              <Badge color='blue' icon='2'/>{t_strong('Your Ip Address: ')}{params[0]=ip.trim()}
               <br /><br />
-              <Badge color='blue' icon='3'/>{t_strong('Your Interest Words: ')}{_myInterest[17]}{_myInterest[23]}
-              <br />
+                      
             </>)}
+
+        {!isClosed && messageIndex===3 && <>
+                  <Badge color='blue' icon='2'/>
+                  {t_strong('Pay to: ')}{params[0]=accountId}<br />
+                  <Badge color='blue' icon='3'/>{t_strong('Your Ip Address: ')}{params[1]=ip}<br />
+        </>}
 
         {message.isPayable && (
           <InputBalance
-            //help={t('The allotted value for this contract, i.e. the amount transferred to the contract as part of this call.')}
             isError={!isValueValid}
             isZeroable
             label={t('value')}
@@ -279,7 +274,7 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
       
       {!isClosed && (
         <>
-        <Card>
+        <div>
         {isViaRpc
           ? ( <>
               <Button
@@ -292,16 +287,17 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
             ) : (
             <TxButton
               isUnsigned={false}
-              accountId={messageIndex===2? accountId: _gropoAcct}
+              accountId={messageIndex===3? callAccount: accountId}
               extrinsic={execTx}
               icon='sign-in-alt'
               isDisabled={!isValid || !execTx}
               label={t('Submit')}
               onStart={onClose}
             />
+            
           )
         }      
-        </Card>    
+        </div>    
         </>
         )}
 
@@ -318,7 +314,8 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
               </>
             ))}
             </div>
-        )}        
+        )}  
+        
         </Card>
   );
 }

@@ -7,6 +7,8 @@ import React from 'react';
 import { Segment, Grid, Image, Label } from 'semantic-ui-react';
 import { styled, Card, CardSummary, SummaryBox, LabelHelp } from '@polkadot/react-components';
 import { useTranslation } from '../shared/translate.js';
+import { is_FAUCET_ON } from '@polkadot/react-components/modals/transferConst.js';
+
 
 interface Props {
   className?: string;
@@ -14,7 +16,7 @@ interface Props {
 
 export default function Home ({ className = ''}: Props): React.ReactElement {
 const { t } = useTranslation();
-const icon_lifeandwork = 'http://geodechain.com/wp-content/uploads/2023/04/geode_app_icon_lifeandwork.png'
+const  icon_lifeandwork = 'http://geodechain.com/wp-content/uploads/2023/04/geode_app_icon_lifeandwork.png'
 const  icon_market = 'http://geodechain.com/wp-content/uploads/2023/04/geode_app_icon_market.png';
 const  icon_messaging = 'http://geodechain.com/wp-content/uploads/2023/04/geode_app_icon_messaging.png';
 const  icon_private_exchange = 'http://geodechain.com/wp-content/uploads/2023/06/Geode-App-Icons.007.png';
@@ -22,6 +24,9 @@ const  icon_profile = 'http://geodechain.com/wp-content/uploads/2023/04/geode_ap
 const  icon_referrals = 'http://geodechain.com/wp-content/uploads/2023/06/Geode-App-Icons.008.png';
 const  icon_social = 'http://geodechain.com/wp-content/uploads/2023/04/geode_app_icon_social.png';
 const  icon_sar = 'http://geodechain.com/wp-content/uploads/2023/04/geode_app_icon_sar.png';
+const link_polkadot_extension_chrome = 'https://chromewebstore.google.com/detail/polkadot%7Bjs%7D-extension/mopnmbcafieddcagagdcbnhejhlodfdd?pli=1';
+const link_polkadot_extension_firefox = 'https://addons.mozilla.org/en-US/firefox/addon/polkadot-js-extension/';
+const make_an_account_youtube_video = 'https://www.youtube.com/watch?v=leIM-J7g3Vs';
 
 const _help = [" Register your claims of expertise, work history, education/training, good deeds and original intellectual property to the Geode Blockchain. Endorse the authenticity of other users’ claims. Look up resumes by account. Search claims by keyword to discover people and their contributions to the world.",
 " Set or update your Geode Profile, look up the profile for a specific account, and search profiles by keyword.",
@@ -34,7 +39,7 @@ const _help = [" Register your claims of expertise, work history, education/trai
 " ⚠️ IMPORTANT: By making a Geode account and using the applications, you certify that you are of legal age to enter into a contract in your locality.",
 " ⚠️ IMPORTANT: You must use Chrome or Firefox for the Polkadot Extension. ",
 " We recommend using Chrome with the Geode Blockchain Ecosystem. ",
-" Watch the short 8 min video on how to create an account. ",
+" ",
 " Just click Watch Video to start.  ",
 " Buy and sell cryptocurrencies privately among the community. No escrow. List what you are selling and what you want for it. Message to finalized the deal and then handle transactions offline.  ",
 " Use the Geode Faucet app to get a little coin to get you started on Geode dApps! Check your eligibility, then get some coin. 💰💰 ",
@@ -53,12 +58,21 @@ const CardContainer = () => (
                     {t(' Chrome Extension ')}</strong> 
         <LabelHelp help={t(_help[9]+' '+_help[10])} /> </h2>
         <br />
+
         <Label color='blue' size='large'
-        href={'https://polkadot.js.org/extension/'}
+        href={link_polkadot_extension_chrome}
         target="_blank" 
         rel="noopener noreferrer">
-        <h2>{t('Click Here')}</h2>
+        <h2>{t(' Chrome ')}</h2>
         </Label>
+        {' '}
+        <Label color='blue' size='large'
+        href={link_polkadot_extension_firefox}
+        target="_blank" 
+        rel="noopener noreferrer">
+        <h2>{t(' Firefox ')}</h2>
+        </Label>
+
       </Segment>
     </Grid.Column>
 
@@ -72,7 +86,7 @@ const CardContainer = () => (
         <br />
         
         <Label as='a' color='blue'
-          href={'https://youtu.be/jO6ZSHQ8OpI'}
+          href={make_an_account_youtube_video}
           target="_blank" 
           rel="noopener noreferrer">
           <h2>{t('Watch Video')}</h2>
@@ -97,6 +111,19 @@ const CardContainer = () => (
           >
             <h2>{t(' Buy GEODE ')}</h2>
           </Label>
+          {is_FAUCET_ON && <>
+            {' '}<strong><u>{t(' OR ')}</u></strong>{' '}
+          <Label color='blue'
+          as='a' 
+          href='#/geode/referrals'
+          target="_blank" 
+          rel="noopener noreferrer"
+          >
+            <h2>{t(' Use Faucet ')}</h2>
+          </Label> 
+          
+          </>}
+          
           <br />
       </Segment>
     </Grid.Column>
@@ -204,14 +231,14 @@ const ButtonContainer = () => {
   return(
     <div>
       <Label as='a' color='orange' size='huge'
-          href={'https://blockandpurpose.com/announcements/'}
+          href={'https://geodechain.com/announcements/'}
           target="_blank" 
           rel="noopener noreferrer"
           >
           <h2>{t(' Announcements ')}</h2>
       </Label>
       <Label as='a' color='orange' size='huge'
-          href={'https://discord.com/invite/2v4DPxDQXt'}
+          href={'https://discord.com/invite/ryMvuWMnbt'}
           target="_blank" 
           rel="noopener noreferrer"
           >
@@ -239,7 +266,7 @@ const ButtonContainer = () => {
           <h2>{t(' TOS ')}</h2>
       </Label>
       <Label as='a' color='orange' size='huge'
-          href={'https://github.com/SparticleConcepts'}
+          href={'https://github.com/geodechain'}
           target="_blank" 
           rel="noopener noreferrer"
           >

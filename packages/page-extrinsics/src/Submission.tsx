@@ -11,6 +11,7 @@ import { Button, InputAddress, MarkError, TxButton } from '@polkadot/react-compo
 import { useApi } from '@polkadot/react-hooks';
 import { Extrinsic } from '@polkadot/react-params';
 import { BalanceFree } from '@polkadot/react-query';
+import { RESTRICTED_PUBLIC_KEY, is_FAUCET_ON } from '@polkadot/react-components/modals/transferConst.js';
 
 import Decoded from './Decoded.js';
 import { useTranslation } from './translate.js';
@@ -39,6 +40,11 @@ function extractDefaults (value: DecodedExtrinsic | null, defaultFn: Submittable
   };
 }
 
+function validateAddress(_address: string | undefined): boolean {
+  const isAddress = _address? _address: '';
+  return(isAddress.length===48? true: false);
+}
+
 function Selection ({ className, defaultValue }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { apiDefaultTxSudo } = useApi();
@@ -46,7 +52,9 @@ function Selection ({ className, defaultValue }: Props): React.ReactElement<Prop
   const [error, setError] = useState<string | null>(null);
   const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'promise'> | null>(null);
   const [{ defaultArgs, defaultFn }] = useState<DefaultExtrinsic>(() => extractDefaults(defaultValue, apiDefaultTxSudo));
-
+  const publicKey = RESTRICTED_PUBLIC_KEY.find((_publicKey: string) => _publicKey === accountId);
+  const isPasswordDisabled = validateAddress(publicKey)? true: false;
+  
   const _onExtrinsicChange = useCallback(
     (method?: SubmittableExtrinsic<'promise'>) =>
       setExtrinsic(() => method || null),
@@ -94,12 +102,15 @@ function Selection ({ className, defaultValue }: Props): React.ReactElement<Prop
           label={t('Submit Unsigned')}
           withSpinner
         />
+        {(is_FAUCET_ON && isPasswordDisabled)? <>{'⭕'}{t(' RESTRICTED ACCOUNT')}</>:<>
         <TxButton
           accountId={accountId}
           extrinsic={extrinsic}
           icon='sign-in-alt'
           label={t('Submit Transaction')}
         />
+        </>}
+
       </Button.Group>
     </div>
   );

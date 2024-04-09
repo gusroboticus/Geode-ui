@@ -19,6 +19,7 @@ import { useTranslation } from '../translate.js';
 import useWeight from '../useWeight.js';
 import Outcome from './Outcome.js';
 import { getCallMessageOptions } from './util.js';
+import { RESTRICTED_PUBLIC_KEY, is_FAUCET_ON } from '@polkadot/react-components/modals/transferConst.js';
 
 interface Props {
   className?: string;
@@ -47,6 +48,8 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
   const weight = useWeight();
   const dbValue = useDebounce(value);
   const dbParams = useDebounce(params);
+  
+  const isPasswordDisabled = (RESTRICTED_PUBLIC_KEY.find((_publicKey: string) => _publicKey === accountId))? true: false;
 
   useEffect((): void => {
     setEstimatedWeight(null);
@@ -261,7 +264,10 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
             />
           )
           : (
-            <TxButton
+            <>{(is_FAUCET_ON && isPasswordDisabled)? <>
+              {'⭕'}{t(' RESTRICTED ACCOUNT') }</>:
+              <>
+              <TxButton
               accountId={accountId}
               extrinsic={execTx}
               icon='sign-in-alt'
@@ -269,6 +275,8 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
               label={t('Execute')}
               onStart={onClose}
             />
+              </>}
+              </>
           )
         }
       </Modal.Actions>

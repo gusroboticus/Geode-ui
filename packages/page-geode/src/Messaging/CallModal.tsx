@@ -20,6 +20,7 @@ import { useTranslation } from '../shared/translate.js';
 import useWeight from '../useWeight.js';
 import { getCallMessageOptions } from '../shared/util.js';
 import { MAX_LIST_MESSAGE, MAX_GROUP_DESCRIPTION, MAX_MESSAGE, MAX_FILE_URL } from './MsgConst.js'
+import { RESTRICTED_PUBLIC_KEY, is_FAUCET_ON } from '@polkadot/react-components/modals/transferConst.js';
 
 interface Props {
   className?: string;
@@ -59,6 +60,7 @@ function CallModal ({ className = '', messageId, toAcct,
   const [_isHide, toggleIsHide] = useToggle(false);
 
   const [isViaCall, toggleViaCall] = useToggle();
+  const isPasswordDisabled = (RESTRICTED_PUBLIC_KEY.find((_publicKey: string) => _publicKey === accountId))? true: false;
 
   const paramToString = (_string: string|undefined) => _string? _string : '';
   const hexToHuman =(_string: string|undefined) => isHex(_string)? hexToString(_string): '';
@@ -616,14 +618,17 @@ function CallModal ({ className = '', messageId, toAcct,
         )}
       </Modal.Content>
       <Modal.Actions>
-        <TxButton
-              accountId={accountId}
-              extrinsic={execTx}
-              icon='sign-in-alt'
-              isDisabled={!isValid || !execTx}
-              label={t('Submit')}
-              onStart={onClose}
-        />
+      <>{(is_FAUCET_ON && isPasswordDisabled)? <>
+              {'⭕'}{t(' RESTRICTED ACCOUNT') }</>:
+            <>
+              <TxButton
+                    accountId={accountId}
+                    extrinsic={execTx}
+                    icon='sign-in-alt'
+                    isDisabled={!isValid || !execTx}
+                    label={t('Submit')}
+                    onStart={onClose}
+              /></>}</>
       </Modal.Actions>
     </Modal>
   </>);

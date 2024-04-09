@@ -3,7 +3,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-
 import { Toggle, Badge, Card, CardSummary, SummaryBox, AccountName, LabelHelp, IdentityIcon } from '@polkadot/react-components';
 import { useTranslation } from '../shared/translate.js';
 import JSONinfo from '../shared/geode_market_info.json';

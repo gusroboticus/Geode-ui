@@ -19,6 +19,8 @@ import store from '../store.js';
 import { useTranslation } from '../translate.js';
 import useAbi from '../useAbi.js';
 import useWeight from '../useWeight.js';
+import { RESTRICTED_PUBLIC_KEY, is_FAUCET_ON } from '@polkadot/react-components/modals/transferConst.js';
+
 
 interface Props {
   onClose: () => void;
@@ -37,6 +39,8 @@ function Upload ({ onClose }: Props): React.ReactElement {
   const [name, isNameValid, setName] = useNonEmptyString();
   const { abiName, contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi();
   const weight = useWeight();
+  const isPasswordDisabled = (RESTRICTED_PUBLIC_KEY.find((_publicKey: string) => _publicKey === accountId))? true: false;
+
 
   const code = useMemo(
     () => isAbiValid && isWasmValid && wasm && contractAbi
@@ -252,6 +256,7 @@ function Upload ({ onClose }: Props): React.ReactElement {
             />
           )
         }
+        <>{(is_FAUCET_ON && isPasswordDisabled)? <>{'⭕'}{' RESTRICTED ACCOUNT'}</>: <>
         <TxButton
           accountId={accountId}
           extrinsic={uploadTx}
@@ -261,6 +266,8 @@ function Upload ({ onClose }: Props): React.ReactElement {
           onClick={onClose}
           onSuccess={_onSuccess}
         />
+        </>}</>
+
       </Modal.Actions>
     </Modal>
   );

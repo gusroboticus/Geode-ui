@@ -20,6 +20,7 @@ import useWeight from '../useWeight.js';
 import { getCallMessageOptions } from '../shared/util.js';
 import { ZERO_MSG_ID, MAX_LINKS, MAX_PUBLIC_MESSAGES } from './SocialConst.js'
 import { hexToHuman } from './SocialUtil.js';
+import { RESTRICTED_PUBLIC_KEY, is_FAUCET_ON } from '@polkadot/react-components/modals/transferConst.js';
 
 interface Props {
   className?: string;
@@ -55,7 +56,7 @@ function CallModal ({ className = '', messageId, fromAcct, username, postMessage
   const dbValue = useDebounce(value);
   const dbParams = useDebounce(params);
   function t_strong(_str: string): JSX.Element{return(<><strong>{t(_str)}</strong></>)}
-  //const zeroMessageId: string = '0x0000000000000000000000000000000000000000000000000000000000000000';
+  const isPasswordDisabled = (RESTRICTED_PUBLIC_KEY.find((_publicKey: string) => _publicKey === accountId))? true: false;
   const isReply: boolean = (messageId===ZERO_MSG_ID)? false: true; 
 
   // for test
@@ -413,6 +414,8 @@ function CallModal ({ className = '', messageId, fromAcct, username, postMessage
             />
           )
           : (
+            <>{(is_FAUCET_ON && isPasswordDisabled)? <>
+              {'⭕'}{t(' RESTRICTED ACCOUNT') }</>:
             <>
             { <TxButton
               accountId={accountId}
@@ -423,7 +426,7 @@ function CallModal ({ className = '', messageId, fromAcct, username, postMessage
               onStart={onClose}
             />
             }
-            </>
+            </>}</>
           )
         }
       </Modal.Actions>

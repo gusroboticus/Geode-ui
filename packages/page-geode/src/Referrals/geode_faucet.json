@@ -1,6 +1,6 @@
 {
   "source": {
-    "hash": "0x49d507b133b2b52368c9c90cdb7e8bf861e9d5600ef66419cd3f5895ee1ef8b3",
+    "hash": "0x6502a8b107d0874821367a852afb05ebeec32dde2a87b4fa5b7e39d9d52c276b",
     "language": "ink! 5.0.0",
     "compiler": "rustc 1.76.0",
     "build_info": {
@@ -172,15 +172,6 @@
       {
         "args": [
           {
-            "label": "new_eligible_payout",
-            "type": {
-              "displayName": [
-                "Balance"
-              ],
-              "type": 5
-            }
-          },
-          {
             "label": "new_get_payout",
             "type": {
               "displayName": [
@@ -205,6 +196,24 @@
                 "u128"
               ],
               "type": 5
+            }
+          },
+          {
+            "label": "new_gropo",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 3
+            }
+          },
+          {
+            "label": "new_dantian",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 1
             }
           }
         ],
@@ -250,6 +259,15 @@
       },
       {
         "args": [
+          {
+            "label": "user",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 3
+            }
+          },
           {
             "label": "my_ip_address",
             "type": {
@@ -315,6 +333,22 @@
           "type": 26
         },
         "selector": "0x9e777ece"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "shut_down_faucet",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 19
+        },
+        "selector": "0x1ea7dfa6"
       }
     ]
   },
@@ -415,15 +449,6 @@
                   "ty": 5
                 }
               },
-              "name": "eligible_payout"
-            },
-            {
-              "layout": {
-                "leaf": {
-                  "key": "0x00000000",
-                  "ty": 5
-                }
-              },
               "name": "get_payout"
             },
             {
@@ -461,6 +486,24 @@
                 }
               },
               "name": "total_payouts"
+            },
+            {
+              "layout": {
+                "leaf": {
+                  "key": "0x00000000",
+                  "ty": 3
+                }
+              },
+              "name": "gropo"
+            },
+            {
+              "layout": {
+                "leaf": {
+                  "key": "0x00000000",
+                  "ty": 1
+                }
+              },
+              "name": "dantian"
             }
           ],
           "name": "ContractStorage"
@@ -770,11 +813,6 @@
                 "typeName": "<u8 as::ink::storage::traits::AutoStorableHint<::ink::storage::\ntraits::ManualKey<1922434762u32, ()>,>>::Type"
               },
               {
-                "name": "eligible_payout",
-                "type": 5,
-                "typeName": "<Balance as::ink::storage::traits::AutoStorableHint<::ink::\nstorage::traits::ManualKey<960492791u32, ()>,>>::Type"
-              },
-              {
                 "name": "get_payout",
                 "type": 5,
                 "typeName": "<Balance as::ink::storage::traits::AutoStorableHint<::ink::\nstorage::traits::ManualKey<1995213281u32, ()>,>>::Type"
@@ -798,6 +836,16 @@
                 "name": "total_payouts",
                 "type": 5,
                 "typeName": "<Balance as::ink::storage::traits::AutoStorableHint<::ink::\nstorage::traits::ManualKey<768425469u32, ()>,>>::Type"
+              },
+              {
+                "name": "gropo",
+                "type": 3,
+                "typeName": "<AccountId as::ink::storage::traits::AutoStorableHint<::ink::\nstorage::traits::ManualKey<2622157071u32, ()>,>>::Type"
+              },
+              {
+                "name": "dantian",
+                "type": 1,
+                "typeName": "<Vec<u8> as::ink::storage::traits::AutoStorableHint<::ink::\nstorage::traits::ManualKey<1805230612u32, ()>,>>::Type"
               }
             ]
           }
@@ -1027,7 +1075,10 @@
           "tuple": [
             2,
             0,
-            5
+            5,
+            1,
+            3,
+            1
           ]
         }
       }
@@ -1080,11 +1131,6 @@
         "def": {
           "composite": {
             "fields": [
-              {
-                "name": "eligible_payout",
-                "type": 5,
-                "typeName": "Balance"
-              },
               {
                 "name": "get_payout",
                 "type": 5,

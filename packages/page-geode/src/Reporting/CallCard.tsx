@@ -23,9 +23,9 @@ import useWeight from '../useWeight.js';
 import ViewReportsDetails from './ViewReportsDetails.js';
 import ViewAllowedDetails from './ViewAllowedDetails.js';
 import { getCallMessageOptions } from './util.js';
-import { t_strong } from './ReportingUtil.js';
 import { MAX_REPORTER_LEGAL_NAME, MAX_REPORTER_PHONE, MAX_GEODE_APPS, MAX_ACTIVITY_ID_LIST, MAX_CRIME_CATEGORY } from './ReportingConst.js'
 import { MAX_CRIME_DESCRIPTION, MAX_ACCUSED_LOCATION, MAX_NAME, MAX_ORGANIZATION, MAX_PHONE, MAX_EMAIL } from './ReportingConst.js'
+import { RESTRICTED_PUBLIC_KEY, is_FAUCET_ON } from '@polkadot/react-components/modals/transferConst.js';
 
 interface Props {
   className?: string;
@@ -56,7 +56,9 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
   const dbValue = useDebounce(value);
   const dbParams = useDebounce(params);
   const [isCalled, toggleIsCalled] = useToggle(false);
-  
+  function t_strong(_str: string): JSX.Element{return(<><strong>{t(_str)}</strong></>)}
+  const isPasswordDisabled = (RESTRICTED_PUBLIC_KEY.find((_publicKey: string) => _publicKey === accountId))? true: false;
+
   const isTest: boolean = false;
   //const isTestData: boolean = false; //takes out code elements we only see for test
 
@@ -427,6 +429,9 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
             />
           )
           : (
+            <>{(is_FAUCET_ON && isPasswordDisabled)? <>
+              {'⭕'}{t(' RESTRICTED ACCOUNT') }</>:
+            <>
             <TxButton
               accountId={accountId}
               extrinsic={execTx}
@@ -434,7 +439,7 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
               isDisabled={!isValid || !execTx}
               label={t('Submit')}
               onStart={onClose}
-            />
+            /></>}</>
           )
         }
         </Card>

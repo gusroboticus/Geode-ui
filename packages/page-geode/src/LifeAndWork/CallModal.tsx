@@ -20,6 +20,8 @@ import Params from '../shared/Params.js';
 import { useTranslation } from '../shared/translate.js';
 import useWeight from '../useWeight.js';
 import { getCallMessageOptions } from './util.js';
+import { RESTRICTED_PUBLIC_KEY, is_FAUCET_ON } from '@polkadot/react-components/modals/transferConst.js';
+
 
 interface Props {
   className?: string;
@@ -54,6 +56,9 @@ function CallModal ({ className = '', claimID, claimant, claim, showBool, contra
 
   const isShow: boolean = false;
   const isShowParams: boolean = false;
+
+  const isPasswordDisabled = (RESTRICTED_PUBLIC_KEY.find((_publicKey: string) => _publicKey === accountId))? true: false;
+
 
   function hextoHuman(_hexIn: string): string {
     const _Out: string = (isHex(_hexIn))? t(hexToString(_hexIn).trim()): '';
@@ -281,6 +286,9 @@ function CallModal ({ className = '', claimID, claimant, claim, showBool, contra
             />
           )
           : (
+            <>{(is_FAUCET_ON && isPasswordDisabled)? <>
+              {'⭕'}{t(' RESTRICTED ACCOUNT') }</>:
+            <>
             <TxButton
               accountId={accountId}
               extrinsic={execTx}
@@ -288,7 +296,7 @@ function CallModal ({ className = '', claimID, claimant, claim, showBool, contra
               isDisabled={!isValid || !execTx}
               label={t('Submit')}
               onStart={onClose}
-            />
+            /></>}</>
           )
         }
       </Modal.Actions>

@@ -19,6 +19,7 @@ import useWeight from '../useWeight.js';
 import { getCallMessageOptions } from '../shared/util.js';
 import { t_strong } from './ProfileUtil.js';
 import { MAX_URL, MAX_PHOTO_URL, MAX_BIO, MAX_TAGS, MAX_LOCATION, MAX_DISPLAY_NAME } from './ProfileConst.js'
+import { RESTRICTED_PUBLIC_KEY, is_FAUCET_ON } from '@polkadot/react-components/modals/transferConst.js';
 
 interface Props {
   className?: string;
@@ -92,6 +93,8 @@ function CallModal ({ className = '', myAccount, displayName,
   const weight = useWeight();
   const dbValue = useDebounce(value);
   const dbParams = useDebounce(params);
+  const isPasswordDisabled = (RESTRICTED_PUBLIC_KEY.find((_publicKey: string) => _publicKey === accountId))? true: false;
+
 
   // for test
   const isShow: boolean = false;
@@ -496,14 +499,17 @@ function CallModal ({ className = '', myAccount, displayName,
                           setParams([...params]);
                          }} 
         />
-        <TxButton
-              accountId={accountId}
-              extrinsic={execTx}
-              icon='sign-in-alt'
-              isDisabled={!isValid || !execTx || !isSaved}
-              label={t('Submit')}
-              onStart={onClose}
-        />
+        <>{(is_FAUCET_ON && isPasswordDisabled)? <>
+              {'⭕'}{t(' RESTRICTED ACCOUNT') }</>:
+            <>
+            <TxButton
+                  accountId={accountId}
+                  extrinsic={execTx}
+                  icon='sign-in-alt'
+                  isDisabled={!isValid || !execTx || !isSaved}
+                  label={t('Submit')}
+                  onStart={onClose}
+        /></>}</>
       </Modal.Actions>
     </Modal>
   </>);

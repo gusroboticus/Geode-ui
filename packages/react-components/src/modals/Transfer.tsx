@@ -21,7 +21,7 @@ import { styled } from '../styled.js';
 import Toggle from '../Toggle.js';
 import { useTranslation } from '../translate.js';
 import TxButton from '../TxButton.js';
-import { RESTRICTED_PUBLIC_KEY } from './transferConst.js';
+import { RESTRICTED_PUBLIC_KEY, is_FAUCET_ON } from './transferConst.js';
 
 interface Props {
   className?: string;
@@ -212,7 +212,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
         </div>
       </Modal.Content>
       <Modal.Actions>
-      {(isRestrictedProp || isRestrictedSender)? <><strong>{t('WARNING! ')}</strong>{t('The send from account is restricted.')}
+      {(is_FAUCET_ON && (isRestrictedProp || isRestrictedSender))? <>{'⭕'}{t(' RESTRICTED ACCOUNT') }
       </>: <>
       <TxButton
           accountId={propSenderId || senderId}

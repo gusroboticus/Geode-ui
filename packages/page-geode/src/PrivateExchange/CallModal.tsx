@@ -23,6 +23,7 @@ import { useTranslation } from '../shared/translate.js';
 import useWeight from '../useWeight.js';
 import { getCallMessageOptions } from '../shared/util.js';
 import { MAX_LISTINGS, MAX_PAIR, MAX_METHOD, MAX_COUNTRY, MAX_CITY } from './ExchangeConst.js'
+import { RESTRICTED_PUBLIC_KEY, is_FAUCET_ON } from '@polkadot/react-components/modals/transferConst.js';
 
 
 interface Props {
@@ -72,7 +73,7 @@ function CallModal ({ className = '', passListingID, passOfferCoin, passAskingCo
   const [formMethod, setFormMethod] = useState<string>();
   const [formCountry, setFormCountry] = useState<string>();
   const [formCity, setFormCity] = useState<string>();
-  //const [formNotes, setFormNotes] = useState<string>();
+  const isPasswordDisabled = (RESTRICTED_PUBLIC_KEY.find((_publicKey: string) => _publicKey === accountId))? true: false;
 
   const weight = useWeight();
   const dbValue = useDebounce(value);
@@ -362,6 +363,9 @@ function CallModal ({ className = '', passListingID, passOfferCoin, passAskingCo
               }} 
             />
             { 
+            <>{(is_FAUCET_ON && isPasswordDisabled)? <>
+              {'⭕'}{t(' RESTRICTED ACCOUNT') }</>:
+            <>
             <TxButton
               accountId={accountId}
               extrinsic={execTx}
@@ -369,7 +373,7 @@ function CallModal ({ className = '', passListingID, passOfferCoin, passAskingCo
               isDisabled={!isValid || !execTx || !isSaved}
               label={t('Submit')}
               onStart={onClose}
-            />
+            /></>}</>
             }
             </>
           )

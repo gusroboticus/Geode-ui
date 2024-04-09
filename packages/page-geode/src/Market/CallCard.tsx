@@ -26,6 +26,7 @@ import { MAX_MORE_INFO_LINK, MAX_DELIVERY_INFO, MAX_PRODUCT_LOCATION, MAX_DIGITA
 import { MAX_SERVICE_CATEGORY, MAX_SERVICE_DESCRIPTION, MAX_BOOKING_LINK, MAX_SERVICE_LOCATION } from './marketConst.js'
 import { MAX_SEARCH, MAX_STORE_DESCRIPTION, MAX_SELLER_LOCATION, MAX_BANNER_URL, MAX_YOUTUBE_URL, MAX_EXTERNAL_LINK, ADDINFO } from './marketConst.js'
 import { INST_TITLE, INST_SUB_TITLE, INSTRUCTION, INST_NOTE } from './marketInstructions.js';
+import { RESTRICTED_PUBLIC_KEY, is_FAUCET_ON } from '@polkadot/react-components/modals/transferConst.js';
 
 import { getCallMessageOptions } from '../shared/util.js';
 import SellerDetails from './SellerDetails.js';
@@ -88,6 +89,8 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
   const [_delivery, setDelivery] = useState<string>('');
   const [_zeno, setZeno] = useState<string>('');
   const [_isHide, toggleIsHide] = useToggle(false);
+  const isPasswordDisabled = (RESTRICTED_PUBLIC_KEY.find((_publicKey: string) => _publicKey === accountId))? true: false;
+
   function t_strong(_str: string): JSX.Element{return(<><strong>{t(_str)}</strong></>)}
 
   const isTest: boolean = false;
@@ -874,14 +877,17 @@ function CallCard ({ className = 'callcard', contract, messageIndex, onCallResul
               />
               </>
             ) : (
-            <TxButton
-              accountId={accountId}
-              extrinsic={execTx}
-              icon='sign-in-alt'
-              isDisabled={!isValid || !execTx}
-              label={t('Submit')}
-              onStart={onClose}
-            />
+              <>{(is_FAUCET_ON && isPasswordDisabled)? <>
+                {'⭕'}{t(' RESTRICTED ACCOUNT') }</>:
+              <>
+                <TxButton
+                  accountId={accountId}
+                  extrinsic={execTx}
+                  icon='sign-in-alt'
+                  isDisabled={!isValid || !execTx}
+                  label={t('Submit')}
+                  onStart={onClose}
+                /></>}</>
           )
         }      
         </Card>    

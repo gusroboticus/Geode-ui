@@ -19,7 +19,8 @@ import Params from '../shared/Params.js';
 import { useTranslation } from '../shared/translate.js';
 import useWeight from '../useWeight.js';
 import { getCallMessageOptions } from '../shared/util.js';
-import { t_strong, accountIdentity } from './ReportingUtil.js';
+import { accountIdentity } from './ReportingUtil.js';
+import { RESTRICTED_PUBLIC_KEY, is_FAUCET_ON } from '@polkadot/react-components/modals/transferConst.js';
 
 interface Props {
   className?: string;
@@ -48,6 +49,8 @@ function CallModal ({ className = '', removeAccountID,
   const [params, setParams] = useState<unknown[]>([]);
   
   const [isViaCall, toggleViaCall] = useToggle();
+  function t_strong(_str: string): JSX.Element{return(<><strong>{t(_str)}</strong></>)}
+  const isPasswordDisabled = (RESTRICTED_PUBLIC_KEY.find((_publicKey: string) => _publicKey === accountId))? true: false;
 
   const weight = useWeight();
   const dbValue = useDebounce(value);
@@ -252,6 +255,8 @@ function CallModal ({ className = '', removeAccountID,
             />
           )
           : (
+            <>{(is_FAUCET_ON && isPasswordDisabled)? <>
+              {'⭕'}{t(' RESTRICTED ACCOUNT') }</>:
             <>
             { <TxButton
               accountId={accountId}
@@ -262,7 +267,7 @@ function CallModal ({ className = '', removeAccountID,
               onStart={onClose}
             />
             }
-            </>
+            </>}</>
           )
         }
       </Modal.Actions>

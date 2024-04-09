@@ -19,29 +19,21 @@ import ContractAdd from './Add.js';
 import Contract from '../shared/Contract.js';
 
 import CallCard from './CallCard.js';
-//import CallSubCard from './CallSubCard.js';
-//import CallModal from './CallModal.js';
+import CallModal from './CallModal.js';
 import { getContractForAddress } from '../shared/util.js';
 
 // uncomment for test configuration - - - - >
-import JSONContractAddress from '../shared/geode_contracts_test.json';
+//import JSONContractAddress from '../shared/geode_contracts_test.json';
 // uncomment for production chain - - - - >
-//import JSONContractAddress from '../shared/geode_contracts.json';
+import JSONContractAddress from '../shared/geode_contracts.json';
 
 export interface Props {
   contracts: string[];
   updated: number;
   initMessageIndex: number;
-  programID?: string;
-  title?: string;
-  description?: string;
-  moreInfoLink?: string;
-  photo?: string;
-  firstLevelReward?: number;
-  secondLevelReward?: number;
-  maximumReward?: number;
-  ownerApprovedRequired?: boolean;
-  payInMinimum?: number;
+  callAccount: string;
+  payAccount: string;
+  onClose?: () => void;
 }
 
 interface Indexes {
@@ -56,7 +48,7 @@ function filterContracts (api: ApiPromise, keyringContracts: string[] = []): Con
     .filter((contract): contract is ContractPromise => !!contract);
 }
 
-function ContractsTable ({ contracts: keyringContracts, initMessageIndex, programID, title, description, moreInfoLink, photo, firstLevelReward, secondLevelReward, maximumReward, ownerApprovedRequired, payInMinimum }: Props): React.ReactElement<Props> {
+function ContractsTable ({ contracts: keyringContracts, initMessageIndex, callAccount, payAccount, onClose }: Props): React.ReactElement<Props> {
   const _initIndex: number = (initMessageIndex > -1) ? initMessageIndex: 0;
   let _initContractIndex: number = 0;
   const { t } = useTranslation();
@@ -176,12 +168,26 @@ function ContractsTable ({ contracts: keyringContracts, initMessageIndex, progra
       </Table>}
 
       {isCallOpen && contract && 
-      (messageIndex===2 || messageIndex===3) && (
+      (messageIndex===2 || messageIndex===99) && (
         <CallCard
           contract={contract}
           messageIndex={messageIndex}
           onCallResult={onCallResult}
           onChangeMessage={_setMessageIndex}
+          callAccount={callAccount}
+          onClose={_toggleCall}
+        />
+      )}
+      {isCallOpen && contract && 
+      (messageIndex===3) && (
+        <CallModal
+          contract={contract}
+          messageIndex={messageIndex}
+          onCallResult={onCallResult}
+          onChangeMessage={_setMessageIndex}
+          callAccount={callAccount}
+          payAccount={payAccount}
+          onClose={_toggleCall}
         />
       )}
     </>

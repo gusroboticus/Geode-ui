@@ -20,6 +20,8 @@ import store from '../store.js';
 import { useTranslation } from '../translate.js';
 import useAbi from '../useAbi.js';
 import useWeight from '../useWeight.js';
+import { RESTRICTED_PUBLIC_KEY, is_FAUCET_ON } from '@polkadot/react-components/modals/transferConst.js';
+
 
 interface Props {
   codeHash: string;
@@ -38,6 +40,8 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
   const [salt, setSalt] = useState<string>(() => randomAsHex());
   const [withSalt, setWithSalt] = useState(false);
   const weight = useWeight();
+  const isPasswordDisabled = (RESTRICTED_PUBLIC_KEY.find((_publicKey: string) => _publicKey === accountId))? true: false;
+
 
   useEffect((): void => {
     setParams([]);
@@ -197,6 +201,8 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
         />
       </Modal.Content>
       <Modal.Actions>
+        <>
+        {(is_FAUCET_ON && isPasswordDisabled)? <>{'⭕'}{' RESTRICTED ACCOUNT'}</>:<>
         <TxButton
           accountId={accountId}
           extrinsic={initTx}
@@ -207,6 +213,9 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
           onSuccess={_onSuccess}
           withSpinner
         />
+        </>}
+        </>
+ 
       </Modal.Actions>
     </Modal>
   );

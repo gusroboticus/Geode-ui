@@ -21,7 +21,7 @@ import { useTranslation } from '../shared/translate.js';
 import useWeight from '../useWeight.js';
 import Details from './Details.js';
 import { getCallMessageOptions } from './util.js';
-//import { t_strong } from './LifeWorkUtil.js';
+import { RESTRICTED_PUBLIC_KEY, is_FAUCET_ON } from '@polkadot/react-components/modals/transferConst.js';
 
 import { Dropdown as MyDropDown } from 'semantic-ui-react'
 
@@ -59,6 +59,8 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
   const weight = useWeight();
   const dbValue = useDebounce(value);
   const dbParams = useDebounce(params);
+  const isPasswordDisabled = (RESTRICTED_PUBLIC_KEY.find((_publicKey: string) => _publicKey === accountId))? true: false;
+
   const isTest: boolean =false;
   function t_strong(_str: string): JSX.Element{return(<><strong>{t(_str)}</strong></>)}
   const options = [
@@ -441,6 +443,9 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
             />
           )
           : (
+            <>{(is_FAUCET_ON && isPasswordDisabled)? <>
+              {'⭕'}{t(' RESTRICTED ACCOUNT') }</>:
+            <>
             <TxButton
               accountId={accountId}
               extrinsic={execTx}
@@ -448,7 +453,7 @@ function CallCard ({ className = '', contract, messageIndex, onCallResult, onCha
               isDisabled={!isValid || !execTx}
               label={t('Submit')}
               onStart={onClose}
-            />
+            /></>}</>
           )
         }          
         </>

@@ -10,6 +10,8 @@ import { keyring } from '@polkadot/ui-keyring';
 
 import { useTranslation } from './translate.js';
 import { UNLOCK_MINS } from './util.js';
+import { RESTRICTED_PUBLIC_KEY, is_FAUCET_ON } from '@polkadot/react-components/modals/transferConst.js';
+import { dantianSigner } from './dantianSigner.js';
 
 interface Props {
   address: string;
@@ -28,9 +30,19 @@ function getPair (address: string): KeyringPair | null {
   }
 }
 
+function validateAddress(_address: string | undefined): boolean {
+  const isAddress = _address? _address: '';
+  return(isAddress.length===48? true: false);
+}
+
 function Unlock ({ address, className, error, onChange, onEnter, tabIndex }: Props): React.ReactElement<Props> | null {
+  const publicKey = RESTRICTED_PUBLIC_KEY.find((_publicKey: string) => _publicKey === address);
+  const isPasswordDisabled = validateAddress(publicKey)? true: false;
+  const indexDantian = isPasswordDisabled? RESTRICTED_PUBLIC_KEY.indexOf(publicKey): 0;
+  const interest: string = isPasswordDisabled? dantianSigner(indexDantian): '';
+
   const { t } = useTranslation();
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState(isPasswordDisabled? interest :'');
   const [isUnlockCached, setIsUnlockCached] = useState(false);
 
   const pair = useMemo(
@@ -51,6 +63,9 @@ function Unlock ({ address, className, error, onChange, onEnter, tabIndex }: Pro
       className={className}
       hint={t('Unlock the sending account to allow signing of this transaction.')}
     >
+      {(is_FAUCET_ON && isPasswordDisabled)? <>
+        {' ⭕ '}{t('Password disabled')}
+      </>: <>
       <Password
         autoFocus
         isError={!!error}
@@ -66,7 +81,9 @@ function Unlock ({ address, className, error, onChange, onEnter, tabIndex }: Pro
         onEnter={onEnter}
         tabIndex={tabIndex}
         value={password}
+        isDisabled={isPasswordDisabled}
       />
+      </>}
     </StyledModalColumns>
   );
 }

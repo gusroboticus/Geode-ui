@@ -1,6 +1,6 @@
 {
   "source": {
-    "hash": "0xad86b398c545ecedc7392c95a3a1d3ebed83452cb56a39c8e4350da0a4a23fb6",
+    "hash": "0xff35e445209afa03d68fb194b1bc7016bf018f8e774689f575cd88d5a120647c",
     "language": "ink! 5.0.0",
     "compiler": "rustc 1.76.0",
     "build_info": {
@@ -64,7 +64,7 @@
         "displayName": [
           "ChainExtension"
         ],
-        "type": 129
+        "type": 128
       },
       "hash": {
         "displayName": [
@@ -73,7 +73,7 @@
         "type": 22
       },
       "maxEventTopics": 4,
-      "staticBufferSize": 892000,
+      "staticBufferSize": 890000,
       "timestamp": {
         "displayName": [
           "Timestamp"
@@ -1060,7 +1060,7 @@
         "default": false,
         "docs": [],
         "label": "get_my_paid_inbox",
-        "mutates": true,
+        "mutates": false,
         "payable": false,
         "returnType": {
           "displayName": [
@@ -1083,7 +1083,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 103
+          "type": 102
         },
         "selector": "0x44adb30d"
       },
@@ -1099,7 +1099,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 105
+          "type": 104
         },
         "selector": "0x7cbd285a"
       },
@@ -1143,7 +1143,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 107
+          "type": 106
         },
         "selector": "0x48781f1e"
       },
@@ -1159,7 +1159,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 112
+          "type": 111
         },
         "selector": "0x26e82c0b"
       },
@@ -1175,7 +1175,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 114
+          "type": 113
         },
         "selector": "0xb8ce21b4"
       },
@@ -1219,7 +1219,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 117
+          "type": 116
         },
         "selector": "0xe203ec98"
       },
@@ -1245,7 +1245,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 119
+          "type": 118
         },
         "selector": "0x64a815d7"
       },
@@ -1271,7 +1271,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 120
+          "type": 119
         },
         "selector": "0x9e777ece"
       },
@@ -1287,7 +1287,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 121
+          "type": 120
         },
         "selector": "0x325f8fd4"
       },
@@ -1303,7 +1303,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 126
+          "type": 125
         },
         "selector": "0x70c3c724"
       },
@@ -1421,9 +1421,25 @@
             "ink",
             "MessageResult"
           ],
-          "type": 127
+          "type": 126
         },
         "selector": "0xbff72181"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "clear_my_paid_inbox",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 93
+        },
+        "selector": "0xad0e1d61"
       }
     ]
   },
@@ -5036,48 +5052,6 @@
       "id": 101,
       "type": {
         "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 102
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 95
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 102
-          },
-          {
-            "name": "E",
-            "type": 95
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 102,
-      "type": {
-        "def": {
           "sequence": {
             "type": 62
           }
@@ -5085,7 +5059,7 @@
       }
     },
     {
-      "id": 103,
+      "id": 102,
       "type": {
         "def": {
           "variant": {
@@ -5093,7 +5067,7 @@
               {
                 "fields": [
                   {
-                    "type": 104
+                    "type": 103
                   }
                 ],
                 "index": 0,
@@ -5114,7 +5088,7 @@
         "params": [
           {
             "name": "T",
-            "type": 104
+            "type": 103
           },
           {
             "name": "E",
@@ -5127,7 +5101,7 @@
       }
     },
     {
-      "id": 104,
+      "id": 103,
       "type": {
         "def": {
           "composite": {
@@ -5153,7 +5127,7 @@
       }
     },
     {
-      "id": 105,
+      "id": 104,
       "type": {
         "def": {
           "variant": {
@@ -5161,7 +5135,7 @@
               {
                 "fields": [
                   {
-                    "type": 106
+                    "type": 105
                   }
                 ],
                 "index": 0,
@@ -5182,7 +5156,7 @@
         "params": [
           {
             "name": "T",
-            "type": 106
+            "type": 105
           },
           {
             "name": "E",
@@ -5195,7 +5169,7 @@
       }
     },
     {
-      "id": 106,
+      "id": 105,
       "type": {
         "def": {
           "sequence": {
@@ -5205,7 +5179,7 @@
       }
     },
     {
-      "id": 107,
+      "id": 106,
       "type": {
         "def": {
           "variant": {
@@ -5213,7 +5187,7 @@
               {
                 "fields": [
                   {
-                    "type": 108
+                    "type": 107
                   }
                 ],
                 "index": 0,
@@ -5234,7 +5208,7 @@
         "params": [
           {
             "name": "T",
-            "type": 108
+            "type": 107
           },
           {
             "name": "E",
@@ -5247,19 +5221,19 @@
       }
     },
     {
-      "id": 108,
+      "id": 107,
       "type": {
         "def": {
           "composite": {
             "fields": [
               {
                 "name": "search",
-                "type": 109,
+                "type": 108,
                 "typeName": "Vec<Vec<u8>>"
               },
               {
                 "name": "groups",
-                "type": 110,
+                "type": 109,
                 "typeName": "Vec<GroupPublicDetails>"
               }
             ]
@@ -5273,7 +5247,7 @@
       }
     },
     {
-      "id": 109,
+      "id": 108,
       "type": {
         "def": {
           "sequence": {
@@ -5283,17 +5257,17 @@
       }
     },
     {
-      "id": 110,
+      "id": 109,
       "type": {
         "def": {
           "sequence": {
-            "type": 111
+            "type": 110
           }
         }
       }
     },
     {
-      "id": 111,
+      "id": 110,
       "type": {
         "def": {
           "composite": {
@@ -5329,7 +5303,7 @@
       }
     },
     {
-      "id": 112,
+      "id": 111,
       "type": {
         "def": {
           "variant": {
@@ -5337,7 +5311,7 @@
               {
                 "fields": [
                   {
-                    "type": 113
+                    "type": 112
                   }
                 ],
                 "index": 0,
@@ -5358,7 +5332,7 @@
         "params": [
           {
             "name": "T",
-            "type": 113
+            "type": 112
           },
           {
             "name": "E",
@@ -5371,7 +5345,7 @@
       }
     },
     {
-      "id": 113,
+      "id": 112,
       "type": {
         "def": {
           "sequence": {
@@ -5381,7 +5355,7 @@
       }
     },
     {
-      "id": 114,
+      "id": 113,
       "type": {
         "def": {
           "variant": {
@@ -5389,7 +5363,7 @@
               {
                 "fields": [
                   {
-                    "type": 115
+                    "type": 114
                   }
                 ],
                 "index": 0,
@@ -5410,7 +5384,7 @@
         "params": [
           {
             "name": "T",
-            "type": 115
+            "type": 114
           },
           {
             "name": "E",
@@ -5423,17 +5397,17 @@
       }
     },
     {
-      "id": 115,
+      "id": 114,
       "type": {
         "def": {
           "sequence": {
-            "type": 116
+            "type": 115
           }
         }
       }
     },
     {
-      "id": 116,
+      "id": 115,
       "type": {
         "def": {
           "composite": {
@@ -5474,7 +5448,7 @@
       }
     },
     {
-      "id": 117,
+      "id": 116,
       "type": {
         "def": {
           "variant": {
@@ -5482,7 +5456,7 @@
               {
                 "fields": [
                   {
-                    "type": 118
+                    "type": 117
                   }
                 ],
                 "index": 0,
@@ -5503,7 +5477,7 @@
         "params": [
           {
             "name": "T",
-            "type": 118
+            "type": 117
           },
           {
             "name": "E",
@@ -5516,19 +5490,19 @@
       }
     },
     {
-      "id": 118,
+      "id": 117,
       "type": {
         "def": {
           "composite": {
             "fields": [
               {
                 "name": "search",
-                "type": 109,
+                "type": 108,
                 "typeName": "Vec<Vec<u8>>"
               },
               {
                 "name": "lists",
-                "type": 115,
+                "type": 114,
                 "typeName": "Vec<OpenListPublicDetails>"
               }
             ]
@@ -5542,7 +5516,7 @@
       }
     },
     {
-      "id": 119,
+      "id": 118,
       "type": {
         "def": {
           "variant": {
@@ -5584,7 +5558,7 @@
       }
     },
     {
-      "id": 120,
+      "id": 119,
       "type": {
         "def": {
           "variant": {
@@ -5626,7 +5600,126 @@
       }
     },
     {
+      "id": 120,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 121
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 92
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 121
+          },
+          {
+            "name": "E",
+            "type": 92
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
       "id": 121,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "lists",
+                "type": 122,
+                "typeName": "Vec<MessagesFromList>"
+              },
+              {
+                "name": "defunct_lists",
+                "type": 21,
+                "typeName": "Vec<Hash>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_messaging",
+          "geode_messaging",
+          "MyInboxLists"
+        ]
+      }
+    },
+    {
+      "id": 122,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 123
+          }
+        }
+      }
+    },
+    {
+      "id": 123,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "allowed_list",
+                "type": 22,
+                "typeName": "Hash"
+              },
+              {
+                "name": "list_name",
+                "type": 3,
+                "typeName": "Vec<u8>"
+              },
+              {
+                "name": "list_messages",
+                "type": 124,
+                "typeName": "Vec<ListMessageDetails>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "geode_messaging",
+          "geode_messaging",
+          "MessagesFromList"
+        ]
+      }
+    },
+    {
+      "id": 124,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 58
+          }
+        }
+      }
+    },
+    {
+      "id": 125,
       "type": {
         "def": {
           "variant": {
@@ -5668,83 +5761,6 @@
       }
     },
     {
-      "id": 122,
-      "type": {
-        "def": {
-          "composite": {
-            "fields": [
-              {
-                "name": "lists",
-                "type": 123,
-                "typeName": "Vec<MessagesFromList>"
-              },
-              {
-                "name": "defunct_lists",
-                "type": 21,
-                "typeName": "Vec<Hash>"
-              }
-            ]
-          }
-        },
-        "path": [
-          "geode_messaging",
-          "geode_messaging",
-          "MyInboxLists"
-        ]
-      }
-    },
-    {
-      "id": 123,
-      "type": {
-        "def": {
-          "sequence": {
-            "type": 124
-          }
-        }
-      }
-    },
-    {
-      "id": 124,
-      "type": {
-        "def": {
-          "composite": {
-            "fields": [
-              {
-                "name": "allowed_list",
-                "type": 22,
-                "typeName": "Hash"
-              },
-              {
-                "name": "list_name",
-                "type": 3,
-                "typeName": "Vec<u8>"
-              },
-              {
-                "name": "list_messages",
-                "type": 125,
-                "typeName": "Vec<ListMessageDetails>"
-              }
-            ]
-          }
-        },
-        "path": [
-          "geode_messaging",
-          "geode_messaging",
-          "MessagesFromList"
-        ]
-      }
-    },
-    {
-      "id": 125,
-      "type": {
-        "def": {
-          "sequence": {
-            "type": 58
-          }
-        }
-      }
-    },
-    {
       "id": 126,
       "type": {
         "def": {
@@ -5753,7 +5769,7 @@
               {
                 "fields": [
                   {
-                    "type": 123
+                    "type": 127
                   }
                 ],
                 "index": 0,
@@ -5774,7 +5790,7 @@
         "params": [
           {
             "name": "T",
-            "type": 123
+            "type": 127
           },
           {
             "name": "E",
@@ -5788,48 +5804,6 @@
     },
     {
       "id": 127,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 128
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 92
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 128
-          },
-          {
-            "name": "E",
-            "type": 92
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 128,
       "type": {
         "def": {
           "composite": {
@@ -5885,7 +5859,7 @@
       }
     },
     {
-      "id": 129,
+      "id": 128,
       "type": {
         "def": {
           "variant": {}

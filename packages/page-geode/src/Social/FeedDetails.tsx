@@ -14,7 +14,7 @@ import CallEndorse from './CallEndorse.js';
 import CallPost from './CallPost.js';
 import CallReply from './CallReply.js';
 import CallGetReplies from './CallGetReplies.js';
-import { msgIndexer, linker, postHeader, numBadge, hextoHuman, boolToHuman } from './SocialUtil.js';
+import { msgIndexer, linker, postHeader, hextoHuman } from './SocialUtil.js';
 import { DEFAULT_FEED_INDEX, ZERO_MSG_ID } from './SocialConst.js'
 
 interface Props {

@@ -19,17 +19,15 @@ import { useTranslation } from '../shared/translate.js';
 import useWeight from '../useWeight.js';
 import { getCallMessageOptions } from './util.js';
 
-import { MAX_PRODUCT_TITLE, MAX_PRODUCT_BRAND, MAX_PRODUCT_CATEGORY, MAX_SELLER_NAME, MAX_PRODUCT_DESCRIPTION, MAX_PHOTO_LINK } from './marketConst.js'
-import { MAX_MORE_INFO_LINK, MAX_DELIVERY_INFO, MAX_PRODUCT_LOCATION, MAX_DIGITAL_FILE_URL, MAX_ZENO_BUYERS, MAX_SERVICE_TITLE } from './marketConst.js'
+import { MAX_PRODUCT_BRAND, MAX_PRODUCT_CATEGORY, MAX_PRODUCT_DESCRIPTION, MAX_PHOTO_LINK } from './marketConst.js'
+import { MAX_MORE_INFO_LINK, MAX_DELIVERY_INFO, MAX_PRODUCT_LOCATION } from './marketConst.js'
 import { MAX_SERVICE_CATEGORY, MAX_SERVICE_DESCRIPTION, MAX_BOOKING_LINK, MAX_SERVICE_LOCATION, MAX_MESSAGE, MAX_MEDIA_URL } from './marketConst.js'
-import { MAX_PRODUCT_LIST_NAME, MAX_PRODUCT_LIST_ITEMS, MAX_SERVICE_LIST_NAME, MAX_SERVICE_LIST_ITEMS, MAX_BUYER_NAME, MAX_BUYER_LOCATION } from './marketConst.js'
-import { MAX_STORE_DESCRIPTION, MAX_SELLER_LOCATION, MAX_BANNER_URL, MAX_YOUTUBE_URL, MAX_EXTERNAL_LINK, MAX_REVIEW } from './marketConst.js'
-import { MAX_UNPAID_CART_TITLE, MAX_UNPAID_CART_BRAND, MAX_IMAGE, MAX_ITEM_NAME, MAX_DELIVERY_TO_ADDR, MAX_TRACKING_INFO } from './marketConst.js'
-import { MAX_LIST_NAME, MAX_SEARCH, MAX_DL_TITLE, MAX_DL_BRAND, MAX_DL_SELLER_NAME, MAX_DL_DESCRIPTION, MAX_DL_PHOTO, MAX_DL_MORE_INFO, MAX_DL_FILE_URL} from './marketConst.js'
+import { MAX_BUYER_NAME, MAX_BUYER_LOCATION } from './marketConst.js'
+import { MAX_REVIEW } from './marketConst.js'
+import { MAX_DELIVERY_TO_ADDR, MAX_TRACKING_INFO } from './marketConst.js'
 import { refModalHeader } from './marketConst.js';
 import { INST_TITLE, INST_SUB_TITLE, INSTRUCTION, INST_NOTE } from './marketInstructions.js';
-
-import { boolToHuman } from './marketutil.js';
+import { RESTRICTED_PUBLIC_KEY, is_FAUCET_ON } from '@polkadot/react-components/modals/transferConst.js';
 
 
 interface Props {
@@ -82,7 +80,7 @@ function CallModal ({ className = '', messageId, toAcct, username, contract, mes
 
   const [_isHide, toggleIsHide] = useToggle(false);
   const [_isDelivered, toggleIsDelivered] = useToggle(false);
-
+  const isPasswordDisabled = (RESTRICTED_PUBLIC_KEY.find((_publicKey: string) => _publicKey === accountId))? true: false;
 
   const [isViaCall, toggleViaCall] = useToggle();
   
@@ -1035,7 +1033,6 @@ function CallModal ({ className = '', messageId, toAcct, username, contract, mes
               refTIme: MAX_CALL_WEIGHT
             })
           }
-          //help={t('The maximum amount of gas to use for this contract call. If the call requires more, it will fail.')}
           isCall={!message.isMutating}
           weight={weight}
         />          
@@ -1051,14 +1048,17 @@ function CallModal ({ className = '', messageId, toAcct, username, contract, mes
         )}
       </Modal.Content>
       <Modal.Actions>
-        <TxButton
-              accountId={accountId}
-              extrinsic={execTx}
-              icon='sign-in-alt'
-              isDisabled={!isValid || !execTx}
-              label={t('Submit')}
-              onStart={onClose}
-        />
+      <>{(is_FAUCET_ON && isPasswordDisabled)? <>
+              {'⭕'}{t(' RESTRICTED ACCOUNT') }</>:
+            <>
+            <TxButton
+                  accountId={accountId}
+                  extrinsic={execTx}
+                  icon='sign-in-alt'
+                  isDisabled={!isValid || !execTx}
+                  label={t('Submit')}
+                  onStart={onClose}
+            /></>}</>
       </Modal.Actions>
     </Modal>
     </>}

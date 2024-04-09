@@ -2,7 +2,7 @@
 // Copyright 2017-2023 @blockandpurpose.com
 // SPDX-License-Identifier: Apache-2.0
 
-import React from 'react';
+import React, {useState, useCallback} from 'react';
 import { styled, Card, Button, Table } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 import { useTranslation } from '../shared/translate.js';
@@ -10,6 +10,8 @@ import { useCodes } from '../useCodes.js';
 import { useContracts } from '../useContracts.js';
 import ContractsTable from './ContractsTable.js';
 import Summary from './Summary.js';
+import { is_FAUCET_ON } from '@polkadot/react-components/modals/transferConst.js';
+
 
 interface Props {
     className?: string;
@@ -20,10 +22,19 @@ export default function Referrals ({ className = '' }: Props): React.ReactElemen
     const [isMyPrograms, toggleMyPrograms] = useToggle();
     const { allCodes, codeTrigger } = useCodes();
     const { allContracts } = useContracts();
+    const [isCallOpen, setIsCallOpen] = useState(false);
+
     // todo
     console.log(allCodes);
 
-    const deployApp: boolean = true;
+    const deployApp: boolean = is_FAUCET_ON;
+    const _toggleCall = useCallback(
+      () => <>
+      {setIsCallOpen((isCallOpen) => !isCallOpen)}
+      </>,
+      []
+    );
+
     
   return (
     <StyledDiv className={className}>
@@ -33,7 +44,7 @@ export default function Referrals ({ className = '' }: Props): React.ReactElemen
             <Card>
         {!deployApp && (<><strong>{'Coming Soon!'}</strong></>)}
        
-        {deployApp &&  (
+        {!isCallOpen && deployApp &&  (
           <>
               <Button
                 icon={(isMyPrograms) ? 'minus' : 'plus'}
@@ -41,6 +52,8 @@ export default function Referrals ({ className = '' }: Props): React.ReactElemen
                 onClick={toggleMyPrograms}
               >
               </Button>    
+              <br />
+             
           </>
         )}
  
@@ -54,6 +67,9 @@ export default function Referrals ({ className = '' }: Props): React.ReactElemen
             contracts={allContracts}
             updated={codeTrigger}
             initMessageIndex={2}
+            callAccount={''}
+            payAccount={''}
+            onClose={_toggleCall}
         />)}
 
     </div>

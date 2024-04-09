@@ -16,7 +16,6 @@ import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../shared/translate.js';
 import ContractAdd from './Add.js';
-//import CallCard from './CallCard.js';
 import CallModal from './CallModal.js';
 import Contract from '../shared/Contract.js';
 import { getContractForAddress } from '../shared/util.js';
